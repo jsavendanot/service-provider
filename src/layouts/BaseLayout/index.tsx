@@ -6,7 +6,7 @@ import { LinearProgress } from '@material-ui/core';
 
 const useStyles = makeStyles(() => ({
   content: {
-    background: '#FFFFFF',
+    background: '#FFEAEA',
     minHeight: '100vh'
   }
 }));
