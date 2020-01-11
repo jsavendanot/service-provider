@@ -35,17 +35,18 @@ const useStyles = makeStyles((theme: Theme) => ({
   secondary: {
     ...baseStyle,
     boxSizing: 'border-box',
-    border: '1.5px solid #003e1f',
-    color: '#FFFFFF',
-    backgroundColor: '#003E1F',
+    color: '#692B40',
+    boxShadow:
+      '0px 2px 4px rgba(0, 0, 0, 0.14), 0px 4px 5px rgba(0, 0, 0, 0.12), 0px 1px 10px rgba(0, 0, 0, 0.2)',
+    backgroundColor: '#FFFFFF',
     '&:focus': {
       outline: 'none'
     },
     '&:hover': {
-      backgroundColor: '#076A38'
+      backgroundColor: '#FFFFFF'
     },
     '&:active': {
-      backgroundColor: '#076A38'
+      backgroundColor: '#FFFFFF'
     }
   }
 }));
