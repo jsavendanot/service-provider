@@ -1,8 +1,10 @@
-import React from 'react';
+import React, { Dispatch, SetStateAction } from 'react';
 
 import { Grid, IconButton } from '@material-ui/core';
 import { makeStyles } from '@material-ui/styles';
 import { ArrowBackIos } from '@material-ui/icons';
+
+import { NavProps } from '../../types';
 
 const useStyles = makeStyles(() => ({
   /** Navigation and Title */
@@ -65,12 +67,13 @@ const useStyles = makeStyles(() => ({
 }));
 
 type Props = {
+  setState: Dispatch<SetStateAction<NavProps>>;
   back: () => void;
 };
 
 const Register: React.FC<Props> = (props: Props) => {
   const classes = useStyles();
-  const { back } = props;
+  const { setState, back } = props;
 
   return (
     <Grid container justify="center">
@@ -93,7 +96,9 @@ const Register: React.FC<Props> = (props: Props) => {
       <Grid item style={{ height: '170px' }} />
       <Grid item xs={5}>
         <div className={classes.registerAs}>
-          <button className={classes.button}>
+          <button
+            className={classes.button}
+            onClick={() => setState('Individual')}>
             <div
               style={{
                 width: '100%',
@@ -105,7 +110,9 @@ const Register: React.FC<Props> = (props: Props) => {
               <span className={classes.buttonText}>Register as Individual</span>
             </div>
           </button>
-          <button className={classes.button}>
+          <button
+            className={classes.button}
+            onClick={() => setState('Organisation')}>
             <div
               style={{
                 width: '100%',
