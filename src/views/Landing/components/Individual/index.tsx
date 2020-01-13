@@ -91,7 +91,7 @@ const useStyles = makeStyles(() => ({
   termsOfService: {
     border: '1px solid #FFEAEA',
     background: '#FFFFFF',
-    borderRadius: '4px'
+    borderRadius: '3px'
   },
   termsCheckBox: {
     '& .MuiIconButton-label': {
@@ -382,7 +382,7 @@ const Individual: React.FC = () => {
           </div>
           <div className={classes.formGroup}>
             <span className={classes.formGroupTitle}>Name</span>
-            <div style={{ width: '25%', padding: '10px 0' }}>
+            <div style={{ width: '30%', padding: '10px 0' }}>
               <TextField
                 error={hasError('title')}
                 helperText={
@@ -555,7 +555,7 @@ const Individual: React.FC = () => {
             <div style={{ display: 'flex' }}>
               <div
                 style={{
-                  width: '30%',
+                  width: '50%',
                   padding: '10px 0',
                   marginRight: '34px'
                 }}>
@@ -577,7 +577,7 @@ const Individual: React.FC = () => {
                   onChange={handleChange}
                 />
               </div>
-              <div style={{ width: '30%', padding: '10px 0' }}>
+              <div style={{ width: '50%', padding: '10px 0' }}>
                 <TextField
                   error={hasError('addressLine2')}
                   helperText={
