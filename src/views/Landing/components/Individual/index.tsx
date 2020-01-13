@@ -1,9 +1,16 @@
-import React, { useState, useEffect, ChangeEvent } from 'react';
+import React, {
+  useState,
+  useEffect,
+  ChangeEvent,
+  Dispatch,
+  SetStateAction
+} from 'react';
 import validate from 'validate.js';
 
 import { Grid, TextField, FormControlLabel, Checkbox } from '@material-ui/core';
 import { makeStyles } from '@material-ui/styles';
 
+import { NavProps } from '../../types';
 import { Button } from 'components';
 
 const useStyles = makeStyles(() => ({
@@ -313,8 +320,13 @@ type FormStateType = {
   };
 };
 
-const Individual: React.FC = () => {
+type Props = {
+  setState: Dispatch<SetStateAction<NavProps>>;
+};
+
+const Individual: React.FC<Props> = (props: Props) => {
   const classes = useStyles();
+  const { setState } = props;
 
   /** Handle Fields */
   const [formState, setFormState] = useState<FormStateType>({
@@ -351,6 +363,12 @@ const Individual: React.FC = () => {
 
   const hasError = (field: string): boolean =>
     field in formState.touched && field in formState.errors ? true : false;
+
+  /** Handle Submit */
+
+  const handleSubmit = () => {
+    setState('Confirm');
+  };
 
   return (
     <Grid container justify="flex-start">
@@ -862,7 +880,7 @@ const Individual: React.FC = () => {
             margin: '30px 0 50px'
           }}>
           <div style={{ width: '20%' }}>
-            <Button type="primary">
+            <Button type="primary" click={handleSubmit}>
               <span className={classes.submitButtonText}>SUBMIT</span>
             </Button>
           </div>

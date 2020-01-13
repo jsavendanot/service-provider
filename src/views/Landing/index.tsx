@@ -7,7 +7,13 @@ import { makeStyles } from '@material-ui/styles';
 import { ArrowBackIos } from '@material-ui/icons';
 
 import { NavProps } from './types';
-import { Login, Register, Organisation, Individual } from './components';
+import {
+  Login,
+  Register,
+  Organisation,
+  Individual,
+  ConfirmPage
+} from './components';
 
 const useStyles = makeStyles(() => ({
   /** Header */
@@ -105,9 +111,10 @@ const Landing: React.FC<Props> = (props: Props) => {
         </div>
       </Grid>
       <Grid item xs={12} style={{ height: '162px' }} />
-      {state === 'Login' && (
+      {(state === 'Login' || state === 'Confirm') && (
         <Grid item xs={12}>
-          <Login register={() => setState('Register')} />
+          {state === 'Login' && <Login register={() => setState('Register')} />}
+          {state === 'Confirm' && <ConfirmPage />}
         </Grid>
       )}
       {(state === 'Register' ||
@@ -127,8 +134,8 @@ const Landing: React.FC<Props> = (props: Props) => {
             </Grid>
             <Grid item xs={9}>
               {state === 'Register' && <Register setState={setState} />}
-              {state === 'Organisation' && <Organisation />}
-              {state === 'Individual' && <Individual />}
+              {state === 'Organisation' && <Organisation setState={setState} />}
+              {state === 'Individual' && <Individual setState={setState} />}
             </Grid>
           </Grid>
         </Grid>
