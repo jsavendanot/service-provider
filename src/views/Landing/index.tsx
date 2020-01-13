@@ -2,8 +2,9 @@ import React, { useState } from 'react';
 import { RouteComponentProps } from 'react-router-dom';
 import clsx from 'clsx';
 
-import { Grid } from '@material-ui/core';
+import { Grid, IconButton } from '@material-ui/core';
 import { makeStyles } from '@material-ui/styles';
+import { ArrowBackIos } from '@material-ui/icons';
 
 import { NavProps } from './types';
 import { Login, Register, Organisation, Individual } from './components';
@@ -42,6 +43,21 @@ const useStyles = makeStyles(() => ({
     '&:active': {
       backgroundColor: '#FFEAEA'
     }
+  },
+  /** Navigation and Title */
+  navigation: {
+    display: 'flex',
+    alignItems: 'center',
+    justifyContent: 'flex-end',
+    paddingTop: '8px'
+  },
+  navText: {
+    fontFamily: 'Roboto',
+    fontStyle: 'normal',
+    fontWeight: 500,
+    fontSize: '12px',
+    lineHeight: '16px',
+    color: '#692B40'
   }
 }));
 
@@ -54,12 +70,8 @@ const Landing: React.FC<Props> = (props: Props) => {
   const classes = useStyles();
   const [state, setState] = useState<NavProps>('Login');
 
-  const next = (value: NavProps) => {
-    setState(value);
-  };
-
-  const back = (value: NavProps) => {
-    setState(value);
+  const back = () => {
+    state === 'Register' ? setState('Login') : setState('Register');
   };
 
   return (
@@ -75,22 +87,40 @@ const Landing: React.FC<Props> = (props: Props) => {
             </span>
             <button
               className={clsx(classes.headerButton, classes.headerMenuText)}
-              onClick={() => next('Register')}>
+              onClick={() => setState('Register')}>
               Register
             </button>
           </div>
         </div>
       </Grid>
-      <Grid item xs={12}>
-        {state === 'Login' && <Login register={() => next('Register')} />}
-        {state === 'Register' && (
-          <Register setState={setState} back={() => back('Login')} />
-        )}
-        {state === 'Organisation' && (
-          <Organisation back={() => back('Register')} />
-        )}
-        {state === 'Individual' && <Individual back={() => back('Register')} />}
-      </Grid>
+      {state === 'Login' && (
+        <Grid item xs={12}>
+          <Login register={() => setState('Register')} />
+        </Grid>
+      )}
+      {(state === 'Register' ||
+        state === 'Organisation' ||
+        state === 'Individual') && (
+        <Grid item xs={12}>
+          <Grid container>
+            <Grid item xs={3}>
+              <div className={classes.navigation} onClick={back}>
+                <div style={{ marginRight: '50px' }}>
+                  <IconButton style={{ padding: '0' }}>
+                    <ArrowBackIos style={{ fill: '#692B40' }} />
+                  </IconButton>
+                  <span className={classes.navText}>BACK</span>
+                </div>
+              </div>
+            </Grid>
+            <Grid item xs={9}>
+              {state === 'Register' && <Register setState={setState} />}
+              {state === 'Organisation' && <Organisation />}
+              {state === 'Individual' && <Individual />}
+            </Grid>
+          </Grid>
+        </Grid>
+      )}
     </Grid>
   );
 };
