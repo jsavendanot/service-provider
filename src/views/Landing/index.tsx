@@ -12,6 +12,14 @@ import { Login, Register, Organisation, Individual } from './components';
 const useStyles = makeStyles(() => ({
   /** Header */
   header: {
+    position: 'fixed',
+    width: '100%',
+    display: 'flex',
+    alignItems: 'center',
+    justifyContent: 'space-between',
+    padding: '20px'
+  },
+  headerMenu: {
     display: 'flex',
     alignItems: 'center',
     justifyContent: 'space-between',
@@ -46,10 +54,13 @@ const useStyles = makeStyles(() => ({
   },
   /** Navigation and Title */
   navigation: {
+    position: 'fixed',
+    left: '18%',
     display: 'flex',
     alignItems: 'center',
     justifyContent: 'flex-end',
-    paddingTop: '8px'
+    paddingTop: '7px',
+    cursor: 'pointer'
   },
   navText: {
     fontFamily: 'Roboto',
@@ -79,7 +90,7 @@ const Landing: React.FC<Props> = (props: Props) => {
       <Grid item xs={12}>
         <div className={classes.header}>
           <img src="/images/landing/logo.svg" alt="" />
-          <div className={classes.header}>
+          <div className={classes.headerMenu}>
             <span
               className={classes.headerMenuText}
               style={{ marginRight: '20px' }}>
@@ -93,6 +104,7 @@ const Landing: React.FC<Props> = (props: Props) => {
           </div>
         </div>
       </Grid>
+      <Grid item xs={12} style={{ height: '162px' }} />
       {state === 'Login' && (
         <Grid item xs={12}>
           <Login register={() => setState('Register')} />

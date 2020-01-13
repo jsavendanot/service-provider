@@ -859,7 +859,7 @@ const Individual: React.FC = () => {
           style={{
             display: 'flex',
             justifyContent: 'flex-end',
-            margin: '30px 0'
+            margin: '30px 0 50px'
           }}>
           <div style={{ width: '20%' }}>
             <Button type="primary">
