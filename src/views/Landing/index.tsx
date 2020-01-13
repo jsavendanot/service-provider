@@ -102,11 +102,23 @@ const Landing: React.FC<Props> = (props: Props) => {
               style={{ marginRight: '20px' }}>
               Help
             </span>
-            <button
-              className={clsx(classes.headerButton, classes.headerMenuText)}
-              onClick={() => setState('Register')}>
-              Register
-            </button>
+            {state === 'Login' && (
+              <button
+                className={clsx(classes.headerButton, classes.headerMenuText)}
+                onClick={() => setState('Register')}>
+                Register
+              </button>
+            )}
+            {(state === 'Register' ||
+              state === 'Confirm' ||
+              state === 'Individual' ||
+              state === 'Organisation') && (
+              <button
+                className={clsx(classes.headerButton, classes.headerMenuText)}
+                onClick={() => setState('Login')}>
+                Sign in
+              </button>
+            )}
           </div>
         </div>
       </Grid>
