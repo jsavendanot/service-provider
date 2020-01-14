@@ -4,21 +4,46 @@ import clsx from 'clsx';
 import { makeStyles } from '@material-ui/styles';
 import {
   AppBar,
-  IconButton,
   Toolbar,
-  Hidden,
-  Typography
+  Grid,
+  InputBase,
+  IconButton
 } from '@material-ui/core';
-import { Menu } from '@material-ui/icons';
+import { Search } from '@material-ui/icons';
 
 const useStyles = makeStyles(() => ({
   root: {
     boxShadow: 'none',
     backgroundColor: '#692B40'
   },
-  icon: {
-    color: '#37474F',
-    fontSize: '30px'
+  /** Search Input */
+  input: {
+    marginLeft: '8px',
+    '& .MuiInputBase-input': {
+      color: '#FFFFFF'
+    }
+  },
+  iconButton: {
+    padding: 10
+  },
+  /** Menu */
+  topMenu: {
+    display: 'flex',
+    flexDirection: 'column',
+    alignItems: 'center',
+    marginRight: '50px',
+    cursor: 'pointer'
+  },
+  topMenuText: {
+    fontFamily: 'Montserrat',
+    fontStyle: 'normal',
+    fontWeight: 600,
+    fontSize: '15px',
+    color: '#FFFFFF'
+  },
+  menuIcon: {
+    width: '25px',
+    height: '18px'
   }
 }));
 
@@ -28,23 +53,78 @@ type Props = {
 };
 
 const TopBar: React.FC<Props> = (props: Props) => {
-  const { onOpenNavBarMobile, className, ...rest } = props;
+  const { onOpenNavBarMobile, className } = props;
 
   const classes = useStyles();
 
   return (
-    <AppBar {...rest} className={clsx(classes.root, className)}>
+    <AppBar className={clsx(classes.root, className)}>
       <Toolbar>
-        <div style={{ flexGrow: 1 }}>
-          <Hidden lgUp>
-            <IconButton color="inherit" onClick={onOpenNavBarMobile}>
-              <Menu className={classes.icon} />
+        <Grid container alignItems="center">
+          <Grid item xs={2}>
+            <img src="/images/landing/logo.svg" alt="" />
+          </Grid>
+          <Grid item xs={5}>
+            <InputBase
+              className={classes.input}
+              placeholder="Search consumer"
+            />
+            <IconButton
+              type="submit"
+              className={classes.iconButton}
+              aria-label="search">
+              <Search style={{ fill: '#FFEAEA' }} />
             </IconButton>
-          </Hidden>
-        </div>
-        <div style={{ flexGrow: 2 }}>
-          <Typography variant="h1">My Goals</Typography>
-        </div>
+          </Grid>
+          <Grid item xs={5}>
+            <div style={{ display: 'flex', justifyContent: 'flex-end' }}>
+              <div
+                style={{
+                  display: 'flex',
+                  alignItems: 'flex-start',
+                  paddingTop: '11px'
+                }}>
+                <div className={classes.topMenu}>
+                  <img
+                    src="/images/topbar/consumers.svg"
+                    alt=""
+                    className={classes.menuIcon}
+                  />
+                  <span className={classes.topMenuText}>Consumer</span>
+                </div>
+                <div className={classes.topMenu}>
+                  <img
+                    src="/images/topbar/invites.svg"
+                    alt=""
+                    className={classes.menuIcon}
+                  />
+                  <span className={classes.topMenuText}>Invites</span>
+                </div>
+                <div className={classes.topMenu}>
+                  <img
+                    src="/images/topbar/notif.svg"
+                    alt=""
+                    className={classes.menuIcon}
+                  />
+                  <span className={classes.topMenuText}>Notifications</span>
+                </div>
+                <div className={classes.topMenu}>
+                  <img
+                    src="/images/topbar/settings.svg"
+                    alt=""
+                    className={classes.menuIcon}
+                  />
+                  <span className={classes.topMenuText}>Settings</span>
+                </div>
+                <img
+                  src="/images/topbar/service_provider.svg"
+                  alt=""
+                  style={{ marginBottom: '5px', cursor: 'pointer' }}
+                />
+              </div>
+            </div>
+          </Grid>
+        </Grid>
       </Toolbar>
     </AppBar>
   );

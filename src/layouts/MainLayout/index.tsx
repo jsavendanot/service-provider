@@ -24,7 +24,9 @@ const useStyles = makeStyles(() => ({
   topBar: {
     zIndex: 2,
     position: 'relative',
-    paddingTop: '20px'
+    height: '64px',
+    boxShadow:
+      '0px 2px 4px rgba(0, 0, 0, 0.24), 0px 2px 8px rgba(0, 0, 0, 0.12)'
   },
   container: {
     display: 'flex',
