@@ -4,22 +4,33 @@ import React, { lazy } from 'react';
 import { Redirect } from 'react-router-dom';
 import { RouteConfig } from 'react-router-config';
 
-import { BaseLayout } from './layouts';
+import { BaseLayout, MainLayout } from './layouts';
 
 const routes: RouteConfig[] = [
   {
     path: '/',
     exact: true,
-    component: (): any => <Redirect to="/home" />
+    component: (): any => <Redirect to="/auth" />
+  },
+  {
+    path: '/auth',
+    component: BaseLayout,
+    routes: [
+      {
+        path: '/auth',
+        exact: true,
+        component: lazy(() => import('views/Landing'))
+      }
+    ]
   },
   {
     path: '/home',
-    component: BaseLayout,
+    component: MainLayout,
     routes: [
       {
         path: '/home',
         exact: true,
-        component: lazy(() => import('views/Landing'))
+        component: lazy(() => import('views/Home'))
       }
     ]
   }

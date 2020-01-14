@@ -1,4 +1,4 @@
-import React, { Fragment, Suspense } from 'react';
+import React, { Suspense } from 'react';
 import { renderRoutes, RouteConfigComponentProps } from 'react-router-config';
 
 import { makeStyles } from '@material-ui/styles';
@@ -19,13 +19,13 @@ const BaseLayout: React.FC<RouteConfigComponentProps> = (
   const classes = useStyles();
 
   return (
-    <Fragment>
+    <>
       <main className={classes.content}>
         <Suspense fallback={<LinearProgress />}>
           {route && renderRoutes(route.routes)}
         </Suspense>
       </main>
-    </Fragment>
+    </>
   );
 };
 

@@ -1,5 +1,6 @@
 import React, { useState, useEffect, ChangeEvent } from 'react';
 import validate from 'validate.js';
+import useRouter from 'utils/useRouter';
 
 import { Grid, TextField } from '@material-ui/core';
 import { makeStyles } from '@material-ui/styles';
@@ -91,6 +92,7 @@ type Props = {
 const Login: React.FC<Props> = (props: Props) => {
   const classes = useStyles();
   const { register } = props;
+  const { history } = useRouter();
 
   const [formState, setFormState] = useState<FormStateType>({
     isValid: false,
@@ -125,7 +127,9 @@ const Login: React.FC<Props> = (props: Props) => {
     }));
   };
 
-  const submitHandler = () => {};
+  const submitHandler = () => {
+    history.push('/home');
+  };
 
   const hasError = (field: string): boolean =>
     field in formState.touched && field in formState.errors ? true : false;
