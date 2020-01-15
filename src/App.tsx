@@ -10,6 +10,7 @@ import { renderRoutes } from 'react-router-config';
 import theme from './theme';
 import { configureStore } from './store';
 import routes from './routes';
+import './mock';
 import './assets/index.scss';
 
 const history = createBrowserHistory();

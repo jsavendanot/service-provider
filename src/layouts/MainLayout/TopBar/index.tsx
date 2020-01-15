@@ -43,7 +43,8 @@ const useStyles = makeStyles(() => ({
   },
   menuIcon: {
     width: '25px',
-    height: '18px'
+    height: '18px',
+    marginBottom: '2px'
   }
 }));
 
@@ -53,7 +54,7 @@ type Props = {
 };
 
 const TopBar: React.FC<Props> = (props: Props) => {
-  const { onOpenNavBarMobile, className } = props;
+  const { className } = props;
 
   const classes = useStyles();
 
