@@ -14,7 +14,7 @@ import {
 } from '@material-ui/core';
 import { Search } from '@material-ui/icons';
 
-import { ProviderDialog } from './components';
+import ProviderDialog from '../ProviderDialog';
 
 const useStyles = makeStyles(() => ({
   root: {
@@ -69,7 +69,6 @@ const useStyles = makeStyles(() => ({
 
 type Props = {
   className: string;
-  onOpenNavBarMobile: () => void;
 };
 
 const TopBar: React.FC<Props> = (props: Props) => {

@@ -1,10 +1,9 @@
-import React, { useEffect } from 'react';
+import React from 'react';
 import clsx from 'clsx';
 
 import { makeStyles } from '@material-ui/styles';
 import { Paper, Theme, Divider, Avatar } from '@material-ui/core';
 
-import useRouter from 'utils/useRouter';
 import { Navigation } from 'components';
 import navigationConfig from '../../navigationConfig';
 
@@ -111,23 +110,12 @@ const useStyles = makeStyles((theme: Theme) => ({
 
 type Props = {
   className: string;
-  onMobileClose: () => void;
-  openMobile: boolean;
 };
 
 const NavBar: React.FC<Props> = (props: Props) => {
-  const { openMobile, onMobileClose, className } = props;
+  const { className } = props;
 
   const classes = useStyles();
-  const router = useRouter();
-
-  useEffect(() => {
-    if (openMobile) {
-      onMobileClose && onMobileClose();
-    }
-
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [router.location.pathname]);
 
   const navbarContent = (
     <div className={classes.content}>

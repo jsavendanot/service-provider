@@ -4,7 +4,7 @@ import React, { lazy } from 'react';
 import { Redirect } from 'react-router-dom';
 import { RouteConfig } from 'react-router-config';
 
-import { BaseLayout, MainLayout } from './layouts';
+import { BaseLayout, LayoutWithTopbar, MainLayout } from './layouts';
 
 const routes: RouteConfig[] = [
   {
@@ -31,6 +31,17 @@ const routes: RouteConfig[] = [
         path: '/home',
         exact: true,
         component: lazy(() => import('views/Home'))
+      }
+    ]
+  },
+  {
+    path: '/provider',
+    component: LayoutWithTopbar,
+    routes: [
+      {
+        path: '/provider',
+        exact: true,
+        component: lazy(() => import('views/Provider'))
       }
     ]
   }

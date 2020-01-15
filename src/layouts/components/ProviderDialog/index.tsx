@@ -1,4 +1,5 @@
 import React from 'react';
+import useRouter from 'utils/useRouter';
 
 import { Avatar, Divider } from '@material-ui/core';
 import { makeStyles } from '@material-ui/styles';
@@ -6,7 +7,8 @@ import { makeStyles } from '@material-ui/styles';
 const useStyles = makeStyles(() => ({
   avatar: {
     height: '77px',
-    width: '77px'
+    width: '77px',
+    cursor: 'pointer'
   },
   providerName: {
     fontFamily: 'Roboto',
@@ -40,6 +42,7 @@ const useStyles = makeStyles(() => ({
 
 export default function ProviderDialog() {
   const classes = useStyles();
+  const { history } = useRouter();
 
   return (
     <>
@@ -48,7 +51,8 @@ export default function ProviderDialog() {
           display: 'flex',
           flexDirection: 'column',
           alignItems: 'center'
-        }}>
+        }}
+        onClick={() => history.push('/provider')}>
         <Avatar
           alt=""
           className={classes.avatar}
@@ -79,8 +83,10 @@ export default function ProviderDialog() {
       <div
         style={{
           display: 'flex',
-          alignItems: 'center'
-        }}>
+          alignItems: 'center',
+          cursor: 'pointer'
+        }}
+        onClick={() => history.push('/auth')}>
         <img
           src="/images/topbar/logout_icon.svg"
           alt=""

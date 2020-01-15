@@ -4,7 +4,7 @@ import { renderRoutes, RouteConfigComponentProps } from 'react-router-config';
 import { makeStyles } from '@material-ui/styles';
 import { LinearProgress } from '@material-ui/core';
 
-import { NavBar, TopBar } from '../components';
+import { TopBar } from '../components';
 
 const useStyles = makeStyles(() => ({
   root: {
@@ -45,7 +45,7 @@ const useStyles = makeStyles(() => ({
   }
 }));
 
-const MainLayout: React.FC<RouteConfigComponentProps> = (
+const LayoutWithTopbar: React.FC<RouteConfigComponentProps> = (
   props: RouteConfigComponentProps
 ) => {
   const { route } = props;
@@ -56,7 +56,6 @@ const MainLayout: React.FC<RouteConfigComponentProps> = (
     <div className={classes.root}>
       <TopBar className={classes.topBar} />
       <div className={classes.mainContainer}>
-        <NavBar className={classes.navBar} />
         <div className={classes.container}>
           <main className={classes.content}>
             <Suspense fallback={<LinearProgress />}>
@@ -69,4 +68,4 @@ const MainLayout: React.FC<RouteConfigComponentProps> = (
   );
 };
 
-export default MainLayout;
+export default LayoutWithTopbar;
