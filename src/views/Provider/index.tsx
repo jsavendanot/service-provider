@@ -68,7 +68,8 @@ const useStyles = makeStyles(() => ({
     fontSize: '20px',
     lineHeight: '25px',
     color: '#000000',
-    marginTop: '5px'
+    marginTop: '5px',
+    marginBottom: '10px'
   },
   name: {
     fontFamily: 'Roboto',
@@ -77,7 +78,8 @@ const useStyles = makeStyles(() => ({
     fontSize: '14px',
     lineHeight: '23px',
     color: '#000000',
-    marginRight: '10px'
+    marginRight: '20px',
+    width: '100px'
   },
   value: {
     fontFamily: 'Scada',
@@ -89,7 +91,7 @@ const useStyles = makeStyles(() => ({
   },
   button: {
     width: '100px',
-    padding: '8px',
+    padding: '5px',
     border: '1px solid #C57D7D',
     borderRadius: '50px',
     color: '#692B40',
@@ -114,6 +116,16 @@ const useStyles = makeStyles(() => ({
     lineHeight: '16px',
     color: '#692B40',
     textTransform: 'uppercase'
+  },
+  elementGroup: {
+    display: 'flex',
+    flexDirection: 'column',
+    margin: '10px 0'
+  },
+  element: {
+    display: 'flex',
+    flexDirection: 'column',
+    margin: '10px 0'
   }
 }));
 
@@ -177,18 +189,165 @@ export default function Provider() {
                   </div>
                 </button>
               </div>
-              <div>
-                <div style={{ padding: '10px' }}>
-                  <span className={classes.subTitle}>Name</span>
-                  <div style={{ display: 'flex', margin: '10px 0' }}>
-                    <div style={{ marginRight: '30px' }}>
-                      <span className={classes.name}>Title</span>
-                      <span className={classes.value}>Dr</span>
-                    </div>
-                    <div style={{ marginRight: '10px' }}>
-                      <span className={classes.name}>Full name</span>
-                      <span className={classes.value}>Gary Tart</span>
-                    </div>
+              <div className={classes.elementGroup}>
+                <span className={classes.subTitle}>Name</span>
+                <div style={{ display: 'flex', margin: '10px 0' }}>
+                  <div style={{ marginRight: '40px' }}>
+                    <span className={classes.name}>Title</span>
+                    <span className={classes.value}>Dr</span>
+                  </div>
+                  <div style={{ marginRight: '10px' }}>
+                    <span className={classes.name}>Full name</span>
+                    <span className={classes.value}>Gary Tart</span>
+                  </div>
+                </div>
+              </div>
+              <div className={classes.elementGroup}>
+                <div
+                  style={{
+                    display: 'flex',
+                    alignItems: 'center',
+                    justifyContent: 'space-between'
+                  }}>
+                  <div className={classes.element}>
+                    <span className={classes.subTitle}>Practice</span>
+                    <span className={classes.value}>Psychologist</span>
+                  </div>
+                  <div className={classes.element}>
+                    <span className={classes.subTitle}>Service</span>
+                    <span className={classes.value}>Psychology service</span>
+                  </div>
+                  <div className={classes.element}>
+                    <span className={classes.subTitle}>Organisation</span>
+                    <span className={classes.value}>
+                      Murrumbidgee Local Health District
+                    </span>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div className={classes.elementGroup}>
+              <div className={classes.element}>
+                <span className={classes.subTitle}>Work Address</span>
+                <span className={classes.value}>
+                  193 Morgan St, Wagga Wagga NSW 2650
+                </span>
+              </div>
+            </div>
+            <div className={classes.elementGroup}>
+              <span className={classes.subTitle}>Contact Details</span>
+              <div style={{ display: 'flex', margin: '10px 0' }}>
+                <div style={{ marginRight: '50px' }}>
+                  <span className={classes.name}>Work</span>
+                  <span className={classes.value}>(02) 5943 2003</span>
+                </div>
+                <div style={{ marginRight: '50px' }}>
+                  <span className={classes.name}>Mobile</span>
+                  <span className={classes.value}>0459 432 003</span>
+                </div>
+                <div style={{ marginRight: '50px' }}>
+                  <span className={classes.name}>Email</span>
+                  <span className={classes.value}>drgary@mlhdmail.com</span>
+                </div>
+              </div>
+            </div>
+            <div className={classes.elementGroup}>
+              <span className={classes.subTitle}>Office Hours</span>
+              <div style={{ display: 'flex', flexDirection: 'column' }}>
+                <div
+                  style={{
+                    display: 'flex',
+                    alignItems: 'center',
+                    margin: '10px 0'
+                  }}>
+                  <div className={classes.name}>Monday</div>
+                  <span className={classes.value}>Off</span>
+                </div>
+                <div
+                  style={{
+                    display: 'flex',
+                    alignItems: 'center',
+                    margin: '10px 0'
+                  }}>
+                  <div className={classes.name}>Tuesday</div>
+                  <div
+                    style={{
+                      display: 'flex'
+                    }}>
+                    <span
+                      className={classes.value}
+                      style={{ marginRight: '50px' }}>
+                      9:00 am - noon
+                    </span>
+                    <span
+                      className={classes.value}
+                      style={{ marginRight: '50px' }}>
+                      1:00 pm - 5:00 pm
+                    </span>
+                    <span
+                      className={classes.value}
+                      style={{ marginRight: '50px' }}>
+                      6:00 pm - 8:30 pm
+                    </span>
+                  </div>
+                </div>
+                <div
+                  style={{
+                    display: 'flex',
+                    alignItems: 'center',
+                    margin: '10px 0'
+                  }}>
+                  <div className={classes.name}>Wednesday</div>
+                  <div
+                    style={{
+                      display: 'flex'
+                    }}>
+                    <span
+                      className={classes.value}
+                      style={{ marginRight: '50px' }}>
+                      9:00 am - noon
+                    </span>
+                    <span
+                      className={classes.value}
+                      style={{ marginRight: '50px' }}>
+                      6:00 pm - 8:30 pm
+                    </span>
+                  </div>
+                </div>
+                <div
+                  style={{
+                    display: 'flex',
+                    alignItems: 'center',
+                    margin: '10px 0'
+                  }}>
+                  <div className={classes.name}>Thursday</div>
+                  <div
+                    style={{
+                      display: 'flex'
+                    }}>
+                    <span
+                      className={classes.value}
+                      style={{ marginRight: '50px' }}>
+                      6:00 pm - 8:30 pm
+                    </span>
+                  </div>
+                </div>
+                <div
+                  style={{
+                    display: 'flex',
+                    alignItems: 'center',
+                    margin: '10px 0'
+                  }}>
+                  <div className={classes.name}>Friday</div>
+                  <div
+                    style={{
+                      display: 'flex'
+                    }}>
+                    <span
+                      className={classes.value}
+                      style={{ marginRight: '50px' }}>
+                      9:00 pm - noon
+                    </span>
                   </div>
                 </div>
               </div>
