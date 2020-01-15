@@ -32,16 +32,10 @@ const useStyles = makeStyles(() => ({
     flex: '1 1 auto',
     overflow: 'hidden'
   },
-  navBar: {
-    zIndex: 3,
-    width: 200,
-    minWidth: 150,
-    flex: '0 0 auto'
-  },
   content: {
     overflowY: 'auto',
     flex: '1 1 auto',
-    backgroundColor: '#FFFAEA'
+    backgroundColor: '#FFFFFF'
   }
 }));
 
