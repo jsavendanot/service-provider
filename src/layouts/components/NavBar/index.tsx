@@ -1,5 +1,6 @@
 import React from 'react';
 import clsx from 'clsx';
+import useRouter from 'utils/useRouter';
 
 import { makeStyles } from '@material-ui/styles';
 import { Paper, Theme, Divider, Avatar } from '@material-ui/core';
@@ -114,6 +115,7 @@ type Props = {
 
 const NavBar: React.FC<Props> = (props: Props) => {
   const { className } = props;
+  const { history } = useRouter();
 
   const classes = useStyles();
 
@@ -128,7 +130,9 @@ const NavBar: React.FC<Props> = (props: Props) => {
           />
           <span className={classes.profileName}>Bessie Richard</span>
           <span className={classes.profileDate}>11/09/1990</span>
-          <button className={classes.profileButton}>
+          <button
+            className={classes.profileButton}
+            onClick={() => history.push('/profile')}>
             <div
               style={{
                 display: 'flex',

@@ -47,6 +47,11 @@ const routes: RouteConfig[] = [
         path: '/dashboard',
         exact: true,
         component: lazy(() => import('views/Dashboard'))
+      },
+      {
+        path: '/profile',
+        exact: true,
+        component: lazy(() => import('views/Profile'))
       }
     ]
   }

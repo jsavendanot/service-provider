@@ -68,7 +68,9 @@ const Button: React.FC<Props> = (props: Props) => {
     classType = classes.secondary;
   }
   return disabled ? (
-    <button className={classType}>{children}</button>
+    <button className={classType} style={{ opacity: '0.2' }}>
+      {children}
+    </button>
   ) : (
     <button className={classType} onClick={click}>
       {children}
