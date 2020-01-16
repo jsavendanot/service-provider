@@ -27,7 +27,7 @@ const NavigationList: React.FC<NavListProps> = (props: NavListProps) => {
       {pages.map(page => {
         if (page.id === '6' || page.id === '8') {
           return (
-            <>
+            <div key={page.id}>
               <NavigationListItem
                 key={page.id}
                 depth={depth}
@@ -38,7 +38,7 @@ const NavigationList: React.FC<NavListProps> = (props: NavListProps) => {
               <Divider
                 style={{ border: '1px solid #E0E0E0', margin: '10px 0' }}
               />
-            </>
+            </div>
           );
         } else {
           return (

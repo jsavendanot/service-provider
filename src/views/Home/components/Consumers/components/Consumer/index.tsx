@@ -1,5 +1,6 @@
 import React from 'react';
 import moment from 'moment';
+import useRouter from 'utils/useRouter';
 import { ConsumerProps } from 'store/home';
 
 import { Avatar } from '@material-ui/core';
@@ -52,8 +53,14 @@ const useStyles = makeStyles(() => ({
 
 export const Consumer: React.FC<ConsumerProps> = (props: ConsumerProps) => {
   const classes = useStyles();
+  const { history } = useRouter();
+
+  const clickHandler = () => {
+    history.push('/dashboard');
+  };
+
   return (
-    <div className={classes.root}>
+    <div className={classes.root} onClick={clickHandler}>
       <div
         style={{
           display: 'flex',
