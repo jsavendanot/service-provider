@@ -24,17 +24,6 @@ const routes: RouteConfig[] = [
     ]
   },
   {
-    path: '/home',
-    component: MainLayout,
-    routes: [
-      {
-        path: '/home',
-        exact: true,
-        component: lazy(() => import('views/Home'))
-      }
-    ]
-  },
-  {
     path: '/provider',
     component: LayoutWithTopbar,
     routes: [
@@ -46,9 +35,14 @@ const routes: RouteConfig[] = [
     ]
   },
   {
-    path: '/dashboard',
+    route: '*',
     component: MainLayout,
     routes: [
+      {
+        path: '/home',
+        exact: true,
+        component: lazy(() => import('views/Home'))
+      },
       {
         path: '/dashboard',
         exact: true,

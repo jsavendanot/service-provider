@@ -14,7 +14,8 @@ const useStyles = makeStyles(() => ({
     padding: '15px',
     backgroundColor: '#FFFFFF',
     boxShadow: '0px 6px 18px rgba(0, 0, 0, 0.06)',
-    borderRadius: '4px'
+    borderRadius: '4px',
+    cursor: 'pointer'
   },
   avatar: {
     width: 40,
