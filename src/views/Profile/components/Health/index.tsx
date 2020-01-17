@@ -1,8 +1,6 @@
 import React from 'react';
 
-export type HealthProps = {};
-export const Health: React.FC<HealthProps> = ({}) => {
-  console.log({});
+export const Health: React.FC = () => {
   return <div>Health</div>;
 };
 

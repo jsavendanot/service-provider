@@ -212,7 +212,7 @@ const schema = {
     presence: { allowEmpty: false, message: 'is required' },
     email: true,
     length: {
-      maximum: 15
+      maximum: 50
     }
   },
   password: {

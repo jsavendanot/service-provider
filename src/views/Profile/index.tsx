@@ -42,8 +42,7 @@ const useStyles = makeStyles(() => ({
   }
 }));
 
-type ProfileProps = {};
-export const Profile: React.FC<ProfileProps> = ({}) => {
+export const Profile: React.FC = () => {
   const classes = useStyles();
   /** Tabs */
   const [tab, setTab] = useState('general');
