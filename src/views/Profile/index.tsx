@@ -39,6 +39,12 @@ const useStyles = makeStyles(() => ({
   },
   divider: {
     border: '1px solid #C57D7D'
+  },
+  uploadIcon: {
+    position: 'absolute',
+    right: '70px',
+    bottom: '35px',
+    cursor: 'pointer'
   }
 }));
 
@@ -71,10 +77,22 @@ export const Profile: React.FC = () => {
         <div
           style={{
             display: 'flex',
-            justifyContent: 'center',
-            paddingTop: '35px'
+            flexDirection: 'column',
+            alignItems: 'center',
+            paddingTop: '35px',
+            position: 'relative'
           }}>
           <span className={classes.menu}>Profile</span>
+          <img
+            src="/images/profile/avatar.svg"
+            alt=""
+            style={{ marginTop: '20px' }}
+          />
+          <img
+            src="/images/profile/upload_icon.svg"
+            alt=""
+            className={classes.uploadIcon}
+          />
         </div>
       </Grid>
       <Grid item xs={6}>

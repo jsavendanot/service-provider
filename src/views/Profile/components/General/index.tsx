@@ -611,6 +611,7 @@ export const General: React.FC = () => {
             </div>
           </div>
         </div>
+        <Divider className={classes.divider} />
       </Grid>
       <Grid item xs={12}>
         <div className={classes.formGroup}>
@@ -727,6 +728,7 @@ export const General: React.FC = () => {
             />
           </div>
         </div>
+        <Divider className={classes.divider} />
       </Grid>
       <Grid item xs={12}>
         <div className={classes.formGroup}>
