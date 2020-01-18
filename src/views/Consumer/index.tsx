@@ -7,7 +7,6 @@ import { Button } from 'components';
 import { General, Health } from './components';
 
 const useStyles = makeStyles(() => ({
-  root: {},
   /** Profile */
   menu: {
     fontFamily: 'Roboto',
@@ -48,7 +47,7 @@ const useStyles = makeStyles(() => ({
   }
 }));
 
-export const Profile: React.FC = () => {
+export const Consumer: React.FC = () => {
   const classes = useStyles();
   /** Tabs */
   const [tab, setTab] = useState('general');
@@ -84,12 +83,12 @@ export const Profile: React.FC = () => {
           }}>
           <span className={classes.menu}>Profile</span>
           <img
-            src="/images/profile/avatar.svg"
+            src="/images/consumer/avatar.svg"
             alt=""
             style={{ marginTop: '20px' }}
           />
           <img
-            src="/images/profile/upload_icon.svg"
+            src="/images/consumer/upload_icon.svg"
             alt=""
             className={classes.uploadIcon}
           />
@@ -140,4 +139,4 @@ export const Profile: React.FC = () => {
   );
 };
 
-export default Profile;
+export default Consumer;

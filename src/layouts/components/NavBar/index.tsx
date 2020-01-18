@@ -132,7 +132,7 @@ const NavBar: React.FC<Props> = (props: Props) => {
           <span className={classes.profileDate}>11/09/1990</span>
           <button
             className={classes.profileButton}
-            onClick={() => history.push('/profile')}>
+            onClick={() => history.push('/consumer')}>
             <div
               style={{
                 display: 'flex',
@@ -140,7 +140,7 @@ const NavBar: React.FC<Props> = (props: Props) => {
                 justifyContent: 'center'
               }}>
               <img
-                src="/images/profile/profile_icon.svg"
+                src="/images/consumer/consumer_icon.svg"
                 alt=""
                 style={{ marginRight: '5px' }}
               />

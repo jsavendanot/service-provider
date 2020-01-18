@@ -39,7 +39,7 @@ const useStyles = makeStyles(() => ({
   }
 }));
 
-const LayoutWithTopbar: React.FC<RouteConfigComponentProps> = (
+const LayoutWithNavbar: React.FC<RouteConfigComponentProps> = (
   props: RouteConfigComponentProps
 ) => {
   const { route } = props;
@@ -62,4 +62,4 @@ const LayoutWithTopbar: React.FC<RouteConfigComponentProps> = (
   );
 };
 
-export default LayoutWithTopbar;
+export default LayoutWithNavbar;

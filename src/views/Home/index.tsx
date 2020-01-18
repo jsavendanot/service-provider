@@ -24,7 +24,6 @@ export const Home: React.FC = () => {
     const fetchNetwork = () => {
       axios.get('/api/consumers').then(response => {
         if (mounted) {
-          console.log(response);
           setConsumers(response.data.consumers);
         }
       });

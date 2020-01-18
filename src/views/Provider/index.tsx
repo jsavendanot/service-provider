@@ -150,7 +150,7 @@ export default function Provider() {
                   alignItems: 'center',
                   marginRight: '10px'
                 }}>
-                <img src="/images/profile/gary_avatar.svg" alt="" />
+                <img src="/images/consumer/gary_avatar.svg" alt="" />
                 <span className={classes.providerName}>Dr Gary</span>
               </div>
               <div

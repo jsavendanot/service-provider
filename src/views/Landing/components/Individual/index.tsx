@@ -855,7 +855,7 @@ const Individual: React.FC<Props> = (props: Props) => {
                   width: '117px',
                   marginTop: '15px'
                 }}>
-                <img src="/images/landing/profile_image.svg" alt="" />
+                <img src="/images/landing/consumer_image.svg" alt="" />
               </div>
               <div
                 style={{
