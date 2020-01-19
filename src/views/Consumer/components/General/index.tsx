@@ -115,7 +115,7 @@ const schema = {
       onlyInteger: true
     },
     length: {
-      maximum: 20
+      maximum: 10
     }
   },
   postalAddress: {
@@ -130,7 +130,7 @@ const schema = {
       onlyInteger: true
     },
     length: {
-      maximum: 20
+      maximum: 10
     }
   },
   phone: {

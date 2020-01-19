@@ -1,4 +1,5 @@
 import React from 'react';
+import useRouter from 'utils/useRouter';
 
 import { makeStyles } from '@material-ui/styles';
 import { KeyboardArrowDown, Add } from '@material-ui/icons';
@@ -50,6 +51,7 @@ const useStyles = makeStyles(() => ({
 
 export const Toolbar: React.FC = () => {
   const classes = useStyles();
+  const { history } = useRouter();
   return (
     <div className={classes.root}>
       <div style={{ display: 'flex', flexDirection: 'column' }}>
@@ -70,7 +72,7 @@ export const Toolbar: React.FC = () => {
         </div>
       </div>
       <div style={{ width: '186px' }}>
-        <Button type="primary">
+        <Button type="primary" click={() => history.push('/consumer/add')}>
           <div
             style={{
               display: 'flex',
