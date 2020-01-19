@@ -1,8 +1,9 @@
 import React, { useState } from 'react';
+import useRouter from 'utils/useRouter';
 
 import { Grid } from '@material-ui/core';
 import { makeStyles } from '@material-ui/styles';
-import { KeyboardArrowLeft, ArrowForward } from '@material-ui/icons';
+import { KeyboardArrowLeft, ArrowForward, ArrowBack } from '@material-ui/icons';
 
 import {
   Steps,
@@ -16,17 +17,19 @@ import {
 const useStyles = makeStyles(() => ({
   root: {
     width: '100%',
+    minHeight: '100%',
     backgroundColor: '#FFFAEA',
     padding: '30px'
   },
-  navigationText: {
+  cancelText: {
     fontFamily: 'Roboto',
     fontStyle: 'normal',
     fontWeight: 500,
     fontSize: '12px',
     lineHeight: '16px',
     letterSpacing: '1.25px',
-    color: '#692B40'
+    color: '#692B40',
+    cursor: 'pointer'
   },
   formContent: {
     marginTop: '117px',
@@ -38,6 +41,9 @@ const useStyles = makeStyles(() => ({
   navButton: {
     background: '#692B40',
     padding: '8px',
+    position: 'relative',
+    bottom: '50px',
+    cursor: 'pointer',
     boxShadow:
       '0px 2px 4px rgba(0, 0, 0, 0.14), 0px 4px 5px rgba(0, 0, 0, 0.12), 0px 1px 10px rgba(0, 0, 0, 0.2)',
     borderRadius: '50px',
@@ -49,15 +55,13 @@ const useStyles = makeStyles(() => ({
     },
     '&:active': {
       backgroundColor: '#692B40'
-    },
-    position: 'relative',
-    bottom: '50px',
-    cursor: 'pointer'
+    }
   }
 }));
 
 export const AddConsumer: React.FC = () => {
   const classes = useStyles();
+  const { history } = useRouter();
 
   const [step, setStep] = useState(0);
 
@@ -75,6 +79,7 @@ export const AddConsumer: React.FC = () => {
         <Grid item xs={3}>
           <div
             style={{
+              height: '100%',
               display: 'flex',
               flexDirection: 'column',
               paddingTop: '30px',
@@ -86,10 +91,33 @@ export const AddConsumer: React.FC = () => {
                 alignItems: 'center',
                 padding: '20px 0'
               }}>
-              <KeyboardArrowLeft style={{ fill: '#692B40' }} />
-              <span className={classes.navigationText}>Cancel</span>
+              <KeyboardArrowLeft
+                style={{ fill: '#692B40', cursor: 'pointer' }}
+                onClick={() => history.push('/home')}
+              />
+              <span
+                className={classes.cancelText}
+                onClick={() => history.push('/home')}>
+                Cancel
+              </span>
             </div>
             <Steps currentStep={step} />
+            {step > 0 && (
+              <div
+                style={{
+                  position: 'fixed',
+                  bottom: '0',
+                  left: '270px',
+                  paddingRight: '40px'
+                }}>
+                <button className={classes.navButton} onClick={back}>
+                  <ArrowBack
+                    fontSize="large"
+                    style={{ fill: '#FFFFFF', padding: '0' }}
+                  />
+                </button>
+              </div>
+            )}
           </div>
         </Grid>
         <Grid item xs={6}>
@@ -102,20 +130,21 @@ export const AddConsumer: React.FC = () => {
           </div>
         </Grid>
         <Grid item xs={3}>
-          <div
-            style={{
-              height: '100%',
-              display: 'flex',
-              alignItems: 'flex-end',
-              paddingLeft: '40px'
-            }}>
-            <button className={classes.navButton} onClick={next}>
-              <ArrowForward
-                fontSize="large"
-                style={{ fill: '#FFFFFF', padding: '0' }}
-              />
-            </button>
-          </div>
+          {step < 4 && (
+            <div
+              style={{
+                position: 'fixed',
+                bottom: '0',
+                right: '270px'
+              }}>
+              <button className={classes.navButton} onClick={next}>
+                <ArrowForward
+                  fontSize="large"
+                  style={{ fill: '#FFFFFF', padding: '0' }}
+                />
+              </button>
+            </div>
+          )}
         </Grid>
       </Grid>
     </div>
