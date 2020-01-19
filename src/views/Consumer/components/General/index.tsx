@@ -646,7 +646,9 @@ export const General: React.FC = () => {
               }
               fullWidth
               label={
-                <span className={classes.selectOptionLabel}>Please select</span>
+                <span className={classes.selectOptionLabel}>
+                  Relationship to consumer
+                </span>
               }
               name="relationship"
               select
