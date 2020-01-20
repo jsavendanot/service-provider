@@ -7,7 +7,7 @@ const useStyles = makeStyles(() => ({
   root: {
     display: 'flex',
     alignItems: 'center',
-    padding: '20px 80px',
+    paddingTop: '20px',
     justifyContent: 'space-between'
   },
   sortText: {

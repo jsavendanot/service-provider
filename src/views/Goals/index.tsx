@@ -6,11 +6,11 @@ import { makeStyles } from '@material-ui/styles';
 import { Add } from '@material-ui/icons';
 
 import { Button, TabMenu } from 'components';
-import { Toolbar } from './components';
+import { Toolbar, Current, Completed } from './components';
 
 const useStyles = makeStyles(() => ({
   root: {
-    padding: '20px'
+    padding: '20px 100px'
   },
   buttonText: {
     fontFamily: 'Roboto',
@@ -31,8 +31,7 @@ const useStyles = makeStyles(() => ({
     color: '#000000'
   },
   content: {
-    marginTop: '20px',
-    padding: '0 20px'
+    marginTop: '20px'
   }
 }));
 
@@ -53,12 +52,16 @@ const Goals: React.FC<Props> = (props: Props) => {
   return (
     <Grid container justify="center" spacing={3} className={classes.root}>
       <Grid item xs={12}>
-        <Grid container style={{ padding: '20px 80px 0' }} alignItems="center">
-          <Grid item xs={3}>
+        <Grid container style={{ paddingTop: '20px' }} alignItems="center">
+          <Grid item xs={2}>
             <span className={classes.menuText}>Goals</span>
           </Grid>
-          <Grid item xs={5}>
-            <TabMenu menus={['current', 'completed']} />
+          <Grid item xs={6}>
+            <div style={{ width: '100%', display: 'flex' }}>
+              <div style={{ width: '70%' }}>
+                <TabMenu menus={['current', 'completed']} />
+              </div>
+            </div>
           </Grid>
           <Grid item xs={4}>
             <div
@@ -89,8 +92,8 @@ const Goals: React.FC<Props> = (props: Props) => {
       </Grid>
       <Grid item xs={12}>
         <div className={classes.content}>
-          {tab === 'current' && <div>Current</div>}
-          {tab === 'completed' && <div>Completed</div>}
+          {tab === 'current' && <Current />}
+          {tab === 'completed' && <Completed />}
         </div>
       </Grid>
     </Grid>
