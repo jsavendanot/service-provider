@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import useRouter from 'utils/useRouter';
+import clsx from 'clsx';
 
 import { Grid } from '@material-ui/core';
 import { makeStyles } from '@material-ui/styles';
@@ -56,6 +57,43 @@ const useStyles = makeStyles(() => ({
     '&:active': {
       backgroundColor: '#692B40'
     }
+  },
+  navSaveButton: {
+    background: '#692B40',
+    padding: '15px',
+    position: 'relative',
+    bottom: '30px',
+    cursor: 'pointer',
+    boxShadow:
+      '0px 2px 4px rgba(0, 0, 0, 0.14), 0px 4px 5px rgba(0, 0, 0, 0.12), 0px 1px 10px rgba(0, 0, 0, 0.2)',
+    borderRadius: '50px',
+    '&:focus': {
+      outline: 'none'
+    },
+    '&:hover': {
+      backgroundColor: '#692B40'
+    },
+    '&:active': {
+      backgroundColor: '#692B40'
+    }
+  },
+  buttonText: {
+    fontFamily: 'Roboto',
+    fontStyle: 'normal',
+    fontWeight: 500,
+    fontSize: '14px',
+    lineHeight: '16px',
+    letterSpacing: '1.25px',
+    color: '#FFFFFF',
+    textTransform: 'uppercase'
+  },
+  saveButtonContainer: {
+    position: 'fixed',
+    bottom: '100px',
+    right: '167px'
+  },
+  bottomZero: {
+    bottom: '30px'
   }
 }));
 
@@ -101,7 +139,7 @@ export const AddConsumer: React.FC = () => {
                 Cancel
               </span>
             </div>
-            <Steps currentStep={step} />
+            <Steps currentStep={step} setStep={setStep} />
             {step > 0 && (
               <div
                 style={{
@@ -130,6 +168,19 @@ export const AddConsumer: React.FC = () => {
           </div>
         </Grid>
         <Grid item xs={3}>
+          {step > 0 && (
+            <div
+              className={clsx(
+                classes.saveButtonContainer,
+                step === 4 && classes.bottomZero
+              )}>
+              <button
+                className={classes.navSaveButton}
+                onClick={() => history.push('/consumer')}>
+                <span className={classes.buttonText}>Save consumer</span>
+              </button>
+            </div>
+          )}
           {step < 4 && (
             <div
               style={{

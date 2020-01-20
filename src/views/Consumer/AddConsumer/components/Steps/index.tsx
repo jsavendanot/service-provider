@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { Dispatch, SetStateAction } from 'react';
 import clsx from 'clsx';
 
 import { makeStyles } from '@material-ui/styles';
@@ -44,8 +44,9 @@ const useStyles = makeStyles(() => ({
 
 type StepsProps = {
   currentStep: number;
+  setStep: Dispatch<SetStateAction<number>>;
 };
-export const Steps: React.FC<StepsProps> = ({ currentStep }) => {
+export const Steps: React.FC<StepsProps> = ({ currentStep, setStep }) => {
   const classes = useStyles();
   return (
     <div className={classes.root}>
@@ -54,7 +55,8 @@ export const Steps: React.FC<StepsProps> = ({ currentStep }) => {
           className={clsx(
             classes.stepText,
             currentStep === 0 && classes.stepTextActive
-          )}>
+          )}
+          onClick={() => setStep(0)}>
           1. Personal information
         </span>
       </div>
@@ -63,7 +65,8 @@ export const Steps: React.FC<StepsProps> = ({ currentStep }) => {
           className={clsx(
             classes.stepText,
             currentStep === 1 && classes.stepTextActive
-          )}>
+          )}
+          onClick={() => setStep(1)}>
           2. Emergency contact
         </span>
       </div>
@@ -72,7 +75,8 @@ export const Steps: React.FC<StepsProps> = ({ currentStep }) => {
           className={clsx(
             classes.stepText,
             currentStep === 2 && classes.stepTextActive
-          )}>
+          )}
+          onClick={() => setStep(2)}>
           3. Cultural background{' '}
           <span className={classes.optionalText}>(Optional)</span>
         </span>
@@ -82,7 +86,8 @@ export const Steps: React.FC<StepsProps> = ({ currentStep }) => {
           className={clsx(
             classes.stepText,
             currentStep === 3 && classes.stepTextActive
-          )}>
+          )}
+          onClick={() => setStep(3)}>
           4. General Practitioner{' '}
           <span className={classes.optionalText}>(Optional)</span>
         </span>
@@ -92,7 +97,8 @@ export const Steps: React.FC<StepsProps> = ({ currentStep }) => {
           className={clsx(
             classes.stepText,
             currentStep === 4 && classes.stepTextActive
-          )}>
+          )}
+          onClick={() => setStep(4)}>
           5. Health care{' '}
           <span className={classes.optionalText}>(Optional)</span>
         </span>
