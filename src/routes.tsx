@@ -66,6 +66,16 @@ const routes: RouteConfig[] = [
         path: '/consumer',
         exact: true,
         component: lazy(() => import('views/Consumer'))
+      },
+      {
+        path: '/goals',
+        exact: true,
+        component: lazy(() => import('views/Goals'))
+      },
+      {
+        path: '/goals/:tab',
+        exact: true,
+        component: lazy(() => import('views/Goals'))
       }
     ]
   }
