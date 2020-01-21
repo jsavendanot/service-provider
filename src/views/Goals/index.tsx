@@ -58,7 +58,7 @@ const Goals: React.FC<Props> = (props: Props) => {
           </Grid>
           <Grid item xs={6}>
             <div style={{ width: '100%', display: 'flex' }}>
-              <div style={{ width: '70%' }}>
+              <div style={{ width: '350px' }}>
                 <TabMenu menus={['current', 'completed']} />
               </div>
             </div>

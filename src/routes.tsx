@@ -88,6 +88,11 @@ const routes: RouteConfig[] = [
         component: lazy(() => import('views/Journey'))
       },
       {
+        path: '/journey/:tab',
+        exact: true,
+        component: lazy(() => import('views/Journey'))
+      },
+      {
         path: '/story',
         exact: true,
         component: lazy(() => import('views/Story'))
