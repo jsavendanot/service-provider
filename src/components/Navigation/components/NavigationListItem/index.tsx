@@ -66,7 +66,7 @@ const useStyles = makeStyles((theme: Theme) => ({
   buttonText: {
     fontFamily: 'Scada',
     fontStyle: 'normal',
-    fontWeight: 'bold',
+    fontWeight: 700,
     fontSize: '12px',
     lineHeight: '15px',
     textAlign: 'center',
@@ -77,7 +77,7 @@ const useStyles = makeStyles((theme: Theme) => ({
   buttonTextActive: {
     fontFamily: 'Scada',
     fontStyle: 'normal',
-    fontWeight: 'bold',
+    fontWeight: 700,
     fontSize: '12px',
     lineHeight: '15px',
     textAlign: 'center',

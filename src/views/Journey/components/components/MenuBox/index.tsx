@@ -49,7 +49,7 @@ const useStyles = makeStyles(() => ({
   tabSubMenuTextActive: {
     fontFamily: 'Scada',
     fontStyle: 'normal',
-    fontWeight: 'bold',
+    fontWeight: 700,
     fontSize: '16px',
     lineHeight: '20px',
     color: '#692B40'
@@ -57,7 +57,7 @@ const useStyles = makeStyles(() => ({
   tabSubMenuText: {
     fontFamily: 'Scada',
     fontStyle: 'normal',
-    fontWeight: 'bold',
+    fontWeight: 700,
     fontSize: '16px',
     lineHeight: '20px',
     color: '#EBB6B6'

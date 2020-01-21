@@ -1,9 +1,11 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
+import axios from 'utils/axios';
+import { Journal as JournalType } from 'store/journey';
 
 import { makeStyles } from '@material-ui/styles';
 import { Grid } from '@material-ui/core';
 
-import { Summary } from '../components';
+import { Summary, Journal } from '../components';
 
 const useStyles = makeStyles(() => ({
   title: {
@@ -20,20 +22,41 @@ const useStyles = makeStyles(() => ({
 const JourneyAll: React.FC = () => {
   const classes = useStyles();
 
+  const [journals, setJournsl] = useState<JournalType[]>([]);
+
+  useEffect(() => {
+    let mounted = true;
+
+    const fetchNetwork = () => {
+      axios.get('/api/journals').then(response => {
+        if (mounted) {
+          setJournsl(response.data.journals);
+        }
+      });
+    };
+
+    fetchNetwork();
+
+    return () => {
+      mounted = false;
+    };
+  }, []);
+
   return (
-    <Grid container justify="space-between">
-      <Grid item xs={5}>
+    <Grid container>
+      <Grid item xs={6}>
         <div style={{ display: 'flex', flexDirection: 'column' }}>
           <span className={classes.title}>Summary</span>
-          <div>
-            <Summary />
-          </div>
+          <Summary />
         </div>
       </Grid>
+      <Grid item xs={1} />
       <Grid item xs={5}>
         <div style={{ display: 'flex', flexDirection: 'column' }}>
           <span className={classes.title}>All Journals</span>
-          <div>content</div>
+          {journals.map(journal => {
+            return <Journal key={journal.id} journal={journal} />;
+          })}
         </div>
       </Grid>
     </Grid>

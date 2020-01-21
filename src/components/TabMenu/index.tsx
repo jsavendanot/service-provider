@@ -43,7 +43,7 @@ const useStyles = makeStyles(() => ({
   tabTextActive: {
     fontFamily: 'Roboto',
     fontStyle: 'normal',
-    fontWeight: 'bold',
+    fontWeight: 700,
     fontSize: '13px',
     lineHeight: '15px',
     color: '#692B40',
