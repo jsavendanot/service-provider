@@ -25,7 +25,7 @@ const NavigationList: React.FC<NavListProps> = (props: NavListProps) => {
   return (
     <List style={{ padding: '0' }}>
       {pages.map(page => {
-        if (page.id === '6' || page.id === '8') {
+        if (page.id === '6' || page.id === '7') {
           return (
             <div key={page.id}>
               <NavigationListItem

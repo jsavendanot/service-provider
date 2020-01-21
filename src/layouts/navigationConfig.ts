@@ -20,7 +20,7 @@ export default [
       {
         id: '3',
         title: 'Journey',
-        href: '/journeys',
+        href: '/journey',
         icon: '/images/navbar/journey.svg'
       },
       {
@@ -32,25 +32,19 @@ export default [
       {
         id: '5',
         title: 'Safety Plan',
-        href: '/safetyplan',
+        href: '/safety',
         icon: '/images/navbar/safety.svg'
       },
       {
         id: '6',
         title: 'Network',
-        href: '/networks',
+        href: '/network',
         icon: '/images/navbar/network.svg'
       },
       {
         id: '7',
-        title: 'Notes',
-        href: '/networks',
-        icon: '/images/navbar/notes.svg'
-      },
-      {
-        id: '8',
         title: 'Export & Share',
-        href: '/file',
+        href: '/export',
         icon: '/images/navbar/file.svg'
       }
     ]

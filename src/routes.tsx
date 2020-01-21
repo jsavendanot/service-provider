@@ -76,6 +76,36 @@ const routes: RouteConfig[] = [
         path: '/goals/:tab',
         exact: true,
         component: lazy(() => import('views/Goals'))
+      },
+      {
+        path: '/suggest/goal',
+        exact: true,
+        component: lazy(() => import('views/Goals/SuggestGoal'))
+      },
+      {
+        path: '/journey',
+        exact: true,
+        component: lazy(() => import('views/Journey'))
+      },
+      {
+        path: '/story',
+        exact: true,
+        component: lazy(() => import('views/Story'))
+      },
+      {
+        path: '/safety',
+        exact: true,
+        component: lazy(() => import('views/Safety'))
+      },
+      {
+        path: '/network',
+        exact: true,
+        component: lazy(() => import('views/Network'))
+      },
+      {
+        path: '/export',
+        exact: true,
+        component: lazy(() => import('views/Export'))
       }
     ]
   }
