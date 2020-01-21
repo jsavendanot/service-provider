@@ -3,21 +3,42 @@ import React from 'react';
 import { makeStyles } from '@material-ui/styles';
 import { Theme } from '@material-ui/core';
 
-const baseStyle = {
-  width: '100%',
-  height: '50px',
-  borderRadius: '25px',
-  fontFamily: 'Roboto',
-  fontStyle: 'normal',
-  fontWeight: 700,
-  fontSize: '18px',
-  lineHeight: '21px',
-  cursor: 'pointer'
-};
-
 const useStyles = makeStyles((theme: Theme) => ({
   primary: {
-    ...baseStyle,
+    width: '100%',
+    height: '50px',
+    borderRadius: '25px',
+    fontFamily: 'Roboto',
+    fontStyle: 'normal',
+    fontWeight: 700,
+    fontSize: '18px',
+    lineHeight: '21px',
+    cursor: 'pointer',
+    boxSizing: 'border-box',
+    border: 'none',
+    color: '#FFFFFF',
+    backgroundColor: '#692B40',
+    '&:focus': {
+      outline: 'none'
+    },
+    '&:hover': {
+      backgroundColor: '#692B40'
+    },
+    '&:active': {
+      backgroundColor: '#692B40'
+    }
+  },
+  primarySmall: {
+    width: '100%',
+    borderRadius: '25px',
+    fontFamily: 'Roboto',
+    fontStyle: 'normal',
+    fontWeight: 500,
+    fontSize: '14px',
+    lineHeight: '16px',
+    letterSpacing: '1.25px',
+    cursor: 'pointer',
+    height: '35px',
     boxSizing: 'border-box',
     border: 'none',
     color: '#FFFFFF',
@@ -33,7 +54,15 @@ const useStyles = makeStyles((theme: Theme) => ({
     }
   },
   secondary: {
-    ...baseStyle,
+    width: '100%',
+    height: '50px',
+    borderRadius: '25px',
+    fontFamily: 'Roboto',
+    fontStyle: 'normal',
+    fontWeight: 700,
+    fontSize: '18px',
+    lineHeight: '21px',
+    cursor: 'pointer',
     boxSizing: 'border-box',
     color: '#692B40',
     boxShadow:
@@ -54,7 +83,7 @@ const useStyles = makeStyles((theme: Theme) => ({
 type Props = {
   children: React.ReactNode;
   click?: () => void;
-  type: 'primary' | 'secondary';
+  type: 'primary' | 'secondary' | 'primarySmall';
   disabled?: boolean;
 };
 
@@ -64,6 +93,8 @@ const Button: React.FC<Props> = (props: Props) => {
   let classType = '';
   if (type === 'primary') {
     classType = classes.primary;
+  } else if (type === 'primarySmall') {
+    classType = classes.primarySmall;
   } else if (type === 'secondary') {
     classType = classes.secondary;
   }

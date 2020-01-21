@@ -93,6 +93,11 @@ const routes: RouteConfig[] = [
         component: lazy(() => import('views/Journey'))
       },
       {
+        path: '/journal',
+        exact: true,
+        component: lazy(() => import('views/Journey/JournalDetail'))
+      },
+      {
         path: '/story',
         exact: true,
         component: lazy(() => import('views/Story'))

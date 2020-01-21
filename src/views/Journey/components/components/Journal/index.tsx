@@ -1,4 +1,5 @@
 import React from 'react';
+import useRouter from 'utils/useRouter';
 import { Journal as JournalType } from 'store/journey';
 
 import { makeStyles } from '@material-ui/styles';
@@ -7,7 +8,7 @@ import { Divider, IconButton, Paper } from '@material-ui/core';
 import { Comment } from '@material-ui/icons';
 
 const useStyles = makeStyles(() => ({
-  container: {
+  root: {
     width: '100%',
     display: 'flex',
     flexDirection: 'column',
@@ -67,7 +68,8 @@ const useStyles = makeStyles(() => ({
     width: '100%',
     display: 'flex',
     flexDirection: 'column',
-    padding: '10px'
+    padding: '10px',
+    cursor: 'pointer'
   },
   footerContent: {
     display: 'flex',
@@ -87,9 +89,10 @@ type Props = {
 const Journal: React.FC<Props> = (props: Props) => {
   const classes = useStyles();
   const { journal } = props;
+  const { history } = useRouter();
 
   return (
-    <div className={classes.container}>
+    <div className={classes.root}>
       <span className={classes.dayText}>{journal.date}</span>
       <Divider className={classes.divider} />
       <div className={classes.stepsContainer}>
@@ -103,7 +106,9 @@ const Journal: React.FC<Props> = (props: Props) => {
         </div>
       </div>
       <Paper style={{ borderRadius: '14px', padding: '10px' }} elevation={2}>
-        <div className={classes.content}>
+        <div
+          className={classes.content}
+          onClick={() => history.push('/journal')}>
           <span className={classes.title}>{journal.title}</span>
           <span className={classes.text}>{journal.journalText}</span>
         </div>
