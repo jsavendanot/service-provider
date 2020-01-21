@@ -1,4 +1,3 @@
-import uuid from 'uuid/v1';
 import mock from 'utils/mock';
 
 mock.onGet('/api/journals').reply(200, {
