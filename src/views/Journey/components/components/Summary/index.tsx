@@ -3,7 +3,7 @@ import React, { useState, ChangeEvent } from 'react';
 import { makeStyles } from '@material-ui/styles';
 import { Tabs, Tab, Theme } from '@material-ui/core';
 
-import MenuBox from '../MenuBox';
+import { SummaryBox } from './components';
 
 const useStyles = makeStyles((theme: Theme) => ({
   root: {
@@ -86,10 +86,10 @@ const Summary: React.FC = () => {
             />
           ))}
         </Tabs>
-        {tab === 'all' && <MenuBox />}
-        {tab === 'week' && <MenuBox />}
-        {tab === 'month' && <MenuBox />}
-        {tab === 'year' && <MenuBox />}
+        {tab === 'all' && <SummaryBox />}
+        {tab === 'week' && <SummaryBox />}
+        {tab === 'month' && <SummaryBox />}
+        {tab === 'year' && <SummaryBox />}
       </div>
     </>
   );

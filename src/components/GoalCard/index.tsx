@@ -11,7 +11,7 @@ import { StepCard } from './components';
 const useStyles = makeStyles(() => ({
   root: {
     width: '335px',
-    padding: '15px',
+    padding: '20px',
     background: '#FFFFFF',
     boxShadow: '0px 6px 18px rgba(0, 0, 0, 0.06)',
     borderRadius: '10px'

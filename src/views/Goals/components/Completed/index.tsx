@@ -4,7 +4,7 @@ import { GoalProps } from 'store/goals';
 
 import { Grid } from '@material-ui/core';
 
-import GoalCard from '../GoalCard';
+import { GoalCard } from 'components';
 
 export const Completed: React.FC = () => {
   const [goals, setGoals] = useState<GoalProps[]>([]);

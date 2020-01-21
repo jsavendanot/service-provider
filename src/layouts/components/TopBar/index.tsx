@@ -80,7 +80,7 @@ const TopBar: React.FC<Props> = (props: Props) => {
   /** Provile Dialog */
   const [open, setOpen] = useState(false);
 
-  function handleClickOpen() {
+  function handleOpen() {
     setOpen(true);
   }
 
@@ -156,7 +156,7 @@ const TopBar: React.FC<Props> = (props: Props) => {
                   src="/images/topbar/provider_avatar.svg"
                   alt=""
                   style={{ marginBottom: '5px', cursor: 'pointer' }}
-                  onClick={handleClickOpen}
+                  onClick={handleOpen}
                 />
               </div>
             </div>
