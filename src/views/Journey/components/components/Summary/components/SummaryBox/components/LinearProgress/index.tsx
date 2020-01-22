@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { GoalProps } from 'types/goals';
+import { Goal } from 'types/goals';
 
 import { LinearProgress, Dialog, DialogContent } from '@material-ui/core';
 import { KeyboardArrowRight } from '@material-ui/icons';
@@ -33,7 +33,7 @@ const BorderLinearProgress = withStyles({
 })(LinearProgress);
 
 type Props = {
-  goal: GoalProps;
+  goal: Goal;
 };
 
 export const CustomLinearProgress: React.FC<Props> = ({ goal }) => {

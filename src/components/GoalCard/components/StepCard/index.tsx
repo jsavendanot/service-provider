@@ -1,6 +1,6 @@
 import React from 'react';
 import clsx from 'clsx';
-import { StepProps } from 'types/goals';
+import { Step } from 'types/goals';
 
 import { makeStyles } from '@material-ui/styles';
 
@@ -73,7 +73,7 @@ const useStyles = makeStyles(() => ({
   }
 }));
 
-export const StepCard: React.FC<StepProps> = (props: StepProps) => {
+export const StepCard: React.FC<Step> = (props: Step) => {
   const classes = useStyles();
   return (
     <div className={classes.root}>

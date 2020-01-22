@@ -1,7 +1,7 @@
 import React from 'react';
 import moment from 'moment';
 import useRouter from 'utils/useRouter';
-import { ConsumerProps } from 'types/home';
+import { Consumer as ConsumerType } from 'types/home';
 
 import { Avatar } from '@material-ui/core';
 import { makeStyles } from '@material-ui/styles';
@@ -52,7 +52,7 @@ const useStyles = makeStyles(() => ({
   }
 }));
 
-export const Consumer: React.FC<ConsumerProps> = (props: ConsumerProps) => {
+export const Consumer: React.FC<ConsumerType> = (props: ConsumerType) => {
   const classes = useStyles();
   const { history } = useRouter();
 

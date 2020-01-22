@@ -1,5 +1,5 @@
 import React from 'react';
-import { ConsumerProps } from 'types/home';
+import { Consumer as ConsumerType } from 'types/home';
 
 import { Grid } from '@material-ui/core';
 import { makeStyles } from '@material-ui/styles';
@@ -11,7 +11,7 @@ const useStyles = makeStyles(() => ({
 }));
 
 type Props = {
-  consumers: ConsumerProps[];
+  consumers: ConsumerType[];
 };
 
 export const Consumers: React.FC<Props> = (props: Props) => {

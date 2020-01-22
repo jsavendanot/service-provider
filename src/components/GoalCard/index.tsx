@@ -1,5 +1,5 @@
 import React from 'react';
-import { GoalProps } from 'types/goals';
+import { Goal } from 'types/goals';
 import clsx from 'clsx';
 
 import { Grid, LinearProgress, Divider } from '@material-ui/core';
@@ -108,7 +108,7 @@ const BorderLinearProgress = withStyles({
 })(LinearProgress);
 
 type Props = {
-  goal: GoalProps;
+  goal: Goal;
 };
 
 export const GoalCard: React.FC<Props> = (props: Props) => {

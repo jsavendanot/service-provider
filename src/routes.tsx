@@ -113,6 +113,11 @@ const routes: RouteConfig[] = [
         component: lazy(() => import('views/Network'))
       },
       {
+        path: '/network/:tab',
+        exact: true,
+        component: lazy(() => import('views/Network'))
+      },
+      {
         path: '/export',
         exact: true,
         component: lazy(() => import('views/Export'))

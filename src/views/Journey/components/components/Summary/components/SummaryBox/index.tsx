@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import clsx from 'clsx';
 import axios from 'utils/axios';
-import { GoalProps } from 'types/goals';
+import { Goal } from 'types/goals';
 
 import { makeStyles } from '@material-ui/styles';
 
@@ -119,7 +119,7 @@ const SummaryBox: React.FC = () => {
   };
 
   /** Fetch goals */
-  const [goals, setGoals] = useState<GoalProps[]>([]);
+  const [goals, setGoals] = useState<Goal[]>([]);
 
   useEffect(() => {
     let mounted = true;

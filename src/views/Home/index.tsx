@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'utils/axios';
-import { ConsumerProps } from 'types/home';
+import { Consumer } from 'types/home';
 
 import { Grid } from '@material-ui/core';
 import { makeStyles } from '@material-ui/styles';
@@ -16,7 +16,7 @@ const useStyles = makeStyles(() => ({
 export const Home: React.FC = () => {
   const classes = useStyles();
 
-  const [consumers, setConsumers] = useState<ConsumerProps[]>([]);
+  const [consumers, setConsumers] = useState<Consumer[]>([]);
 
   useEffect(() => {
     let mounted = true;

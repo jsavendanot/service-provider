@@ -1,13 +1,13 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'utils/axios';
-import { GoalProps } from 'types/goals';
+import { Goal } from 'types/goals';
 
 import { Grid } from '@material-ui/core';
 
 import { GoalCard } from 'components';
 
 export const Completed: React.FC = () => {
-  const [goals, setGoals] = useState<GoalProps[]>([]);
+  const [goals, setGoals] = useState<Goal[]>([]);
 
   useEffect(() => {
     let mounted = true;

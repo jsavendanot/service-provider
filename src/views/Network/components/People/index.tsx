@@ -1,21 +1,21 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'utils/axios';
-import { Goal } from 'types/goals';
+import { Network } from 'types/network';
 
 import { Grid } from '@material-ui/core';
 
-import { GoalCard } from 'components';
+import { NetworkCard } from '../components';
 
-export const Current: React.FC = () => {
-  const [goals, setGoals] = useState<Goal[]>([]);
+export const People: React.FC = () => {
+  const [networks, setNetworks] = useState<Network[]>([]);
 
   useEffect(() => {
     let mounted = true;
 
     const fetchNetwork = () => {
-      axios.get('/api/goals').then(response => {
+      axios.get('/api/networks').then(response => {
         if (mounted) {
-          setGoals(response.data.goals);
+          setNetworks(response.data.people);
         }
       });
     };
@@ -26,12 +26,13 @@ export const Current: React.FC = () => {
       mounted = false;
     };
   }, []);
+
   return (
     <Grid container spacing={3}>
-      {goals.map(goal => {
+      {networks.map(network => {
         return (
-          <Grid item xs={4} key={goal.id}>
-            <GoalCard goal={goal} />
+          <Grid item xs={4} key={network.id}>
+            <NetworkCard network={network} />
           </Grid>
         );
       })}
@@ -39,4 +40,4 @@ export const Current: React.FC = () => {
   );
 };
 
-export default Current;
+export default People;
