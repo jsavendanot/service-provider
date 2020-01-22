@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'utils/axios';
-import { GoalProps } from 'store/goals';
+import { GoalProps } from 'types/goals';
 
 import { Grid } from '@material-ui/core';
 

@@ -1,5 +1,5 @@
 import React from 'react';
-import { GoalProps } from 'store/goals';
+import { GoalProps } from 'types/goals';
 import clsx from 'clsx';
 
 import { Grid, LinearProgress, Divider } from '@material-ui/core';

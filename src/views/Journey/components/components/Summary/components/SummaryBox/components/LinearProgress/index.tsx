@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { GoalProps } from 'store/goals';
+import { GoalProps } from 'types/goals';
 
 import { LinearProgress, Dialog, DialogContent } from '@material-ui/core';
 import { KeyboardArrowRight } from '@material-ui/icons';

@@ -1,5 +1,5 @@
 import React from 'react';
-import { ConsumerProps } from 'store/home';
+import { ConsumerProps } from 'types/home';
 
 import { Grid } from '@material-ui/core';
 import { makeStyles } from '@material-ui/styles';

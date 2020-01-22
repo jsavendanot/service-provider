@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import clsx from 'clsx';
 import axios from 'utils/axios';
-import { GoalProps } from 'store/goals';
+import { GoalProps } from 'types/goals';
 
 import { makeStyles } from '@material-ui/styles';
 

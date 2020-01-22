@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'utils/axios';
-import { ConsumerProps } from 'store/home';
+import { ConsumerProps } from 'types/home';
 
 import { Grid } from '@material-ui/core';
 import { makeStyles } from '@material-ui/styles';

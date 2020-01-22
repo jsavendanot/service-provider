@@ -1,6 +1,6 @@
 import React from 'react';
 import clsx from 'clsx';
-import { StepProps } from 'store/goals';
+import { StepProps } from 'types/goals';
 
 import { makeStyles } from '@material-ui/styles';
 

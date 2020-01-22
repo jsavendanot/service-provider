@@ -1,6 +1,6 @@
 import React from 'react';
 import useRouter from 'utils/useRouter';
-import { Journal as JournalType } from 'store/journey';
+import { Journal as JournalType } from 'types/journey';
 
 import { makeStyles } from '@material-ui/styles';
 import { Divider, IconButton, Paper } from '@material-ui/core';

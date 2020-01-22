@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'utils/axios';
-import { Journal as JournalType } from 'store/journey';
+import { Journal as JournalType } from 'types/journey';
 
 import { makeStyles } from '@material-ui/styles';
 import { Grid } from '@material-ui/core';
