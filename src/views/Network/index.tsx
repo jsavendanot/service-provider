@@ -72,7 +72,7 @@ export const Network: React.FC<Props> = (props: Props) => {
             <div style={{ width: '218px' }}>
               <Button
                 type="primary"
-                click={() => history.push('/consumer/add')}>
+                click={() => history.push('/suggest/service')}>
                 <div
                   style={{
                     display: 'flex',

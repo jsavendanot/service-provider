@@ -15,7 +15,7 @@ export const Current: React.FC = () => {
     const fetchNetwork = () => {
       axios.get('/api/goals').then(response => {
         if (mounted) {
-          setGoals(response.data.goals);
+          setGoals(response.data.current);
         }
       });
     };
