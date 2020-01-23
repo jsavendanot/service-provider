@@ -12,6 +12,7 @@ import MuiTypography from './MuiTypography';
 import MuiRadio from './MuiRadio';
 import MuiCheckbox from './MuiCheckbox';
 import MuiTextField from './MuiTextField';
+import MuiSwitch from './MuiSwitch';
 
 export default {
   MuiButton,
@@ -27,5 +28,6 @@ export default {
   MuiTypography,
   MuiRadio,
   MuiCheckbox,
-  MuiTextField
+  MuiTextField,
+  MuiSwitch
 };
