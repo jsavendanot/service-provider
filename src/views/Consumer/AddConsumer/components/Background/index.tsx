@@ -182,7 +182,6 @@ export const Background: React.FC = () => {
             autoComplete="off"
             value={formState.values.countryOfBirth || ''}
             variant="outlined"
-            className={classes.textField}
             onChange={handleChange}
           />
         </div>
@@ -201,7 +200,6 @@ export const Background: React.FC = () => {
             autoComplete="off"
             value={formState.values.preferredLanguage || ''}
             variant="outlined"
-            className={classes.textField}
             onChange={handleChange}
           />
         </div>

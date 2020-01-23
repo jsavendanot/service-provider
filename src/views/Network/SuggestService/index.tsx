@@ -54,17 +54,6 @@ const useStyles = makeStyles(() => ({
     flexDirection: 'column',
     marginBottom: '30px'
   },
-  textField: {
-    background: '#FFEAEA',
-    boxShadow: 'inset 0px 0px 6px rgba(0, 0, 0, 0.2)',
-    borderRadius: '3px',
-    '& .MuiOutlinedInput-input': {
-      padding: '10px'
-    },
-    '& .MuiFormLabel-root': {
-      lineHeight: '0'
-    }
-  },
   inputNote: {
     fontFamily: 'Scada',
     fontStyle: 'normal',
@@ -218,7 +207,6 @@ export const SuggestService: React.FC = () => {
                     autoComplete="off"
                     value={formState.values.name || ''}
                     variant="outlined"
-                    className={classes.textField}
                     onChange={handleChange}
                   />
                 </div>
@@ -243,7 +231,6 @@ export const SuggestService: React.FC = () => {
                     autoComplete="off"
                     value={formState.values.organisation || ''}
                     variant="outlined"
-                    className={classes.textField}
                     onChange={handleChange}
                   />
                 </div>
@@ -265,7 +252,6 @@ export const SuggestService: React.FC = () => {
                     autoComplete="off"
                     value={formState.values.serviceType || ''}
                     variant="outlined"
-                    className={classes.textField}
                     onChange={handleChange}
                   />
                 </div>
@@ -287,7 +273,6 @@ export const SuggestService: React.FC = () => {
                     autoComplete="off"
                     value={formState.values.contact || ''}
                     variant="outlined"
-                    className={classes.textField}
                     onChange={handleChange}
                   />
                 </div>

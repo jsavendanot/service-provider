@@ -269,7 +269,6 @@ export const Health: React.FC = () => {
               autoComplete="off"
               value={formState.values.name || ''}
               variant="outlined"
-              className={classes.textField}
               onChange={handleChange}
             />
           </div>
@@ -287,7 +286,6 @@ export const Health: React.FC = () => {
               autoComplete="off"
               value={formState.values.phone || ''}
               variant="outlined"
-              className={classes.textField}
               onChange={handleChange}
             />
           </div>
@@ -305,7 +303,6 @@ export const Health: React.FC = () => {
               autoComplete="off"
               value={formState.values.address || ''}
               variant="outlined"
-              className={classes.textField}
               onChange={handleChange}
             />
           </div>
@@ -396,7 +393,6 @@ export const Health: React.FC = () => {
                 autoComplete="off"
                 value={formState.values.cardNumber || ''}
                 variant="outlined"
-                className={classes.textField}
                 onChange={handleChange}
               />
             </div>
@@ -415,7 +411,6 @@ export const Health: React.FC = () => {
                 autoComplete="off"
                 value={formState.values.cardExpiry || ''}
                 variant="outlined"
-                className={classes.textField}
                 onChange={handleChange}
               />
             </div>

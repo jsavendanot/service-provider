@@ -169,7 +169,6 @@ export const Emergency: React.FC = () => {
             autoComplete="off"
             value={formState.values.contactName || ''}
             variant="outlined"
-            className={classes.textField}
             onChange={handleChange}
           />
         </div>
@@ -193,7 +192,6 @@ export const Emergency: React.FC = () => {
             autoComplete="off"
             SelectProps={{ native: true }}
             value={formState.values.relationship || ''}
-            className={classes.textField}
             variant="outlined"
             onChange={handleChange}>
             {['', 'Uncle'].map(relationship => (
@@ -224,7 +222,6 @@ export const Emergency: React.FC = () => {
               autoComplete="off"
               value={formState.values.contactPhone || ''}
               variant="outlined"
-              className={classes.textField}
               onChange={handleChange}
             />
           </div>
@@ -243,7 +240,6 @@ export const Emergency: React.FC = () => {
               autoComplete="off"
               value={formState.values.contactAddress || ''}
               variant="outlined"
-              className={classes.textField}
               onChange={handleChange}
             />
           </div>
@@ -263,7 +259,6 @@ export const Emergency: React.FC = () => {
             autoComplete="off"
             value={formState.values.whenToContact || ''}
             variant="outlined"
-            className={classes.textField}
             onChange={handleChange}
           />
         </div>

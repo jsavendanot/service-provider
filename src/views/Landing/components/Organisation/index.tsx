@@ -371,7 +371,7 @@ const Organisation: React.FC<Props> = (props: Props) => {
                 autoComplete="off"
                 value={formState.values.orgName || ''}
                 variant="outlined"
-                className={classes.textField}
+                
                 onChange={handleChange}
               />
             </div>
@@ -399,7 +399,7 @@ const Organisation: React.FC<Props> = (props: Props) => {
                   autoComplete="off"
                   value={formState.values.streetAddress || ''}
                   variant="outlined"
-                  className={classes.textField}
+                  
                   onChange={handleChange}
                 />
               </div>
@@ -418,7 +418,7 @@ const Organisation: React.FC<Props> = (props: Props) => {
                   autoComplete="off"
                   value={formState.values.addressLine2 || ''}
                   variant="outlined"
-                  className={classes.textField}
+                  
                   onChange={handleChange}
                 />
               </div>
@@ -442,7 +442,7 @@ const Organisation: React.FC<Props> = (props: Props) => {
                   autoComplete="off"
                   value={formState.values.city || ''}
                   variant="outlined"
-                  className={classes.textField}
+                  
                   onChange={handleChange}
                 />
               </div>
@@ -465,7 +465,7 @@ const Organisation: React.FC<Props> = (props: Props) => {
                   autoComplete="off"
                   SelectProps={{ native: true }}
                   value={formState.values.state || ''}
-                  className={classes.textField}
+                  
                   variant="outlined"
                   onChange={handleChange}>
                   {[''].map(state => (
@@ -493,7 +493,7 @@ const Organisation: React.FC<Props> = (props: Props) => {
                   autoComplete="off"
                   value={formState.values.zipCode || ''}
                   variant="outlined"
-                  className={classes.textField}
+                  
                   onChange={handleChange}
                 />
               </div>
@@ -524,7 +524,7 @@ const Organisation: React.FC<Props> = (props: Props) => {
                   autoComplete="off"
                   value={formState.values.contactPersonName || ''}
                   variant="outlined"
-                  className={classes.textField}
+                  
                   onChange={handleChange}
                 />
               </div>
@@ -543,7 +543,7 @@ const Organisation: React.FC<Props> = (props: Props) => {
                   autoComplete="off"
                   value={formState.values.contactPersonNum || ''}
                   variant="outlined"
-                  className={classes.textField}
+                  
                   onChange={handleChange}
                 />
               </div>
@@ -570,7 +570,7 @@ const Organisation: React.FC<Props> = (props: Props) => {
                 autoComplete="off"
                 value={formState.values.email || ''}
                 variant="outlined"
-                className={classes.textField}
+                
                 onChange={handleChange}
               />
             </div>
@@ -599,7 +599,7 @@ const Organisation: React.FC<Props> = (props: Props) => {
                   type="password"
                   value={formState.values.password || ''}
                   variant="outlined"
-                  className={classes.textField}
+                  
                   onChange={handleChange}
                 />
               </div>
@@ -619,7 +619,7 @@ const Organisation: React.FC<Props> = (props: Props) => {
                   type="password"
                   value={formState.values.retypedPassword || ''}
                   variant="outlined"
-                  className={classes.textField}
+                  
                   onChange={handleChange}
                 />
               </div>

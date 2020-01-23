@@ -347,7 +347,6 @@ export const General: React.FC = () => {
                   autoComplete="off"
                   value={formState.values.firstName || ''}
                   variant="outlined"
-                  className={classes.textField}
                   onChange={handleChange}
                 />
               </div>
@@ -366,7 +365,6 @@ export const General: React.FC = () => {
                   autoComplete="off"
                   value={formState.values.lastName || ''}
                   variant="outlined"
-                  className={classes.textField}
                   onChange={handleChange}
                 />
               </div>
@@ -386,7 +384,6 @@ export const General: React.FC = () => {
                 autoComplete="off"
                 value={formState.values.preferredName || ''}
                 variant="outlined"
-                className={classes.textField}
                 onChange={handleChange}
               />
             </div>
@@ -405,7 +402,6 @@ export const General: React.FC = () => {
                   autoComplete="off"
                   value={formState.values.dob || ''}
                   variant="outlined"
-                  className={classes.textField}
                   onChange={handleChange}
                 />
               </div>
@@ -428,7 +424,6 @@ export const General: React.FC = () => {
                   autoComplete="off"
                   SelectProps={{ native: true }}
                   value={formState.values.gender || ''}
-                  className={classes.textField}
                   variant="outlined"
                   onChange={handleChange}>
                   {['', 'Male', 'Female'].map(gender => (
@@ -462,7 +457,6 @@ export const General: React.FC = () => {
                 autoComplete="off"
                 value={formState.values.homeAddress || ''}
                 variant="outlined"
-                className={classes.textField}
                 onChange={handleChange}
               />
             </div>
@@ -480,7 +474,6 @@ export const General: React.FC = () => {
                 autoComplete="off"
                 value={formState.values.postCode || ''}
                 variant="outlined"
-                className={classes.textField}
                 onChange={handleChange}
               />
             </div>
@@ -501,7 +494,6 @@ export const General: React.FC = () => {
                 autoComplete="off"
                 value={formState.values.postalAddress || ''}
                 variant="outlined"
-                className={classes.textField}
                 onChange={handleChange}
               />
             </div>
@@ -520,7 +512,6 @@ export const General: React.FC = () => {
                 autoComplete="off"
                 value={formState.values.postalCode || ''}
                 variant="outlined"
-                className={classes.textField}
                 onChange={handleChange}
               />
             </div>
@@ -539,7 +530,6 @@ export const General: React.FC = () => {
               autoComplete="off"
               value={formState.values.phone || ''}
               variant="outlined"
-              className={classes.textField}
               onChange={handleChange}
             />
           </div>
@@ -557,7 +547,6 @@ export const General: React.FC = () => {
               autoComplete="off"
               value={formState.values.email || ''}
               variant="outlined"
-              className={classes.textField}
               onChange={handleChange}
             />
           </div>
@@ -613,7 +602,6 @@ export const General: React.FC = () => {
               autoComplete="off"
               value={formState.values.contactName || ''}
               variant="outlined"
-              className={classes.textField}
               onChange={handleChange}
             />
           </div>
@@ -637,7 +625,6 @@ export const General: React.FC = () => {
               autoComplete="off"
               SelectProps={{ native: true }}
               value={formState.values.relationship || ''}
-              className={classes.textField}
               variant="outlined"
               onChange={handleChange}>
               {['', 'Uncle'].map(relationship => (
@@ -668,7 +655,6 @@ export const General: React.FC = () => {
                 autoComplete="off"
                 value={formState.values.contactPhone || ''}
                 variant="outlined"
-                className={classes.textField}
                 onChange={handleChange}
               />
             </div>
@@ -687,7 +673,6 @@ export const General: React.FC = () => {
                 autoComplete="off"
                 value={formState.values.contactAddress || ''}
                 variant="outlined"
-                className={classes.textField}
                 onChange={handleChange}
               />
             </div>
@@ -707,7 +692,6 @@ export const General: React.FC = () => {
               autoComplete="off"
               value={formState.values.whenToContact || ''}
               variant="outlined"
-              className={classes.textField}
               onChange={handleChange}
             />
           </div>
@@ -732,7 +716,6 @@ export const General: React.FC = () => {
               autoComplete="off"
               value={formState.values.countryOfBirth || ''}
               variant="outlined"
-              className={classes.textField}
               onChange={handleChange}
             />
           </div>
@@ -751,7 +734,6 @@ export const General: React.FC = () => {
               autoComplete="off"
               value={formState.values.preferredLanguage || ''}
               variant="outlined"
-              className={classes.textField}
               onChange={handleChange}
             />
           </div>

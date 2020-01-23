@@ -292,7 +292,6 @@ export const HealthCare: React.FC = () => {
               autoComplete="off"
               value={formState.values.cardNumber || ''}
               variant="outlined"
-              className={classes.textField}
               onChange={handleChange}
             />
           </div>
@@ -311,7 +310,6 @@ export const HealthCare: React.FC = () => {
               autoComplete="off"
               value={formState.values.cardExpiry || ''}
               variant="outlined"
-              className={classes.textField}
               onChange={handleChange}
             />
           </div>

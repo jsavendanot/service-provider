@@ -25,7 +25,10 @@ const useStyles = makeStyles(() => ({
   textField: {
     background: '#FFFFFF',
     borderRadius: '5px',
-    margin: '10px 0'
+    margin: '10px 0',
+    '& .MuiOutlinedInput-input': {
+      padding: '18px'
+    }
   },
   formFooter: {
     display: 'flex',
