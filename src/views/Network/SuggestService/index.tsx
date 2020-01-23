@@ -62,6 +62,16 @@ const useStyles = makeStyles(() => ({
     lineHeight: '17px',
     textDecoration: 'underline',
     color: '#C57D7D'
+  },
+  buttonText: {
+    fontFamily: 'Roboto',
+    fontStyle: 'normal',
+    fontWeight: 500,
+    fontSize: '14px',
+    lineHeight: '16px',
+    letterSpacing: '1.25px',
+    textTransform: 'uppercase',
+    color: '#FFFFFF'
   }
 }));
 
@@ -296,18 +306,19 @@ export const SuggestService: React.FC = () => {
                   borderBottom: '1px solid #C57D7D'
                 }}>
                 {[
-                  { id: 1, name: 'My goals' },
-                  { id: 2, name: 'My journey' },
-                  { id: 3, name: 'My story' },
-                  { id: 4, name: 'My safety plan' },
-                  { id: 5, name: 'My network' },
-                  { id: 6, name: 'Other:' }
+                  { id: 1, name: 'My goals', text: 'goals' },
+                  { id: 2, name: 'My journey', text: 'journals' },
+                  { id: 3, name: 'My story', text: 'stories' },
+                  { id: 4, name: 'My safety plan', text: 'safety plans' },
+                  { id: 5, name: 'My network', text: 'networks' },
+                  { id: 6, name: 'Other:', text: '' }
                 ].map(element => {
                   return (
                     <SharedItem
                       key={element.id}
                       id={element.id}
                       name={element.name}
+                      text={element.text}
                     />
                   );
                 })}
@@ -320,7 +331,9 @@ export const SuggestService: React.FC = () => {
                 marginTop: '30px'
               }}>
               <div style={{ width: '162px' }}>
-                <Button type="primary">Save service</Button>
+                <Button type="primary">
+                  <span className={classes.buttonText}>Save service</span>
+                </Button>
               </div>
             </div>
           </Grid>

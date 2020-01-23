@@ -1,4 +1,5 @@
 import React from 'react';
+import clsx from 'clsx';
 
 import {
   Checkbox,
@@ -23,11 +24,19 @@ const useStyles = makeStyles(() => ({
     border: '1px solid #C57D7D',
     borderBottom: 'none'
   },
+  topBorder: {
+    borderTopRightRadius: '12px',
+    borderTopLeftRadius: '12px'
+  },
+  bottomBorder: {
+    borderBottomRightRadius: '12px',
+    borderBottomLeftRadius: '12px'
+  },
   header: {
     display: 'flex',
     justifyContent: 'space-between',
     alignItems: 'center',
-    padding: '0 20px'
+    padding: '0 15px'
   },
   name: {
     fontFamily: 'Scada',
@@ -47,8 +56,8 @@ const useStyles = makeStyles(() => ({
     fontFamily: 'Roboto',
     fontStyle: 'normal',
     fontWeight: 400,
-    fontSize: '16px',
-    lineHeight: '19px',
+    fontSize: '14px',
+    lineHeight: '23px',
     color: '#37474F'
   }
 }));
@@ -62,13 +71,18 @@ export const SharedItem: React.FC<Props> = ({ id, name, text }) => {
   const classes = useStyles();
   return (
     <div className={classes.root}>
-      <div className={classes.group}>
+      <div
+        className={clsx(
+          classes.group,
+          id === 1 && classes.topBorder,
+          id === 5 && classes.bottomBorder
+        )}>
         <div className={classes.header}>
           <span className={classes.name}>{name}</span>
-          {id < 6 && <Checkbox color="primary" checked={true} value="1" />}
+          <Checkbox color="primary" checked={true} value="1" />
         </div>
         {id < 3 && (
-          <div style={{ paddingLeft: '30px' }}>
+          <div style={{ paddingLeft: '22px' }}>
             <RadioGroup name="share" value="all">
               <FormControlLabel
                 value="all"

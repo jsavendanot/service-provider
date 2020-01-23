@@ -129,7 +129,7 @@ const useStyles = makeStyles(() => ({
   }
 }));
 
-export default function Provider() {
+export default function Profile() {
   const classes = useStyles();
   return (
     <Grid container>

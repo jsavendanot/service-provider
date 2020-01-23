@@ -14,7 +14,7 @@ import {
 } from '@material-ui/core';
 import { Search } from '@material-ui/icons';
 
-import ProviderDialog from '../ProviderDialog';
+import ProfileDialog from '../ProfileDialog';
 
 const useStyles = makeStyles(() => ({
   root: {
@@ -168,7 +168,7 @@ const TopBar: React.FC<Props> = (props: Props) => {
         onClose={handleClose}
         aria-labelledby="form-dialog-title">
         <DialogContent className={classes.navProfile}>
-          <ProviderDialog />
+          <ProfileDialog />
         </DialogContent>
       </Dialog>
     </AppBar>

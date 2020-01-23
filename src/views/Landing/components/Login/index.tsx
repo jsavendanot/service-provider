@@ -131,7 +131,7 @@ const Login: React.FC<Props> = (props: Props) => {
   };
 
   const submitHandler = () => {
-    history.push('/home');
+    history.replace('/home');
   };
 
   const hasError = (field: string): boolean =>

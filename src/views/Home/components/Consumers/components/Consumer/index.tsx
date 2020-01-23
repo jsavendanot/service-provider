@@ -57,7 +57,7 @@ export const Consumer: React.FC<ConsumerType> = (props: ConsumerType) => {
   const { history } = useRouter();
 
   const clickHandler = () => {
-    history.push('/dashboard');
+    history.push(`/dashboard/consumer/${props.id}`);
   };
 
   return (

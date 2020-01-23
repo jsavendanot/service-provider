@@ -1,4 +1,5 @@
 import React from 'react';
+import { RouteComponentProps } from 'react-router-dom';
 
 import { Grid, FormControlLabel, Checkbox } from '@material-ui/core';
 import { makeStyles } from '@material-ui/styles';
@@ -61,8 +62,16 @@ const useStyles = makeStyles(() => ({
   }
 }));
 
-export const Dashboard: React.FC = () => {
+interface MatchParams {
+  id: string;
+}
+type Props = RouteComponentProps<MatchParams>;
+
+export const Dashboard: React.FC<Props> = (props: Props) => {
   const classes = useStyles();
+  const { match } = props;
+  const { id } = match.params;
+  console.log(id);
 
   return (
     <Grid container justify="center">
@@ -71,7 +80,7 @@ export const Dashboard: React.FC = () => {
           style={{
             display: 'flex',
             flexDirection: 'column',
-            padding: '30px 0'
+            marginTop: '50px'
           }}>
           <span className={classes.menu}>Dashboard</span>
           <div style={{ margin: '10px 0' }}>

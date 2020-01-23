@@ -26,13 +26,13 @@ const routes: RouteConfig[] = [
   },
   /** Views without navigation bar */
   {
-    path: '/provider',
+    path: '/profile/:name',
     component: LayoutWithNavbar,
     routes: [
       {
-        path: '/provider',
+        path: '/profile/:name',
         exact: true,
-        component: lazy(() => import('views/Provider'))
+        component: lazy(() => import('views/Profile'))
       }
     ]
   },
@@ -58,7 +58,7 @@ const routes: RouteConfig[] = [
         component: lazy(() => import('views/Home'))
       },
       {
-        path: '/dashboard',
+        path: '/dashboard/consumer/:id',
         exact: true,
         component: lazy(() => import('views/Dashboard'))
       },
@@ -78,7 +78,7 @@ const routes: RouteConfig[] = [
         component: lazy(() => import('views/Goals'))
       },
       {
-        path: '/suggest/goal',
+        path: '/goals/:id/suggest',
         exact: true,
         component: lazy(() => import('views/Goals/SuggestGoal'))
       },
@@ -118,7 +118,7 @@ const routes: RouteConfig[] = [
         component: lazy(() => import('views/Network'))
       },
       {
-        path: '/suggest/service',
+        path: '/network/:id/suggest',
         exact: true,
         component: lazy(() => import('views/Network/SuggestService'))
       },
