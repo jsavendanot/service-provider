@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState, ChangeEvent } from 'react';
 
 import {
   Checkbox,
@@ -57,17 +57,32 @@ type Props = {
   id: number;
   name: string;
   text: string;
+  checked: boolean;
 };
-export const SharedItem: React.FC<Props> = ({ id, name, text }) => {
+export const SharedItem: React.FC<Props> = ({ id, name, text, checked }) => {
   const classes = useStyles();
+
+  const [state, setState] = useState(checked);
+
+  const handleChange = (event: ChangeEvent<HTMLInputElement>) => {
+    setState(event.target.checked);
+  };
+
   return (
     <div className={classes.root}>
       <div className={classes.group}>
         <div className={classes.header}>
           <span className={classes.name}>{name}</span>
-          {id < 6 && <Checkbox color="primary" checked={true} value="1" />}
+          {id < 6 && (
+            <Checkbox
+              color="primary"
+              checked={state}
+              value={id}
+              onChange={event => handleChange(event)}
+            />
+          )}
         </div>
-        {id < 3 && (
+        {state && (
           <div style={{ paddingLeft: '30px' }}>
             <RadioGroup name="share" value="all">
               <FormControlLabel

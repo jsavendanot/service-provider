@@ -1,13 +1,7 @@
-import React from 'react';
+import React, { useState, ChangeEvent } from 'react';
 import clsx from 'clsx';
 
-import {
-  Checkbox,
-  RadioGroup,
-  FormControlLabel,
-  Radio,
-  TextField
-} from '@material-ui/core';
+import { RadioGroup, FormControlLabel, Radio, Switch } from '@material-ui/core';
 import { makeStyles } from '@material-ui/styles';
 import { KeyboardArrowRight } from '@material-ui/icons';
 
@@ -66,9 +60,17 @@ type Props = {
   id: number;
   name: string;
   text: string;
+  checked: boolean;
 };
-export const SharedItem: React.FC<Props> = ({ id, name, text }) => {
+export const SharedItem: React.FC<Props> = ({ id, name, text, checked }) => {
   const classes = useStyles();
+
+  const [state, setState] = useState(checked);
+
+  const handleChange = (event: ChangeEvent<HTMLInputElement>) => {
+    setState(event.target.checked);
+  };
+
   return (
     <div className={classes.root}>
       <div
@@ -79,9 +81,14 @@ export const SharedItem: React.FC<Props> = ({ id, name, text }) => {
         )}>
         <div className={classes.header}>
           <span className={classes.name}>{name}</span>
-          <Checkbox color="primary" checked={true} value="1" />
+          <Switch
+            checked={state}
+            color="primary"
+            value={state}
+            onChange={event => handleChange(event)}
+          />
         </div>
-        {id < 3 && (
+        {state && (
           <div style={{ paddingLeft: '22px' }}>
             <RadioGroup name="share" value="all">
               <FormControlLabel
@@ -113,23 +120,6 @@ export const SharedItem: React.FC<Props> = ({ id, name, text }) => {
                 }
               />
             </RadioGroup>
-          </div>
-        )}
-        {id === 6 && (
-          <div style={{ padding: '0 20px' }}>
-            <TextField
-              id="outlined-basic"
-              label=""
-              variant="outlined"
-              placeholder=""
-              fullWidth
-              multiline
-              value=""
-              autoComplete="off"
-              rows="3"
-              style={{ marginTop: '15px' }}
-              className={classes.outline}
-            />
           </div>
         )}
       </div>

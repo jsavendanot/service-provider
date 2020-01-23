@@ -306,12 +306,32 @@ export const SuggestService: React.FC = () => {
                   borderBottom: '1px solid #C57D7D'
                 }}>
                 {[
-                  { id: 1, name: 'My goals', text: 'goals' },
-                  { id: 2, name: 'My journey', text: 'journals' },
-                  { id: 3, name: 'My story', text: 'stories' },
-                  { id: 4, name: 'My safety plan', text: 'safety plans' },
-                  { id: 5, name: 'My network', text: 'networks' },
-                  { id: 6, name: 'Other:', text: '' }
+                  { id: 1, name: 'My goals', text: 'goals', checked: true },
+                  {
+                    id: 2,
+                    name: 'My journey',
+                    text: 'journals',
+                    checked: true
+                  },
+                  { id: 3, name: 'My story', text: 'stories', checked: false },
+                  {
+                    id: 4,
+                    name: 'My safety plan',
+                    text: 'safety plans',
+                    checked: false
+                  },
+                  {
+                    id: 5,
+                    name: 'My network',
+                    text: 'networks',
+                    checked: false
+                  },
+                  {
+                    id: 6,
+                    name: 'Other:',
+                    text: '',
+                    checked: false
+                  }
                 ].map(element => {
                   return (
                     <SharedItem
@@ -319,6 +339,7 @@ export const SuggestService: React.FC = () => {
                       id={element.id}
                       name={element.name}
                       text={element.text}
+                      checked={element.checked}
                     />
                   );
                 })}

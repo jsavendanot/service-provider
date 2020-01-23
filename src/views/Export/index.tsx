@@ -56,11 +56,16 @@ export const Export: React.FC = () => {
                 borderBottomLeftRadius: '12px'
               }}>
               {[
-                { id: 1, name: 'Goals', text: 'goals' },
-                { id: 2, name: 'Journey', text: 'journals' },
-                { id: 3, name: 'Story', text: 'stories' },
-                { id: 4, name: 'Safety plan', text: 'safety plans' },
-                { id: 5, name: 'Network', text: 'networks' }
+                { id: 1, name: 'Goals', text: 'goals', checked: true },
+                { id: 2, name: 'Journey', text: 'journals', checked: true },
+                { id: 3, name: 'Story', text: 'stories', checked: false },
+                {
+                  id: 4,
+                  name: 'Safety plan',
+                  text: 'safety plans',
+                  checked: false
+                },
+                { id: 5, name: 'Network', text: 'networks', checked: false }
               ].map(element => {
                 return (
                   <SharedItem
@@ -68,6 +73,7 @@ export const Export: React.FC = () => {
                     id={element.id}
                     name={element.name}
                     text={element.text}
+                    checked={element.checked}
                   />
                 );
               })}
