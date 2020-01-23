@@ -577,35 +577,17 @@ export const General: React.FC = () => {
               }}>
               <FormControlLabel
                 style={{ marginRight: '40px' }}
-                control={
-                  <Checkbox
-                    checked={false}
-                    value="1"
-                    className={classes.checkBox}
-                  />
-                }
+                control={<Checkbox checked={false} value="1" color="primary" />}
                 label={<span className={classes.checkText}>Phone</span>}
               />
               <FormControlLabel
                 style={{ marginRight: '40px' }}
-                control={
-                  <Checkbox
-                    checked={true}
-                    value="1"
-                    className={classes.checkBox}
-                  />
-                }
+                control={<Checkbox checked={true} value="1" color="primary" />}
                 label={<span className={classes.checkText}>Text</span>}
               />
               <FormControlLabel
                 style={{ marginRight: '40px' }}
-                control={
-                  <Checkbox
-                    checked={true}
-                    value="1"
-                    className={classes.checkBox}
-                  />
-                }
+                control={<Checkbox checked={true} value="1" color="primary" />}
                 label={<span className={classes.checkText}>Email</span>}
               />
             </div>
@@ -787,35 +769,17 @@ export const General: React.FC = () => {
               }}>
               <FormControlLabel
                 style={{ marginRight: '40px' }}
-                control={
-                  <Checkbox
-                    checked={false}
-                    value="1"
-                    className={classes.checkBox}
-                  />
-                }
+                control={<Checkbox checked={false} value="1" color="primary" />}
                 label={<span className={classes.checkText}>Yes</span>}
               />
               <FormControlLabel
                 style={{ marginRight: '40px' }}
-                control={
-                  <Checkbox
-                    checked={true}
-                    value="1"
-                    className={classes.checkBox}
-                  />
-                }
+                control={<Checkbox checked={true} value="1" color="primary" />}
                 label={<span className={classes.checkText}>No</span>}
               />
               <FormControlLabel
                 style={{ marginRight: '40px' }}
-                control={
-                  <Checkbox
-                    checked={false}
-                    value="1"
-                    className={classes.checkBox}
-                  />
-                }
+                control={<Checkbox checked={false} value="1" color="primary" />}
                 label={
                   <span className={classes.checkText}>
                     Prefer not to disclose
@@ -838,35 +802,17 @@ export const General: React.FC = () => {
               }}>
               <FormControlLabel
                 style={{ marginRight: '40px' }}
-                control={
-                  <Checkbox
-                    checked={false}
-                    value="1"
-                    className={classes.checkBox}
-                  />
-                }
+                control={<Checkbox checked={false} value="1" color="primary" />}
                 label={<span className={classes.checkText}>Yes</span>}
               />
               <FormControlLabel
                 style={{ marginRight: '40px' }}
-                control={
-                  <Checkbox
-                    checked={true}
-                    value="1"
-                    className={classes.checkBox}
-                  />
-                }
+                control={<Checkbox checked={true} value="1" color="primary" />}
                 label={<span className={classes.checkText}>No</span>}
               />
               <FormControlLabel
                 style={{ marginRight: '40px' }}
-                control={
-                  <Checkbox
-                    checked={false}
-                    value="1"
-                    className={classes.checkBox}
-                  />
-                }
+                control={<Checkbox checked={false} value="1" color="primary" />}
                 label={
                   <span className={classes.checkText}>
                     Prefer not to disclose

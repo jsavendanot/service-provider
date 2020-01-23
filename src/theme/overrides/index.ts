@@ -14,6 +14,8 @@ import MuiTableCell from './MuiTableCell';
 import MuiTableRow from './MuiTableRow';
 import MuiToggleButton from './MuiToggleButton';
 import MuiTypography from './MuiTypography';
+import MuiRadio from './MuiRadio';
+import MuiCheckbox from './MuiCheckbox';
 
 export default {
   MuiButton,
@@ -31,5 +33,7 @@ export default {
   MuiTableCell,
   MuiTableRow,
   MuiToggleButton,
-  MuiTypography
+  MuiTypography,
+  MuiRadio,
+  MuiCheckbox
 };

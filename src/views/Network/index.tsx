@@ -69,21 +69,23 @@ export const Network: React.FC<Props> = (props: Props) => {
             </div>
           </Grid>
           <Grid item xs={3}>
-            <div style={{ width: '218px' }}>
-              <Button
-                type="primary"
-                click={() => history.push('/suggest/service')}>
-                <div
-                  style={{
-                    display: 'flex',
-                    alignItems: 'center',
-                    justifyContent: 'center'
-                  }}>
-                  <Add style={{ fill: '#FFFFFF', marginRight: '10px' }} />
-                  <span className={classes.buttonText}>Suggest service</span>
-                </div>
-              </Button>
-            </div>
+            {tab === 'services' && (
+              <div style={{ width: '218px' }}>
+                <Button
+                  type="primary"
+                  click={() => history.push('/suggest/service')}>
+                  <div
+                    style={{
+                      display: 'flex',
+                      alignItems: 'center',
+                      justifyContent: 'center'
+                    }}>
+                    <Add style={{ fill: '#FFFFFF', marginRight: '10px' }} />
+                    <span className={classes.buttonText}>Suggest service</span>
+                  </div>
+                </Button>
+              </div>
+            )}
           </Grid>
         </Grid>
         <Toolbar />

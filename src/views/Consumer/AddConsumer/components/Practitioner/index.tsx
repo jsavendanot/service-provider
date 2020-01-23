@@ -239,24 +239,12 @@ export const Practitioner: React.FC = () => {
             }}>
             <FormControlLabel
               style={{ marginRight: '40px' }}
-              control={
-                <Checkbox
-                  checked={false}
-                  value="1"
-                  className={classes.checkBox}
-                />
-              }
+              control={<Checkbox checked={false} value="1" color="primary" />}
               label={<span className={classes.checkText}>Yes</span>}
             />
             <FormControlLabel
               style={{ marginRight: '40px' }}
-              control={
-                <Checkbox
-                  checked={false}
-                  value="1"
-                  className={classes.checkBox}
-                />
-              }
+              control={<Checkbox checked={false} value="1" color="primary" />}
               label={<span className={classes.checkText}>No</span>}
             />
           </div>

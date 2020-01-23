@@ -509,35 +509,17 @@ export const Personal: React.FC = () => {
             }}>
             <FormControlLabel
               style={{ marginRight: '40px' }}
-              control={
-                <Checkbox
-                  checked={false}
-                  value="1"
-                  className={classes.checkBox}
-                />
-              }
+              control={<Checkbox checked={false} value="1" color="primary" />}
               label={<span className={classes.checkText}>Phone</span>}
             />
             <FormControlLabel
               style={{ marginRight: '40px' }}
-              control={
-                <Checkbox
-                  checked={false}
-                  value="1"
-                  className={classes.checkBox}
-                />
-              }
+              control={<Checkbox checked={false} value="1" color="primary" />}
               label={<span className={classes.checkText}>Text</span>}
             />
             <FormControlLabel
               style={{ marginRight: '40px' }}
-              control={
-                <Checkbox
-                  checked={false}
-                  value="1"
-                  className={classes.checkBox}
-                />
-              }
+              control={<Checkbox checked={false} value="1" color="primary" />}
               label={<span className={classes.checkText}>Email</span>}
             />
           </div>

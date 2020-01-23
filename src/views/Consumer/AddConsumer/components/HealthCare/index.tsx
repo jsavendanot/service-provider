@@ -246,13 +246,7 @@ export const HealthCare: React.FC = () => {
               alignItems: 'center'
             }}>
             <FormControlLabel
-              control={
-                <Checkbox
-                  checked={false}
-                  value="1"
-                  className={classes.checkBox}
-                />
-              }
+              control={<Checkbox checked={false} value="1" color="primary" />}
               label={
                 <span className={classes.checkText}>
                   Health Care Card holder
@@ -268,13 +262,7 @@ export const HealthCare: React.FC = () => {
               alignItems: 'center'
             }}>
             <FormControlLabel
-              control={
-                <Checkbox
-                  checked={false}
-                  value="1"
-                  className={classes.checkBox}
-                />
-              }
+              control={<Checkbox checked={false} value="1" color="primary" />}
               label={
                 <span className={classes.checkText}>Medicare Card holder</span>
               }
@@ -335,13 +323,7 @@ export const HealthCare: React.FC = () => {
               alignItems: 'center'
             }}>
             <FormControlLabel
-              control={
-                <Checkbox
-                  checked={false}
-                  value="1"
-                  className={classes.checkBox}
-                />
-              }
+              control={<Checkbox checked={false} value="1" color="primary" />}
               label={<span className={classes.checkText}>DVA card holder</span>}
             />
           </div>
@@ -353,13 +335,7 @@ export const HealthCare: React.FC = () => {
               alignItems: 'center'
             }}>
             <FormControlLabel
-              control={
-                <Checkbox
-                  checked={false}
-                  value="1"
-                  className={classes.checkBox}
-                />
-              }
+              control={<Checkbox checked={false} value="1" color="primary" />}
               label={
                 <span className={classes.checkText}>
                   Private Health Insurance
@@ -375,13 +351,7 @@ export const HealthCare: React.FC = () => {
               alignItems: 'center'
             }}>
             <FormControlLabel
-              control={
-                <Checkbox
-                  checked={false}
-                  value="1"
-                  className={classes.checkBox}
-                />
-              }
+              control={<Checkbox checked={false} value="1" color="primary" />}
               label={
                 <span className={classes.checkText}>Government pension</span>
               }
@@ -404,24 +374,12 @@ export const HealthCare: React.FC = () => {
             }}>
             <FormControlLabel
               style={{ marginRight: '40px' }}
-              control={
-                <Checkbox
-                  checked={false}
-                  value="1"
-                  className={classes.checkBox}
-                />
-              }
+              control={<Checkbox checked={false} value="1" color="primary" />}
               label={<span className={classes.checkText}>Yes</span>}
             />
             <FormControlLabel
               style={{ marginRight: '40px' }}
-              control={
-                <Checkbox
-                  checked={false}
-                  value="1"
-                  className={classes.checkBox}
-                />
-              }
+              control={<Checkbox checked={false} value="1" color="primary" />}
               label={<span className={classes.checkText}>No</span>}
             />
           </div>
