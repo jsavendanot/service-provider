@@ -2,7 +2,7 @@ import React, { useState, useEffect, ChangeEvent } from 'react';
 import useRouter from 'utils/useRouter';
 import validate from 'validate.js';
 
-import { Grid, TextField, Checkbox } from '@material-ui/core';
+import { Grid, TextField } from '@material-ui/core';
 import { makeStyles } from '@material-ui/styles';
 import { KeyboardArrowLeft } from '@material-ui/icons';
 
@@ -311,6 +311,16 @@ export const SuggestService: React.FC = () => {
                     />
                   );
                 })}
+              </div>
+            </div>
+            <div
+              style={{
+                display: 'flex',
+                justifyContent: 'flex-end',
+                marginTop: '30px'
+              }}>
+              <div style={{ width: '162px' }}>
+                <Button type="primary">Save service</Button>
               </div>
             </div>
           </Grid>
