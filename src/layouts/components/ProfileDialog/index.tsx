@@ -40,7 +40,7 @@ const useStyles = makeStyles(() => ({
   }
 }));
 
-export default function ProviderDialog() {
+export default function ProfileDialog() {
   const classes = useStyles();
   const { history } = useRouter();
 
@@ -52,7 +52,7 @@ export default function ProviderDialog() {
           flexDirection: 'column',
           alignItems: 'center'
         }}
-        onClick={() => history.push('/provider')}>
+        onClick={() => history.push('/profile/kris')}>
         <Avatar
           alt=""
           className={classes.avatar}

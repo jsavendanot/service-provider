@@ -73,7 +73,7 @@ const Goals: React.FC<Props> = (props: Props) => {
               <div style={{ width: '186px' }}>
                 <Button
                   type="primary"
-                  click={() => history.push('/suggest/goal')}>
+                  click={() => history.push('/goals/1/suggest')}>
                   <div
                     style={{
                       display: 'flex',
