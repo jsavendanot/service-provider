@@ -640,7 +640,6 @@ const Organisation: React.FC<Props> = (props: Props) => {
                 fullWidth
                 multiline
                 value={formState.values.outline1 || ''}
-                disabled
                 autoComplete="off"
                 rows="4"
                 style={{ marginTop: '15px' }}
@@ -663,7 +662,6 @@ const Organisation: React.FC<Props> = (props: Props) => {
                 fullWidth
                 multiline
                 value={formState.values.outline2 || ''}
-                disabled
                 autoComplete="off"
                 rows="4"
                 style={{ marginTop: '15px' }}

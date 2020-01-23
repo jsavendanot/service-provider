@@ -824,7 +824,6 @@ const Individual: React.FC<Props> = (props: Props) => {
                 fullWidth
                 multiline
                 value=""
-                disabled
                 autoComplete="off"
                 rows="6"
                 style={{ marginTop: '15px' }}

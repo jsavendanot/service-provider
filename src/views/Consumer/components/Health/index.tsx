@@ -505,7 +505,6 @@ export const Health: React.FC = () => {
               fullWidth
               multiline
               value={formState.values.additionalInfo || ''}
-              disabled
               autoComplete="off"
               rows="4"
               style={{ marginTop: '15px' }}

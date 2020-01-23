@@ -300,18 +300,32 @@ export const SuggestService: React.FC = () => {
               style={{
                 display: 'flex',
                 flexDirection: 'column',
-                marginTop: '173px'
+                marginTop: '140px'
               }}>
               <span className={classes.name}>Information being shared</span>
               <div
                 style={{
                   display: 'flex',
                   flexDirection: 'column',
-                  border: '1px solid #C57D7D',
-                  boxSizing: 'border-box',
-                  marginTop: '20px'
+                  marginTop: '20px',
+                  borderBottom: '1px solid #C57D7D'
                 }}>
-                <SharedItem />
+                {[
+                  { id: 1, name: 'My goals' },
+                  { id: 2, name: 'My journey' },
+                  { id: 3, name: 'My story' },
+                  { id: 4, name: 'My safety plan' },
+                  { id: 5, name: 'My network' },
+                  { id: 6, name: 'Other:' }
+                ].map(element => {
+                  return (
+                    <SharedItem
+                      key={element.id}
+                      id={element.id}
+                      name={element.name}
+                    />
+                  );
+                })}
               </div>
             </div>
           </Grid>

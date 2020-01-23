@@ -226,7 +226,6 @@ export const JournalDetail: React.FC = () => {
                     fullWidth
                     multiline
                     value=""
-                    disabled
                     autoComplete="off"
                     rows="2"
                     className={classes.commentTextField}
