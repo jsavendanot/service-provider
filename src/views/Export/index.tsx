@@ -4,11 +4,11 @@ import { Grid } from '@material-ui/core';
 import { makeStyles } from '@material-ui/styles';
 
 import { Button } from 'components';
-import { SharedItem } from './components';
+import { SharedItem, Document, Toolbar } from './components';
 
 const useStyles = makeStyles(() => ({
   root: {
-    padding: '20px 100px'
+    padding: '20px 80px'
   },
   menuText: {
     fontFamily: 'Roboto',
@@ -44,10 +44,9 @@ export const Export: React.FC = () => {
       </Grid>
       <Grid item xs={12}>
         <Grid container>
-          <Grid item xs={5}>
+          <Grid item xs={3}>
             <div
               style={{
-                width: '260px',
                 display: 'flex',
                 flexDirection: 'column',
                 marginTop: '20px',
@@ -84,8 +83,11 @@ export const Export: React.FC = () => {
             </div>
           </Grid>
           <Grid item xs={1} />
-          <Grid item xs={6}>
-            file
+          <Grid item xs={7}>
+            <Document />
+          </Grid>
+          <Grid item xs={1}>
+            <Toolbar />
           </Grid>
         </Grid>
       </Grid>
