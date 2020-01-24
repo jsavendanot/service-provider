@@ -1,11 +1,18 @@
 import React from 'react';
 
+import { Button as MuiButton } from '@material-ui/core';
 import { makeStyles } from '@material-ui/styles';
-import { Theme } from '@material-ui/core';
 
-const useStyles = makeStyles((theme: Theme) => ({
+const defaultStyles = {
+  width: '100%',
+  cursor: 'pointer',
+  '&:focus': {
+    outline: 'none'
+  }
+};
+
+const useStyles = makeStyles(() => ({
   primary: {
-    width: '100%',
     height: '50px',
     borderRadius: '25px',
     fontFamily: 'Roboto',
@@ -13,23 +20,42 @@ const useStyles = makeStyles((theme: Theme) => ({
     fontWeight: 700,
     fontSize: '18px',
     lineHeight: '21px',
-    cursor: 'pointer',
     boxSizing: 'border-box',
     border: 'none',
     color: '#FFFFFF',
     backgroundColor: '#692B40',
-    '&:focus': {
-      outline: 'none'
-    },
-    '&:hover': {
-      backgroundColor: '#692B40'
-    },
-    '&:active': {
-      backgroundColor: '#692B40'
-    }
+    ...defaultStyles
+  },
+  secondary: {
+    height: '50px',
+    borderRadius: '25px',
+    fontFamily: 'Roboto',
+    fontStyle: 'normal',
+    fontWeight: 700,
+    fontSize: '18px',
+    lineHeight: '21px',
+    boxSizing: 'border-box',
+    color: '#692B40',
+    backgroundColor: '#FFFFFF',
+    border: '1px solid #692B40',
+    ...defaultStyles
+  },
+  tertiary: {
+    height: '50px',
+    borderRadius: '25px',
+    fontFamily: 'Roboto',
+    fontStyle: 'normal',
+    fontWeight: 700,
+    fontSize: '18px',
+    lineHeight: '21px',
+    boxSizing: 'border-box',
+    color: '#C57D7D',
+    backgroundColor: '#FFFFFF',
+    border: '1px solid #C57D7D',
+    ...defaultStyles
   },
   primarySmall: {
-    width: '100%',
+    height: '35px',
     borderRadius: '25px',
     fontFamily: 'Roboto',
     fontStyle: 'normal',
@@ -37,53 +63,57 @@ const useStyles = makeStyles((theme: Theme) => ({
     fontSize: '14px',
     lineHeight: '16px',
     letterSpacing: '1.25px',
-    cursor: 'pointer',
-    height: '35px',
     boxSizing: 'border-box',
     border: 'none',
     color: '#FFFFFF',
     backgroundColor: '#692B40',
-    '&:focus': {
-      outline: 'none'
-    },
-    '&:hover': {
-      backgroundColor: '#692B40'
-    },
-    '&:active': {
-      backgroundColor: '#692B40'
-    }
+    textTransform: 'uppercase',
+    ...defaultStyles
   },
-  secondary: {
-    width: '100%',
-    height: '50px',
+  secondarySmall: {
+    height: '35px',
     borderRadius: '25px',
     fontFamily: 'Roboto',
     fontStyle: 'normal',
-    fontWeight: 700,
-    fontSize: '18px',
-    lineHeight: '21px',
-    cursor: 'pointer',
+    fontWeight: 500,
+    fontSize: '14px',
+    lineHeight: '16px',
     boxSizing: 'border-box',
     color: '#692B40',
-    boxShadow:
-      '0px 2px 4px rgba(0, 0, 0, 0.14), 0px 4px 5px rgba(0, 0, 0, 0.12), 0px 1px 10px rgba(0, 0, 0, 0.2)',
+    letterSpacing: '1.25px',
     backgroundColor: '#FFFFFF',
-    '&:focus': {
-      outline: 'none'
-    },
-    '&:hover': {
-      backgroundColor: '#FFFFFF'
-    },
-    '&:active': {
-      backgroundColor: '#FFFFFF'
-    }
+    textTransform: 'uppercase',
+    border: '1px solid #692B40',
+    ...defaultStyles
+  },
+  tertiarySmall: {
+    height: '35px',
+    borderRadius: '25px',
+    fontFamily: 'Roboto',
+    fontStyle: 'normal',
+    fontWeight: 500,
+    fontSize: '14px',
+    lineHeight: '16px',
+    boxSizing: 'border-box',
+    color: '#C57D7D',
+    letterSpacing: '1.25px',
+    backgroundColor: '#FFFFFF',
+    textTransform: 'uppercase',
+    border: '1px solid #C57D7D',
+    ...defaultStyles
   }
 }));
 
 type Props = {
   children: React.ReactNode;
   click?: () => void;
-  type: 'primary' | 'secondary' | 'primarySmall';
+  type:
+    | 'primary'
+    | 'secondary'
+    | 'primarySmall'
+    | 'secondarySmall'
+    | 'tertiary'
+    | 'tertiarySmall';
   disabled?: boolean;
 };
 
@@ -97,15 +127,21 @@ const Button: React.FC<Props> = (props: Props) => {
     classType = classes.primarySmall;
   } else if (type === 'secondary') {
     classType = classes.secondary;
+  } else if (type === 'secondarySmall') {
+    classType = classes.secondarySmall;
+  } else if (type === 'tertiary') {
+    classType = classes.tertiary;
+  } else if (type === 'tertiarySmall') {
+    classType = classes.tertiarySmall;
   }
   return disabled ? (
-    <button className={classType} style={{ opacity: '0.2' }}>
+    <MuiButton className={classType} style={{ opacity: '0.2' }}>
       {children}
-    </button>
+    </MuiButton>
   ) : (
-    <button className={classType} onClick={click}>
+    <MuiButton className={classType} onClick={click}>
       {children}
-    </button>
+    </MuiButton>
   );
 };
 

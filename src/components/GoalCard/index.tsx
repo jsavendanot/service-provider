@@ -6,6 +6,7 @@ import { Grid, LinearProgress, Divider } from '@material-ui/core';
 import { makeStyles, withStyles } from '@material-ui/styles';
 import { Add } from '@material-ui/icons';
 
+import { Button } from 'components';
 import { StepCard } from './components';
 
 const useStyles = makeStyles(() => ({
@@ -161,40 +162,24 @@ export const GoalCard: React.FC<Props> = (props: Props) => {
       </Grid>
       <Grid item xs={12}>
         <div className={classes.footer}>
-          <button
-            className={classes.actionButton}
-            style={{ background: '#FFFFFF' }}>
-            <span
-              className={classes.actionButtonText}
-              style={{ color: '#692B40' }}>
-              Delete
-            </span>
-          </button>
-          <button
-            className={classes.actionButton}
-            style={{
-              boxShadow:
-                '0px 2px 4px rgba(0, 0, 0, 0.14), 0px 4px 5px rgba(0, 0, 0, 0.12), 0px 1px 10px rgba(0, 0, 0, 0.2)',
-              border: 'none'
-            }}>
-            <div style={{ display: 'flex', alignItems: 'center' }}>
-              <Add
-                style={{
-                  fill: '#FFFFFF'
-                }}
-              />
-              <span className={classes.actionButtonText}>Add step</span>
-            </div>
-          </button>
-          <button
-            className={classes.actionButton}
-            style={{ background: '#FFFFFF' }}>
-            <span
-              className={classes.actionButtonText}
-              style={{ color: '#692B40' }}>
-              Edit
-            </span>
-          </button>
+          <div>
+            <Button type="secondarySmall">Delete</Button>
+          </div>
+          <div>
+            <Button type="primarySmall">
+              <div style={{ display: 'flex', alignItems: 'center' }}>
+                <Add
+                  style={{
+                    fill: '#FFFFFF'
+                  }}
+                />
+                Add step
+              </div>
+            </Button>
+          </div>
+          <div>
+            <Button type="secondarySmall">Edit</Button>
+          </div>
         </div>
       </Grid>
     </Grid>
