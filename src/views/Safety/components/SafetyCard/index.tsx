@@ -1,5 +1,6 @@
 import React from 'react';
 import clsx from 'clsx';
+import { SafetyCardType } from 'types/safety';
 
 import { makeStyles } from '@material-ui/styles';
 import { KeyboardArrowUp, Add } from '@material-ui/icons';
@@ -63,18 +64,7 @@ const useStyles = makeStyles(() => ({
   }
 }));
 
-type Props = {
-  id: number;
-  title: string;
-  description: string;
-  values: {
-    id: number;
-    value: string;
-  }[];
-  collapse: boolean;
-  change: () => void;
-};
-export const SafetyCard: React.FC<Props> = ({
+export const SafetyCard: React.FC<SafetyCardType> = ({
   id,
   title,
   description,
@@ -86,7 +76,7 @@ export const SafetyCard: React.FC<Props> = ({
 
   return (
     <div className={classes.root}>
-      <div style={{ display: 'flex', alignItems: 'center' }}>
+      <div style={{ display: 'flex', alignItems: 'flex-start' }}>
         <div className={classes.title}>{`${id}. ${title}`}</div>
         <KeyboardArrowUp
           fontSize="large"

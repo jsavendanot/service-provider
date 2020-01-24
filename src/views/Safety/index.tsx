@@ -3,7 +3,7 @@ import React, { useState, ChangeEvent } from 'react';
 import { Grid, Switch } from '@material-ui/core';
 import { makeStyles } from '@material-ui/styles';
 
-import { SafetyCard } from './components';
+import { SafetyCard, Warning, Unwell, Contact } from './components';
 
 const useStyles = makeStyles(() => ({
   root: {
@@ -38,7 +38,8 @@ export const Safety: React.FC = () => {
 
   const [collapses, setCollapses] = useState({
     staywell: false,
-    stress: false
+    stress: false,
+    warning: false
   });
 
   const handleCollapse = (name: string, value: boolean) => {
@@ -53,16 +54,18 @@ export const Safety: React.FC = () => {
     state
       ? setCollapses({
           staywell: false,
-          stress: false
+          stress: false,
+          warning: false
         })
       : setCollapses({
           staywell: true,
-          stress: true
+          stress: true,
+          warning: true
         });
   };
 
   return (
-    <Grid container justify="center" spacing={3} className={classes.root}>
+    <Grid container spacing={3} className={classes.root}>
       <Grid item xs={12}>
         <div
           style={{ marginTop: '37px', display: 'flex', alignItems: 'center' }}>
@@ -159,6 +162,75 @@ export const Safety: React.FC = () => {
             })}
           </Grid>
         </Grid>
+      </Grid>
+      <Grid item xs={12}>
+        <Grid container>
+          <Grid item xs={5}>
+            {[
+              {
+                id: 3,
+                difficulty: {
+                  title: 'Warning signs I may be having difficulty',
+                  description:
+                    'Things I or others may notice when I am unwell.',
+                  values: [
+                    {
+                      id: 1,
+                      value: 'Call in sick to work a lot'
+                    },
+                    {
+                      id: 2,
+                      value:
+                        'Having trouble sleeping or sleeping or sleeping too much'
+                    },
+                    {
+                      id: 3,
+                      value: 'Struggling to keep up with my usual routine'
+                    }
+                  ]
+                },
+                plan: {
+                  title: 'Warning signs I may be having difficulty',
+                  description:
+                    'Things I or others may notice when I am unwell.',
+                  values: [
+                    {
+                      id: 1,
+                      value: 'Call in sick to work a lot'
+                    },
+                    {
+                      id: 2,
+                      value:
+                        'Having trouble sleeping or sleeping or sleeping too much'
+                    },
+                    {
+                      id: 3,
+                      value: 'Struggling to keep up with my usual routine'
+                    }
+                  ]
+                }
+              }
+            ].map(value => {
+              return (
+                <Warning
+                  key={value.id}
+                  id={value.id}
+                  difficulty={value.difficulty}
+                  plan={value.plan}
+                  collapse={collapses.warning}
+                  change={() => handleCollapse('warning', !collapses.warning)}
+                />
+              );
+            })}
+          </Grid>
+          <Grid item xs={1} />
+          <Grid item xs={5}>
+            <Unwell />
+          </Grid>
+        </Grid>
+      </Grid>
+      <Grid item xs={5}>
+        <Contact />
       </Grid>
     </Grid>
   );
