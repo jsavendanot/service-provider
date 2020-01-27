@@ -71,7 +71,6 @@ export const Dashboard: React.FC<Props> = (props: Props) => {
   const classes = useStyles();
   const { match } = props;
   const { id } = match.params;
-  console.log(id);
 
   return (
     <Grid container justify="center">
