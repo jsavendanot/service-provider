@@ -253,10 +253,14 @@ export const Safety: React.FC = () => {
                         value: 'My rent be paid'
                       }
                     ],
-                    support: [
+                    supports: [
                       {
                         id: 1,
                         value: 'Rudy'
+                      },
+                      {
+                        id: 2,
+                        value: 'Mum'
                       }
                     ]
                   }
@@ -270,7 +274,7 @@ export const Safety: React.FC = () => {
                         value: 'Work to be contacted'
                       }
                     ],
-                    support: [
+                    supports: [
                       {
                         id: 1,
                         value: 'Mum'

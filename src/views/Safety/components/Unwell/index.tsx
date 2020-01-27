@@ -3,7 +3,13 @@ import clsx from 'clsx';
 import { UnwellType } from 'types/safety';
 
 import { makeStyles } from '@material-ui/styles';
-import { KeyboardArrowUp, Add, CheckCircle, Block } from '@material-ui/icons';
+import {
+  KeyboardArrowUp,
+  Add,
+  CheckCircle,
+  Block,
+  People
+} from '@material-ui/icons';
 
 import { Button } from 'components';
 
@@ -78,6 +84,21 @@ const useStyles = makeStyles(() => ({
     fontSize: '18px',
     lineHeight: '21px',
     color: '#B50000'
+  },
+  support: {
+    paddingLeft: '10px',
+    marginBottom: '10px',
+    display: 'flex',
+    alignItems: 'center'
+  },
+  supportText: {
+    fontFamily: 'Thasadith',
+    fontStyle: 'normal',
+    fontWeight: 700,
+    fontSize: '18px',
+    lineHeight: '23px',
+    color: '#C57D7D',
+    marginRight: '5px'
   }
 }));
 
@@ -138,6 +159,20 @@ export const Unwell: React.FC<UnwellType> = ({
                       </div>
                     );
                   })}
+                  {item.supports && (
+                    <div className={classes.support}>
+                      <People
+                        style={{ fill: '#C57D7D', marginRight: '10px' }}
+                      />
+                      {item.supports.map(value => {
+                        return (
+                          <span className={classes.supportText}>
+                            {value.value},
+                          </span>
+                        );
+                      })}
+                    </div>
+                  )}
                 </div>
               );
             })}
@@ -189,6 +224,20 @@ export const Unwell: React.FC<UnwellType> = ({
                       </div>
                     );
                   })}
+                  {item.supports && (
+                    <div className={classes.support}>
+                      <People
+                        style={{ fill: '#C57D7D', marginRight: '10px' }}
+                      />
+                      {item.supports.map(value => {
+                        return (
+                          <span className={classes.supportText}>
+                            {value.value},
+                          </span>
+                        );
+                      })}
+                    </div>
+                  )}
                 </div>
               );
             })}
