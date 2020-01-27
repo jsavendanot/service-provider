@@ -39,7 +39,8 @@ export const Safety: React.FC = () => {
   const [collapses, setCollapses] = useState({
     staywell: false,
     stress: false,
-    warning: false
+    warning: false,
+    unwell: false
   });
 
   const handleCollapse = (name: string, value: boolean) => {
@@ -55,12 +56,14 @@ export const Safety: React.FC = () => {
       ? setCollapses({
           staywell: false,
           stress: false,
-          warning: false
+          warning: false,
+          unwell: false
         })
       : setCollapses({
           staywell: true,
           stress: true,
-          warning: true
+          warning: true,
+          unwell: true
         });
   };
 
@@ -225,7 +228,80 @@ export const Safety: React.FC = () => {
           </Grid>
           <Grid item xs={1} />
           <Grid item xs={5}>
-            <Unwell />
+            {[
+              {
+                id: 4,
+                title: 'If I become unwell, I would like others to...',
+                description:
+                  'If I become unwell I would like these to happen or not happen.',
+                pleaseDo: [
+                  {
+                    id: 1,
+                    values: [
+                      {
+                        id: 1,
+                        value:
+                          'Remove or lock up items that could be used to harm myself or others'
+                      }
+                    ]
+                  },
+                  {
+                    id: 2,
+                    values: [
+                      {
+                        id: 1,
+                        value: 'My rent be paid'
+                      }
+                    ],
+                    support: [
+                      {
+                        id: 1,
+                        value: 'Rudy'
+                      }
+                    ]
+                  }
+                ],
+                dontDo: [
+                  {
+                    id: 1,
+                    values: [
+                      {
+                        id: 1,
+                        value: 'Work to be contacted'
+                      }
+                    ],
+                    support: [
+                      {
+                        id: 1,
+                        value: 'Mum'
+                      }
+                    ]
+                  },
+                  {
+                    id: 2,
+                    values: [
+                      {
+                        id: 1,
+                        value: 'To be cared by a male worker'
+                      }
+                    ]
+                  }
+                ]
+              }
+            ].map(value => {
+              return (
+                <Unwell
+                  key={value.id}
+                  id={value.id}
+                  title={value.title}
+                  description={value.description}
+                  pleaseDo={value.pleaseDo}
+                  dontDo={value.dontDo}
+                  collapse={collapses.unwell}
+                  change={() => handleCollapse('unwell', !collapses.unwell)}
+                />
+              );
+            })}
           </Grid>
         </Grid>
       </Grid>

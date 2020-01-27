@@ -31,3 +31,33 @@ export type WarningType = {
   collapse: boolean;
   change: () => void;
 };
+
+export type UnwellType = {
+  id: number;
+  title: string;
+  description: string;
+  pleaseDo: {
+    id: number;
+    values: {
+      id: number;
+      value: string;
+    }[];
+    supports?: {
+      id: number;
+      value: string;
+    }[];
+  }[];
+  dontDo: {
+    id: number;
+    values: {
+      id: number;
+      value: string;
+    }[];
+    supports?: {
+      id: number;
+      value: string;
+    }[];
+  }[];
+  collapse: boolean;
+  change: () => void;
+};

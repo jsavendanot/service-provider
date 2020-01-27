@@ -69,8 +69,6 @@ type Props = RouteComponentProps<MatchParams>;
 
 export const Dashboard: React.FC<Props> = (props: Props) => {
   const classes = useStyles();
-  const { match } = props;
-  const { id } = match.params;
 
   return (
     <Grid container justify="center">
