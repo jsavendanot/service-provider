@@ -103,6 +103,11 @@ const routes: RouteConfig[] = [
         component: lazy(() => import('views/Story'))
       },
       {
+        path: '/story/:id/suggest',
+        exact: true,
+        component: lazy(() => import('views/Story/SuggestArea'))
+      },
+      {
         path: '/safety',
         exact: true,
         component: lazy(() => import('views/Safety'))
