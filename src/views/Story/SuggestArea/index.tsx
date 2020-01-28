@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import useRouter from 'utils/useRouter';
+import { RouteComponentProps } from 'react-router-dom';
 import { Area } from 'types/story';
 import axios from 'utils/axios';
 
@@ -7,6 +7,7 @@ import { Grid } from '@material-ui/core';
 import { makeStyles } from '@material-ui/styles';
 import { KeyboardArrowLeft } from '@material-ui/icons';
 
+import { AreaBox, Button } from 'components';
 import { AreaCard } from './components';
 
 const useStyles = makeStyles(() => ({
@@ -43,20 +44,22 @@ const useStyles = makeStyles(() => ({
   }
 }));
 
-type Props = {
-  myAreas: Area[];
-};
+interface MatchParams {
+  id: string;
+}
+type Props = RouteComponentProps<MatchParams>;
 
-export const SuggestArea: React.FC = () => {
+export const SuggestArea: React.FC<Props> = (props: Props) => {
   const classes = useStyles();
-  const { history } = useRouter();
+  const { history } = props;
 
   const [areas, setAreas] = useState<Area[]>([]);
+  const [myAreas, setMyAreas] = useState<Area[]>([]);
 
   useEffect(() => {
     let mounted = true;
 
-    const fetchData = () => {
+    const fetchAreas = () => {
       axios.get('/api/areas').then(response => {
         if (mounted) {
           setAreas(response.data.areas);
@@ -64,7 +67,16 @@ export const SuggestArea: React.FC = () => {
       });
     };
 
-    fetchData();
+    const fetchMyAreas = () => {
+      axios.get('/api/myareas').then(response => {
+        if (mounted) {
+          setMyAreas(response.data.myareas);
+        }
+      });
+    };
+
+    fetchAreas();
+    fetchMyAreas();
 
     return () => {
       mounted = false;
@@ -101,9 +113,13 @@ export const SuggestArea: React.FC = () => {
                 style={{
                   borderRight: '2px dashed #C57D7D'
                 }}>
-                {areas.map(area => {
-                  return <AreaCard key={area.image} area={area} />;
-                })}
+                {areas
+                  .filter(
+                    item => !myAreas.find(element => element.id === item.id)
+                  )
+                  .map(area => {
+                    return <AreaCard key={area.image} area={area} />;
+                  })}
               </div>
             </div>
           </Grid>
@@ -112,11 +128,39 @@ export const SuggestArea: React.FC = () => {
               style={{
                 display: 'flex',
                 flexDirection: 'column',
-                paddingLeft: '20px',
-                marginTop: '62px'
+                padding: '0 20px',
+                marginTop: '60px'
               }}>
-              <span className={classes.subTitle}>Bessie's focus areas</span>
-              <div>areas</div>
+              <span
+                className={classes.subTitle}
+                style={{ marginBottom: '5px' }}>
+                Bessie's focus areas
+              </span>
+              <Grid container spacing={3} style={{ marginTop: '1px' }}>
+                {myAreas.map(area => {
+                  return (
+                    <Grid item xs={5} key={area.id}>
+                      <AreaBox
+                        id={area.id}
+                        name={area.name}
+                        background={area.background}
+                        image={area.image}
+                      />
+                    </Grid>
+                  );
+                })}
+                <Grid item xs={5} />
+                <Grid item xs={5}>
+                  <div
+                    style={{
+                      marginTop: '30px'
+                    }}>
+                    <div style={{ width: '162px' }}>
+                      <Button type="primarySmall">Save Areas</Button>
+                    </div>
+                  </div>
+                </Grid>
+              </Grid>
             </div>
           </Grid>
         </Grid>
