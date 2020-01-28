@@ -1,7 +1,8 @@
-import React from 'react';
+import React, { useState, ChangeEvent } from 'react';
 import clsx from 'clsx';
 import { SafetyCardType } from 'types/safety';
 
+import { TextField } from '@material-ui/core';
 import { makeStyles } from '@material-ui/styles';
 import { KeyboardArrowUp, Add } from '@material-ui/icons';
 
@@ -40,6 +41,7 @@ const useStyles = makeStyles(() => ({
     flexDirection: 'column'
   },
   value: {
+    width: '80%',
     padding: '10px',
     backgroundColor: '#FFFAE9',
     borderRadius: '4px',
@@ -61,6 +63,16 @@ const useStyles = makeStyles(() => ({
     fontSize: '14px',
     lineHeight: '23px',
     color: '#B7B7B8'
+  },
+  textFieldContainer: {
+    padding: '10px 0',
+    display: 'flex',
+    alignItems: 'center'
+  },
+  textField: {
+    width: '80%',
+    background: '#FFFAE9',
+    marginRight: '10px'
   }
 }));
 
@@ -73,6 +85,15 @@ export const SafetyCard: React.FC<SafetyCardType> = ({
   change
 }) => {
   const classes = useStyles();
+
+  /** Handle Fields */
+  const [addClicked, setAddClicked] = useState(false);
+  const [input, setInput] = useState('');
+
+  const handleChange = (event: ChangeEvent<HTMLInputElement>) => {
+    event.persist();
+    setInput(event.target.value);
+  };
 
   return (
     <div className={classes.root}>
@@ -100,9 +121,26 @@ export const SafetyCard: React.FC<SafetyCardType> = ({
               );
             })}
           </div>
+          {addClicked && (
+            <div className={classes.textFieldContainer}>
+              <TextField
+                fullWidth
+                label="Type here..."
+                name="input"
+                autoComplete="off"
+                value={input}
+                variant="outlined"
+                className={classes.textField}
+                onChange={handleChange}
+              />
+              <div style={{ width: '50px' }}>
+                <Button type="primarySmall">Add</Button>
+              </div>
+            </div>
+          )}
           <div className={classes.action}>
             <div style={{ width: '91px', marginRight: '20px' }}>
-              <Button type="primarySmall">
+              <Button type="primarySmall" click={() => setAddClicked(true)}>
                 <Add style={{ marginRight: '5px' }} />
                 Add
               </Button>
