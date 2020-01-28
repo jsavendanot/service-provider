@@ -12,7 +12,7 @@ export const Services: React.FC = () => {
   useEffect(() => {
     let mounted = true;
 
-    const fetchNetwork = () => {
+    const fetchData = () => {
       axios.get('/api/networks').then(response => {
         if (mounted) {
           setNetworks(response.data.services);
@@ -20,7 +20,7 @@ export const Services: React.FC = () => {
       });
     };
 
-    fetchNetwork();
+    fetchData();
 
     return () => {
       mounted = false;

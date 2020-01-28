@@ -166,7 +166,7 @@ export const Unwell: React.FC<UnwellType> = ({
                       />
                       {item.supports.map(value => {
                         return (
-                          <span className={classes.supportText}>
+                          <span key={value.id} className={classes.supportText}>
                             {value.value},
                           </span>
                         );
@@ -231,7 +231,7 @@ export const Unwell: React.FC<UnwellType> = ({
                       />
                       {item.supports.map(value => {
                         return (
-                          <span className={classes.supportText}>
+                          <span key={value.id} className={classes.supportText}>
                             {value.value},
                           </span>
                         );

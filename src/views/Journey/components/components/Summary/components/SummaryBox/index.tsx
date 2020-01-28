@@ -124,7 +124,7 @@ const SummaryBox: React.FC = () => {
   useEffect(() => {
     let mounted = true;
 
-    const fetchNetwork = () => {
+    const fetchData = () => {
       axios.get('/api/goals').then(response => {
         if (mounted) {
           setGoals(response.data.current);
@@ -132,7 +132,7 @@ const SummaryBox: React.FC = () => {
       });
     };
 
-    fetchNetwork();
+    fetchData();
 
     return () => {
       mounted = false;

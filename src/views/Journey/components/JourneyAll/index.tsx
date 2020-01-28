@@ -27,7 +27,7 @@ const JourneyAll: React.FC = () => {
   useEffect(() => {
     let mounted = true;
 
-    const fetchNetwork = () => {
+    const fetchData = () => {
       axios.get('/api/journals').then(response => {
         if (mounted) {
           setJournsl(response.data.journals);
@@ -35,7 +35,7 @@ const JourneyAll: React.FC = () => {
       });
     };
 
-    fetchNetwork();
+    fetchData();
 
     return () => {
       mounted = false;
