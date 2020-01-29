@@ -99,25 +99,33 @@ mock.onGet('/api/myareas').reply(200, {
       id: 1,
       image: '/images/story/area/physical.svg',
       name: 'Physical health / Self-care',
-      background: '#B5EAE7'
+      background: '#B5EAE7',
+      description:
+        'Things to consider here include how you can take care of your physical health, keeping clean, how you present yourself, being able to deal with stress and knowing how to keep yourself feeling well.'
     },
     {
       id: 2,
       image: '/images/story/area/relationships.svg',
       name: 'Relationships',
-      background: '#FFCCCC'
+      background: '#FFCCCC',
+      description:
+        'Things to consider here include how you can take care of your physical health, keeping clean, how you present yourself, being able to deal with stress and knowing how to keep yourself feeling well.'
     },
     {
       id: 3,
       image: '/images/story/area/education.svg',
       name: 'Work / Education',
-      background: '#E0E0E0'
+      background: '#E0E0E0',
+      description:
+        'Things to consider here include how you can take care of your physical health, keeping clean, how you present yourself, being able to deal with stress and knowing how to keep yourself feeling well.'
     },
     {
       id: 4,
       image: '/images/story/area/responsibility.svg',
       name: 'Responsibility',
-      background: '#FFEE4D'
+      background: '#FFEE4D',
+      description:
+        'Things to consider here include how you can take care of your physical health, keeping clean, how you present yourself, being able to deal with stress and knowing how to keep yourself feeling well.'
     }
   ]
 });
