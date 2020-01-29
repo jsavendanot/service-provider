@@ -7,8 +7,7 @@ import { Grid } from '@material-ui/core';
 import { makeStyles } from '@material-ui/styles';
 import { KeyboardArrowLeft } from '@material-ui/icons';
 
-import { Button } from 'components';
-import { AreaSection } from './components';
+import { AreaSection, GoalForm } from './components';
 
 const useStyles = makeStyles(() => ({
   root: {
@@ -76,7 +75,7 @@ export const SuggestGoal: React.FC<Props> = (props: Props) => {
 
   const handleRemove = (id: number) => {
     myAreas.splice(
-      myAreas.findIndex(area => area.id == id),
+      myAreas.findIndex(area => area.id === id),
       1
     );
     setMyAreas([...myAreas]);
@@ -132,8 +131,9 @@ export const SuggestGoal: React.FC<Props> = (props: Props) => {
               />
             </div>
           </Grid>
-          <Grid item xs={6}>
-            goal name
+          <Grid item xs={1} />
+          <Grid item xs={5}>
+            <GoalForm />
           </Grid>
         </Grid>
       </Grid>
