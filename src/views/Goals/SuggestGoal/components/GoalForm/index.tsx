@@ -86,7 +86,7 @@ export const GoalForm: React.FC = () => {
   /** Deadline */
   const [deadline, setDeadline] = useState(false);
 
-  const HandeSwitchChange = (event: ChangeEvent<HTMLInputElement>) => {
+  const handeSwitch = (event: ChangeEvent<HTMLInputElement>) => {
     setDeadline(event.target.checked);
   };
 
@@ -123,8 +123,8 @@ export const GoalForm: React.FC = () => {
     }));
   };
 
-  const hasError = (field: string): boolean =>
-    field in formState.touched && field in formState.errors ? true : false;
+  // const hasError = (field: string): boolean =>
+  //   field in formState.touched && field in formState.errors ? true : false;
 
   return (
     <div className={classes.root}>
@@ -196,18 +196,22 @@ export const GoalForm: React.FC = () => {
             style={{
               display: 'flex',
               alignItems: 'center',
-              justifyContent: 'space-between'
+              justifyContent: 'space-between',
+              padding: '10px 0 40px'
             }}>
             <span className={classes.title}>Goal Deadline</span>
             <Switch
               checked={deadline}
               color="primary"
               value={formState.values.deadline}
-              onChange={event => HandeSwitchChange(event)}
+              onChange={event => handeSwitch(event)}
             />
           </div>
         </Grid>
         <Grid item xs={12}>
+          <div className={classes.title} style={{ marginBottom: '15px' }}>
+            Steps to achieve the goal
+          </div>
           <StepForm />
         </Grid>
       </Grid>
