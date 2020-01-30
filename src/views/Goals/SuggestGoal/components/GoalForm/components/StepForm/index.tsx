@@ -3,23 +3,26 @@ import validate from 'validate.js';
 import uuid from 'uuid/v1';
 import moment from 'moment';
 import { StepForm as StepFormType } from 'types/goals';
+import clsx from 'clsx';
 
 import { TextField } from '@material-ui/core';
 import { makeStyles } from '@material-ui/styles';
 
-import { Button } from 'components';
 import { Repeat, DateTime, Share } from './components';
-import { Add } from '@material-ui/icons';
 
 const useStyles = makeStyles(() => ({
   root: {
     padding: '15px',
     background: '#FFFFFF',
-    border: '1px solid #C57D7D',
+    borderTop: '1px solid #C57D7D',
     boxSizing: 'border-box',
     borderRadius: '7px',
     display: 'flex',
     flexDirection: 'column'
+  },
+  topDashBorder: {
+    borderTop: '2px dashed #C57D7D',
+    borderRadius: '0'
   },
   title: {
     fontFamily: 'Roboto',
@@ -54,7 +57,11 @@ type FormStateType = {
   };
 };
 
-export const StepForm: React.FC = () => {
+type Props = {
+  stepNum: number;
+};
+
+export const StepForm: React.FC<Props> = ({ stepNum }) => {
   const classes = useStyles();
 
   const [step] = useState<StepFormType>({
@@ -117,8 +124,8 @@ export const StepForm: React.FC = () => {
     field in formState.touched && field in formState.errors ? true : false;
 
   return (
-    <div className={classes.root}>
-      <span className={classes.title}>Step 1</span>
+    <div className={clsx(classes.root, stepNum > 1 && classes.topDashBorder)}>
+      <span className={classes.title}>Step {stepNum}</span>
       <TextField
         error={hasError('stepName')}
         helperText={
@@ -137,14 +144,6 @@ export const StepForm: React.FC = () => {
       <Repeat step={step} />
       <DateTime step={step} />
       <Share step={step} />
-      <div style={{ display: 'flex', justifyContent: 'center' }}>
-        <div style={{ width: '129px', margin: '10px 0' }}>
-          <Button type="primarySmall">
-            <Add style={{ marginRight: '5px' }} />
-            Add step
-          </Button>
-        </div>
-      </div>
     </div>
   );
 };

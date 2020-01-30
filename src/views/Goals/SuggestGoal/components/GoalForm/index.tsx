@@ -6,6 +6,7 @@ import { makeStyles } from '@material-ui/styles';
 
 import { Button } from 'components';
 import { StepForm } from './components';
+import { Add } from '@material-ui/icons';
 
 const useStyles = makeStyles(() => ({
   root: {
@@ -37,6 +38,18 @@ const useStyles = makeStyles(() => ({
     lineHeight: '23px',
     color: '#37474F',
     margin: '10px 0 5px'
+  },
+  stepForms: {
+    border: '1px solid #C57D7D',
+    borderTop: 'none',
+    boxSizing: 'border-box',
+    borderRadius: '7px',
+    background: '#FFFFFF'
+  },
+  buttonContainer: {
+    display: 'flex',
+    justifyContent: 'center',
+    paddingBottom: '25px'
   }
 }));
 
@@ -123,8 +136,8 @@ export const GoalForm: React.FC = () => {
     }));
   };
 
-  // const hasError = (field: string): boolean =>
-  //   field in formState.touched && field in formState.errors ? true : false;
+  /** Steps */
+  const [numberOfSteps, setNumberOfSteps] = useState(1);
 
   return (
     <div className={classes.root}>
@@ -212,7 +225,34 @@ export const GoalForm: React.FC = () => {
           <div className={classes.title} style={{ marginBottom: '15px' }}>
             Steps to achieve the goal
           </div>
-          <StepForm />
+          <div className={classes.stepForms}>
+            {[...Array(numberOfSteps)].map((_, i) => {
+              return <StepForm stepNum={i + 1} />;
+            })}
+
+            <div className={classes.buttonContainer}>
+              <div style={{ width: '129px' }}>
+                <Button
+                  type="primarySmall"
+                  click={() => setNumberOfSteps(value => value + 1)}>
+                  <Add style={{ marginRight: '5px' }} />
+                  Add step
+                </Button>
+              </div>
+            </div>
+          </div>
+        </Grid>
+        <Grid item xs={12}>
+          <div
+            style={{
+              display: 'flex',
+              justifyContent: 'flex-end',
+              marginTop: '50px'
+            }}>
+            <div style={{ width: '162px' }}>
+              <Button type="primary">Confirm Goal</Button>
+            </div>
+          </div>
         </Grid>
       </Grid>
     </div>
