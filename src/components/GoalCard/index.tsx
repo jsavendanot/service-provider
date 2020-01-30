@@ -1,6 +1,7 @@
 import React from 'react';
 import { Goal } from 'types/goals';
 import clsx from 'clsx';
+import useRouter from 'utils/useRouter';
 
 import { Grid, LinearProgress, Divider } from '@material-ui/core';
 import { makeStyles, withStyles } from '@material-ui/styles';
@@ -115,6 +116,7 @@ type Props = {
 export const GoalCard: React.FC<Props> = (props: Props) => {
   const classes = useStyles();
   const { goal } = props;
+  const { history } = useRouter();
   return (
     <Grid container className={classes.root}>
       <Grid item xs={12}>
@@ -178,7 +180,11 @@ export const GoalCard: React.FC<Props> = (props: Props) => {
             </Button>
           </div>
           <div>
-            <Button type="secondarySmall">Edit</Button>
+            <Button
+              type="secondarySmall"
+              click={() => history.push(`/goal/${goal.id}`)}>
+              View
+            </Button>
           </div>
         </div>
       </Grid>

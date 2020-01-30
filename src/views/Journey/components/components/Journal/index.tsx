@@ -108,7 +108,7 @@ const Journal: React.FC<Props> = (props: Props) => {
       <Paper style={{ borderRadius: '14px', padding: '10px' }} elevation={2}>
         <div
           className={classes.content}
-          onClick={() => history.push('/journal')}>
+          onClick={() => history.push(`/journal/${journal.id}`)}>
           <span className={classes.title}>{journal.title}</span>
           <span className={classes.text}>{journal.journalText}</span>
         </div>
