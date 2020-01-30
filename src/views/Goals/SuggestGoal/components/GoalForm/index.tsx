@@ -227,7 +227,7 @@ export const GoalForm: React.FC = () => {
           </div>
           <div className={classes.stepForms}>
             {[...Array(numberOfSteps)].map((_, i) => {
-              return <StepForm stepNum={i + 1} />;
+              return <StepForm key={i} stepNum={i + 1} />;
             })}
 
             <div className={classes.buttonContainer}>
