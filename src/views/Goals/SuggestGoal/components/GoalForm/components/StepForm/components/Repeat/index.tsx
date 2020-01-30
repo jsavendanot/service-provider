@@ -39,7 +39,7 @@ const useStyles = makeStyles(() => ({
   selectFrequency: {
     width: '65%',
     backgroundColor: '#FFEAEA',
-    border: '1px solid #73BA9B',
+    border: '1px solid #C57D7D',
     boxSizing: 'border-box',
     borderRadius: '5px'
   },

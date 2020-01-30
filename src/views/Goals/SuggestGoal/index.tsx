@@ -125,7 +125,7 @@ export const SuggestGoal: React.FC<Props> = (props: Props) => {
                 areas={areas.filter(
                   area => !myAreas.find(item => item.id === area.id)
                 )}
-                note="A service provider can suggest new focus aress using ‘ ’."
+                note="A service provider can suggest new focus aress using."
                 actionType="add"
                 action={id => handleAdd(id)}
               />

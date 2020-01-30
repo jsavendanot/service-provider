@@ -1,6 +1,6 @@
 export default {
   colorPrimary: {
-    color: '#C57D7D',
+    color: '#F1F1F1',
     '&$checked': {
       color: '#C57D7D'
     }
