@@ -2,12 +2,12 @@ import React, { useState, useEffect, ChangeEvent } from 'react';
 import validate from 'validate.js';
 import useRouter from 'utils/useRouter';
 
-import { Grid, TextField } from '@material-ui/core';
+import { Grid, TextField, Theme } from '@material-ui/core';
 import { makeStyles } from '@material-ui/styles';
 
 import { Button } from 'components';
 
-const useStyles = makeStyles(() => ({
+const useStyles = makeStyles((theme: Theme) => ({
   /** Form */
   form: {
     display: 'flex',
@@ -48,11 +48,15 @@ const useStyles = makeStyles(() => ({
   },
   /** Image  */
   imageContainer: {
-    position: 'absolute',
-    bottom: 0,
+    position: 'relative',
     width: '100%',
     display: 'flex',
-    justifyContent: 'center'
+    justifyContent: 'center',
+    [theme.breakpoints.up('lg')]: {
+      position: 'absolute',
+      bottom: 0,
+      top: 'auto'
+    }
   }
 }));
 
