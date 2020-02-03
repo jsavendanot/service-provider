@@ -134,7 +134,7 @@ const Login: React.FC<Props> = (props: Props) => {
     }));
   };
 
-  const submitHandler = () => {
+  const handleSubmit = () => {
     history.replace('/home');
   };
 
@@ -180,7 +180,7 @@ const Login: React.FC<Props> = (props: Props) => {
             onChange={changeHandler}
           />
           <div style={{ marginTop: '10px' }}>
-            <Button type="primary" click={submitHandler}>
+            <Button type="primary" click={handleSubmit}>
               Sign in
             </Button>
           </div>
