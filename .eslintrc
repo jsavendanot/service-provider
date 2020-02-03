@@ -17,8 +17,6 @@
   ],
   "env": {
     "browser": true,
-    "jasmine": true,
-    "jest": true,
     "cypress/globals": true
   },
   "rules": {
