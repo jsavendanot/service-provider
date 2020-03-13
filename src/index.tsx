@@ -2,7 +2,8 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import authentication from '@kdpw/msal-b2c-react';
 
-import App from './App';
+import store from './store';
+import { Provider as StoreProvider } from 'react-redux';
 import * as serviceWorker from './serviceWorker';
 
 authentication.initialize({
@@ -30,6 +31,21 @@ authentication.initialize({
   silentLoginOnly: false
 });
 
-ReactDOM.render(<App />, document.getElementById('root'));
+const render = () => {
+  const App = require('./App').default;
+
+  ReactDOM.render(
+    <StoreProvider store={store}>
+      <App />
+    </StoreProvider>,
+    document.getElementById('root')
+  );
+};
+
+render();
+
+if (process.env.NODE_ENV === 'development' && module.hot) {
+  module.hot.accept('./App', render);
+}
 
 serviceWorker.register();
