@@ -14,9 +14,8 @@ type Props = {
   consumers: ConsumerType[];
 };
 
-export const Consumers: React.FC<Props> = (props: Props) => {
+export const Consumers: React.FC<Props> = ({ consumers }) => {
   const classes = useStyles();
-  const { consumers } = props;
 
   return (
     <Grid container className={classes.root} spacing={3} justify="center">

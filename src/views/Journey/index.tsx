@@ -39,9 +39,8 @@ interface MatchParams {
 }
 type Props = RouteComponentProps<MatchParams>;
 
-const Journey: React.FC<Props> = (props: Props) => {
+const Journey: React.FC<Props> = ({ match }) => {
   const classes = useStyles();
-  const { match } = props;
   const { tab } = match.params;
 
   if (!tab) {

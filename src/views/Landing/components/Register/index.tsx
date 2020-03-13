@@ -57,9 +57,8 @@ type Props = {
   setState: Dispatch<SetStateAction<NavProps>>;
 };
 
-const Register: React.FC<Props> = (props: Props) => {
+const Register: React.FC<Props> = ({ setState }) => {
   const classes = useStyles();
-  const { setState } = props;
 
   return (
     <Grid container justify="center">

@@ -20,8 +20,7 @@ type NavListProps = {
   router: RouteComponentProps;
 };
 
-const NavigationList: React.FC<NavListProps> = (props: NavListProps) => {
-  const { pages, depth } = props;
+const NavigationList: React.FC<NavListProps> = ({ pages, depth }) => {
   return (
     <List style={{ padding: '0' }}>
       {pages.map(page => {
@@ -61,9 +60,7 @@ type NavigationProps = {
   pages: Page[];
 };
 
-const Navigation: React.FC<NavigationProps> = (props: NavigationProps) => {
-  const { title, pages } = props;
-
+const Navigation: React.FC<NavigationProps> = ({ title, pages }) => {
   const router = useRouter();
 
   return (

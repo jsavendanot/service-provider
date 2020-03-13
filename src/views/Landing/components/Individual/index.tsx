@@ -324,9 +324,8 @@ type Props = {
   setState: Dispatch<SetStateAction<NavProps>>;
 };
 
-const Individual: React.FC<Props> = (props: Props) => {
+const Individual: React.FC<Props> = ({ setState }) => {
   const classes = useStyles();
-  const { setState } = props;
 
   /** Handle Fields */
   const [formState, setFormState] = useState<FormStateType>({
@@ -414,7 +413,6 @@ const Individual: React.FC<Props> = (props: Props) => {
                 autoComplete="off"
                 value={formState.values.title || ''}
                 variant="outlined"
-                
                 onChange={handleChange}
               />
             </div>
@@ -434,7 +432,6 @@ const Individual: React.FC<Props> = (props: Props) => {
                   autoComplete="off"
                   value={formState.values.firstName || ''}
                   variant="outlined"
-                  
                   onChange={handleChange}
                 />
               </div>
@@ -453,7 +450,6 @@ const Individual: React.FC<Props> = (props: Props) => {
                   autoComplete="off"
                   value={formState.values.middleName || ''}
                   variant="outlined"
-                  
                   onChange={handleChange}
                 />
               </div>
@@ -472,7 +468,6 @@ const Individual: React.FC<Props> = (props: Props) => {
                   autoComplete="off"
                   value={formState.values.lastName || ''}
                   variant="outlined"
-                  
                   onChange={handleChange}
                 />
               </div>
@@ -503,7 +498,6 @@ const Individual: React.FC<Props> = (props: Props) => {
                   autoComplete="off"
                   value={formState.values.practice || ''}
                   variant="outlined"
-                  
                   onChange={handleChange}
                 />
               </div>
@@ -521,7 +515,6 @@ const Individual: React.FC<Props> = (props: Props) => {
                   autoComplete="off"
                   value={formState.values.service || ''}
                   variant="outlined"
-                  
                   onChange={handleChange}
                 />
               </div>
@@ -557,7 +550,6 @@ const Individual: React.FC<Props> = (props: Props) => {
                 autoComplete="off"
                 SelectProps={{ native: true }}
                 value={formState.values.organisation || ''}
-                
                 variant="outlined"
                 onChange={handleChange}>
                 {[''].map(org => (
@@ -591,7 +583,6 @@ const Individual: React.FC<Props> = (props: Props) => {
                   autoComplete="off"
                   value={formState.values.streetAddress || ''}
                   variant="outlined"
-                  
                   onChange={handleChange}
                 />
               </div>
@@ -610,7 +601,6 @@ const Individual: React.FC<Props> = (props: Props) => {
                   autoComplete="off"
                   value={formState.values.addressLine2 || ''}
                   variant="outlined"
-                  
                   onChange={handleChange}
                 />
               </div>
@@ -634,7 +624,6 @@ const Individual: React.FC<Props> = (props: Props) => {
                   autoComplete="off"
                   value={formState.values.city || ''}
                   variant="outlined"
-                  
                   onChange={handleChange}
                 />
               </div>
@@ -657,7 +646,6 @@ const Individual: React.FC<Props> = (props: Props) => {
                   autoComplete="off"
                   SelectProps={{ native: true }}
                   value={formState.values.state || ''}
-                  
                   variant="outlined"
                   onChange={handleChange}>
                   {[''].map(state => (
@@ -685,7 +673,6 @@ const Individual: React.FC<Props> = (props: Props) => {
                   autoComplete="off"
                   value={formState.values.zipCode || ''}
                   variant="outlined"
-                  
                   onChange={handleChange}
                 />
               </div>
@@ -713,7 +700,6 @@ const Individual: React.FC<Props> = (props: Props) => {
                   autoComplete="off"
                   value={formState.values.work || ''}
                   variant="outlined"
-                  
                   onChange={handleChange}
                 />
               </div>
@@ -731,7 +717,6 @@ const Individual: React.FC<Props> = (props: Props) => {
                   autoComplete="off"
                   value={formState.values.mobile || ''}
                   variant="outlined"
-                  
                   onChange={handleChange}
                 />
               </div>
@@ -758,7 +743,6 @@ const Individual: React.FC<Props> = (props: Props) => {
                 autoComplete="off"
                 value={formState.values.email || ''}
                 variant="outlined"
-                
                 onChange={handleChange}
               />
             </div>
@@ -787,7 +771,6 @@ const Individual: React.FC<Props> = (props: Props) => {
                   type="password"
                   value={formState.values.password || ''}
                   variant="outlined"
-                  
                   onChange={handleChange}
                 />
               </div>
@@ -807,7 +790,6 @@ const Individual: React.FC<Props> = (props: Props) => {
                   type="password"
                   value={formState.values.retypedPassword || ''}
                   variant="outlined"
-                  
                   onChange={handleChange}
                 />
               </div>

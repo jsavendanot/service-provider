@@ -86,9 +86,8 @@ type Props = {
   journal: JournalType;
 };
 
-const Journal: React.FC<Props> = (props: Props) => {
+const Journal: React.FC<Props> = ({ journal }) => {
   const classes = useStyles();
-  const { journal } = props;
   const { history } = useRouter();
 
   return (

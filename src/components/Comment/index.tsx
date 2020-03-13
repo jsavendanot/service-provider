@@ -59,9 +59,8 @@ type Props = {
   comment: Comment;
 };
 
-const Comment: React.FC<Props> = (props: Props) => {
+const Comment: React.FC<Props> = ({ comment }) => {
   const classes = useStyles();
-  const { comment } = props;
   return (
     <div className={classes.root}>
       <div style={{ margin: '0px 20px' }}>

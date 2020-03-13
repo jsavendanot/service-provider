@@ -115,9 +115,7 @@ const MyExtendedButton: React.FC<ButtonProps & NavProps> = (
   return <Button {...buttonProps}>{children}</Button>;
 };
 
-const NavigationListItem: React.FC<Props> = (props: Props) => {
-  const { title, href, depth, icon } = props;
-
+const NavigationListItem: React.FC<Props> = ({ title, href, depth, icon }) => {
   const classes = useStyles();
 
   let paddingLeft = 8;

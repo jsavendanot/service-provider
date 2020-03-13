@@ -96,9 +96,8 @@ type Props = {
   register: () => void;
 };
 
-const Login: React.FC<Props> = (props: Props) => {
+const Login: React.FC<Props> = ({ register }) => {
   const classes = useStyles();
-  const { register } = props;
   const { history } = useRouter();
 
   const [formState, setFormState] = useState<FormStateType>({

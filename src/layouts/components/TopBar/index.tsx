@@ -71,8 +71,7 @@ type Props = {
   className: string;
 };
 
-const TopBar: React.FC<Props> = (props: Props) => {
-  const { className } = props;
+const TopBar: React.FC<Props> = ({ className }) => {
   const { history } = useRouter();
 
   const classes = useStyles();
@@ -87,6 +86,17 @@ const TopBar: React.FC<Props> = (props: Props) => {
   function handleClose() {
     setOpen(false);
   }
+
+  const profileDialog = (
+    <Dialog
+      open={open}
+      onClose={handleClose}
+      aria-labelledby="form-dialog-title">
+      <DialogContent className={classes.navProfile}>
+        <ProfileDialog />
+      </DialogContent>
+    </Dialog>
+  );
 
   return (
     <AppBar className={clsx(classes.root, className)}>
@@ -163,14 +173,7 @@ const TopBar: React.FC<Props> = (props: Props) => {
           </Grid>
         </Grid>
       </Toolbar>
-      <Dialog
-        open={open}
-        onClose={handleClose}
-        aria-labelledby="form-dialog-title">
-        <DialogContent className={classes.navProfile}>
-          <ProfileDialog />
-        </DialogContent>
-      </Dialog>
+      {open && profileDialog}
     </AppBar>
   );
 };

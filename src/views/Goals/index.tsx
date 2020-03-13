@@ -40,9 +40,8 @@ interface MatchParams {
 }
 type Props = RouteComponentProps<MatchParams>;
 
-const Goals: React.FC<Props> = (props: Props) => {
+const Goals: React.FC<Props> = ({ match, history }) => {
   const classes = useStyles();
-  const { match, history } = props;
   const { tab } = match.params;
 
   if (!tab) {

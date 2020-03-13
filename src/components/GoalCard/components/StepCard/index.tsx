@@ -73,11 +73,11 @@ const useStyles = makeStyles(() => ({
   }
 }));
 
-export const StepCard: React.FC<Step> = (props: Step) => {
+export const StepCard: React.FC<Step> = ({ id, name, status, date }) => {
   const classes = useStyles();
   return (
     <div className={classes.root}>
-      <span className={classes.number}>{props.id}</span>
+      <span className={classes.number}>{id}</span>
       <div
         style={{
           width: '100%',
@@ -90,22 +90,20 @@ export const StepCard: React.FC<Step> = (props: Step) => {
             display: 'flex',
             justifyContent: 'space-between'
           }}>
-          <div className={classes.stepNameText}>{props.name}</div>
+          <div className={classes.stepNameText}>{name}</div>
           <div
             className={clsx(
-              props.status === 'completed' && classes.statusCompleted,
-              props.status !== '' &&
-                props.status !== 'completed' &&
-                classes.statusVisit
+              status === 'completed' && classes.statusCompleted,
+              status !== '' && status !== 'completed' && classes.statusVisit
             )}>
             <span
               className={clsx(
-                props.status === 'completed' && classes.statusCompletedText,
-                props.status !== '' &&
-                  props.status !== 'completed' &&
+                status === 'completed' && classes.statusCompletedText,
+                status !== '' &&
+                  status !== 'completed' &&
                   classes.statusVisitText
               )}>
-              {props.status}
+              {status}
             </span>
           </div>
         </div>
@@ -115,7 +113,7 @@ export const StepCard: React.FC<Step> = (props: Step) => {
             alt=""
             style={{ marginRight: '5px' }}
           />
-          <span className={classes.dateText}>{props.date}</span>
+          <span className={classes.dateText}>{date}</span>
         </div>
       </div>
     </div>

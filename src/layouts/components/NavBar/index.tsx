@@ -113,8 +113,7 @@ type Props = {
   className: string;
 };
 
-const NavBar: React.FC<Props> = (props: Props) => {
-  const { className } = props;
+const NavBar: React.FC<Props> = ({ className }) => {
   const { history } = useRouter();
 
   const classes = useStyles();

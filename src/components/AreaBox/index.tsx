@@ -38,7 +38,7 @@ const useStyles = makeStyles(() => ({
   }
 }));
 
-export const AreaBox: React.FC<Area> = ({ id, background, image, name }) => {
+export const AreaBox: React.FC<Area> = ({ background, image, name }) => {
   const classes = useStyles();
   return (
     <div className={classes.root} style={{ background: `${background}` }}>

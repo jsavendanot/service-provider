@@ -35,9 +35,8 @@ type Props = {
   active?: boolean;
 };
 
-const CircularProgress: React.FC<Props> = (props: Props) => {
+const CircularProgress: React.FC<Props> = ({ value, active }) => {
   const classes = useStyles();
-  const { value, active } = props;
   return (
     <div className={classes.root}>
       <svg viewBox="0 0 36 36">

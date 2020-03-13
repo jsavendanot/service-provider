@@ -45,11 +45,7 @@ const useStyles = makeStyles(() => ({
   }
 }));
 
-const MainLayout: React.FC<RouteConfigComponentProps> = (
-  props: RouteConfigComponentProps
-) => {
-  const { route } = props;
-
+const MainLayout: React.FC<RouteConfigComponentProps> = ({ route }) => {
   const classes = useStyles();
 
   return (

@@ -1201,6 +1201,13 @@
     "@types/istanbul-reports" "^1.1.1"
     "@types/yargs" "^13.0.0"
 
+"@kdpw/msal-b2c-react@^0.0.3":
+  version "0.0.3"
+  resolved "https://registry.yarnpkg.com/@kdpw/msal-b2c-react/-/msal-b2c-react-0.0.3.tgz#dea31ccdf117f298ef5b67f85b8483023dcd2d5f"
+  integrity sha512-sRFjK5rHNxCVOWJcXCndNejDWg5URJGCAqxA3+i5e9ykN4rMJI/Lv7ZyMjircJeG0V9qeiJ3JUeOUzw+fSKr8w==
+  dependencies:
+    msal "^0.2.3"
+
 "@material-ui/core@^4.2.0":
   version "4.8.3"
   resolved "https://registry.yarnpkg.com/@material-ui/core/-/core-4.8.3.tgz#858f758b26d8417eb39310f07fb9d7a72beb8b03"
@@ -9232,6 +9239,13 @@ msal@1.2.0-beta.4:
   dependencies:
     tslib "^1.9.3"
 
+msal@^0.2.3:
+  version "0.2.4"
+  resolved "https://registry.yarnpkg.com/msal/-/msal-0.2.4.tgz#34ac608ebce0415da20ce946297e876ebebebd63"
+  integrity sha512-/DPtEBL8M4gwSjEYZy4ep+j1ZaawA9XEKJi4nPxmQLT85rLNZLARrxhIRwzwXtkPNewoB+zdoNKzETW8ZrTOFQ==
+  dependencies:
+    tslib "1.7.1"
+
 multicast-dns-service-types@^1.1.0:
   version "1.1.0"
   resolved "https://registry.yarnpkg.com/multicast-dns-service-types/-/multicast-dns-service-types-1.1.0.tgz#899f11d9686e5e05cb91b35d5f0e63b773cfc901"
@@ -13438,6 +13452,11 @@ ts-pnp@1.1.5, ts-pnp@^1.1.2:
   version "1.1.5"
   resolved "https://registry.yarnpkg.com/ts-pnp/-/ts-pnp-1.1.5.tgz#840e0739c89fce5f3abd9037bb091dbff16d9dec"
   integrity sha512-ti7OGMOUOzo66wLF3liskw6YQIaSsBgc4GOAlWRnIEj8htCxJUxskanMUoJOD6MDCRAXo36goXJZch+nOS0VMA==
+
+tslib@1.7.1:
+  version "1.7.1"
+  resolved "https://registry.yarnpkg.com/tslib/-/tslib-1.7.1.tgz#bc8004164691923a79fe8378bbeb3da2017538ec"
+  integrity sha1-vIAEFkaRkjp5/oN4u+s9ogF1OOw=
 
 tslib@^1.8.1, tslib@^1.9.0, tslib@^1.9.3:
   version "1.10.0"

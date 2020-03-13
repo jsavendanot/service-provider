@@ -11,11 +11,7 @@ const useStyles = makeStyles(() => ({
   }
 }));
 
-const BaseLayout: React.FC<RouteConfigComponentProps> = (
-  props: RouteConfigComponentProps
-) => {
-  const { route } = props;
-
+const BaseLayout: React.FC<RouteConfigComponentProps> = ({ route }) => {
   const classes = useStyles();
 
   return (

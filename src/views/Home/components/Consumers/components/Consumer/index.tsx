@@ -52,12 +52,19 @@ const useStyles = makeStyles(() => ({
   }
 }));
 
-export const Consumer: React.FC<ConsumerType> = (props: ConsumerType) => {
+export const Consumer: React.FC<ConsumerType> = ({
+  id,
+  avatar,
+  name,
+  dob,
+  lastActive,
+  lastMood
+}) => {
   const classes = useStyles();
   const { history } = useRouter();
 
   const clickHandler = () => {
-    history.push(`/dashboard/consumer/${props.id}`);
+    history.push(`/dashboard/consumer/${id}`);
   };
 
   return (
@@ -69,42 +76,42 @@ export const Consumer: React.FC<ConsumerType> = (props: ConsumerType) => {
           marginBottom: '10px'
         }}>
         <div style={{ flexGrow: 1, display: 'flex', alignItems: 'flex-start' }}>
-          <Avatar alt="" className={classes.avatar} src={props.avatar} />
+          <Avatar alt="" className={classes.avatar} src={avatar} />
           <div style={{ display: 'flex', flexDirection: 'column' }}>
-            <span className={classes.consumerName}>{props.name}</span>
-            <span className={classes.consumerDob}>{props.dob}</span>
+            <span className={classes.consumerName}>{name}</span>
+            <span className={classes.consumerDob}>{dob}</span>
           </div>
         </div>
         <img src="/images/home/flash_icon.svg" alt="" />
       </div>
       <div style={{ display: 'flex', alignItems: 'center', margin: '5px 0' }}>
         <span className={classes.subTitle}>Last active:</span>
-        <span className={classes.subTitle}>{props.lastActive}</span>
+        <span className={classes.subTitle}>{lastActive}</span>
       </div>
       <div style={{ display: 'flex', alignItems: 'center', margin: '5px 0' }}>
         <span className={classes.subTitle}>Last mood:</span>
-        {props.lastMood === 'yellow' && (
+        {lastMood === 'yellow' && (
           <img
             src="/images/home/mood_yellow.svg"
             alt=""
             style={{ margin: '0 10px' }}
           />
         )}
-        {props.lastMood === 'orange' && (
+        {lastMood === 'orange' && (
           <img
             src="/images/home/mood_orange.svg"
             alt=""
             style={{ margin: '0 10px' }}
           />
         )}
-        {props.lastMood === 'red' && (
+        {lastMood === 'red' && (
           <img
             src="/images/home/mood_red.svg"
             alt=""
             style={{ margin: '0 10px' }}
           />
         )}
-        {props.lastMood === 'green' && (
+        {lastMood === 'green' && (
           <img
             src="/images/home/mood_green.svg"
             alt=""

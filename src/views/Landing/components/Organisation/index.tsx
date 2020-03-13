@@ -282,9 +282,8 @@ type Props = {
   setState: Dispatch<SetStateAction<NavProps>>;
 };
 
-const Organisation: React.FC<Props> = (props: Props) => {
+const Organisation: React.FC<Props> = ({ setState }) => {
   const classes = useStyles();
-  const { setState } = props;
 
   /** Handle Fields */
   const [formState, setFormState] = useState<FormStateType>({
@@ -371,7 +370,6 @@ const Organisation: React.FC<Props> = (props: Props) => {
                 autoComplete="off"
                 value={formState.values.orgName || ''}
                 variant="outlined"
-                
                 onChange={handleChange}
               />
             </div>
@@ -399,7 +397,6 @@ const Organisation: React.FC<Props> = (props: Props) => {
                   autoComplete="off"
                   value={formState.values.streetAddress || ''}
                   variant="outlined"
-                  
                   onChange={handleChange}
                 />
               </div>
@@ -418,7 +415,6 @@ const Organisation: React.FC<Props> = (props: Props) => {
                   autoComplete="off"
                   value={formState.values.addressLine2 || ''}
                   variant="outlined"
-                  
                   onChange={handleChange}
                 />
               </div>
@@ -442,7 +438,6 @@ const Organisation: React.FC<Props> = (props: Props) => {
                   autoComplete="off"
                   value={formState.values.city || ''}
                   variant="outlined"
-                  
                   onChange={handleChange}
                 />
               </div>
@@ -465,7 +460,6 @@ const Organisation: React.FC<Props> = (props: Props) => {
                   autoComplete="off"
                   SelectProps={{ native: true }}
                   value={formState.values.state || ''}
-                  
                   variant="outlined"
                   onChange={handleChange}>
                   {[''].map(state => (
@@ -493,7 +487,6 @@ const Organisation: React.FC<Props> = (props: Props) => {
                   autoComplete="off"
                   value={formState.values.zipCode || ''}
                   variant="outlined"
-                  
                   onChange={handleChange}
                 />
               </div>
@@ -524,7 +517,6 @@ const Organisation: React.FC<Props> = (props: Props) => {
                   autoComplete="off"
                   value={formState.values.contactPersonName || ''}
                   variant="outlined"
-                  
                   onChange={handleChange}
                 />
               </div>
@@ -543,7 +535,6 @@ const Organisation: React.FC<Props> = (props: Props) => {
                   autoComplete="off"
                   value={formState.values.contactPersonNum || ''}
                   variant="outlined"
-                  
                   onChange={handleChange}
                 />
               </div>
@@ -570,7 +561,6 @@ const Organisation: React.FC<Props> = (props: Props) => {
                 autoComplete="off"
                 value={formState.values.email || ''}
                 variant="outlined"
-                
                 onChange={handleChange}
               />
             </div>
@@ -599,7 +589,6 @@ const Organisation: React.FC<Props> = (props: Props) => {
                   type="password"
                   value={formState.values.password || ''}
                   variant="outlined"
-                  
                   onChange={handleChange}
                 />
               </div>
@@ -619,7 +608,6 @@ const Organisation: React.FC<Props> = (props: Props) => {
                   type="password"
                   value={formState.values.retypedPassword || ''}
                   variant="outlined"
-                  
                   onChange={handleChange}
                 />
               </div>

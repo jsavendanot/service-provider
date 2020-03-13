@@ -31,9 +31,8 @@ type Props = {
   children: ReactNode;
 };
 
-const DashboareBox: React.FC<Props> = (props: Props) => {
+const DashboareBox: React.FC<Props> = ({ title, header, children }) => {
   const classes = useStyles();
-  const { title, header, children } = props;
   return (
     <div className={classes.dashboardBox}>
       <span className={classes.title}>{title}</span>

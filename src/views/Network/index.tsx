@@ -45,9 +45,8 @@ interface MatchParams {
 }
 type Props = RouteComponentProps<MatchParams>;
 
-export const Network: React.FC<Props> = (props: Props) => {
+export const Network: React.FC<Props> = ({ match, history }) => {
   const classes = useStyles();
-  const { match, history } = props;
   const { tab } = match.params;
 
   if (!tab) {

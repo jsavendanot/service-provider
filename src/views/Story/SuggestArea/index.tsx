@@ -49,9 +49,8 @@ interface MatchParams {
 }
 type Props = RouteComponentProps<MatchParams>;
 
-export const SuggestArea: React.FC<Props> = (props: Props) => {
+export const SuggestArea: React.FC<Props> = ({ history }) => {
   const classes = useStyles();
-  const { history } = props;
 
   const [areas, setAreas] = useState<Area[]>([]);
   const [myAreas, setMyAreas] = useState<Area[]>([]);

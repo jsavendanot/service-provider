@@ -117,9 +117,8 @@ type Props = {
   disabled?: boolean;
 };
 
-const Button: React.FC<Props> = (props: Props) => {
-  const classes = useStyles(props);
-  const { children, click, type, disabled } = props;
+const Button: React.FC<Props> = ({ children, click, type, disabled }) => {
+  const classes = useStyles();
   let classType = '';
   if (type === 'primary') {
     classType = classes.primary;

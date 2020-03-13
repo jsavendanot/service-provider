@@ -50,6 +50,17 @@ export const CustomLinearProgress: React.FC<Props> = ({ goal }) => {
     setOpen(false);
   }
 
+  const goalCardDialog = (
+    <Dialog
+      open={open}
+      onClose={handleClose}
+      aria-labelledby="form-dialog-title">
+      <DialogContent style={{ padding: '0' }}>
+        <GoalCard goal={goal} />
+      </DialogContent>
+    </Dialog>
+  );
+
   return (
     <>
       <div className={classes.root} onClick={handleOpen}>
@@ -72,14 +83,7 @@ export const CustomLinearProgress: React.FC<Props> = ({ goal }) => {
           />
         </div>
       </div>
-      <Dialog
-        open={open}
-        onClose={handleClose}
-        aria-labelledby="form-dialog-title">
-        <DialogContent style={{ padding: '0' }}>
-          <GoalCard goal={goal} />
-        </DialogContent>
-      </Dialog>
+      {open && goalCardDialog}
     </>
   );
 };

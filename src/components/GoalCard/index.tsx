@@ -112,9 +112,8 @@ type Props = {
   goal: Goal;
 };
 
-export const GoalCard: React.FC<Props> = (props: Props) => {
+export const GoalCard: React.FC<Props> = ({ goal }) => {
   const classes = useStyles();
-  const { goal } = props;
   const { history } = useRouter();
   return (
     <Grid container className={classes.root}>

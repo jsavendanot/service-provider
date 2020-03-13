@@ -39,11 +39,7 @@ const useStyles = makeStyles(() => ({
   }
 }));
 
-const LayoutWithNavbar: React.FC<RouteConfigComponentProps> = (
-  props: RouteConfigComponentProps
-) => {
-  const { route } = props;
-
+const LayoutWithNavbar: React.FC<RouteConfigComponentProps> = ({ route }) => {
   const classes = useStyles();
 
   return (
