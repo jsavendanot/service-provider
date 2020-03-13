@@ -1,5 +1,7 @@
 import React from 'react';
 import useRouter from 'utils/useRouter';
+import { useDispatch } from 'react-redux';
+import { endSession } from 'slices/session/action';
 
 import { Avatar, Divider } from '@material-ui/core';
 import { makeStyles } from '@material-ui/styles';
@@ -43,6 +45,11 @@ const useStyles = makeStyles(() => ({
 export default function ProfileDialog() {
   const classes = useStyles();
   const { history } = useRouter();
+  const dispatch = useDispatch();
+
+  const handleLogout = () => {
+    dispatch(endSession());
+  };
 
   return (
     <>
@@ -65,7 +72,9 @@ export default function ProfileDialog() {
             justifyContent: 'center',
             wordWrap: 'break-word'
           }}>
-          <span className={classes.providerName}>Dr Kris</span>
+          <span className={classes.providerName}>
+            {sessionStorage.getItem('Provider_FirstName')}
+          </span>
         </div>
         <div
           style={{
@@ -86,7 +95,7 @@ export default function ProfileDialog() {
           alignItems: 'center',
           cursor: 'pointer'
         }}
-        onClick={() => history.push('/auth')}>
+        onClick={handleLogout}>
         <img
           src="/images/topbar/logout_icon.svg"
           alt=""

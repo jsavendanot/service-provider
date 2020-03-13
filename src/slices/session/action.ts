@@ -29,10 +29,10 @@ export const readProfile = () => {
 
   return axios.get('/Profile/Read').then(response => {
     const profile: ProfileApiType = response.data;
-    sessionStorage.setItem('Carer_UserId', profile.UserId);
-    sessionStorage.setItem('Carer_SafetyPlanId', profile.SafetyPlanId);
-    sessionStorage.setItem('Carer_FirstName', profile.FirstName!);
-    sessionStorage.setItem('Carer_LastName', profile.Surname!);
+    sessionStorage.setItem('Provider_UserId', profile.UserId);
+    sessionStorage.setItem('Provider_SafetyPlanId', profile.SafetyPlanId);
+    sessionStorage.setItem('Provider_FirstName', profile.FirstName!);
+    sessionStorage.setItem('Provider_LastName', profile.Surname!);
     return profile;
   });
 };

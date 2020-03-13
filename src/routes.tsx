@@ -3,6 +3,7 @@
 import React, { lazy } from 'react';
 import { Redirect } from 'react-router-dom';
 import { RouteConfig } from 'react-router-config';
+import authentication from '@kdpw/msal-b2c-react';
 
 import { BaseLayout, LayoutWithNavbar, MainLayout } from './layouts';
 
@@ -32,7 +33,7 @@ const routes: RouteConfig[] = [
       {
         path: '/profile/:name',
         exact: true,
-        component: lazy(() => import('views/Profile'))
+        component: authentication.required(lazy(() => import('views/Profile')))
       }
     ]
   },
@@ -43,7 +44,9 @@ const routes: RouteConfig[] = [
       {
         path: '/consumer/add',
         exact: true,
-        component: lazy(() => import('views/Consumer/AddConsumer'))
+        component: authentication.required(
+          lazy(() => import('views/Consumer/AddConsumer'))
+        )
       }
     ]
   },
@@ -55,87 +58,99 @@ const routes: RouteConfig[] = [
       {
         path: '/home',
         exact: true,
-        component: lazy(() => import('views/Home'))
+        component: authentication.required(lazy(() => import('views/Home')))
       },
       {
         path: '/dashboard/consumer/:id',
         exact: true,
-        component: lazy(() => import('views/Dashboard'))
+        component: authentication.required(
+          lazy(() => import('views/Dashboard'))
+        )
       },
       {
         path: '/consumer',
         exact: true,
-        component: lazy(() => import('views/Consumer'))
+        component: authentication.required(lazy(() => import('views/Consumer')))
       },
       {
         path: '/goals',
         exact: true,
-        component: lazy(() => import('views/Goals'))
+        component: authentication.required(lazy(() => import('views/Goals')))
       },
       {
         path: '/goals/:tab',
         exact: true,
-        component: lazy(() => import('views/Goals'))
+        component: authentication.required(lazy(() => import('views/Goals')))
       },
       {
         path: '/goals/:id/suggest',
         exact: true,
-        component: lazy(() => import('views/Goals/SuggestGoal'))
+        component: authentication.required(
+          lazy(() => import('views/Goals/SuggestGoal'))
+        )
       },
       {
         path: '/goal/:id',
         exact: true,
-        component: lazy(() => import('views/Goals/GoalDetail'))
+        component: authentication.required(
+          lazy(() => import('views/Goals/GoalDetail'))
+        )
       },
       {
         path: '/journey',
         exact: true,
-        component: lazy(() => import('views/Journey'))
+        component: authentication.required(lazy(() => import('views/Journey')))
       },
       {
         path: '/journey/:tab',
         exact: true,
-        component: lazy(() => import('views/Journey'))
+        component: authentication.required(lazy(() => import('views/Journey')))
       },
       {
         path: '/journal/:id',
         exact: true,
-        component: lazy(() => import('views/Journey/JournalDetail'))
+        component: authentication.required(
+          lazy(() => import('views/Journey/JournalDetail'))
+        )
       },
       {
         path: '/story',
         exact: true,
-        component: lazy(() => import('views/Story'))
+        component: authentication.required(lazy(() => import('views/Story')))
       },
       {
         path: '/story/:id/suggest',
         exact: true,
-        component: lazy(() => import('views/Story/SuggestArea'))
+        component: authentication.required(
+          lazy(() => import('views/Story/SuggestArea'))
+        )
       },
       {
         path: '/safety',
         exact: true,
-        component: lazy(() => import('views/Safety'))
+        component: authentication.required(lazy(() => import('views/Safety')))
       },
       {
         path: '/network',
         exact: true,
-        component: lazy(() => import('views/Network'))
+        component: authentication.required(lazy(() => import('views/Network')))
       },
       {
         path: '/network/:tab',
         exact: true,
-        component: lazy(() => import('views/Network'))
+        component: authentication.required(lazy(() => import('views/Network')))
       },
       {
         path: '/network/:id/suggest',
         exact: true,
-        component: lazy(() => import('views/Network/SuggestService'))
+        component: authentication.required(
+          lazy(() => import('views/Network/SuggestService'))
+        )
       },
       {
         path: '/export',
         exact: true,
-        component: lazy(() => import('views/Export'))
+        component: authentication.required(lazy(() => import('views/Export')))
       }
     ]
   }
