@@ -1,13 +1,15 @@
-import React, { useState, useEffect } from 'react';
-import axios from 'utils/axios';
+import React, { useEffect } from 'react';
 import { Consumer } from 'types/home';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { startSession } from 'slices/session/action';
+import { fetchPeople } from 'slices/people/action';
 
 import { Grid } from '@material-ui/core';
 import { makeStyles } from '@material-ui/styles';
 
 import { Consumers, Toolbar } from './components';
+import { PeopleRootType } from 'types/people';
+import { RootState } from 'reducer';
 
 const useStyles = makeStyles(() => ({
   root: {
@@ -19,29 +21,14 @@ export const Home: React.FC = () => {
   const classes = useStyles();
   const dispatch = useDispatch();
 
-  const [consumers, setConsumers] = useState<Consumer[]>([]);
+  const peopleStore: PeopleRootType = useSelector(
+    (state: RootState) => state.people
+  );
 
   useEffect(() => {
     dispatch(startSession());
+    dispatch(fetchPeople());
   }, [dispatch]);
-
-  useEffect(() => {
-    let mounted = true;
-
-    const fetchData = () => {
-      axios.get('/api/consumers').then(response => {
-        if (mounted) {
-          setConsumers(response.data.consumers);
-        }
-      });
-    };
-
-    fetchData();
-
-    return () => {
-      mounted = false;
-    };
-  }, []);
 
   return (
     <Grid container justify="center" spacing={3} className={classes.root}>
@@ -51,7 +38,19 @@ export const Home: React.FC = () => {
       <Grid item xs={12}>
         <Grid container>
           <Grid item xs={9}>
-            <Consumers consumers={consumers} />
+            <Consumers
+              consumers={peopleStore.people.map(person => {
+                const newConsumer: Consumer = {
+                  id: person.UserId,
+                  avatar: '/images/avatar/avatar_1.svg',
+                  name: person.Name,
+                  dob: person.DateOfBirth,
+                  lastActive: 'Thu, 24 November 2019 ',
+                  lastMood: 'yellow'
+                };
+                return newConsumer;
+              })}
+            />
           </Grid>
           <Grid item xs={3}>
             <div

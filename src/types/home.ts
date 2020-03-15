@@ -1,5 +1,5 @@
 export type Consumer = {
-  id: number;
+  id: string;
   avatar: string;
   name: string;
   dob: string;
