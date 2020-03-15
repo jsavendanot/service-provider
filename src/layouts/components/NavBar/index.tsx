@@ -43,7 +43,8 @@ const useStyles = makeStyles((theme: Theme) => ({
     color: 'rgba(0, 0, 0, 0.87)',
     marginTop: '10px',
     width: '150px',
-    wordWrap: 'break-word'
+    wordWrap: 'break-word',
+    textAlign: 'center'
   },
   profileDate: {
     fontFamily: 'Poppins',
@@ -127,7 +128,12 @@ const NavBar: React.FC<Props> = ({ className }) => {
             className={classes.avatar}
             src="/images/avatar/avatar_1.svg"
           />
-          <span className={classes.profileName}>Bessie Richard</span>
+          <span className={classes.profileName}>
+            {sessionStorage.getItem('FirstName')}
+          </span>
+          <span className={classes.profileName}>
+            {sessionStorage.getItem('SurName')}
+          </span>
           <span className={classes.profileDate}>11/09/1990</span>
           <button
             className={classes.profileButton}

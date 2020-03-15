@@ -87,6 +87,14 @@ const TopBar: React.FC<Props> = ({ className }) => {
     setOpen(false);
   }
 
+  const handleClickOnLogo = () => {
+    sessionStorage.setItem('UserId', '');
+    sessionStorage.setItem('FirstName', '');
+    sessionStorage.setItem('SurName', '');
+    sessionStorage.setItem('Photo', '');
+    history.push('/home');
+  };
+
   const profileDialog = (
     <Dialog
       open={open}
@@ -107,7 +115,7 @@ const TopBar: React.FC<Props> = ({ className }) => {
               src="/images/landing/logo.svg"
               alt=""
               style={{ cursor: 'pointer' }}
-              onClick={() => history.push('/home')}
+              onClick={handleClickOnLogo}
             />
           </Grid>
           <Grid item xs={5}>

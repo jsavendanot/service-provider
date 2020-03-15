@@ -34,7 +34,11 @@ export const MyStory: React.FC = () => {
   const classes = useStyles();
   return (
     <div className={classes.root}>
-      <span className={classes.name}>Bessie Richards</span>
+      <span className={classes.name}>
+        {`${sessionStorage.getItem('FirstName')} ${sessionStorage.getItem(
+          'SurName'
+        )}`}
+      </span>
       <div className={classes.story}>
         I was born and bred in Green Island, Australia. I grew up swimming with
         my friends from the ocean - just like a mermaid. I lost my parents when

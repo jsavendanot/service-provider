@@ -133,7 +133,7 @@ export const SuggestArea: React.FC<Props> = ({ history }) => {
               <span
                 className={classes.subTitle}
                 style={{ marginBottom: '5px' }}>
-                Bessie's focus areas
+                {sessionStorage.getItem('FirstName')}'s focus areas
               </span>
               <Grid container spacing={3} style={{ marginTop: '1px' }}>
                 {myAreas.map(area => {

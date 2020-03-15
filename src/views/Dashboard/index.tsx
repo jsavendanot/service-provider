@@ -107,7 +107,8 @@ export const Dashboard: React.FC<Props> = (props: Props) => {
           <Grid item xs={5}>
             <Grid container justify="center" spacing={5}>
               <Grid item xs={12}>
-                <DashboardBox title="Bessie's goals">
+                <DashboardBox
+                  title={`${sessionStorage.getItem('FirstName')}'s goals`}>
                   <Goals
                     numberOfSteps={3}
                     percent={60}
@@ -116,7 +117,8 @@ export const Dashboard: React.FC<Props> = (props: Props) => {
                 </DashboardBox>
               </Grid>
               <Grid item xs={12}>
-                <DashboardBox title="Bessie's moods">
+                <DashboardBox
+                  title={`${sessionStorage.getItem('FirstName')}'s moods`}>
                   <Moods numberOfJournals={2} date="since 10 Aug, 2019" />
                 </DashboardBox>
               </Grid>
@@ -183,7 +185,7 @@ export const Dashboard: React.FC<Props> = (props: Props) => {
                   />
                 </div>
               }
-              title="Bessie's activity">
+              title={`${sessionStorage.getItem('FirstName')}'s activity`}>
               {[
                 {
                   id: 1,
