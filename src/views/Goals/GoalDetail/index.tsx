@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import useRouter from 'utils/useRouter';
 
 import { Grid, LinearProgress, Avatar, TextField } from '@material-ui/core';
@@ -7,6 +7,10 @@ import { KeyboardArrowLeft, Add } from '@material-ui/icons';
 
 import { Comment, Button } from 'components';
 import { StepCard } from './components';
+import { RouteComponentProps } from 'react-router-dom';
+import { GoalRootType } from 'types/goal';
+import { useSelector } from 'react-redux';
+import { RootState } from 'reducer';
 
 const useStyles = makeStyles(() => ({
   root: {
@@ -115,9 +119,19 @@ const BorderLinearProgress = withStyles({
   }
 })(LinearProgress);
 
-export const GoalDetail: React.FC = () => {
+interface MatchParams {
+  id: string;
+}
+type Props = RouteComponentProps<MatchParams>;
+
+export const GoalDetail: React.FC<Props> = ({ match }) => {
   const classes = useStyles();
   const { history } = useRouter();
+  const { id } = match.params;
+  const goalStore: GoalRootType = useSelector((state: RootState) => state.goal);
+
+  const [goal] = useState(goalStore.goals.find(goal => goal.id === id)!);
+
   return (
     <Grid container className={classes.root}>
       <Grid item xs={12}>
@@ -142,16 +156,16 @@ export const GoalDetail: React.FC = () => {
                 flexDirection: 'column',
                 padding: '0 10px'
               }}>
-              <span className={classes.title}>Reconnect with my brother</span>
+              <span className={classes.title}>{goal.name}</span>
               <div>
                 <div style={{ margin: '30px 0' }}>
                   <div style={{ display: 'flex', margin: '10px 0' }}>
                     <div className={classes.subTitle}>Start Date</div>
-                    <span>07 August 2019</span>
+                    <span>{goal.deadline.startDate}</span>
                   </div>
                   <div style={{ display: 'flex', margin: '10px 0' }}>
                     <div className={classes.subTitle}>End Date</div>
-                    <span>30 August 2019</span>
+                    <span>{goal.deadline.endDate}</span>
                   </div>
                 </div>
                 <div style={{ margin: '30px 0' }}>
@@ -161,7 +175,7 @@ export const GoalDetail: React.FC = () => {
                   </div>
                   <div style={{ display: 'flex', margin: '10px 0' }}>
                     <div className={classes.subTitle}>Target</div>
-                    <span>3 steps</span>
+                    <span>{goal.steps.length} steps</span>
                   </div>
                 </div>
               </div>
@@ -206,26 +220,7 @@ export const GoalDetail: React.FC = () => {
               <div style={{ margin: '20px 0' }}>
                 <span className={classes.subTitle}>Steps</span>
                 <div className={classes.stepContainer}>
-                  {[
-                    {
-                      id: 1,
-                      name: 'Send a birthday card to Tom',
-                      date: '10 Aug 2019',
-                      status: 'completed'
-                    },
-                    {
-                      id: 2,
-                      name: 'Invite Tom’s family for dinner',
-                      date: '10 Aug 2019',
-                      status: ''
-                    },
-                    {
-                      id: 3,
-                      name: 'Schedule a get-together at least every fortnight',
-                      status: '48 visits left',
-                      date: '10 Aug 2019'
-                    }
-                  ].map(step => {
+                  {goal.steps.map(step => {
                     return <StepCard key={step.id} step={step} />;
                   })}
                   <div

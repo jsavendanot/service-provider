@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Goal } from 'types/goals';
+import { Goal } from 'types/goal';
 
 import { LinearProgress, Dialog, DialogContent } from '@material-ui/core';
 import { KeyboardArrowRight } from '@material-ui/icons';
@@ -71,7 +71,7 @@ export const CustomLinearProgress: React.FC<Props> = ({ goal }) => {
             justifyContent: 'space-between'
           }}>
           <span className={classes.progressText} style={{ flexGrow: 1 }}>
-            {goal.goalName}
+            {goal.name}
           </span>
           <KeyboardArrowRight style={{ fill: '#F79221' }} />
         </div>

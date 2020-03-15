@@ -1,31 +1,15 @@
-import React, { useState, useEffect } from 'react';
-import axios from 'utils/axios';
-import { Goal } from 'types/goals';
+import React from 'react';
+import { Goal } from 'types/goal';
 
 import { Grid } from '@material-ui/core';
 
 import { GoalCard } from 'components';
 
-export const Completed: React.FC = () => {
-  const [goals, setGoals] = useState<Goal[]>([]);
+type Props = {
+  goals: Goal[];
+};
 
-  useEffect(() => {
-    let mounted = true;
-
-    const fetchData = () => {
-      axios.get('/api/goals').then(response => {
-        if (mounted) {
-          setGoals(response.data.completed);
-        }
-      });
-    };
-
-    fetchData();
-
-    return () => {
-      mounted = false;
-    };
-  }, []);
+export const Completed: React.FC<Props> = ({ goals }) => {
   return (
     <Grid container spacing={3}>
       {goals.map(goal => {

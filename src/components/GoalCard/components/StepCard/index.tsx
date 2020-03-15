@@ -1,6 +1,6 @@
 import React from 'react';
 import clsx from 'clsx';
-import { Step } from 'types/goals';
+import { Step } from 'types/goal';
 
 import { makeStyles } from '@material-ui/styles';
 
@@ -73,11 +73,15 @@ const useStyles = makeStyles(() => ({
   }
 }));
 
-export const StepCard: React.FC<Step> = ({ id, name, status, date }) => {
+type Props = {
+  step: Step;
+};
+
+export const StepCard: React.FC<Props> = ({ step }) => {
   const classes = useStyles();
   return (
     <div className={classes.root}>
-      <span className={classes.number}>{id}</span>
+      <span className={classes.number}>{step.id}</span>
       <div
         style={{
           width: '100%',
@@ -90,20 +94,22 @@ export const StepCard: React.FC<Step> = ({ id, name, status, date }) => {
             display: 'flex',
             justifyContent: 'space-between'
           }}>
-          <div className={classes.stepNameText}>{name}</div>
+          <div className={classes.stepNameText}>{step.name}</div>
           <div
             className={clsx(
-              status === 'completed' && classes.statusCompleted,
-              status !== '' && status !== 'completed' && classes.statusVisit
+              step.status === 'completed' && classes.statusCompleted,
+              step.status !== '' &&
+                step.status !== 'completed' &&
+                classes.statusVisit
             )}>
             <span
               className={clsx(
-                status === 'completed' && classes.statusCompletedText,
-                status !== '' &&
-                  status !== 'completed' &&
+                step.status === 'completed' && classes.statusCompletedText,
+                step.status !== '' &&
+                  step.status !== 'completed' &&
                   classes.statusVisitText
               )}>
-              {status}
+              {step.status}
             </span>
           </div>
         </div>
@@ -113,7 +119,7 @@ export const StepCard: React.FC<Step> = ({ id, name, status, date }) => {
             alt=""
             style={{ marginRight: '5px' }}
           />
-          <span className={classes.dateText}>{date}</span>
+          <span className={classes.dateText}>{step.dateTime.reminderDate}</span>
         </div>
       </div>
     </div>

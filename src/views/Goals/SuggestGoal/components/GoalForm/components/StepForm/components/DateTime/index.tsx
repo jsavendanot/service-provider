@@ -1,6 +1,6 @@
 import React, { useState, ChangeEvent } from 'react';
 import moment from 'moment';
-import { StepForm } from 'types/goals';
+import { Step } from 'types/goal';
 
 import {
   Switch,
@@ -56,7 +56,7 @@ const useStyles = makeStyles(() => ({
 }));
 
 type Props = {
-  step: StepForm;
+  step: Step;
 };
 
 export const DateTime: React.FC<Props> = ({ step }) => {

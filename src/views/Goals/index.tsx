@@ -1,12 +1,16 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { Redirect, RouteComponentProps } from 'react-router-dom';
 
 import { Grid } from '@material-ui/core';
 import { makeStyles } from '@material-ui/styles';
 import { Add } from '@material-ui/icons';
+import { useDispatch, useSelector } from 'react-redux';
+import { fetchGoals } from 'slices/goal/action';
 
 import { Button, TabMenu } from 'components';
 import { Toolbar, Current, Completed } from './components';
+import { GoalRootType } from 'types/goal';
+import { RootState } from 'reducer';
 
 const useStyles = makeStyles(() => ({
   root: {
@@ -43,6 +47,13 @@ type Props = RouteComponentProps<MatchParams>;
 const Goals: React.FC<Props> = ({ match, history }) => {
   const classes = useStyles();
   const { tab } = match.params;
+  const dispatch = useDispatch();
+
+  const goalStore: GoalRootType = useSelector((state: RootState) => state.goal);
+
+  useEffect(() => {
+    dispatch(fetchGoals());
+  }, [dispatch]);
 
   if (!tab) {
     return <Redirect to="/goals/current" />;
@@ -91,8 +102,8 @@ const Goals: React.FC<Props> = ({ match, history }) => {
       </Grid>
       <Grid item xs={12}>
         <div className={classes.content}>
-          {tab === 'current' && <Current />}
-          {tab === 'completed' && <Completed />}
+          {tab === 'current' && <Current goals={goalStore.goals} />}
+          {tab === 'completed' && <Completed goals={goalStore.goals} />}
         </div>
       </Grid>
     </Grid>

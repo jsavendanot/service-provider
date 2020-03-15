@@ -1,6 +1,6 @@
 import React from 'react';
 import clsx from 'clsx';
-import { Step } from 'types/goals';
+import { Step } from 'types/goal';
 
 import { makeStyles } from '@material-ui/styles';
 
@@ -120,7 +120,7 @@ export const StepCard: React.FC<Props> = ({ step }) => {
             alt=""
             style={{ marginRight: '5px' }}
           />
-          <span className={classes.dateText}>{step.date}</span>
+          <span className={classes.dateText}>{step.dateTime.reminderDate}</span>
         </div>
       </div>
     </div>

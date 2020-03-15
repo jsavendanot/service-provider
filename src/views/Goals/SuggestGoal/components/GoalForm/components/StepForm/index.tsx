@@ -2,7 +2,7 @@ import React, { useState, useEffect, ChangeEvent } from 'react';
 import validate from 'validate.js';
 import uuid from 'uuid/v1';
 import moment from 'moment';
-import { StepForm as StepFormType } from 'types/goals';
+import { Step as StepFormType } from 'types/goal';
 import clsx from 'clsx';
 
 import { TextField } from '@material-ui/core';

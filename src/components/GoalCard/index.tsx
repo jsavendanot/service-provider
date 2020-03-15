@@ -1,5 +1,5 @@
 import React from 'react';
-import { Goal } from 'types/goals';
+import { Goal } from 'types/goal';
 import clsx from 'clsx';
 import useRouter from 'utils/useRouter';
 
@@ -125,7 +125,7 @@ export const GoalCard: React.FC<Props> = ({ goal }) => {
               alignItems: 'center',
               justifyContent: 'space-between'
             }}>
-            <span className={classes.focusAreaText}>{goal.focusArea}</span>
+            <span className={classes.focusAreaText}>{goal.focusAreaId}</span>
             {goal.status !== 'active' && (
               <div
                 className={clsx(
@@ -136,7 +136,7 @@ export const GoalCard: React.FC<Props> = ({ goal }) => {
               </div>
             )}
           </div>
-          <div className={classes.goalName}>{goal.goalName}</div>
+          <div className={classes.goalName}>{goal.name}</div>
           <BorderLinearProgress
             variant="determinate"
             color="secondary"
@@ -149,15 +149,7 @@ export const GoalCard: React.FC<Props> = ({ goal }) => {
       </Grid>
       <Grid item xs={12}>
         {goal.steps.map(step => {
-          return (
-            <StepCard
-              key={step.id}
-              id={step.id}
-              name={step.name}
-              status={step.status}
-              date={step.date}
-            />
-          );
+          return <StepCard key={step.id} step={step} />;
         })}
       </Grid>
       <Grid item xs={12}>
