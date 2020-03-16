@@ -1,5 +1,4 @@
-import React, { useState, useEffect } from 'react';
-import axios from 'utils/axios';
+import React from 'react';
 import { Journal as JournalType } from 'types/journey';
 
 import { makeStyles } from '@material-ui/styles';
@@ -19,28 +18,12 @@ const useStyles = makeStyles(() => ({
   }
 }));
 
-const JourneyAll: React.FC = () => {
+type Props = {
+  journals: JournalType[];
+};
+
+const JourneyAll: React.FC<Props> = ({ journals }) => {
   const classes = useStyles();
-
-  const [journals, setJournsl] = useState<JournalType[]>([]);
-
-  useEffect(() => {
-    let mounted = true;
-
-    const fetchData = () => {
-      axios.get('/api/journals').then(response => {
-        if (mounted) {
-          setJournsl(response.data.journals);
-        }
-      });
-    };
-
-    fetchData();
-
-    return () => {
-      mounted = false;
-    };
-  }, []);
 
   return (
     <Grid container>

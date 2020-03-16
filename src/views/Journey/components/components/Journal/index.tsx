@@ -1,6 +1,7 @@
 import React from 'react';
 import useRouter from 'utils/useRouter';
 import { Journal as JournalType } from 'types/journey';
+import moment from 'moment';
 
 import { makeStyles } from '@material-ui/styles';
 import { Divider, IconButton, Paper } from '@material-ui/core';
@@ -92,7 +93,9 @@ const Journal: React.FC<Props> = ({ journal }) => {
 
   return (
     <div className={classes.root}>
-      <span className={classes.dayText}>{journal.date}</span>
+      <span className={classes.dayText}>
+        {moment(journal.date).format('dddd DD / MM / YYYY')}
+      </span>
       <Divider className={classes.divider} />
       <div className={classes.stepsContainer}>
         <div className={classes.stepContainer}>
@@ -113,35 +116,35 @@ const Journal: React.FC<Props> = ({ journal }) => {
         </div>
         <div className={classes.footerContent}>
           <div style={{ flexGrow: 1 }}>
-            {journal.feeling === '1' && (
+            {journal.feeling === 'VeryHappy' && (
               <img
                 src="/images/journey/feelings/1.svg"
                 alt=""
                 className={classes.feelingImage}
               />
             )}
-            {journal.feeling === '2' && (
+            {journal.feeling === 'Happy' && (
               <img
                 src="/images/journey/feelings/2.svg"
                 alt=""
                 className={classes.feelingImage}
               />
             )}
-            {journal.feeling === '3' && (
+            {journal.feeling === 'Neutral' && (
               <img
                 src="/images/journey/feelings/3.svg"
                 alt=""
                 className={classes.feelingImage}
               />
             )}
-            {journal.feeling === '4' && (
+            {journal.feeling === 'Sad' && (
               <img
                 src="/images/journey/feelings/4.svg"
                 alt=""
                 className={classes.feelingImage}
               />
             )}
-            {journal.feeling === '5' && (
+            {journal.feeling === 'VerySad' && (
               <img
                 src="/images/journey/feelings/5.svg"
                 alt=""

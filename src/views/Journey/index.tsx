@@ -1,11 +1,15 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { Redirect, RouteComponentProps } from 'react-router-dom';
 
 import { Grid } from '@material-ui/core';
 import { makeStyles } from '@material-ui/styles';
+import { useDispatch, useSelector } from 'react-redux';
 
-import { TabMenu } from 'components';
+import { TabMenu, Loading } from 'components';
 import { JourneyAll, Calendar } from './components';
+import { fetchJournals } from 'slices/journey/action';
+import { JourneyRootType } from 'types/journey';
+import { RootState } from 'reducer';
 
 const useStyles = makeStyles(() => ({
   root: {
@@ -42,39 +46,51 @@ type Props = RouteComponentProps<MatchParams>;
 const Journey: React.FC<Props> = ({ match }) => {
   const classes = useStyles();
   const { tab } = match.params;
+  const dispatch = useDispatch();
+
+  const journeyStore: JourneyRootType = useSelector(
+    (state: RootState) => state.journey
+  );
+
+  useEffect(() => {
+    dispatch(fetchJournals());
+  }, [dispatch]);
 
   if (!tab) {
     return <Redirect to="/journey/all" />;
   }
 
   return (
-    <Grid container justify="center" spacing={3} className={classes.root}>
-      <Grid item xs={12}>
-        <Grid container style={{ paddingTop: '20px' }} alignItems="center">
-          <Grid item xs={2}>
-            <span className={classes.menuText}>Journey</span>
-          </Grid>
-          <Grid item xs={10}>
-            <div
-              style={{
-                width: '100%',
-                display: 'flex',
-                justifyContent: 'flex-end'
-              }}>
-              <div style={{ width: '350px' }}>
-                <TabMenu menus={['all', 'calendar']} />
+    <>
+      {journeyStore.loading && <Loading />}
+      <Grid container justify="center" spacing={3} className={classes.root}>
+        <Grid item xs={12}>
+          <Grid container style={{ paddingTop: '20px' }} alignItems="center">
+            <Grid item xs={2}>
+              <span className={classes.menuText}>Journey</span>
+            </Grid>
+            <Grid item xs={10}>
+              <div
+                style={{
+                  width: '100%',
+                  display: 'flex',
+                  justifyContent: 'flex-end'
+                }}>
+                <div style={{ width: '350px' }}>
+                  <TabMenu menus={['all', 'calendar']} />
+                </div>
               </div>
-            </div>
+            </Grid>
           </Grid>
         </Grid>
+        <Grid item xs={12}>
+          <div className={classes.content}>
+            {tab === 'all' && <JourneyAll journals={journeyStore.journals} />}
+            {tab === 'calendar' && <Calendar />}
+          </div>
+        </Grid>
       </Grid>
-      <Grid item xs={12}>
-        <div className={classes.content}>
-          {tab === 'all' && <JourneyAll />}
-          {tab === 'calendar' && <Calendar />}
-        </div>
-      </Grid>
-    </Grid>
+    </>
   );
 };
 

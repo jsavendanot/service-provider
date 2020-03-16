@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import useRouter from 'utils/useRouter';
 
 import { Grid, Avatar, TextField } from '@material-ui/core';
@@ -6,6 +6,11 @@ import { makeStyles } from '@material-ui/styles';
 import { KeyboardArrowLeft } from '@material-ui/icons';
 
 import { Comment, Button } from 'components';
+import { RouteComponentProps } from 'react-router-dom';
+import { JourneyRootType, Journal } from 'types/journey';
+import { useSelector } from 'react-redux';
+import { RootState } from 'reducer';
+import moment from 'moment';
 
 const useStyles = makeStyles(() => ({
   root: {
@@ -94,9 +99,24 @@ const useStyles = makeStyles(() => ({
   }
 }));
 
-export const JournalDetail: React.FC = () => {
+interface MatchParams {
+  id: string;
+}
+type Props = RouteComponentProps<MatchParams>;
+
+export const JournalDetail: React.FC<Props> = ({ match }) => {
   const classes = useStyles();
   const { history } = useRouter();
+  const { id } = match.params;
+
+  const journeyStore: JourneyRootType = useSelector(
+    (state: RootState) => state.journey
+  );
+
+  const [journal] = useState<Journal>(
+    journeyStore.journals.find(journal => journal.id === id)!
+  );
+
   return (
     <Grid container className={classes.root}>
       <Grid item xs={12}>
@@ -121,31 +141,16 @@ export const JournalDetail: React.FC = () => {
                 flexDirection: 'column',
                 padding: '0 20px'
               }}>
-              <span className={classes.title}>What a lovely day!</span>
+              <span className={classes.title}>{journal.title}</span>
               <div className={classes.dateTime}>
-                <img
-                  src="/images/journey/journal/calendar_icon.svg"
-                  alt=""
-                  style={{ marginRight: '5px ' }}
-                />
-                14 September 2019
                 <img
                   src="/images/journey/journal/clock_icon.svg"
                   alt=""
-                  style={{ margin: '0 5px 0 20px' }}
+                  style={{ margin: '0 5px 0 0px' }}
                 />
-                10:15pm
+                {moment(journal.date).format('LLLL')}
               </div>
-              <div className={classes.descText}>
-                Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vel
-                varius varius malesuada lacus, massa tincidunt. Risus risus
-                feugiat auctor mi blandit facilisi nulla. Gravida tellus eu eu
-                ac. Amet varius tellus velit fames. Placerat malesuada donec
-                amet sapien. Dui faucibus nullam diam amet, elit. Mi adipiscing
-                tempus nec nunc. Maecenas senectus id purus iaculis amet, luctus
-                vitae orci. Faucibus et tellus, risus in urna condimentum ut
-                quam.
-              </div>
+              <div className={classes.descText}>{journal.journalText}</div>
               <div
                 style={{
                   display: 'flex',
