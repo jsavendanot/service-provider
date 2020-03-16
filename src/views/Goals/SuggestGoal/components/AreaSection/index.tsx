@@ -1,10 +1,10 @@
 import React from 'react';
-import { Area } from 'types/story';
 
 import { makeStyles } from '@material-ui/styles';
 
 import { AreaCard } from './components';
 import { RemoveCircleOutline, AddCircleOutline } from '@material-ui/icons';
+import { FocusArea } from 'types/other';
 
 const useStyles = makeStyles(() => ({
   root: {
@@ -37,10 +37,10 @@ const useStyles = makeStyles(() => ({
 
 type Props = {
   name: string;
-  areas: Area[];
+  areas: FocusArea[];
   note: string;
   actionType: 'add' | 'remove';
-  action: (id: number) => void;
+  action: (id: string) => void;
 };
 
 export const AreaSection: React.FC<Props> = ({

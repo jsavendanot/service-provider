@@ -1,11 +1,11 @@
 import React, { useState } from 'react';
-import { Area } from 'types/story';
 import clsx from 'clsx';
 
 import { makeStyles } from '@material-ui/styles';
 import { Add } from '@material-ui/icons';
 
 import { Button } from 'components';
+import { FocusArea } from 'types/other';
 
 const useStyles = makeStyles(() => ({
   root: {
@@ -47,7 +47,7 @@ const useStyles = makeStyles(() => ({
 }));
 
 type Props = {
-  area: Area;
+  area: FocusArea;
   clickable: boolean;
 };
 

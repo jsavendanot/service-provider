@@ -1,13 +1,14 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import { RouteComponentProps } from 'react-router-dom';
-import { Area } from 'types/story';
-import axios from 'utils/axios';
 
 import { Grid } from '@material-ui/core';
 import { makeStyles } from '@material-ui/styles';
 import { KeyboardArrowLeft } from '@material-ui/icons';
 
 import { AreaSection, GoalForm } from './components';
+import { OtherRootType, FocusArea } from 'types/other';
+import { useSelector } from 'react-redux';
+import { RootState } from 'reducer';
 
 const useStyles = makeStyles(() => ({
   root: {
@@ -42,37 +43,12 @@ type Props = RouteComponentProps<MatchParams>;
 export const SuggestGoal: React.FC<Props> = ({ history }) => {
   const classes = useStyles();
 
-  const [areas, setAreas] = useState<Area[]>([]);
-  const [myAreas, setMyAreas] = useState<Area[]>([]);
+  const other: OtherRootType = useSelector((state: RootState) => state.other);
 
-  useEffect(() => {
-    let mounted = true;
+  const [areas] = useState<FocusArea[]>(other.focusAreas);
+  const [myAreas, setMyAreas] = useState<FocusArea[]>([]);
 
-    const fetchAreas = () => {
-      axios.get('/api/areas').then(response => {
-        if (mounted) {
-          setAreas(response.data.areas);
-        }
-      });
-    };
-
-    const fetchMyAreas = () => {
-      axios.get('/api/myareas').then(response => {
-        if (mounted) {
-          setMyAreas(response.data.myareas);
-        }
-      });
-    };
-
-    fetchAreas();
-    fetchMyAreas();
-
-    return () => {
-      mounted = false;
-    };
-  }, []);
-
-  const handleRemove = (id: number) => {
+  const handleRemove = (id: string) => {
     myAreas.splice(
       myAreas.findIndex(area => area.id === id),
       1
@@ -80,8 +56,8 @@ export const SuggestGoal: React.FC<Props> = ({ history }) => {
     setMyAreas([...myAreas]);
   };
 
-  const handleAdd = (id: number) => {
-    const addedArea: Area[] = areas.filter(area => area.id === id);
+  const handleAdd = (id: string) => {
+    const addedArea: FocusArea[] = areas.filter(area => area.id === id);
     setMyAreas(value => [...value].concat(addedArea));
   };
 
