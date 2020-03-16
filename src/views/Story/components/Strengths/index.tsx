@@ -5,6 +5,7 @@ import { makeStyles } from '@material-ui/styles';
 import { Add } from '@material-ui/icons';
 
 import { Button } from 'components';
+import { Strength } from 'types/story';
 
 const useStyles = makeStyles(() => ({
   root: {
@@ -54,7 +55,11 @@ const useStyles = makeStyles(() => ({
   }
 }));
 
-export const Strengths: React.FC = () => {
+type Props = {
+  strengths: Strength[];
+};
+
+export const Strengths: React.FC<Props> = ({ strengths }) => {
   const classes = useStyles();
 
   /** Handle Fields */
@@ -70,14 +75,10 @@ export const Strengths: React.FC = () => {
     <div className={classes.root}>
       <span className={classes.title}>My strengths</span>
       <div style={{ width: '85%' }}>
-        {[
-          { id: 1, value: 'good relationship with the sealife' },
-          { id: 2, value: 'swimming' },
-          { id: 3, value: 'own an island' }
-        ].map(item => {
+        {strengths.map(item => {
           return (
             <div key={item.id} className={classes.row}>
-              <span className={classes.strengthText}>{item.value}</span>
+              <span className={classes.strengthText}>{item.name}</span>
             </div>
           );
         })}

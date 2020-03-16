@@ -1,5 +1,4 @@
-import React, { useState, useEffect } from 'react';
-import axios from 'utils/axios';
+import React from 'react';
 import { FocusArea } from 'types/other';
 import useRouter from 'utils/useRouter';
 
@@ -39,29 +38,13 @@ const useStyles = makeStyles(() => ({
   }
 }));
 
-export const FocusAreas: React.FC = () => {
+type Props = {
+  myAreas: FocusArea[];
+};
+
+export const FocusAreas: React.FC<Props> = ({ myAreas }) => {
   const classes = useStyles();
   const { history } = useRouter();
-
-  const [myAreas, setMyAreas] = useState<FocusArea[]>([]);
-
-  useEffect(() => {
-    let mounted = true;
-
-    const fetchData = () => {
-      axios.get('/api/myareas').then(response => {
-        if (mounted) {
-          setMyAreas(response.data.myareas);
-        }
-      });
-    };
-
-    fetchData();
-
-    return () => {
-      mounted = false;
-    };
-  }, []);
 
   return (
     <div className={classes.root}>

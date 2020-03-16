@@ -1,7 +1,6 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import { RouteComponentProps } from 'react-router-dom';
-import { FocusArea } from 'types/other';
-import axios from 'utils/axios';
+import { FocusArea, OtherRootType } from 'types/other';
 
 import { Grid } from '@material-ui/core';
 import { makeStyles } from '@material-ui/styles';
@@ -9,6 +8,9 @@ import { KeyboardArrowLeft } from '@material-ui/icons';
 
 import { AreaBox, Button } from 'components';
 import { AreaCard } from './components';
+import { StoryRootType } from 'types/story';
+import { useSelector } from 'react-redux';
+import { RootState } from 'reducer';
 
 const useStyles = makeStyles(() => ({
   root: {
@@ -52,35 +54,14 @@ type Props = RouteComponentProps<MatchParams>;
 export const SuggestArea: React.FC<Props> = ({ history }) => {
   const classes = useStyles();
 
-  const [areas, setAreas] = useState<FocusArea[]>([]);
-  const [myAreas, setMyAreas] = useState<FocusArea[]>([]);
+  const storyStore: StoryRootType = useSelector(
+    (state: RootState) => state.story
+  );
 
-  useEffect(() => {
-    let mounted = true;
+  const other: OtherRootType = useSelector((state: RootState) => state.other);
 
-    const fetchAreas = () => {
-      axios.get('/api/areas').then(response => {
-        if (mounted) {
-          setAreas(response.data.areas);
-        }
-      });
-    };
-
-    const fetchMyAreas = () => {
-      axios.get('/api/myareas').then(response => {
-        if (mounted) {
-          setMyAreas(response.data.myareas);
-        }
-      });
-    };
-
-    fetchAreas();
-    fetchMyAreas();
-
-    return () => {
-      mounted = false;
-    };
-  }, []);
+  const [areas] = useState<FocusArea[]>(other.focusAreas);
+  const [myAreas] = useState<FocusArea[]>(storyStore.focusAreas);
 
   return (
     <Grid container className={classes.root}>

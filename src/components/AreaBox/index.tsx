@@ -49,7 +49,11 @@ export const AreaBox: React.FC<Props> = ({ background, image, name }) => {
   return (
     <div className={classes.root} style={{ background: `${background}` }}>
       <div className={classes.imageContainer}>
-        <img src={`${image}`} alt="" style={{ maxHeight: '140px' }} />
+        <img
+          src={`/images/areas/${image}`}
+          alt=""
+          style={{ maxHeight: '140px' }}
+        />
       </div>
       <div className={classes.nameContainer}>
         <span className={classes.areaNameText}>{name}</span>

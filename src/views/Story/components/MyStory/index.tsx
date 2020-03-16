@@ -30,7 +30,11 @@ const useStyles = makeStyles(() => ({
   }
 }));
 
-export const MyStory: React.FC = () => {
+type Props = {
+  storyText: string;
+};
+
+export const MyStory: React.FC<Props> = ({ storyText }) => {
   const classes = useStyles();
   return (
     <div className={classes.root}>
@@ -39,16 +43,7 @@ export const MyStory: React.FC = () => {
           'SurName'
         )}`}
       </span>
-      <div className={classes.story}>
-        I was born and bred in Green Island, Australia. I grew up swimming with
-        my friends from the ocean - just like a mermaid. I lost my parents when
-        I was young so Rudy, the giant red crab and Nemo, the fish are the most
-        important friends for me. My life is mostly happy but I hate tsunami
-        because it destroys my home and I will have to rebuild it. I educated
-        myself by the magazines that were brought by the sea. I love to learn
-        new things from the mainland and I hope one day I can leave this small
-        island and start my adventure there.
-      </div>
+      <div className={classes.story}>{storyText}</div>
     </div>
   );
 };
