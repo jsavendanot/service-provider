@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'utils/axios';
-import { Area } from 'types/story';
+import { FocusArea } from 'types/other';
 import useRouter from 'utils/useRouter';
 
 import { Grid } from '@material-ui/core';
@@ -43,7 +43,7 @@ export const FocusAreas: React.FC = () => {
   const classes = useStyles();
   const { history } = useRouter();
 
-  const [myAreas, setMyAreas] = useState<Area[]>([]);
+  const [myAreas, setMyAreas] = useState<FocusArea[]>([]);
 
   useEffect(() => {
     let mounted = true;
@@ -77,7 +77,7 @@ export const FocusAreas: React.FC = () => {
               <Grid item xs={5} key={area.id}>
                 <AreaBox
                   id={area.id}
-                  background={area.background}
+                  background={area.color}
                   name={area.name}
                   image={area.image}
                 />

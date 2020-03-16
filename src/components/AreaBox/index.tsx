@@ -1,5 +1,4 @@
 import React from 'react';
-import { Area } from 'types/story';
 
 import { makeStyles } from '@material-ui/styles';
 
@@ -38,7 +37,14 @@ const useStyles = makeStyles(() => ({
   }
 }));
 
-export const AreaBox: React.FC<Area> = ({ background, image, name }) => {
+type Props = {
+  id: string;
+  background: string;
+  image: string;
+  name: string;
+};
+
+export const AreaBox: React.FC<Props> = ({ background, image, name }) => {
   const classes = useStyles();
   return (
     <div className={classes.root} style={{ background: `${background}` }}>

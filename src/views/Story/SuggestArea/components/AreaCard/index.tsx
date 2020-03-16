@@ -1,5 +1,5 @@
 import React from 'react';
-import { Area } from 'types/story';
+import { FocusArea } from 'types/other';
 
 import { Grid } from '@material-ui/core';
 import { makeStyles } from '@material-ui/styles';
@@ -29,7 +29,7 @@ const useStyles = makeStyles(() => ({
 }));
 
 type Props = {
-  area: Area;
+  area: FocusArea;
 };
 export const AreaCard: React.FC<Props> = ({ area }) => {
   const classes = useStyles();
@@ -41,7 +41,7 @@ export const AreaCard: React.FC<Props> = ({ area }) => {
           <AreaBox
             id={area.id}
             name={area.name}
-            background={area.background}
+            background={area.color}
             image={area.image}
           />
         </Grid>

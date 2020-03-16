@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { RouteComponentProps } from 'react-router-dom';
-import { Area } from 'types/story';
+import { FocusArea } from 'types/other';
 import axios from 'utils/axios';
 
 import { Grid } from '@material-ui/core';
@@ -52,8 +52,8 @@ type Props = RouteComponentProps<MatchParams>;
 export const SuggestArea: React.FC<Props> = ({ history }) => {
   const classes = useStyles();
 
-  const [areas, setAreas] = useState<Area[]>([]);
-  const [myAreas, setMyAreas] = useState<Area[]>([]);
+  const [areas, setAreas] = useState<FocusArea[]>([]);
+  const [myAreas, setMyAreas] = useState<FocusArea[]>([]);
 
   useEffect(() => {
     let mounted = true;
@@ -142,7 +142,7 @@ export const SuggestArea: React.FC<Props> = ({ history }) => {
                       <AreaBox
                         id={area.id}
                         name={area.name}
-                        background={area.background}
+                        background={area.color}
                         image={area.image}
                       />
                     </Grid>
