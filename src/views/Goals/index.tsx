@@ -7,7 +7,7 @@ import { Add } from '@material-ui/icons';
 import { useDispatch, useSelector } from 'react-redux';
 import { fetchGoals } from 'slices/goal/action';
 
-import { Button, TabMenu } from 'components';
+import { Button, TabMenu, Loading } from 'components';
 import { Toolbar, Current, Completed } from './components';
 import { GoalRootType } from 'types/goal';
 import { RootState } from 'reducer';
@@ -60,53 +60,56 @@ const Goals: React.FC<Props> = ({ match, history }) => {
   }
 
   return (
-    <Grid container justify="center" spacing={3} className={classes.root}>
-      <Grid item xs={12}>
-        <Grid container style={{ paddingTop: '20px' }} alignItems="center">
-          <Grid item xs={2}>
-            <span className={classes.menuText}>Goals</span>
-          </Grid>
-          <Grid item xs={6}>
-            <div style={{ width: '100%', display: 'flex' }}>
-              <div style={{ width: '350px' }}>
-                <TabMenu menus={['current', 'completed']} />
+    <>
+      {goalStore.loading && <Loading />}
+      <Grid container justify="center" spacing={3} className={classes.root}>
+        <Grid item xs={12}>
+          <Grid container style={{ paddingTop: '20px' }} alignItems="center">
+            <Grid item xs={2}>
+              <span className={classes.menuText}>Goals</span>
+            </Grid>
+            <Grid item xs={6}>
+              <div style={{ width: '100%', display: 'flex' }}>
+                <div style={{ width: '350px' }}>
+                  <TabMenu menus={['current', 'completed']} />
+                </div>
               </div>
-            </div>
-          </Grid>
-          <Grid item xs={4}>
-            <div
-              style={{
-                width: '100%',
-                display: 'flex',
-                justifyContent: 'flex-end'
-              }}>
-              <div style={{ width: '186px' }}>
-                <Button
-                  type="primary"
-                  click={() => history.push('/goals/1/suggest')}>
-                  <div
-                    style={{
-                      display: 'flex',
-                      alignItems: 'center',
-                      justifyContent: 'center'
-                    }}>
-                    <Add style={{ fill: '#FFFFFF', marginRight: '10px' }} />
-                    <span className={classes.buttonText}>Suggest goal</span>
-                  </div>
-                </Button>
+            </Grid>
+            <Grid item xs={4}>
+              <div
+                style={{
+                  width: '100%',
+                  display: 'flex',
+                  justifyContent: 'flex-end'
+                }}>
+                <div style={{ width: '186px' }}>
+                  <Button
+                    type="primary"
+                    click={() => history.push('/goals/1/suggest')}>
+                    <div
+                      style={{
+                        display: 'flex',
+                        alignItems: 'center',
+                        justifyContent: 'center'
+                      }}>
+                      <Add style={{ fill: '#FFFFFF', marginRight: '10px' }} />
+                      <span className={classes.buttonText}>Suggest goal</span>
+                    </div>
+                  </Button>
+                </div>
               </div>
-            </div>
+            </Grid>
           </Grid>
+          <Toolbar />
         </Grid>
-        <Toolbar />
+        <Grid item xs={12}>
+          <div className={classes.content}>
+            {tab === 'current' && <Current goals={goalStore.goals} />}
+            {tab === 'completed' && <Completed goals={goalStore.goals} />}
+          </div>
+        </Grid>
       </Grid>
-      <Grid item xs={12}>
-        <div className={classes.content}>
-          {tab === 'current' && <Current goals={goalStore.goals} />}
-          {tab === 'completed' && <Completed goals={goalStore.goals} />}
-        </div>
-      </Grid>
-    </Grid>
+    </>
   );
 };
 

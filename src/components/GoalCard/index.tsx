@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { Goal } from 'types/goal';
 import clsx from 'clsx';
 import useRouter from 'utils/useRouter';
@@ -9,6 +9,9 @@ import { Add } from '@material-ui/icons';
 
 import { Button } from 'components';
 import { StepCard } from './components';
+import { OtherRootType } from 'types/other';
+import { useSelector } from 'react-redux';
+import { RootState } from 'reducer';
 
 const useStyles = makeStyles(() => ({
   root: {
@@ -115,6 +118,12 @@ type Props = {
 export const GoalCard: React.FC<Props> = ({ goal }) => {
   const classes = useStyles();
   const { history } = useRouter();
+  const other: OtherRootType = useSelector((state: RootState) => state.other);
+
+  const [focusArea] = useState(
+    other.focusAreas.find(area => area.id === goal.focusAreaId)
+  );
+
   return (
     <Grid container className={classes.root}>
       <Grid item xs={12}>
@@ -125,7 +134,9 @@ export const GoalCard: React.FC<Props> = ({ goal }) => {
               alignItems: 'center',
               justifyContent: 'space-between'
             }}>
-            <span className={classes.focusAreaText}>{goal.focusAreaId}</span>
+            <span className={classes.focusAreaText}>
+              {focusArea && focusArea.name}
+            </span>
             {goal.status !== 'active' && (
               <div
                 className={clsx(
@@ -148,8 +159,8 @@ export const GoalCard: React.FC<Props> = ({ goal }) => {
         <Divider className={classes.divider} />
       </Grid>
       <Grid item xs={12}>
-        {goal.steps.map(step => {
-          return <StepCard key={step.id} step={step} />;
+        {goal.steps.map((step, index) => {
+          return <StepCard key={step.id} number={index + 1} step={step} />;
         })}
       </Grid>
       <Grid item xs={12}>

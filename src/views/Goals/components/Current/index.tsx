@@ -12,13 +12,15 @@ type Props = {
 export const Current: React.FC<Props> = ({ goals }) => {
   return (
     <Grid container spacing={3}>
-      {goals.map(goal => {
-        return (
-          <Grid item xs={4} key={goal.id}>
-            <GoalCard goal={goal} />
-          </Grid>
-        );
-      })}
+      {goals
+        .filter(goal => new Date(goal.completedDate) > new Date())
+        .map(goal => {
+          return (
+            <Grid item xs={4} key={goal.id}>
+              <GoalCard goal={goal} />
+            </Grid>
+          );
+        })}
     </Grid>
   );
 };

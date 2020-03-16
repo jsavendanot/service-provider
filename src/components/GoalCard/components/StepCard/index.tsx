@@ -74,14 +74,15 @@ const useStyles = makeStyles(() => ({
 }));
 
 type Props = {
+  number: number;
   step: Step;
 };
 
-export const StepCard: React.FC<Props> = ({ step }) => {
+export const StepCard: React.FC<Props> = ({ step, number }) => {
   const classes = useStyles();
   return (
     <div className={classes.root}>
-      <span className={classes.number}>{step.id}</span>
+      <span className={classes.number}>{number}</span>
       <div
         style={{
           width: '100%',

@@ -11,6 +11,7 @@ import { RouteComponentProps } from 'react-router-dom';
 import { GoalRootType } from 'types/goal';
 import { useSelector } from 'react-redux';
 import { RootState } from 'reducer';
+import moment from 'moment';
 
 const useStyles = makeStyles(() => ({
   root: {
@@ -161,11 +162,19 @@ export const GoalDetail: React.FC<Props> = ({ match }) => {
                 <div style={{ margin: '30px 0' }}>
                   <div style={{ display: 'flex', margin: '10px 0' }}>
                     <div className={classes.subTitle}>Start Date</div>
-                    <span>{goal.deadline.startDate}</span>
+                    <span>
+                      {moment(goal.deadline.startDate).format(
+                        'dddd DD / MM / YYYY'
+                      )}
+                    </span>
                   </div>
                   <div style={{ display: 'flex', margin: '10px 0' }}>
                     <div className={classes.subTitle}>End Date</div>
-                    <span>{goal.deadline.endDate}</span>
+                    <span>
+                      {moment(goal.deadline.endDate).format(
+                        'dddd DD / MM / YYYY'
+                      )}
+                    </span>
                   </div>
                 </div>
                 <div style={{ margin: '30px 0' }}>
@@ -220,8 +229,10 @@ export const GoalDetail: React.FC<Props> = ({ match }) => {
               <div style={{ margin: '20px 0' }}>
                 <span className={classes.subTitle}>Steps</span>
                 <div className={classes.stepContainer}>
-                  {goal.steps.map(step => {
-                    return <StepCard key={step.id} step={step} />;
+                  {goal.steps.map((step, index) => {
+                    return (
+                      <StepCard key={step.id} step={step} number={index + 1} />
+                    );
                   })}
                   <div
                     style={{
