@@ -1,6 +1,6 @@
 import React from 'react';
 import clsx from 'clsx';
-import { WarningType } from 'types/safety';
+import { Value } from 'types/safety';
 
 import { makeStyles } from '@material-ui/styles';
 import { KeyboardArrowUp, Add } from '@material-ui/icons';
@@ -64,10 +64,26 @@ const useStyles = makeStyles(() => ({
   }
 }));
 
-export const Warning: React.FC<WarningType> = ({
+type Props = {
+  id: number;
+  diffTitle: string;
+  diffDescription: string;
+  difficulties: Value[];
+  planTitle: string;
+  planDescription: string;
+  strategies: Value[];
+  collapse: boolean;
+  change: () => void;
+};
+
+export const Warning: React.FC<Props> = ({
   id,
-  difficulty,
-  plan,
+  diffTitle,
+  diffDescription,
+  difficulties,
+  planTitle,
+  planDescription,
+  strategies,
   collapse,
   change
 }) => {
@@ -77,7 +93,7 @@ export const Warning: React.FC<WarningType> = ({
     <div className={classes.root}>
       <div style={{ margin: '5px 0' }}>
         <div style={{ display: 'flex', alignItems: 'flex-start' }}>
-          <div className={classes.title}>{`${id}. ${difficulty.title}`}</div>
+          <div className={classes.title}>{`${id}. ${diffTitle}`}</div>
           <KeyboardArrowUp
             fontSize="large"
             style={{ fill: '#C57D7D', cursor: 'pointer' }}
@@ -89,16 +105,16 @@ export const Warning: React.FC<WarningType> = ({
           <span
             className={
               classes.itemsText
-            }>{`${difficulty.values.length} items`}</span>
+            }>{`${difficulties.length} items`}</span>
         )}
         {collapse && (
           <div>
-            <span className={classes.descText}>{difficulty.description}</span>
+            <span className={classes.descText}>{diffDescription}</span>
             <div className={classes.values}>
-              {difficulty.values.map(value => {
+              {difficulties.map(value => {
                 return (
                   <div key={value.id} className={classes.value}>
-                    {value.value}
+                    {value.name}
                   </div>
                 );
               })}
@@ -132,20 +148,20 @@ export const Warning: React.FC<WarningType> = ({
             alt=""
             style={{ marginTop: '15px', marginRight: '5px' }}
           />
-          <div className={classes.title}>{plan.title}</div>
+          <div className={classes.title}>{planTitle}</div>
         </div>
         {!collapse && (
           <span
-            className={classes.itemsText}>{`${plan.values.length} items`}</span>
+            className={classes.itemsText}>{`${strategies.length} items`}</span>
         )}
         {collapse && (
           <div>
-            <span className={classes.descText}>{plan.description}</span>
+            <span className={classes.descText}>{planDescription}</span>
             <div className={classes.values}>
-              {plan.values.map(value => {
+              {strategies.map(value => {
                 return (
                   <div key={value.id} className={classes.value}>
-                    {value.value}
+                    {value.name}
                   </div>
                 );
               })}

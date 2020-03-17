@@ -1,16 +1,21 @@
 import React, { useState, useEffect, ChangeEvent } from 'react';
-import axios from 'utils/axios';
-import {
-  SafetyCardType,
-  WarningType,
-  UnwellType,
-  ContactType
-} from 'types/safety';
 
 import { Grid, Switch } from '@material-ui/core';
 import { makeStyles } from '@material-ui/styles';
+import { useDispatch, useSelector } from 'react-redux';
+
+import {
+  fetchStaywellData,
+  fetchStressData,
+  fetchWarnDiffData,
+  fetchWarnStrData
+  // fetchPeopleData
+} from 'slices/safety/action';
 
 import { SafetyCard, Warning, Unwell, Contact } from './components';
+import { SafetyRootType } from 'types/safety';
+import { RootState } from 'reducer';
+import { Loading } from 'components';
 
 const useStyles = makeStyles(() => ({
   root: {
@@ -40,6 +45,7 @@ const useStyles = makeStyles(() => ({
 
 export const Safety: React.FC = () => {
   const classes = useStyles();
+  const dispatch = useDispatch();
 
   const [state, setState] = useState(false);
 
@@ -77,177 +83,113 @@ export const Safety: React.FC = () => {
         });
   };
 
-  /** Fetch mock data */
-
-  const [staywell, setStaywell] = useState<SafetyCardType[]>([]);
-  const [stress, setStress] = useState<SafetyCardType[]>([]);
-  const [warning, setWarning] = useState<WarningType[]>([]);
-  const [unwell, setUnwell] = useState<UnwellType[]>([]);
-  const [contact, setContact] = useState<ContactType[]>([]);
+  const safetyStory: SafetyRootType = useSelector(
+    (state: RootState) => state.safety
+  );
 
   useEffect(() => {
-    let mounted = true;
-
-    const fetchStaywell = () => {
-      axios.get('/api/staywell').then(response => {
-        if (mounted) {
-          setStaywell(response.data.staywell);
-        }
-      });
-    };
-
-    const fetchStress = () => {
-      axios.get('/api/stress').then(response => {
-        if (mounted) {
-          setStress(response.data.stress);
-        }
-      });
-    };
-
-    const fetchWarning = () => {
-      axios.get('/api/warning').then(response => {
-        if (mounted) {
-          setWarning(response.data.warning);
-        }
-      });
-    };
-
-    const fetchUnwell = () => {
-      axios.get('/api/unwell').then(response => {
-        if (mounted) {
-          setUnwell(response.data.unwell);
-        }
-      });
-    };
-
-    const fetchContact = () => {
-      axios.get('/api/contact').then(response => {
-        if (mounted) {
-          setContact(response.data.contact);
-        }
-      });
-    };
-
-    fetchStaywell();
-    fetchStress();
-    fetchWarning();
-    fetchUnwell();
-    fetchContact();
-
-    return () => {
-      mounted = false;
-    };
-  }, []);
+    dispatch(fetchStaywellData());
+    dispatch(fetchStressData());
+    dispatch(fetchWarnDiffData());
+    dispatch(fetchWarnStrData());
+    // dispatch(fetchPeopleData());
+  }, [dispatch]);
 
   return (
-    <Grid container spacing={3} className={classes.root}>
-      <Grid item xs={12}>
-        <div
-          style={{ marginTop: '37px', display: 'flex', alignItems: 'center' }}>
-          <span className={classes.menuText}>Safety Plan</span>
+    <>
+      {safetyStory.loading && <Loading />}
+      <Grid container spacing={3} className={classes.root}>
+        <Grid item xs={12}>
           <div
             style={{
+              marginTop: '37px',
               display: 'flex',
-              alignItems: 'center',
-              marginLeft: '50px'
+              alignItems: 'center'
             }}>
-            <span className={classes.switchText}>Collapse all</span>
-            <Switch
-              checked={state}
-              color="primary"
-              value={state}
-              onChange={event => handleChange(event)}
-            />
-          </div>
-        </div>
-      </Grid>
-      <Grid item xs={12}>
-        <Grid container>
-          <Grid item xs={5}>
-            {staywell.map(value => {
-              return (
-                <SafetyCard
-                  key={value.id}
-                  title={value.title}
-                  id={value.id}
-                  description={value.description}
-                  values={value.values}
-                  collapse={collapses.staywell}
-                  change={() => handleCollapse('staywell', !collapses.staywell)}
-                />
-              );
-            })}
-          </Grid>
-          <Grid item xs={1} />
-          <Grid item xs={5}>
-            {stress.map(value => {
-              return (
-                <SafetyCard
-                  key={value.id}
-                  title={value.title}
-                  id={value.id}
-                  description={value.description}
-                  values={value.values}
-                  collapse={collapses.stress}
-                  change={() => handleCollapse('stress', !collapses.stress)}
-                />
-              );
-            })}
-          </Grid>
-        </Grid>
-      </Grid>
-      <Grid item xs={12}>
-        <Grid container>
-          <Grid item xs={5}>
-            {warning.map(value => {
-              return (
-                <Warning
-                  key={value.id}
-                  id={value.id}
-                  difficulty={value.difficulty}
-                  plan={value.plan}
-                  collapse={collapses.warning}
-                  change={() => handleCollapse('warning', !collapses.warning)}
-                />
-              );
-            })}
-          </Grid>
-          <Grid item xs={1} />
-          <Grid item xs={5}>
-            <div style={{ marginBottom: '20px' }}>
-              {unwell.map(value => {
-                return (
-                  <Unwell
-                    key={value.id}
-                    id={value.id}
-                    title={value.title}
-                    description={value.description}
-                    pleaseDo={value.pleaseDo}
-                    dontDo={value.dontDo}
-                    collapse={collapses.unwell}
-                    change={() => handleCollapse('unwell', !collapses.unwell)}
-                  />
-                );
-              })}
+            <span className={classes.menuText}>Safety Plan</span>
+            <div
+              style={{
+                display: 'flex',
+                alignItems: 'center',
+                marginLeft: '50px'
+              }}>
+              <span className={classes.switchText}>Collapse all</span>
+              <Switch
+                checked={state}
+                color="primary"
+                value={state}
+                onChange={event => handleChange(event)}
+              />
             </div>
-            {contact.map(value => {
-              return (
-                <Contact
-                  key={value.id}
-                  id={value.id}
-                  title={value.title}
-                  description={value.description}
-                  people={value.people}
-                  services={value.services}
-                  collapse={collapses.contact}
-                  change={() => handleCollapse('contact', !collapses.contact)}
+          </div>
+        </Grid>
+        <Grid item xs={12}>
+          <Grid container>
+            <Grid item xs={5}>
+              <SafetyCard
+                id={1}
+                title="Things I do to stay well"
+                description="These are things that I can do to be and stay well."
+                values={safetyStory.staywell}
+                collapse={collapses.staywell}
+                change={() => handleCollapse('staywell', !collapses.staywell)}
+              />
+            </Grid>
+            <Grid item xs={1} />
+            <Grid item xs={5}>
+              <SafetyCard
+                id={2}
+                title="Things that stress me"
+                description="Things that may stress me or cause me to have difficulties managing my issues."
+                values={safetyStory.stress}
+                collapse={collapses.stress}
+                change={() => handleCollapse('stress', !collapses.stress)}
+              />
+            </Grid>
+          </Grid>
+        </Grid>
+        <Grid item xs={12}>
+          <Grid container>
+            <Grid item xs={5}>
+              <Warning
+                id={3}
+                diffTitle="Warning signs I may be having difficulty"
+                diffDescription="Things I or others may notice when I am unwell."
+                difficulties={safetyStory.difficulties}
+                planTitle="Warning signs I may be having difficulty"
+                planDescription="Things I or others may notice when I am unwell."
+                strategies={safetyStory.strategies}
+                collapse={collapses.warning}
+                change={() => handleCollapse('warning', !collapses.warning)}
+              />
+            </Grid>
+            <Grid item xs={1} />
+            <Grid item xs={5}>
+              <div style={{ marginBottom: '20px' }}>
+                <Unwell
+                  id={4}
+                  title="If I become unwell, I would like others to..."
+                  description="If I become unwell I would like these to happen or not happen."
+                  pleaseDo={safetyStory.pleaseDo}
+                  dontDo={safetyStory.doNotDo}
+                  collapse={collapses.unwell}
+                  change={() => handleCollapse('unwell', !collapses.unwell)}
                 />
-              );
-            })}
+              </div>
+              <Contact
+                id={5}
+                title="People or services who I can contact"
+                description="People or services who I can contact for support if I need immediate help."
+                people={safetyStory.people}
+                services={safetyStory.people}
+                collapse={collapses.contact}
+                change={() => handleCollapse('contact', !collapses.contact)}
+              />
+            </Grid>
           </Grid>
         </Grid>
       </Grid>
-    </Grid>
+    </>
   );
 };
 

@@ -1,12 +1,12 @@
 import React, { useState, ChangeEvent } from 'react';
 import clsx from 'clsx';
-import { SafetyCardType } from 'types/safety';
 
 import { TextField } from '@material-ui/core';
 import { makeStyles } from '@material-ui/styles';
 import { KeyboardArrowUp, Add } from '@material-ui/icons';
 
 import { Button } from 'components';
+import { Value } from 'types/safety';
 
 const useStyles = makeStyles(() => ({
   root: {
@@ -76,7 +76,16 @@ const useStyles = makeStyles(() => ({
   }
 }));
 
-export const SafetyCard: React.FC<SafetyCardType> = ({
+type Props = {
+  id: number;
+  title: string;
+  description: string;
+  values: Value[];
+  collapse: boolean;
+  change: () => void;
+};
+
+export const SafetyCard: React.FC<Props> = ({
   id,
   title,
   description,
@@ -116,7 +125,7 @@ export const SafetyCard: React.FC<SafetyCardType> = ({
             {values.map(value => {
               return (
                 <div key={value.id} className={classes.value}>
-                  {value.value}
+                  {value.name}
                 </div>
               );
             })}

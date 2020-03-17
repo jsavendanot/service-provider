@@ -1,6 +1,6 @@
 import React from 'react';
 import clsx from 'clsx';
-import { UnwellType } from 'types/safety';
+import { Unwell as UnwellType } from 'types/safety';
 
 import { makeStyles } from '@material-ui/styles';
 import {
@@ -102,7 +102,17 @@ const useStyles = makeStyles(() => ({
   }
 }));
 
-export const Unwell: React.FC<UnwellType> = ({
+type Props = {
+  id: number;
+  title: string;
+  description: string;
+  pleaseDo: UnwellType[];
+  dontDo: UnwellType[];
+  collapse: boolean;
+  change: () => void;
+};
+
+export const Unwell: React.FC<Props> = ({
   id,
   title,
   description,
@@ -149,25 +159,25 @@ export const Unwell: React.FC<UnwellType> = ({
               <CheckCircle style={{ fill: '#41C04E', marginRight: '5px' }} />
               <span className={classes.pleaseText}>Please do</span>
             </div>
-            {pleaseDo.map(item => {
+            {pleaseDo.map((item, index) => {
               return (
-                <div key={item.id} className={classes.values}>
-                  {item.values.map(value => {
+                <div key={index} className={classes.values}>
+                  {item.things.map(value => {
                     return (
                       <div key={value.id} className={classes.value}>
-                        {value.value}
+                        {value.name}
                       </div>
                     );
                   })}
-                  {item.supports && (
+                  {item.whos && (
                     <div className={classes.support}>
                       <People
                         style={{ fill: '#C57D7D', marginRight: '10px' }}
                       />
-                      {item.supports.map(value => {
+                      {item.whos.map(value => {
                         return (
                           <span key={value.id} className={classes.supportText}>
-                            {value.value},
+                            {value.name},
                           </span>
                         );
                       })}
@@ -214,25 +224,25 @@ export const Unwell: React.FC<UnwellType> = ({
         )}
         {collapse && (
           <div>
-            {dontDo.map(item => {
+            {dontDo.map((item, index) => {
               return (
-                <div key={item.id} className={classes.values}>
-                  {item.values.map(value => {
+                <div key={index} className={classes.values}>
+                  {item.things.map(value => {
                     return (
                       <div key={value.id} className={classes.value}>
-                        {value.value}
+                        {value.name}
                       </div>
                     );
                   })}
-                  {item.supports && (
+                  {item.whos && (
                     <div className={classes.support}>
                       <People
                         style={{ fill: '#C57D7D', marginRight: '10px' }}
                       />
-                      {item.supports.map(value => {
+                      {item.whos.map(value => {
                         return (
                           <span key={value.id} className={classes.supportText}>
-                            {value.value},
+                            {value.name},
                           </span>
                         );
                       })}

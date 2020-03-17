@@ -1,6 +1,6 @@
 import React from 'react';
 import clsx from 'clsx';
-import { ContactType } from 'types/safety';
+import { Service } from 'types/safety';
 
 import { makeStyles } from '@material-ui/styles';
 import { KeyboardArrowUp, Add, Phone } from '@material-ui/icons';
@@ -96,7 +96,17 @@ const useStyles = makeStyles(() => ({
   }
 }));
 
-export const Contact: React.FC<ContactType> = ({
+type Props = {
+  id: number;
+  title: string;
+  description: string;
+  people: Service[];
+  services: Service[];
+  collapse: boolean;
+  change: () => void;
+};
+
+export const Contact: React.FC<Props> = ({
   id,
   title,
   description,
@@ -135,23 +145,17 @@ export const Contact: React.FC<ContactType> = ({
             <div style={{ margin: '10px 0 5px' }}>
               <span className={classes.subTitle}>People</span>
             </div>
-            {people.map(item => {
+            {people.map((item, index) => {
               return (
-                <div key={item.id} className={classes.values}>
-                  {item.values.map(value => {
-                    return (
-                      <div key={value.id} className={classes.value}>
-                        {value.value}
-                      </div>
-                    );
-                  })}
-                  {item.phones && (
+                <div key={index} className={classes.values}>
+                  <div className={classes.value}>{item.who}</div>
+                  {item.numbers && (
                     <div className={classes.phone}>
                       <Phone style={{ fill: '#C57D7D', marginRight: '10px' }} />
-                      {item.phones.map(value => {
+                      {item.numbers.map(value => {
                         return (
                           <span key={value.id} className={classes.phoneText}>
-                            {value.value},
+                            {value.name},
                           </span>
                         );
                       })}
@@ -192,23 +196,17 @@ export const Contact: React.FC<ContactType> = ({
         )}
         {collapse && (
           <div>
-            {services.map(item => {
+            {services.map((item, index) => {
               return (
-                <div key={item.id} className={classes.values}>
-                  {item.values.map(value => {
-                    return (
-                      <div key={value.id} className={classes.value}>
-                        {value.value}
-                      </div>
-                    );
-                  })}
-                  {item.phones && (
+                <div key={index} className={classes.values}>
+                  <div className={classes.value}>{item.who}</div>
+                  {item.numbers && (
                     <div className={classes.phone}>
                       <Phone style={{ fill: '#C57D7D', marginRight: '10px' }} />
-                      {item.phones.map(value => {
+                      {item.numbers.map(value => {
                         return (
                           <span key={value.id} className={classes.phoneText}>
-                            {value.value},
+                            {value.name},
                           </span>
                         );
                       })}

@@ -1,93 +1,46 @@
-export type SafetyCardType = {
-  id: number;
-  title: string;
-  description: string;
-  values: {
-    id: number;
-    value: string;
-  }[];
-  collapse: boolean;
-  change: () => void;
-};
+export interface Suggestion {
+  id: string;
+  name: string;
+}
 
-export type WarningType = {
-  id: number;
-  difficulty: {
-    title: string;
-    description: string;
-    values: {
-      id: number;
-      value: string;
-    }[];
+export interface Value {
+  id: string;
+  name: string;
+}
+
+export interface Unwell {
+  things: Value[];
+  whos: Value[];
+}
+
+export interface Service {
+  who: string;
+  numbers: Value[];
+}
+
+export class ServiceClass implements Service {
+  who: string;
+  numbers: Value[];
+  constructor(who: string) {
+    this.who = who;
+    this.numbers = [];
+  }
+
+  setNumber = (number: string) => {
+    this.numbers.push({
+      id: number,
+      name: number
+    });
   };
-  plan: {
-    title: string;
-    description: string;
-    values: {
-      id: number;
-      value: string;
-    }[];
-  };
-  collapse: boolean;
-  change: () => void;
-};
+}
 
-export type UnwellType = {
-  id: number;
-  title: string;
-  description: string;
-  pleaseDo: {
-    id: number;
-    values: {
-      id: number;
-      value: string;
-    }[];
-    supports?: {
-      id: number;
-      value: string;
-    }[];
-  }[];
-  dontDo: {
-    id: number;
-    values: {
-      id: number;
-      value: string;
-    }[];
-    supports?: {
-      id: number;
-      value: string;
-    }[];
-  }[];
-  collapse: boolean;
-  change: () => void;
-};
-
-export type ContactType = {
-  id: number;
-  title: string;
-  description: string;
-  people: {
-    id: number;
-    values: {
-      id: number;
-      value: string;
-    }[];
-    phones: {
-      id: number;
-      value: string;
-    }[];
-  }[];
-  services: {
-    id: number;
-    values: {
-      id: number;
-      value: string;
-    }[];
-    phones: {
-      id: number;
-      value: string;
-    }[];
-  }[];
-  collapse: boolean;
-  change: () => void;
-};
+export interface SafetyRootType {
+  staywell: Value[];
+  stress: Value[];
+  difficulties: Value[];
+  strategies: Value[];
+  pleaseDo: Unwell[];
+  doNotDo: Unwell[];
+  people: Service[];
+  loading: boolean;
+}

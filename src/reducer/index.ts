@@ -6,6 +6,7 @@ import goalReducer from 'slices/goal/goalSlice';
 import otherReducer from 'slices/other/otherSlice';
 import journeyReducer from 'slices/journey/journeySlice';
 import storyReducer from 'slices/story/storySlice';
+import safetyReducer from 'slices/safety/safetySlice';
 
 const rootReducer = combineReducers({
   session: sessionReducer,
@@ -13,7 +14,8 @@ const rootReducer = combineReducers({
   goal: goalReducer,
   other: otherReducer,
   journey: journeyReducer,
-  story: storyReducer
+  story: storyReducer,
+  safety: safetyReducer
 });
 
 export type RootState = ReturnType<typeof rootReducer>;
