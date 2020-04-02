@@ -14,7 +14,6 @@ import { Gallery, MyStory, Strenghts, FocusAreas } from './components';
 import { StoryRootType } from 'types/story';
 import { RootState } from 'reducer';
 import { Loading } from 'components';
-import { OtherRootType } from 'types/other';
 
 const useStyles = makeStyles(() => ({
   root: {
@@ -40,13 +39,9 @@ export const Story: React.FC = () => {
     (state: RootState) => state.story
   );
 
-  const other: OtherRootType = useSelector((state: RootState) => state.other);
-
   useEffect(() => {
-    if (other.focusAreas.length === 0) {
-      dispatch(fetchAllFocusAreas());
-    }
-  }, [dispatch, other.focusAreas.length]);
+    dispatch(fetchAllFocusAreas());
+  }, [dispatch]);
 
   useEffect(() => {
     dispatch(fetchStoryData());

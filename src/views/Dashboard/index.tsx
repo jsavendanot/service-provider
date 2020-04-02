@@ -1,7 +1,5 @@
-import React, { useEffect } from 'react';
+import React from 'react';
 import { RouteComponentProps } from 'react-router-dom';
-import { useDispatch } from 'react-redux';
-import { fetchAllFocusAreas } from 'slices/other/action';
 
 import { Grid, FormControlLabel, Checkbox } from '@material-ui/core';
 import { makeStyles } from '@material-ui/styles';
@@ -71,11 +69,6 @@ type Props = RouteComponentProps<MatchParams>;
 
 export const Dashboard: React.FC<Props> = (props: Props) => {
   const classes = useStyles();
-  const dispatch = useDispatch();
-
-  useEffect(() => {
-    dispatch(fetchAllFocusAreas());
-  }, [dispatch]);
 
   return (
     <Grid container justify="center">

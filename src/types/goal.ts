@@ -63,7 +63,16 @@ export interface Step {
   visitsLeft: number;
 }
 
+export interface ProgressCheckIn {
+  GoalId: string;
+  GoalStepId: string;
+  TotalRepeats: number;
+  TotalRepeatCompleted: number;
+  StepCompleted: number;
+}
+
 export interface GoalRootType {
   goals: Goal[];
+  steps: Step[];
   loading: boolean;
 }

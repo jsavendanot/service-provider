@@ -8,7 +8,7 @@ import { KeyboardArrowLeft, Add } from '@material-ui/icons';
 import { Comment, Button } from 'components';
 import { StepCard } from './components';
 import { RouteComponentProps } from 'react-router-dom';
-import { GoalRootType } from 'types/goal';
+import { Goal, Step } from 'types/goal';
 import { useSelector } from 'react-redux';
 import { RootState } from 'reducer';
 import moment from 'moment';
@@ -129,9 +129,13 @@ export const GoalDetail: React.FC<Props> = ({ match }) => {
   const classes = useStyles();
   const { history } = useRouter();
   const { id } = match.params;
-  const goalStore: GoalRootType = useSelector((state: RootState) => state.goal);
 
-  const [goal] = useState(goalStore.goals.find(goal => goal.Id === id)!);
+  const goals: Goal[] = useSelector((state: RootState) => state.goal.goals);
+  const steps: Step[] = useSelector((state: RootState) =>
+    state.goal.steps.filter(item => item.GoalId === id)
+  );
+
+  const [goal] = useState(goals.find(goal => goal.Id === id)!);
 
   return (
     <Grid container className={classes.root}>
@@ -182,7 +186,7 @@ export const GoalDetail: React.FC<Props> = ({ match }) => {
                   </div>
                   <div style={{ display: 'flex', margin: '10px 0' }}>
                     <div className={classes.subTitle}>Target</div>
-                    {/* <span>{goal.steps.length} steps</span> */}
+                    <span>{steps.length} steps</span>
                   </div>
                 </div>
               </div>
@@ -227,11 +231,11 @@ export const GoalDetail: React.FC<Props> = ({ match }) => {
               <div style={{ margin: '20px 0' }}>
                 <span className={classes.subTitle}>Steps</span>
                 <div className={classes.stepContainer}>
-                  {/* {goal.steps.map((step, index) => {
+                  {steps.map((step, index) => {
                     return (
-                      <StepCard key={step.id} step={step} number={index + 1} />
+                      <StepCard key={step.Id} step={step} number={index + 1} />
                     );
-                  })} */}
+                  })}
                   <div
                     style={{
                       display: 'flex',

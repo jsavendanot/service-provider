@@ -11,6 +11,7 @@ import { Loading } from 'components';
 import { Consumers, Toolbar } from './components';
 import { Person } from 'types/people';
 import { RootState } from 'reducer';
+import { fetchAllFocusAreas } from 'slices/other/action';
 
 const useStyles = makeStyles(() => ({
   root: {
@@ -33,6 +34,7 @@ export const Home: React.FC = () => {
   useEffect(() => {
     dispatch(startSession());
     dispatch(fetchPeople());
+    dispatch(fetchAllFocusAreas());
   }, [dispatch]);
 
   return (

@@ -1,6 +1,5 @@
 import React, { useState } from 'react';
-import { Goal } from 'types/goal';
-import clsx from 'clsx';
+import { Goal, Step } from 'types/goal';
 import useRouter from 'utils/useRouter';
 
 import { Grid, LinearProgress, Divider } from '@material-ui/core';
@@ -9,7 +8,7 @@ import { Add } from '@material-ui/icons';
 
 import { Button } from 'components';
 import { StepCard } from './components';
-import { OtherRootType } from 'types/other';
+import { FocusArea } from 'types/other';
 import { useSelector } from 'react-redux';
 import { RootState } from 'reducer';
 
@@ -118,10 +117,17 @@ type Props = {
 export const GoalCard: React.FC<Props> = ({ goal }) => {
   const classes = useStyles();
   const { history } = useRouter();
-  const other: OtherRootType = useSelector((state: RootState) => state.other);
+
+  const [focusAreas] = useState<FocusArea[]>(
+    JSON.parse(sessionStorage.getItem('focusAreas')!)
+  );
+
+  const steps: Step[] = useSelector((state: RootState) =>
+    state.goal.steps.filter(item => item.GoalId === goal.Id)
+  );
 
   const [focusArea] = useState(
-    other.focusAreas.find(area => area.id === goal.FocusArea)
+    focusAreas.find(area => area.id === goal.FocusArea)
   );
 
   return (
@@ -137,15 +143,6 @@ export const GoalCard: React.FC<Props> = ({ goal }) => {
             <span className={classes.focusAreaText}>
               {focusArea && focusArea.name}
             </span>
-            {/* {goal.status !== 'active' && (
-              <div
-                className={clsx(
-                  goal.status === 'pending' && classes.statusPending,
-                  goal.status === 'declined' && classes.statusDeclined
-                )}>
-                <span className={classes.statusText}>{goal.status}</span>
-              </div>
-            )} */}
           </div>
           <div className={classes.goalName}>{goal.Name}</div>
           <BorderLinearProgress
@@ -158,11 +155,11 @@ export const GoalCard: React.FC<Props> = ({ goal }) => {
       <Grid item xs={12}>
         <Divider className={classes.divider} />
       </Grid>
-      {/* <Grid item xs={12}>
-        {goal.steps.map((step, index) => {
-          return <StepCard key={step.id} number={index + 1} step={step} />;
+      <Grid item xs={12}>
+        {steps.map((step, index) => {
+          return <StepCard key={step.Id} number={index + 1} step={step} />;
         })}
-      </Grid> */}
+      </Grid>
       <Grid item xs={12}>
         <div className={classes.footer}>
           <div>

@@ -1,8 +1,8 @@
-import React, { useState, useEffect, ChangeEvent } from 'react';
+import React, { useState, useEffect } from 'react';
 import validate from 'validate.js';
 import useRouter from 'utils/useRouter';
 
-import { Grid, TextField, Theme } from '@material-ui/core';
+import { Grid, Theme } from '@material-ui/core';
 import { makeStyles } from '@material-ui/styles';
 
 import { Button } from 'components';
@@ -117,28 +117,28 @@ const Login: React.FC<Props> = ({ register }) => {
     }));
   }, [formState.values]);
 
-  const changeHandler = (event: ChangeEvent<HTMLInputElement>) => {
-    event.persist();
+  // const changeHandler = (event: ChangeEvent<HTMLInputElement>) => {
+  //   event.persist();
 
-    setFormState(formState => ({
-      ...formState,
-      values: {
-        ...formState.values,
-        [event.target.name]: event.target.value
-      },
-      touched: {
-        ...formState.touched,
-        [event.target.name]: true
-      }
-    }));
-  };
+  //   setFormState(formState => ({
+  //     ...formState,
+  //     values: {
+  //       ...formState.values,
+  //       [event.target.name]: event.target.value
+  //     },
+  //     touched: {
+  //       ...formState.touched,
+  //       [event.target.name]: true
+  //     }
+  //   }));
+  // };
 
   const handleSubmit = () => {
     history.replace('/home');
   };
 
-  const hasError = (field: string): boolean =>
-    field in formState.touched && field in formState.errors ? true : false;
+  // const hasError = (field: string): boolean =>
+  //   field in formState.touched && field in formState.errors ? true : false;
 
   return (
     <Grid container justify="center">

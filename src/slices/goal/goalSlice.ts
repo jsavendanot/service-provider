@@ -1,8 +1,9 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
-import { GoalRootType, Goal } from 'types/goal';
+import { GoalRootType, Goal, Step } from 'types/goal';
 
 const initialState: GoalRootType = {
   goals: [],
+  steps: [],
   loading: false
 };
 
@@ -14,6 +15,10 @@ const goalSlice = createSlice({
       const { goals } = action.payload;
       state.goals = goals;
     },
+    fetchSteps(state, action: PayloadAction<{ steps: Step[] }>) {
+      const { steps } = action.payload;
+      state.steps = steps;
+    },
     startLoading(state) {
       state.loading = true;
     },
@@ -23,5 +28,10 @@ const goalSlice = createSlice({
   }
 });
 
-export const { fetch, startLoading, stopLoading } = goalSlice.actions;
+export const {
+  fetch,
+  fetchSteps,
+  startLoading,
+  stopLoading
+} = goalSlice.actions;
 export default goalSlice.reducer;

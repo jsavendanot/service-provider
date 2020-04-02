@@ -108,6 +108,7 @@ export const getAllFocusAreas = () => {
 
         focusAreas.push(deSerializedArea);
       });
+      sessionStorage.setItem('focusAreas', JSON.stringify(focusAreas));
 
       return focusAreas;
     });

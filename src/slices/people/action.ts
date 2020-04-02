@@ -25,6 +25,7 @@ export const selectPerson = (person: Person): AppThunk => async dispatch => {
     sessionStorage.setItem('FirstName', person.FirstName);
     sessionStorage.setItem('SurName', person.Surname);
     sessionStorage.setItem('Photo', person.Photo);
+    sessionStorage.setItem('RecoveryPlanId', person.RecoveryPlanId);
   } catch (err) {
     // dispatch(failed(err.toString()));
   }
