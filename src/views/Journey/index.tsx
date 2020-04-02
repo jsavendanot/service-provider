@@ -1,5 +1,5 @@
 import React, { useEffect } from 'react';
-import { Redirect, RouteComponentProps } from 'react-router-dom';
+import { RouteComponentProps } from 'react-router-dom';
 
 import { Grid } from '@material-ui/core';
 import { makeStyles } from '@material-ui/styles';
@@ -56,10 +56,6 @@ const Journey: React.FC<Props> = ({ match }) => {
     dispatch(fetchJournals());
   }, [dispatch]);
 
-  if (!tab) {
-    return <Redirect to="/journey/all" />;
-  }
-
   return (
     <>
       {journeyStore.loading && <Loading />}
@@ -77,7 +73,7 @@ const Journey: React.FC<Props> = ({ match }) => {
                   justifyContent: 'flex-end'
                 }}>
                 <div style={{ width: '350px' }}>
-                  <TabMenu menus={['all', 'calendar']} />
+                  <TabMenu menus={['all', 'calendar']} tab={tab} />
                 </div>
               </div>
             </Grid>

@@ -71,7 +71,7 @@ export const CustomLinearProgress: React.FC<Props> = ({ goal }) => {
             justifyContent: 'space-between'
           }}>
           <span className={classes.progressText} style={{ flexGrow: 1 }}>
-            {goal.name}
+            {goal.Name}
           </span>
           <KeyboardArrowRight style={{ fill: '#F79221' }} />
         </div>
@@ -79,7 +79,7 @@ export const CustomLinearProgress: React.FC<Props> = ({ goal }) => {
           <BorderLinearProgress
             variant="determinate"
             color="secondary"
-            value={goal.percent}
+            value={goal.PercentageComplete * 100}
           />
         </div>
       </div>

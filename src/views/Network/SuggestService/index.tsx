@@ -174,7 +174,7 @@ export const SuggestService: React.FC = () => {
             marginBottom: '20px',
             cursor: 'pointer'
           }}
-          onClick={() => history.push('/network')}>
+          onClick={() => history.push('/network/people')}>
           <KeyboardArrowLeft style={{ fill: '#692B40' }} />
           <span className={classes.navText}>back</span>
         </div>

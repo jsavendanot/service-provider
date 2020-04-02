@@ -121,7 +121,7 @@ export const GoalCard: React.FC<Props> = ({ goal }) => {
   const other: OtherRootType = useSelector((state: RootState) => state.other);
 
   const [focusArea] = useState(
-    other.focusAreas.find(area => area.id === goal.focusAreaId)
+    other.focusAreas.find(area => area.id === goal.FocusArea)
   );
 
   return (
@@ -137,7 +137,7 @@ export const GoalCard: React.FC<Props> = ({ goal }) => {
             <span className={classes.focusAreaText}>
               {focusArea && focusArea.name}
             </span>
-            {goal.status !== 'active' && (
+            {/* {goal.status !== 'active' && (
               <div
                 className={clsx(
                   goal.status === 'pending' && classes.statusPending,
@@ -145,24 +145,24 @@ export const GoalCard: React.FC<Props> = ({ goal }) => {
                 )}>
                 <span className={classes.statusText}>{goal.status}</span>
               </div>
-            )}
+            )} */}
           </div>
-          <div className={classes.goalName}>{goal.name}</div>
+          <div className={classes.goalName}>{goal.Name}</div>
           <BorderLinearProgress
             variant="determinate"
             color="secondary"
-            value={goal.percent}
+            value={goal.PercentageComplete * 100}
           />
         </div>
       </Grid>
       <Grid item xs={12}>
         <Divider className={classes.divider} />
       </Grid>
-      <Grid item xs={12}>
+      {/* <Grid item xs={12}>
         {goal.steps.map((step, index) => {
           return <StepCard key={step.id} number={index + 1} step={step} />;
         })}
-      </Grid>
+      </Grid> */}
       <Grid item xs={12}>
         <div className={classes.footer}>
           <div>
@@ -183,7 +183,7 @@ export const GoalCard: React.FC<Props> = ({ goal }) => {
           <div>
             <Button
               type="secondarySmall"
-              click={() => history.push(`/goal/${goal.id}`)}>
+              click={() => history.push(`/goal/${goal.Id}`)}>
               View
             </Button>
           </div>

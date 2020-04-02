@@ -1,5 +1,5 @@
 import React from 'react';
-import { Redirect, RouteComponentProps } from 'react-router-dom';
+import { RouteComponentProps } from 'react-router-dom';
 
 import { Grid } from '@material-ui/core';
 import { makeStyles } from '@material-ui/styles';
@@ -49,10 +49,6 @@ export const Network: React.FC<Props> = ({ match, history }) => {
   const classes = useStyles();
   const { tab } = match.params;
 
-  if (!tab) {
-    return <Redirect to="/network/people" />;
-  }
-
   return (
     <Grid container justify="center" spacing={3} className={classes.root}>
       <Grid item xs={12}>
@@ -63,7 +59,7 @@ export const Network: React.FC<Props> = ({ match, history }) => {
           <Grid item xs={7}>
             <div style={{ width: '100%', display: 'flex' }}>
               <div style={{ width: '350px' }}>
-                <TabMenu menus={['people', 'services']} />
+                <TabMenu menus={['people', 'services']} tab={tab} />
               </div>
             </div>
           </Grid>

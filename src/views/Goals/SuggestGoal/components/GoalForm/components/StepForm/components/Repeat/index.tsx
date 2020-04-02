@@ -1,5 +1,5 @@
 import React, { useState, ChangeEvent } from 'react';
-import { Step } from 'types/goal';
+import { StepForm } from 'types/goal';
 
 import { Switch, TextField, FormControl, Select } from '@material-ui/core';
 import { makeStyles } from '@material-ui/styles';
@@ -66,7 +66,7 @@ const useStyles = makeStyles(() => ({
 }));
 
 type Props = {
-  step: Step;
+  step: StepForm;
 };
 
 export const Repeat: React.FC<Props> = ({ step }) => {

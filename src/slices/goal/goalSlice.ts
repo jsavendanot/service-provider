@@ -13,7 +13,6 @@ const goalSlice = createSlice({
     fetch(state, action: PayloadAction<{ goals: Goal[] }>) {
       const { goals } = action.payload;
       state.goals = goals;
-      state.loading = false;
     },
     startLoading(state) {
       state.loading = true;

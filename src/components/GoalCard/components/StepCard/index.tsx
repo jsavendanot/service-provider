@@ -95,22 +95,18 @@ export const StepCard: React.FC<Props> = ({ step, number }) => {
             display: 'flex',
             justifyContent: 'space-between'
           }}>
-          <div className={classes.stepNameText}>{step.name}</div>
+          <div className={classes.stepNameText}>{step.Name}</div>
           <div
             className={clsx(
-              step.status === 'completed' && classes.statusCompleted,
-              step.status !== '' &&
-                step.status !== 'completed' &&
-                classes.statusVisit
+              step.IsCompleted && classes.statusCompleted,
+              !step.IsCompleted && classes.statusVisit
             )}>
             <span
               className={clsx(
-                step.status === 'completed' && classes.statusCompletedText,
-                step.status !== '' &&
-                  step.status !== 'completed' &&
-                  classes.statusVisitText
+                step.IsCompleted && classes.statusCompletedText,
+                !step.IsCompleted && classes.statusVisitText
               )}>
-              {step.status}
+              Completed
             </span>
           </div>
         </div>
@@ -120,7 +116,9 @@ export const StepCard: React.FC<Props> = ({ step, number }) => {
             alt=""
             style={{ marginRight: '5px' }}
           />
-          <span className={classes.dateText}>{step.dateTime.reminderDate}</span>
+          <span className={classes.dateText}>
+            {step.IsDeadline && step.EndDate}
+          </span>
         </div>
       </div>
     </div>

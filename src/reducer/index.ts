@@ -1,6 +1,6 @@
 import { combineReducers } from '@reduxjs/toolkit';
 
-import sessionReducer from 'slices/session/sessionSlice';
+import authReducer from 'slices/auth/authSlice';
 import peopleReducer from 'slices/people/peopleSlice';
 import goalReducer from 'slices/goal/goalSlice';
 import otherReducer from 'slices/other/otherSlice';
@@ -9,7 +9,7 @@ import storyReducer from 'slices/story/storySlice';
 import safetyReducer from 'slices/safety/safetySlice';
 
 const rootReducer = combineReducers({
-  session: sessionReducer,
+  auth: authReducer,
   people: peopleReducer,
   goal: goalReducer,
   other: otherReducer,

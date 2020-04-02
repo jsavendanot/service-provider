@@ -71,7 +71,7 @@ export const SuggestGoal: React.FC<Props> = ({ history }) => {
             marginBottom: '20px',
             cursor: 'pointer'
           }}
-          onClick={() => history.push('/goals')}>
+          onClick={() => history.push('/goals/current')}>
           <KeyboardArrowLeft style={{ fill: '#692B40' }} />
           <span className={classes.navText}>back</span>
         </div>

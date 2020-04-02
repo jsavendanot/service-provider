@@ -198,7 +198,7 @@ const SummaryBox: React.FC = () => {
           {tab === 'goals' && (
             <>
               {goals.map(goal => {
-                return <LinearProgress key={goal.id} goal={goal} />;
+                return <LinearProgress key={goal.Id} goal={goal} />;
               })}
             </>
           )}

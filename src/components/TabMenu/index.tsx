@@ -62,13 +62,14 @@ const useStyles = makeStyles(() => ({
 
 type Props = {
   menus: string[];
+  tab: string;
 };
 
-export const TabMenu: React.FC<Props> = ({ menus }) => {
+export const TabMenu: React.FC<Props> = ({ menus, tab }) => {
   const { history } = useRouter();
   const classes = useStyles();
 
-  const [currentMenu, setCurrentMenu] = useState(menus[0]);
+  const [currentMenu, setCurrentMenu] = useState(tab);
 
   const handleTabsChange = (value: string) => {
     setCurrentMenu(value);

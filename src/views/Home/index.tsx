@@ -1,7 +1,7 @@
 import React, { useEffect } from 'react';
 import { Consumer } from 'types/home';
 import { useDispatch, useSelector } from 'react-redux';
-import { startSession } from 'slices/session/action';
+import { startSession } from 'slices/auth/action';
 import { fetchPeople } from 'slices/people/action';
 
 import { Grid } from '@material-ui/core';
@@ -9,7 +9,7 @@ import { makeStyles } from '@material-ui/styles';
 
 import { Loading } from 'components';
 import { Consumers, Toolbar } from './components';
-import { PeopleRootType } from 'types/people';
+import { Person } from 'types/people';
 import { RootState } from 'reducer';
 
 const useStyles = makeStyles(() => ({
@@ -22,8 +22,12 @@ export const Home: React.FC = () => {
   const classes = useStyles();
   const dispatch = useDispatch();
 
-  const peopleStore: PeopleRootType = useSelector(
-    (state: RootState) => state.people
+  const peopleLoading: boolean = useSelector(
+    (state: RootState) => state.people.loading
+  );
+
+  const people: Person[] = useSelector(
+    (state: RootState) => state.people.people
   );
 
   useEffect(() => {
@@ -33,7 +37,7 @@ export const Home: React.FC = () => {
 
   return (
     <>
-      {peopleStore.loading && <Loading />}
+      {peopleLoading && <Loading />}
       <Grid container justify="center" spacing={3} className={classes.root}>
         <Grid item xs={12}>
           <Toolbar />
@@ -42,7 +46,7 @@ export const Home: React.FC = () => {
           <Grid container>
             <Grid item xs={9}>
               <Consumers
-                consumers={peopleStore.people.map(person => {
+                consumers={people.map(person => {
                   const newConsumer: Consumer = {
                     id: person.UserId,
                     avatar: '/images/avatar/avatar_1.svg',

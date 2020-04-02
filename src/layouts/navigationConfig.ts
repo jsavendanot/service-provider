@@ -14,13 +14,13 @@ export default [
       {
         id: '2',
         title: 'Goals',
-        href: '/goals',
+        href: '/goals/current',
         icon: '/images/navbar/goals.svg'
       },
       {
         id: '3',
         title: 'Journey',
-        href: '/journey',
+        href: '/journey/all',
         icon: '/images/navbar/journey.svg'
       },
       {
@@ -38,7 +38,7 @@ export default [
       {
         id: '6',
         title: 'Network',
-        href: '/network',
+        href: '/network/people',
         icon: '/images/navbar/network.svg'
       },
       {

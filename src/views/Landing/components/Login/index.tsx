@@ -145,7 +145,7 @@ const Login: React.FC<Props> = ({ register }) => {
       <Grid item xs={4}>
         <div className={classes.form}>
           <span className={classes.formTitle}>Service Provider sign in</span>
-          <TextField
+          {/* <TextField
             error={hasError('email')}
             helperText={
               hasError('email')
@@ -177,7 +177,7 @@ const Login: React.FC<Props> = ({ register }) => {
             variant="outlined"
             className={classes.textField}
             onChange={changeHandler}
-          />
+          /> */}
           <div style={{ marginTop: '10px' }}>
             <Button type="primary" click={handleSubmit}>
               Sign in

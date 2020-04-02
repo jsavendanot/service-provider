@@ -1,5 +1,5 @@
 import React from 'react';
-import { Step } from 'types/goal';
+import { StepForm } from 'types/goal';
 
 import { FormControlLabel, RadioGroup, Radio } from '@material-ui/core';
 import { makeStyles } from '@material-ui/styles';
@@ -41,7 +41,7 @@ const useStyles = makeStyles(() => ({
 }));
 
 type Props = {
-  step: Step;
+  step: StepForm;
 };
 
 export const Share: React.FC<Props> = ({ step }) => {

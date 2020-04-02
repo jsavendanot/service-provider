@@ -73,11 +73,6 @@ const routes: RouteConfig[] = [
         component: authentication.required(lazy(() => import('views/Consumer')))
       },
       {
-        path: '/goals',
-        exact: true,
-        component: authentication.required(lazy(() => import('views/Goals')))
-      },
-      {
         path: '/goals/:tab',
         exact: true,
         component: authentication.required(lazy(() => import('views/Goals')))
@@ -95,11 +90,6 @@ const routes: RouteConfig[] = [
         component: authentication.required(
           lazy(() => import('views/Goals/GoalDetail'))
         )
-      },
-      {
-        path: '/journey',
-        exact: true,
-        component: authentication.required(lazy(() => import('views/Journey')))
       },
       {
         path: '/journey/:tab',
@@ -129,11 +119,6 @@ const routes: RouteConfig[] = [
         path: '/safety',
         exact: true,
         component: authentication.required(lazy(() => import('views/Safety')))
-      },
-      {
-        path: '/network',
-        exact: true,
-        component: authentication.required(lazy(() => import('views/Network')))
       },
       {
         path: '/network/:tab',

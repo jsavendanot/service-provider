@@ -1,7 +1,7 @@
 import React from 'react';
 import useRouter from 'utils/useRouter';
 import { useDispatch } from 'react-redux';
-import { endSession } from 'slices/session/action';
+import { endSession } from 'slices/auth/action';
 
 import { Avatar, Divider } from '@material-ui/core';
 import { makeStyles } from '@material-ui/styles';

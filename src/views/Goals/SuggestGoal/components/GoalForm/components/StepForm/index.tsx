@@ -2,7 +2,7 @@ import React, { useState, useEffect, ChangeEvent } from 'react';
 import validate from 'validate.js';
 import uuid from 'uuid/v1';
 import moment from 'moment';
-import { Step as StepFormType } from 'types/goal';
+import { StepForm as StepFormType } from 'types/goal';
 import clsx from 'clsx';
 
 import { TextField } from '@material-ui/core';
@@ -81,10 +81,9 @@ export const StepForm: React.FC<Props> = ({ stepNum }) => {
       reminderDate: moment().toString()
     },
     share: {
-      whoCanSee: 'everyone',
+      whoCanSee: 'Network',
       network: []
-    },
-    status: 'pending'
+    }
   });
 
   /** Handle Fields */

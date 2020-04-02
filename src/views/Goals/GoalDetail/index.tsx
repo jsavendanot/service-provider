@@ -131,7 +131,7 @@ export const GoalDetail: React.FC<Props> = ({ match }) => {
   const { id } = match.params;
   const goalStore: GoalRootType = useSelector((state: RootState) => state.goal);
 
-  const [goal] = useState(goalStore.goals.find(goal => goal.id === id)!);
+  const [goal] = useState(goalStore.goals.find(goal => goal.Id === id)!);
 
   return (
     <Grid container className={classes.root}>
@@ -143,7 +143,7 @@ export const GoalDetail: React.FC<Props> = ({ match }) => {
             marginBottom: '20px',
             cursor: 'pointer'
           }}
-          onClick={() => history.push('/goals')}>
+          onClick={() => history.push('/goals/current')}>
           <KeyboardArrowLeft style={{ fill: '#692B40' }} />
           <span className={classes.navText}>back</span>
         </div>
@@ -157,23 +157,21 @@ export const GoalDetail: React.FC<Props> = ({ match }) => {
                 flexDirection: 'column',
                 padding: '0 10px'
               }}>
-              <span className={classes.title}>{goal.name}</span>
+              <span className={classes.title}>{goal.Name}</span>
               <div>
                 <div style={{ margin: '30px 0' }}>
                   <div style={{ display: 'flex', margin: '10px 0' }}>
                     <div className={classes.subTitle}>Start Date</div>
                     <span>
-                      {moment(goal.deadline.startDate).format(
-                        'dddd DD / MM / YYYY'
-                      )}
+                      {moment(goal.StartDate).format('dddd DD / MM / YYYY')}
                     </span>
                   </div>
                   <div style={{ display: 'flex', margin: '10px 0' }}>
                     <div className={classes.subTitle}>End Date</div>
                     <span>
-                      {moment(goal.deadline.endDate).format(
-                        'dddd DD / MM / YYYY'
-                      )}
+                      {goal.IsDeadline
+                        ? moment(goal.EndDate).format('dddd DD / MM / YYYY')
+                        : 'No deadline'}
                     </span>
                   </div>
                 </div>
@@ -184,7 +182,7 @@ export const GoalDetail: React.FC<Props> = ({ match }) => {
                   </div>
                   <div style={{ display: 'flex', margin: '10px 0' }}>
                     <div className={classes.subTitle}>Target</div>
-                    <span>{goal.steps.length} steps</span>
+                    {/* <span>{goal.steps.length} steps</span> */}
                   </div>
                 </div>
               </div>
@@ -192,7 +190,7 @@ export const GoalDetail: React.FC<Props> = ({ match }) => {
                 <BorderLinearProgress
                   variant="determinate"
                   color="secondary"
-                  value={30}
+                  value={goal.PercentageComplete * 100}
                 />
               </div>
             </div>
@@ -229,11 +227,11 @@ export const GoalDetail: React.FC<Props> = ({ match }) => {
               <div style={{ margin: '20px 0' }}>
                 <span className={classes.subTitle}>Steps</span>
                 <div className={classes.stepContainer}>
-                  {goal.steps.map((step, index) => {
+                  {/* {goal.steps.map((step, index) => {
                     return (
                       <StepCard key={step.id} step={step} number={index + 1} />
                     );
-                  })}
+                  })} */}
                   <div
                     style={{
                       display: 'flex',

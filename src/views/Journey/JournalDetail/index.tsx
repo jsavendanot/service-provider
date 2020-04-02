@@ -127,7 +127,7 @@ export const JournalDetail: React.FC<Props> = ({ match }) => {
             marginBottom: '20px',
             cursor: 'pointer'
           }}
-          onClick={() => history.push('/journey')}>
+          onClick={() => history.push('/journey/all')}>
           <KeyboardArrowLeft style={{ fill: '#692B40' }} />
           <span className={classes.navText}>back</span>
         </div>

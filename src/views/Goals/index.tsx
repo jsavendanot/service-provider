@@ -1,5 +1,5 @@
 import React, { useEffect } from 'react';
-import { Redirect, RouteComponentProps } from 'react-router-dom';
+import { RouteComponentProps } from 'react-router-dom';
 
 import { Grid } from '@material-ui/core';
 import { makeStyles } from '@material-ui/styles';
@@ -55,10 +55,6 @@ const Goals: React.FC<Props> = ({ match, history }) => {
     dispatch(fetchGoals());
   }, [dispatch]);
 
-  if (!tab) {
-    return <Redirect to="/goals/current" />;
-  }
-
   return (
     <>
       {goalStore.loading && <Loading />}
@@ -71,7 +67,7 @@ const Goals: React.FC<Props> = ({ match, history }) => {
             <Grid item xs={6}>
               <div style={{ width: '100%', display: 'flex' }}>
                 <div style={{ width: '350px' }}>
-                  <TabMenu menus={['current', 'completed']} />
+                  <TabMenu menus={['current', 'completed']} tab={tab} />
                 </div>
               </div>
             </Grid>

@@ -30,20 +30,13 @@ export const selectPerson = (person: Person): AppThunk => async dispatch => {
   }
 };
 
-function getRandomArbitrary(min: number, max: number) {
-  return Math.floor(Math.random() * (max - min) + min);
-}
-
 export const getPeople = () => {
   axios.defaults.headers.common['Authorization'] =
     'Bearer ' + authentication.getAccessToken();
   return axios.get('/RecoveryPlan/List').then(response => {
     const people: Person[] = [];
     response.data.forEach((element: Person) => {
-      element.Photo = `/images/avatars/avatar_${getRandomArbitrary(
-        13,
-        16
-      )}.png`;
+      element.Photo = `/images/avatars/avata_10.png`;
       people.push(element);
     });
     return people;
