@@ -1,9 +1,16 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
-import { GoalRootType, Goal, Step, GoalComment } from 'types/goal';
+import {
+  GoalRootType,
+  Goal,
+  Step,
+  GoalComment,
+  ProgressCheckIn
+} from 'types/goal';
 
 const initialState: GoalRootType = {
   goals: [],
   steps: [],
+  progress: [],
   comments: [],
   loading: false
 };
@@ -24,6 +31,13 @@ const goalSlice = createSlice({
       const { comments } = action.payload;
       state.comments = comments;
     },
+    fetchProgress(
+      state,
+      action: PayloadAction<{ progress: ProgressCheckIn[] }>
+    ) {
+      const { progress } = action.payload;
+      state.progress = progress;
+    },
     startLoading(state) {
       state.loading = true;
     },
@@ -37,6 +51,7 @@ export const {
   fetch,
   fetchSteps,
   fetchComments,
+  fetchProgress,
   startLoading,
   stopLoading
 } = goalSlice.actions;

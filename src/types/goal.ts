@@ -82,6 +82,7 @@ export interface GoalComment {
 export interface GoalRootType {
   goals: Goal[];
   steps: Step[];
+  progress: ProgressCheckIn[];
   comments: GoalComment[];
   loading: boolean;
 }

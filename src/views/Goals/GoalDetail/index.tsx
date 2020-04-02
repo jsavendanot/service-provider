@@ -1,17 +1,16 @@
 import React, { useState, useEffect } from 'react';
 import useRouter from 'utils/useRouter';
 
-import { Grid, LinearProgress } from '@material-ui/core';
-import { makeStyles, withStyles } from '@material-ui/styles';
+import { Grid } from '@material-ui/core';
+import { makeStyles } from '@material-ui/styles';
 import { KeyboardArrowLeft, Add } from '@material-ui/icons';
 
 import { Button, Loading } from 'components';
-import { StepCard, Comments } from './components';
+import { StepCard, Comments, Progress, About } from './components';
 import { RouteComponentProps } from 'react-router-dom';
 import { Goal, Step, GoalComment } from 'types/goal';
 import { useSelector, useDispatch } from 'react-redux';
 import { RootState } from 'reducer';
-import moment from 'moment';
 import { fetchGoalsCommentState } from 'slices/goal/action';
 
 const useStyles = makeStyles(() => ({
@@ -28,36 +27,6 @@ const useStyles = makeStyles(() => ({
     color: '#692B40',
     textTransform: 'uppercase'
   },
-  title: {
-    fontFamily: 'Roboto',
-    fontStyle: 'normal',
-    fontWeight: 500,
-    fontSize: '36px',
-    lineHeight: '42px',
-    color: '#000000',
-    margin: '10px 0'
-  },
-  dateTime: {
-    display: 'flex',
-    alignItems: 'center',
-    fontFamily: 'Roboto',
-    fontStyle: 'normal',
-    fontWeight: 400,
-    fontSize: '14px',
-    lineHeight: '23px',
-    color: '#B7B7B8',
-    margin: '10px 0'
-  },
-  descText: {
-    fontFamily: 'Roboto',
-    fontStyle: 'normal',
-    fontWeight: 400,
-    fontSize: '14px',
-    lineHeight: '23px',
-    color: '#323F45',
-    textAlign: 'justify',
-    marginBottom: '40px'
-  },
   subTitle: {
     fontFamily: 'Roboto',
     fontStyle: 'normal',
@@ -66,15 +35,6 @@ const useStyles = makeStyles(() => ({
     lineHeight: '21px',
     color: '#C57D7D',
     width: '130px'
-  },
-  network: {
-    margin: '20px',
-    fontFamily: 'Roboto',
-    fontStyle: 'normal',
-    fontWeight: 'normal',
-    fontSize: '14px',
-    lineHeight: '23px',
-    color: '#323F45'
   },
   dividerGrid: {
     margin: '30px 0',
@@ -97,17 +57,6 @@ const useStyles = makeStyles(() => ({
     borderRadius: '8px'
   }
 }));
-
-const BorderLinearProgress = withStyles({
-  root: {
-    height: 17,
-    backgroundColor: '#EDEDED'
-  },
-  bar: {
-    borderRadius: 15,
-    backgroundColor: '#692B40'
-  }
-})(LinearProgress);
 
 interface MatchParams {
   id: string;
@@ -157,49 +106,7 @@ export const GoalDetail: React.FC<Props> = ({ match }) => {
         <Grid item xs={12}>
           <Grid container>
             <Grid item xs={5}>
-              <div
-                style={{
-                  display: 'flex',
-                  flexDirection: 'column',
-                  padding: '0 10px'
-                }}>
-                <span className={classes.title}>{goal.Name}</span>
-                <div>
-                  <div style={{ margin: '30px 0' }}>
-                    <div style={{ display: 'flex', margin: '10px 0' }}>
-                      <div className={classes.subTitle}>Start Date</div>
-                      <span>
-                        {moment(goal.StartDate).format('dddd DD / MM / YYYY')}
-                      </span>
-                    </div>
-                    <div style={{ display: 'flex', margin: '10px 0' }}>
-                      <div className={classes.subTitle}>End Date</div>
-                      <span>
-                        {goal.IsDeadline
-                          ? moment(goal.EndDate).format('dddd DD / MM / YYYY')
-                          : 'No deadline'}
-                      </span>
-                    </div>
-                  </div>
-                  <div style={{ margin: '30px 0' }}>
-                    <div style={{ display: 'flex', margin: '10px 0' }}>
-                      <div className={classes.subTitle}>Progress</div>
-                      <span>1.04 steps</span>
-                    </div>
-                    <div style={{ display: 'flex', margin: '10px 0' }}>
-                      <div className={classes.subTitle}>Target</div>
-                      <span>{steps.length} steps</span>
-                    </div>
-                  </div>
-                </div>
-                <div>
-                  <BorderLinearProgress
-                    variant="determinate"
-                    color="secondary"
-                    value={goal.PercentageComplete * 100}
-                  />
-                </div>
-              </div>
+              <Progress goal={goal} stepLen={steps.length} />
             </Grid>
             <Grid item xs={1} />
             <Grid item xs={5}>
@@ -216,20 +123,7 @@ export const GoalDetail: React.FC<Props> = ({ match }) => {
           <Grid container>
             <Grid item xs={5}>
               <div style={{ display: 'flex', flexDirection: 'column' }}>
-                <div style={{ margin: '20px 0' }}>
-                  <span className={classes.subTitle}>About this goal</span>
-                  <div className={classes.goalText}>
-                    Why it is so important to me and the challenges I have for
-                    this goal.
-                    <br />I can do it I can do it I can do it I can do it I can
-                    do it I can do it I can do it I can do it I can do it I can
-                    do it I can do it I can do it I can do it I can do it .
-                  </div>
-                </div>
-                <div style={{ margin: '20px 0' }}>
-                  <span className={classes.subTitle}>Goal shared with</span>
-                  <div className={classes.goalText}>My mom, Dr Kris, Rudy</div>
-                </div>
+                <About goalDesc={goal.Description} steps={steps} />
                 <div style={{ margin: '20px 0' }}>
                   <span className={classes.subTitle}>Steps</span>
                   <div className={classes.stepContainer}>

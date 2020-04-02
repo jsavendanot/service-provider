@@ -5,6 +5,7 @@ import {
   fetch,
   fetchSteps,
   fetchComments,
+  fetchProgress,
   startLoading,
   stopLoading
 } from './goalSlice';
@@ -22,6 +23,8 @@ export const fetchGoals = (): AppThunk => async dispatch => {
       dispatch(fetch({ goals: response }));
     });
 
+    await dispatch(fetchProgressState());
+
     dispatch(stopLoading());
     await dispatch(fetchStepsState(goalsList));
   } catch (err) {
@@ -30,13 +33,18 @@ export const fetchGoals = (): AppThunk => async dispatch => {
   }
 };
 
-export const fetchStepsState = (
-  goals: GoalList[]
-): AppThunk => async dispatch => {
+export const fetchStepsState = (goals: GoalList[]): AppThunk => async (
+  dispatch,
+  getState
+) => {
   try {
     let totalSteps: Step[] = [];
     for (const goal of goals) {
-      const steps = await callStepListApi(goal.GoalId, goal.UserId);
+      const steps = await callStepListApi(
+        goal.GoalId,
+        goal.UserId,
+        getState().goal.progress
+      );
       totalSteps = totalSteps.concat(steps);
     }
     dispatch(fetchSteps({ steps: totalSteps }));
@@ -78,6 +86,16 @@ export const addNewComment = (
   }
 };
 
+export const fetchProgressState = (): AppThunk => async dispatch => {
+  try {
+    const progress = await getProgressCheckIn();
+    await dispatch(fetchProgress({ progress }));
+  } catch (err) {
+    dispatch(stopLoading());
+    // dispatch(failed(err.toString()));
+  }
+};
+
 /** API FUNCS */
 export const callGoalListApi = () => {
   axios.defaults.headers.common['Authorization'] =
@@ -101,7 +119,11 @@ const callGoalDetailApi = (goal: GoalList) => {
   });
 };
 
-const callStepListApi = (goalId: string, userId: string) => {
+const callStepListApi = (
+  goalId: string,
+  userId: string,
+  progress: ProgressCheckIn[]
+) => {
   axios.defaults.headers.common['Authorization'] =
     'Bearer ' + authentication.getAccessToken();
 
@@ -111,8 +133,8 @@ const callStepListApi = (goalId: string, userId: string) => {
       const steps: Step[] = JSON.parse(JSON.stringify(response.data));
       const updatedSteps: Step[] = [];
       for (const step of steps) {
-        const progressCheckIn = await getProgressCheckIn();
-        const progressSummary = progressCheckIn.find(
+        // const progressCheckIn = await getProgressCheckIn();
+        const progressSummary = progress.find(
           item => item.GoalStepId === step.Id
         );
 
