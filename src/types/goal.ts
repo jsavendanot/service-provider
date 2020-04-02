@@ -71,8 +71,17 @@ export interface ProgressCheckIn {
   StepCompleted: number;
 }
 
+export interface GoalComment {
+  Id: string;
+  GoalId: string;
+  Message: string;
+  PersonName: string;
+  CreatedOnDate: string;
+}
+
 export interface GoalRootType {
   goals: Goal[];
   steps: Step[];
+  comments: GoalComment[];
   loading: boolean;
 }

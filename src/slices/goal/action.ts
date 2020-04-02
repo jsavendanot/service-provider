@@ -1,8 +1,16 @@
 import { AppThunk } from 'store';
 import axios from 'utils/axios';
 import authentication from '@kdpw/msal-b2c-react';
-import { fetch, fetchSteps, startLoading, stopLoading } from './goalSlice';
-import { Goal, Step, GoalList, ProgressCheckIn } from 'types/goal';
+import {
+  fetch,
+  fetchSteps,
+  fetchComments,
+  startLoading,
+  stopLoading
+} from './goalSlice';
+import { Goal, Step, GoalList, ProgressCheckIn, GoalComment } from 'types/goal';
+import uuid from 'uuid';
+import moment from 'moment';
 
 /** ASYNC FUNCS */
 export const fetchGoals = (): AppThunk => async dispatch => {
@@ -33,6 +41,39 @@ export const fetchStepsState = (
     }
     dispatch(fetchSteps({ steps: totalSteps }));
   } catch (err) {
+    // dispatch(failed(err.toString()));
+  }
+};
+
+export const fetchGoalsCommentState = (
+  goalId: string
+): AppThunk => async dispatch => {
+  try {
+    dispatch(startLoading());
+
+    const comments = await callGoalCommentListApi(goalId);
+    dispatch(fetchComments({ comments }));
+
+    dispatch(stopLoading());
+  } catch (err) {
+    dispatch(stopLoading());
+    // dispatch(failed(err.toString()));
+  }
+};
+
+export const addNewComment = (
+  goalId: string,
+  message: string,
+  personName: string
+): AppThunk => async dispatch => {
+  try {
+    dispatch(startLoading());
+    await callCreateCommentApi(goalId, message, personName);
+
+    await dispatch(fetchGoalsCommentState(goalId));
+    dispatch(stopLoading());
+  } catch (err) {
+    dispatch(stopLoading());
     // dispatch(failed(err.toString()));
   }
 };
@@ -119,4 +160,39 @@ const getProgressCheckIn = () => {
       );
       return progressCheckIn;
     });
+};
+
+const callGoalCommentListApi = (goalId: string) => {
+  axios.defaults.headers.common['Authorization'] =
+    'Bearer ' + authentication.getAccessToken();
+
+  return axios
+    .get(`/GoalComment/List/${goalId}/${sessionStorage.getItem('UserId')}`)
+    .then(async response => {
+      const comments: GoalComment[] = JSON.parse(JSON.stringify(response.data));
+      const sortedComments = comments.sort(
+        (a, b) =>
+          new Date(b.CreatedOnDate).getTime() -
+          new Date(a.CreatedOnDate).getTime()
+      );
+      return sortedComments;
+    });
+};
+
+const callCreateCommentApi = (
+  goalId: string,
+  message: string,
+  personName: string
+) => {
+  const requestContent = {
+    Id: uuid(),
+    GoalId: goalId,
+    Message: message,
+    PersonName: personName,
+    CreatedOnDate: moment()
+      .toDate()
+      .toDateString()
+  };
+
+  return axios.post('/GoalComment/Create', requestContent);
 };

@@ -1,11 +1,10 @@
 import React, { useState } from 'react';
 import useRouter from 'utils/useRouter';
 
-import { Grid, Avatar, TextField } from '@material-ui/core';
+import { Grid } from '@material-ui/core';
 import { makeStyles } from '@material-ui/styles';
 import { KeyboardArrowLeft } from '@material-ui/icons';
 
-import { Comment, Button } from 'components';
 import { RouteComponentProps } from 'react-router-dom';
 import { JourneyRootType, Journal } from 'types/journey';
 import { useSelector } from 'react-redux';
@@ -195,81 +194,7 @@ export const JournalDetail: React.FC<Props> = ({ match }) => {
             </div>
           </Grid>
           <Grid item xs={6}>
-            <div
-              style={{
-                display: 'flex',
-                flexDirection: 'column',
-                alignItems: 'center',
-                padding: '20px'
-              }}>
-              <img
-                src="/images/journey/journal/journal_image.svg"
-                alt=""
-                style={{ marginBottom: '40px' }}
-              />
-              <div
-                style={{
-                  display: 'flex',
-                  flexDirection: 'column'
-                }}>
-                <span className={classes.subTitle}>Comments (2)</span>
-                <div
-                  style={{
-                    display: 'flex',
-                    margin: '25px 0 15px'
-                  }}>
-                  <Avatar
-                    alt=""
-                    className={classes.avatar}
-                    src={'/images/avatar/avatar_1.svg'}
-                  />
-                  <TextField
-                    id="outlined-basic"
-                    label=""
-                    variant="outlined"
-                    placeholder="Say something about this journal..."
-                    fullWidth
-                    multiline
-                    value=""
-                    autoComplete="off"
-                    rows="2"
-                    className={classes.commentTextField}
-                  />
-                </div>
-                <div style={{ display: 'flex', justifyContent: 'flex-end' }}>
-                  <div style={{ width: '124px' }}>
-                    <Button type="primarySmall">Comment</Button>
-                  </div>
-                </div>
-              </div>
-              <div
-                style={{
-                  display: 'flex',
-                  flexDirection: 'column',
-                  alignItems: 'center'
-                }}>
-                {[
-                  {
-                    id: 1,
-                    name: 'Dr Kris',
-                    text:
-                      'I believe you can do it! Just let me know if you need help :)',
-                    avatar: 'avatar_5.svg',
-                    favorite: true
-                  },
-                  {
-                    id: 2,
-                    name: 'Mum',
-                    text:
-                      'Such a great goal! I have been dreaming about this for years.',
-                    avatar: 'avatar_4.svg',
-                    favorite: false
-                  }
-                ].map(comment => {
-                  return <Comment key={comment.id} comment={comment} />;
-                })}
-              </div>
-            </div>
+            // TODO journal comment will be here
           </Grid>
         </Grid>
       </Grid>

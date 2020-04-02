@@ -1,9 +1,10 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
-import { GoalRootType, Goal, Step } from 'types/goal';
+import { GoalRootType, Goal, Step, GoalComment } from 'types/goal';
 
 const initialState: GoalRootType = {
   goals: [],
   steps: [],
+  comments: [],
   loading: false
 };
 
@@ -19,6 +20,10 @@ const goalSlice = createSlice({
       const { steps } = action.payload;
       state.steps = steps;
     },
+    fetchComments(state, action: PayloadAction<{ comments: GoalComment[] }>) {
+      const { comments } = action.payload;
+      state.comments = comments;
+    },
     startLoading(state) {
       state.loading = true;
     },
@@ -31,6 +36,7 @@ const goalSlice = createSlice({
 export const {
   fetch,
   fetchSteps,
+  fetchComments,
   startLoading,
   stopLoading
 } = goalSlice.actions;

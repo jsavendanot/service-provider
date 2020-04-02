@@ -1,21 +1,12 @@
 import React from 'react';
-
 import { makeStyles } from '@material-ui/styles';
-import { Avatar, IconButton } from '@material-ui/core';
+import { Avatar, Grid } from '@material-ui/core';
 import { Favorite } from '@material-ui/icons';
+import moment from 'moment';
 
 const useStyles = makeStyles(() => ({
-  label: {
-    fontFamily: 'Scada',
-    fontStyle: 'normal',
-    fontWeight: 'bold',
-    fontSize: '18px',
-    lineHeight: '22px',
-    color: '#C57D7D',
-    cursor: 'pointer'
-  },
-  root: {
-    width: '445px',
+  container: {
+    width: '100%',
     display: 'flex',
     alignItems: 'flex-start',
     justifyContent: 'center',
@@ -27,78 +18,82 @@ const useStyles = makeStyles(() => ({
   },
   avatar: {
     width: 50,
-    height: 50,
-    boxShadow: '3px 5px 5px rgba(0, 0, 0, 0.25)'
+    height: 50
   },
-  commentName: {
-    fontFamily: 'Scada',
-    fontStyle: 'normal',
-    fontWeight: 'bold',
-    fontSize: '16px',
-    lineHeight: '127.69%',
-    color: '#692B40'
-  },
-  commentDate: {
+  text: {
     fontFamily: 'Scada',
     fontStyle: 'normal',
     fontWeight: 'bold',
     fontSize: '16px',
     lineHeight: '127.69%',
     color: '#B3B3B3'
+  },
+  title: {
+    fontFamily: 'Roboto',
+    fontStyle: 'normal',
+    fontWeight: 'normal',
+    fontSize: '18px',
+    lineHeight: '21px',
+    color: '#73BA9B'
   }
 }));
 
-interface Comment {
-  name: string;
-  avatar: string;
-  text: string;
-  favorite: boolean;
-}
-
 type Props = {
-  comment: Comment;
+  commentId: string;
+  id: string;
+  name: string;
+  message: string;
+  favorite?: boolean;
+  date: string;
 };
 
-const Comment: React.FC<Props> = ({ comment }) => {
+const Comment: React.FC<Props> = ({
+  commentId,
+  id,
+  name,
+  message,
+  date,
+  favorite = true
+}) => {
   const classes = useStyles();
+
   return (
-    <div className={classes.root}>
-      <div style={{ margin: '0px 20px' }}>
-        <span className={classes.commentName}>{comment.name}</span>
-        <Avatar
-          alt=""
-          className={classes.avatar}
-          src={'/images/avatar/' + comment.avatar}
-        />
-      </div>
-      <div
-        style={{
-          display: 'flex',
-          alignItems: 'flex-start',
-          flexDirection: 'column'
-        }}>
-        <div style={{ overflowWrap: 'break-word' }}>
-          <span>{comment.text}</span>
-        </div>
-        <div
-          style={{
-            width: '100%',
-            display: 'flex',
-            justifyContent: 'space-between',
-            paddingTop: '20px'
-          }}>
-          <span className={classes.commentDate}>15 Jul</span>
-          <span className={classes.label}>Reply</span>
-        </div>
-      </div>
-      <IconButton>
-        {comment.favorite ? (
-          <Favorite style={{ fill: '#FA7268' }} />
-        ) : (
-          <Favorite style={{ fill: '#FFEAEA' }} />
-        )}
-      </IconButton>
-    </div>
+    <>
+      <Grid container className={classes.container}>
+        <Grid item xs={2}>
+          <div
+            style={{
+              display: 'flex',
+              alignItems: 'center',
+              flexDirection: 'column'
+            }}>
+            <span className={classes.text}>{name}</span>
+            <Avatar
+              alt=""
+              className={classes.avatar}
+              src="/images/navbar/carer.png"
+            />
+          </div>
+        </Grid>
+        <Grid item xs={8}>
+          <div style={{ overflowWrap: 'break-word' }}>
+            <span>{message}</span>
+          </div>
+          <div style={{ marginTop: '5px' }}>
+            <span className={classes.text}>{moment(date).format('LLLL')}</span>
+          </div>
+        </Grid>
+        <Grid item xs={2}>
+          <div>
+            {favorite ? (
+              <Favorite style={{ fill: '#FA7268' }} />
+            ) : (
+              <Favorite style={{ fill: '#D5F2E3' }} />
+            )}
+          </div>
+        </Grid>
+      </Grid>
+    </>
   );
 };
 

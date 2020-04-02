@@ -1,17 +1,18 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import useRouter from 'utils/useRouter';
 
-import { Grid, LinearProgress, Avatar, TextField } from '@material-ui/core';
+import { Grid, LinearProgress } from '@material-ui/core';
 import { makeStyles, withStyles } from '@material-ui/styles';
 import { KeyboardArrowLeft, Add } from '@material-ui/icons';
 
-import { Comment, Button } from 'components';
-import { StepCard } from './components';
+import { Button, Loading } from 'components';
+import { StepCard, Comments } from './components';
 import { RouteComponentProps } from 'react-router-dom';
-import { Goal, Step } from 'types/goal';
-import { useSelector } from 'react-redux';
+import { Goal, Step, GoalComment } from 'types/goal';
+import { useSelector, useDispatch } from 'react-redux';
 import { RootState } from 'reducer';
 import moment from 'moment';
+import { fetchGoalsCommentState } from 'slices/goal/action';
 
 const useStyles = makeStyles(() => ({
   root: {
@@ -75,18 +76,6 @@ const useStyles = makeStyles(() => ({
     lineHeight: '23px',
     color: '#323F45'
   },
-  avatar: {
-    width: 63,
-    height: 63
-  },
-  commentTextField: {
-    width: '350px',
-    boxSizing: 'border-box',
-    boxShadow: 'inset 0px 0px 6px rgba(0, 0, 0, 0.2)',
-    background: '#FFEAEA',
-    borderRadius: '3px',
-    margin: '0 10px'
-  },
   dividerGrid: {
     margin: '30px 0',
     border: '1px solid #B7B7B8'
@@ -127,215 +116,157 @@ type Props = RouteComponentProps<MatchParams>;
 
 export const GoalDetail: React.FC<Props> = ({ match }) => {
   const classes = useStyles();
-  const { history } = useRouter();
   const { id } = match.params;
+  const { history } = useRouter();
+  const dispatch = useDispatch();
 
+  const loading: boolean = useSelector(
+    (state: RootState) => state.goal.loading
+  );
   const goals: Goal[] = useSelector((state: RootState) => state.goal.goals);
+  const comments: GoalComment[] = useSelector((state: RootState) =>
+    state.goal.comments.filter(item => item.GoalId === id)
+  );
   const steps: Step[] = useSelector((state: RootState) =>
     state.goal.steps.filter(item => item.GoalId === id)
   );
 
   const [goal] = useState(goals.find(goal => goal.Id === id)!);
 
+  useEffect(() => {
+    dispatch(fetchGoalsCommentState(id));
+  }, [dispatch, id]);
+
   return (
-    <Grid container className={classes.root}>
-      <Grid item xs={12}>
-        <div
-          style={{
-            display: 'flex',
-            alignItems: 'center',
-            marginBottom: '20px',
-            cursor: 'pointer'
-          }}
-          onClick={() => history.push('/goals/current')}>
-          <KeyboardArrowLeft style={{ fill: '#692B40' }} />
-          <span className={classes.navText}>back</span>
-        </div>
-      </Grid>
-      <Grid item xs={12}>
-        <Grid container>
-          <Grid item xs={5}>
-            <div
-              style={{
-                display: 'flex',
-                flexDirection: 'column',
-                padding: '0 10px'
-              }}>
-              <span className={classes.title}>{goal.Name}</span>
-              <div>
-                <div style={{ margin: '30px 0' }}>
-                  <div style={{ display: 'flex', margin: '10px 0' }}>
-                    <div className={classes.subTitle}>Start Date</div>
-                    <span>
-                      {moment(goal.StartDate).format('dddd DD / MM / YYYY')}
-                    </span>
+    <>
+      {loading && <Loading />}
+      <Grid container className={classes.root}>
+        <Grid item xs={12}>
+          <div
+            style={{
+              display: 'flex',
+              alignItems: 'center',
+              marginBottom: '20px',
+              cursor: 'pointer'
+            }}
+            onClick={() => history.push('/goals/current')}>
+            <KeyboardArrowLeft style={{ fill: '#692B40' }} />
+            <span className={classes.navText}>back</span>
+          </div>
+        </Grid>
+        <Grid item xs={12}>
+          <Grid container>
+            <Grid item xs={5}>
+              <div
+                style={{
+                  display: 'flex',
+                  flexDirection: 'column',
+                  padding: '0 10px'
+                }}>
+                <span className={classes.title}>{goal.Name}</span>
+                <div>
+                  <div style={{ margin: '30px 0' }}>
+                    <div style={{ display: 'flex', margin: '10px 0' }}>
+                      <div className={classes.subTitle}>Start Date</div>
+                      <span>
+                        {moment(goal.StartDate).format('dddd DD / MM / YYYY')}
+                      </span>
+                    </div>
+                    <div style={{ display: 'flex', margin: '10px 0' }}>
+                      <div className={classes.subTitle}>End Date</div>
+                      <span>
+                        {goal.IsDeadline
+                          ? moment(goal.EndDate).format('dddd DD / MM / YYYY')
+                          : 'No deadline'}
+                      </span>
+                    </div>
                   </div>
-                  <div style={{ display: 'flex', margin: '10px 0' }}>
-                    <div className={classes.subTitle}>End Date</div>
-                    <span>
-                      {goal.IsDeadline
-                        ? moment(goal.EndDate).format('dddd DD / MM / YYYY')
-                        : 'No deadline'}
-                    </span>
+                  <div style={{ margin: '30px 0' }}>
+                    <div style={{ display: 'flex', margin: '10px 0' }}>
+                      <div className={classes.subTitle}>Progress</div>
+                      <span>1.04 steps</span>
+                    </div>
+                    <div style={{ display: 'flex', margin: '10px 0' }}>
+                      <div className={classes.subTitle}>Target</div>
+                      <span>{steps.length} steps</span>
+                    </div>
                   </div>
                 </div>
-                <div style={{ margin: '30px 0' }}>
-                  <div style={{ display: 'flex', margin: '10px 0' }}>
-                    <div className={classes.subTitle}>Progress</div>
-                    <span>1.04 steps</span>
-                  </div>
-                  <div style={{ display: 'flex', margin: '10px 0' }}>
-                    <div className={classes.subTitle}>Target</div>
-                    <span>{steps.length} steps</span>
-                  </div>
+                <div>
+                  <BorderLinearProgress
+                    variant="determinate"
+                    color="secondary"
+                    value={goal.PercentageComplete * 100}
+                  />
                 </div>
               </div>
-              <div>
-                <BorderLinearProgress
-                  variant="determinate"
-                  color="secondary"
-                  value={goal.PercentageComplete * 100}
-                />
-              </div>
-            </div>
-          </Grid>
-          <Grid item xs={1} />
-          <Grid item xs={5}>
-            <img
-              src="/images/goals/goal_detail.svg"
-              alt=""
-              style={{ width: '497px', height: '332px' }}
-            />
+            </Grid>
+            <Grid item xs={1} />
+            <Grid item xs={5}>
+              <img
+                src="/images/goals/goal_detail.svg"
+                alt=""
+                style={{ width: '497px', height: '332px' }}
+              />
+            </Grid>
           </Grid>
         </Grid>
-      </Grid>
-      <Grid item xs={12} className={classes.dividerGrid} />
-      <Grid item xs={12}>
-        <Grid container>
-          <Grid item xs={5}>
-            <div style={{ display: 'flex', flexDirection: 'column' }}>
-              <div style={{ margin: '20px 0' }}>
-                <span className={classes.subTitle}>About this goal</span>
-                <div className={classes.goalText}>
-                  Why it is so important to me and the challenges I have for
-                  this goal.
-                  <br />I can do it I can do it I can do it I can do it I can do
-                  it I can do it I can do it I can do it I can do it I can do it
-                  I can do it I can do it I can do it I can do it .
+        <Grid item xs={12} className={classes.dividerGrid} />
+        <Grid item xs={12}>
+          <Grid container>
+            <Grid item xs={5}>
+              <div style={{ display: 'flex', flexDirection: 'column' }}>
+                <div style={{ margin: '20px 0' }}>
+                  <span className={classes.subTitle}>About this goal</span>
+                  <div className={classes.goalText}>
+                    Why it is so important to me and the challenges I have for
+                    this goal.
+                    <br />I can do it I can do it I can do it I can do it I can
+                    do it I can do it I can do it I can do it I can do it I can
+                    do it I can do it I can do it I can do it I can do it .
+                  </div>
                 </div>
-              </div>
-              <div style={{ margin: '20px 0' }}>
-                <span className={classes.subTitle}>Goal shared with</span>
-                <div className={classes.goalText}>My mom, Dr Kris, Rudy</div>
-              </div>
-              <div style={{ margin: '20px 0' }}>
-                <span className={classes.subTitle}>Steps</span>
-                <div className={classes.stepContainer}>
-                  {steps.map((step, index) => {
-                    return (
-                      <StepCard key={step.Id} step={step} number={index + 1} />
-                    );
-                  })}
-                  <div
-                    style={{
-                      display: 'flex',
-                      justifyContent: 'center',
-                      padding: '20px 0'
-                    }}>
-                    <div style={{ width: '129px' }}>
-                      <Button type="primarySmall">
-                        <Add style={{ marginRight: '5px' }} />
-                        Add step
-                      </Button>
+                <div style={{ margin: '20px 0' }}>
+                  <span className={classes.subTitle}>Goal shared with</span>
+                  <div className={classes.goalText}>My mom, Dr Kris, Rudy</div>
+                </div>
+                <div style={{ margin: '20px 0' }}>
+                  <span className={classes.subTitle}>Steps</span>
+                  <div className={classes.stepContainer}>
+                    {steps.map((step, index) => {
+                      return (
+                        <StepCard
+                          key={step.Id}
+                          step={step}
+                          number={index + 1}
+                        />
+                      );
+                    })}
+                    <div
+                      style={{
+                        display: 'flex',
+                        justifyContent: 'center',
+                        padding: '20px 0'
+                      }}>
+                      <div style={{ width: '129px' }}>
+                        <Button type="primarySmall">
+                          <Add style={{ marginRight: '5px' }} />
+                          Add step
+                        </Button>
+                      </div>
                     </div>
                   </div>
                 </div>
               </div>
-            </div>
-          </Grid>
-          <Grid item xs={1} />
-          <Grid item xs={5}>
-            <div
-              style={{
-                display: 'flex',
-                flexDirection: 'column',
-                alignItems: 'center'
-              }}>
-              <div
-                style={{
-                  marginTop: '20px',
-                  width: '415px'
-                }}>
-                <span className={classes.subTitle}>Comments (2)</span>
-              </div>
-
-              <div
-                style={{
-                  display: 'flex',
-                  margin: '25px 0 15px'
-                }}>
-                <Avatar
-                  alt=""
-                  className={classes.avatar}
-                  src={'/images/avatar/avatar_1.svg'}
-                />
-                <TextField
-                  id="outlined-basic"
-                  label=""
-                  variant="outlined"
-                  placeholder="Say something about this journal..."
-                  fullWidth
-                  multiline
-                  value=""
-                  autoComplete="off"
-                  rows="2"
-                  className={classes.commentTextField}
-                />
-              </div>
-              <div
-                style={{
-                  width: '415px',
-                  display: 'flex',
-                  justifyContent: 'flex-end',
-                  marginBottom: '20px'
-                }}>
-                <div style={{ width: '124px' }}>
-                  <Button type="primarySmall">Comment</Button>
-                </div>
-              </div>
-            </div>
-
-            <div
-              style={{
-                display: 'flex',
-                flexDirection: 'column',
-                alignItems: 'center'
-              }}>
-              {[
-                {
-                  id: 1,
-                  name: 'Dr Kris',
-                  text:
-                    'I believe you can do it! Just let me know if you need help :)',
-                  avatar: 'avatar_5.svg',
-                  favorite: true
-                },
-                {
-                  id: 2,
-                  name: 'Mum',
-                  text:
-                    'Such a great goal! I have been dreaming about this for years.',
-                  avatar: 'avatar_4.svg',
-                  favorite: false
-                }
-              ].map(comment => {
-                return <Comment key={comment.id} comment={comment} />;
-              })}
-            </div>
+            </Grid>
+            <Grid item xs={1} />
+            <Grid item xs={5}>
+              <Comments goalId={id} comments={comments} />
+            </Grid>
           </Grid>
         </Grid>
       </Grid>
-    </Grid>
+    </>
   );
 };
 
