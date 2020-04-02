@@ -5,7 +5,7 @@ import { Consumer as ConsumerType } from 'types/home';
 
 import { Avatar } from '@material-ui/core';
 import { makeStyles } from '@material-ui/styles';
-import { PeopleRootType } from 'types/people';
+import { Person } from 'types/people';
 import { useSelector, useDispatch } from 'react-redux';
 import { selectPerson } from 'slices/people/action';
 import { RootState } from 'reducer';
@@ -68,14 +68,12 @@ export const Consumer: React.FC<ConsumerType> = ({
   const { history } = useRouter();
   const dispatch = useDispatch();
 
-  const peopleStore: PeopleRootType = useSelector(
-    (state: RootState) => state.people
+  const people: Person[] = useSelector(
+    (state: RootState) => state.people.people
   );
 
   const clickHandler = () => {
-    dispatch(
-      selectPerson(peopleStore.people.find(person => person.UserId === id)!)
-    );
+    dispatch(selectPerson(people.find(person => person.UserId === id)!));
     history.push(`/dashboard/consumer/${id}`);
   };
 

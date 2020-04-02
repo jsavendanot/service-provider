@@ -9,7 +9,7 @@ import { fetchGoals } from 'slices/goal/action';
 
 import { Button, TabMenu, Loading } from 'components';
 import { Toolbar, Current, Completed } from './components';
-import { GoalRootType } from 'types/goal';
+import { Goal } from 'types/goal';
 import { RootState } from 'reducer';
 
 const useStyles = makeStyles(() => ({
@@ -49,7 +49,10 @@ const Goals: React.FC<Props> = ({ match, history }) => {
   const { tab } = match.params;
   const dispatch = useDispatch();
 
-  const goalStore: GoalRootType = useSelector((state: RootState) => state.goal);
+  const loading: boolean = useSelector(
+    (state: RootState) => state.goal.loading
+  );
+  const goals: Goal[] = useSelector((state: RootState) => state.goal.goals);
 
   useEffect(() => {
     dispatch(fetchGoals());
@@ -57,7 +60,7 @@ const Goals: React.FC<Props> = ({ match, history }) => {
 
   return (
     <>
-      {goalStore.loading && <Loading />}
+      {loading && <Loading />}
       <Grid container justify="center" spacing={3} className={classes.root}>
         <Grid item xs={12}>
           <Grid container style={{ paddingTop: '20px' }} alignItems="center">
@@ -100,8 +103,8 @@ const Goals: React.FC<Props> = ({ match, history }) => {
         </Grid>
         <Grid item xs={12}>
           <div className={classes.content}>
-            {tab === 'current' && <Current goals={goalStore.goals} />}
-            {tab === 'completed' && <Completed goals={goalStore.goals} />}
+            {tab === 'current' && <Current goals={goals} />}
+            {tab === 'completed' && <Completed goals={goals} />}
           </div>
         </Grid>
       </Grid>

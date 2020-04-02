@@ -8,7 +8,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { TabMenu, Loading } from 'components';
 import { JourneyAll, Calendar } from './components';
 import { fetchJournals } from 'slices/journey/action';
-import { JourneyRootType } from 'types/journey';
+import { Journal } from 'types/journey';
 import { RootState } from 'reducer';
 
 const useStyles = makeStyles(() => ({
@@ -48,8 +48,11 @@ const Journey: React.FC<Props> = ({ match }) => {
   const { tab } = match.params;
   const dispatch = useDispatch();
 
-  const journeyStore: JourneyRootType = useSelector(
-    (state: RootState) => state.journey
+  const loading: boolean = useSelector(
+    (state: RootState) => state.journey.loading
+  );
+  const journals: Journal[] = useSelector(
+    (state: RootState) => state.journey.journals
   );
 
   useEffect(() => {
@@ -58,7 +61,7 @@ const Journey: React.FC<Props> = ({ match }) => {
 
   return (
     <>
-      {journeyStore.loading && <Loading />}
+      {loading && <Loading />}
       <Grid container justify="center" spacing={3} className={classes.root}>
         <Grid item xs={12}>
           <Grid container style={{ paddingTop: '20px' }} alignItems="center">
@@ -81,7 +84,7 @@ const Journey: React.FC<Props> = ({ match }) => {
         </Grid>
         <Grid item xs={12}>
           <div className={classes.content}>
-            {tab === 'all' && <JourneyAll journals={journeyStore.journals} />}
+            {tab === 'all' && <JourneyAll journals={journals} />}
             {tab === 'calendar' && <Calendar />}
           </div>
         </Grid>

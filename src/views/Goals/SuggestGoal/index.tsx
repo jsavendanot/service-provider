@@ -6,7 +6,7 @@ import { makeStyles } from '@material-ui/styles';
 import { KeyboardArrowLeft } from '@material-ui/icons';
 
 import { AreaSection, GoalForm } from './components';
-import { OtherRootType, FocusArea } from 'types/other';
+import { FocusArea } from 'types/other';
 import { useSelector } from 'react-redux';
 import { RootState } from 'reducer';
 
@@ -43,9 +43,11 @@ type Props = RouteComponentProps<MatchParams>;
 export const SuggestGoal: React.FC<Props> = ({ history }) => {
   const classes = useStyles();
 
-  const other: OtherRootType = useSelector((state: RootState) => state.other);
+  const focusAreas: FocusArea[] = useSelector(
+    (state: RootState) => state.other.focusAreas
+  );
 
-  const [areas] = useState<FocusArea[]>(other.focusAreas);
+  const [areas] = useState<FocusArea[]>(focusAreas);
   const [myAreas, setMyAreas] = useState<FocusArea[]>([]);
 
   const handleRemove = (id: string) => {

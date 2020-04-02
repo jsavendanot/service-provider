@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React from 'react';
 import useRouter from 'utils/useRouter';
 
 import { Grid } from '@material-ui/core';
@@ -6,7 +6,7 @@ import { makeStyles } from '@material-ui/styles';
 import { KeyboardArrowLeft } from '@material-ui/icons';
 
 import { RouteComponentProps } from 'react-router-dom';
-import { JourneyRootType, Journal } from 'types/journey';
+import { Journal } from 'types/journey';
 import { useSelector } from 'react-redux';
 import { RootState } from 'reducer';
 import moment from 'moment';
@@ -108,12 +108,9 @@ export const JournalDetail: React.FC<Props> = ({ match }) => {
   const { history } = useRouter();
   const { id } = match.params;
 
-  const journeyStore: JourneyRootType = useSelector(
-    (state: RootState) => state.journey
-  );
-
-  const [journal] = useState<Journal>(
-    journeyStore.journals.find(journal => journal.id === id)!
+  const journal: Journal = useSelector(
+    (state: RootState) =>
+      state.journey.journals.find(journal => journal.id === id)!
   );
 
   return (
