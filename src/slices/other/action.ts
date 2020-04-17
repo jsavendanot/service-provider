@@ -2,11 +2,12 @@ import { AppThunk } from 'store';
 import axios from 'common/utils/axios';
 import authentication from '@kdpw/msal-b2c-react';
 import { fetchAllAreas } from './otherSlice';
-import { FocusArea, AreaApiType, FocusAreaClass } from 'types/other';
+import { FocusArea, AreaApiType } from 'types/other';
 
+//** ASYNC FUNCS */
 export const fetchAllFocusAreas = (): AppThunk => async dispatch => {
   try {
-    const areas = await getAllFocusAreas();
+    const areas = await callFocusAreaListApi();
     dispatch(
       fetchAllAreas({
         areas
@@ -17,7 +18,8 @@ export const fetchAllFocusAreas = (): AppThunk => async dispatch => {
   }
 };
 
-export const getAllFocusAreas = () => {
+//** API FUNCS */
+export const callFocusAreaListApi = () => {
   const info = [
     {
       id: '088433ef-caec-e911-a812-000d3a79722d',
@@ -90,26 +92,22 @@ export const getAllFocusAreas = () => {
   axios.defaults.headers.common['Authorization'] =
     'Bearer ' + authentication.getAccessToken();
   return axios
-    .get(`/FocusArea/List/${sessionStorage.getItem('Carer_UserId')}`)
+    .get(`/FocusArea/List/${sessionStorage.getItem('UserId')}`)
     .then(response => {
       const focusAreas: FocusArea[] = [];
       response.data.forEach((area: AreaApiType) => {
-        const areaInstance = new FocusAreaClass(
-          area.Id,
-          area.Label,
-          info.find(item => item.id === area.Id)?.color!,
-          info.find(item => item.id === area.Id)?.image!,
-          area.Description,
-          area.IsSelected
-        );
-        const deSerializedArea: FocusArea = JSON.parse(
-          JSON.stringify(areaInstance)
-        );
-
-        focusAreas.push(deSerializedArea);
+        const areaObject: FocusArea = {
+          id: area.Id,
+          name: area.Label,
+          color: info.find(item => item.id === area.Id)?.color!,
+          image: info.find(item => item.id === area.Id)?.image!,
+          description: area.Description,
+          isSelected: area.IsSelected
+        };
+        focusAreas.push(areaObject);
       });
-      sessionStorage.setItem('focusAreas', JSON.stringify(focusAreas));
 
+      sessionStorage.setItem('focusAreas', JSON.stringify(focusAreas));
       return focusAreas;
     });
 };

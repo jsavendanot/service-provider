@@ -8,13 +8,14 @@ import {
   startLoading,
   stopLoading
 } from './storySlice';
-import { FocusArea, AreaApiType, FocusAreaClass } from 'types/other';
+import { FocusArea, AreaApiType } from 'types/other';
 import { Strength, StoryApiType } from 'types/story';
 
+//** ASYNC FUNCS */
 export const fetchStoryData = (): AppThunk => async dispatch => {
   try {
     dispatch(startLoading());
-    const storyData = await getStory();
+    const storyData = await callMyStoryReadApi();
     dispatch(
       fetchStory({
         story: { story: storyData.Story, storyId: storyData.MyStoryId }
@@ -28,7 +29,7 @@ export const fetchStoryData = (): AppThunk => async dispatch => {
 
 export const fetchStrenghtsData = (): AppThunk => async dispatch => {
   try {
-    const strengths = await getStrengths();
+    const strengths = await callStrengthReadApi();
     dispatch(
       fetchStrenghts({
         strengths
@@ -41,7 +42,7 @@ export const fetchStrenghtsData = (): AppThunk => async dispatch => {
 
 export const fetchAreasData = (): AppThunk => async dispatch => {
   try {
-    const focusAreas = await getMyAreas();
+    const focusAreas = await callFocusAreaListApi();
     dispatch(
       fetchAreas({
         focusAreas
@@ -52,7 +53,8 @@ export const fetchAreasData = (): AppThunk => async dispatch => {
   }
 };
 
-const getStory = () => {
+//** API FUNCS */
+const callMyStoryReadApi = () => {
   axios.defaults.headers.common['Authorization'] =
     'Bearer ' + authentication.getAccessToken();
   return axios
@@ -63,7 +65,7 @@ const getStory = () => {
     });
 };
 
-const getStrengths = () => {
+const callStrengthReadApi = () => {
   axios.defaults.headers.common['Authorization'] =
     'Bearer ' + authentication.getAccessToken();
   const values: Strength[] = [];
@@ -80,7 +82,7 @@ const getStrengths = () => {
     });
 };
 
-const getMyAreas = () => {
+export const callFocusAreaListApi = () => {
   const info = [
     {
       id: '088433ef-caec-e911-a812-000d3a79722d',
@@ -157,24 +159,18 @@ const getMyAreas = () => {
     .then(response => {
       const focusAreas: FocusArea[] = [];
       response.data.forEach((area: AreaApiType) => {
-        if (area.IsSelected) {
-          const areaInstance = new FocusAreaClass(
-            area.Id,
-            area.Label,
-            info.find(item => item.id === area.Id)?.color!,
-            info.find(item => item.id === area.Id)?.image!,
-            area.Description,
-            area.IsSelected
-          );
-
-          const deSerializedArea: FocusArea = JSON.parse(
-            JSON.stringify(areaInstance)
-          );
-
-          focusAreas.push(deSerializedArea);
-        }
+        const areaObject: FocusArea = {
+          id: area.Id,
+          name: area.Label,
+          color: info.find(item => item.id === area.Id)?.color!,
+          image: info.find(item => item.id === area.Id)?.image!,
+          description: area.Description,
+          isSelected: area.IsSelected
+        };
+        focusAreas.push(areaObject);
       });
 
+      sessionStorage.setItem('focusAreas', JSON.stringify(focusAreas));
       return focusAreas;
     });
 };
