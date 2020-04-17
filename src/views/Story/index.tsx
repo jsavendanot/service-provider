@@ -67,7 +67,7 @@ export const Story: React.FC = () => {
           <Gallery />
         </Grid>
         <Grid item xs={12}>
-          <MyStory storyText={storyStore.story?.story!} />
+          <MyStory storyText={storyStore.story.Story} />
         </Grid>
         <Grid item xs={12}>
           <Grid container>

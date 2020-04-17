@@ -3,7 +3,7 @@ import { StoryRootType, Strength, Story } from 'types/story';
 import { FocusArea } from 'types/other';
 
 const initialState: StoryRootType = {
-  story: null,
+  story: {} as Story,
   strengths: [],
   focusAreas: [],
   loading: false

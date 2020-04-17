@@ -11,11 +11,6 @@ export interface Strength {
 }
 
 export interface Story {
-  story: string;
-  storyId: string;
-}
-
-export interface StoryApiType {
   MyStoryId: string;
   RecoveryPlanId: string;
   Story: string;
@@ -29,7 +24,7 @@ export interface StoryApiType {
 }
 
 export interface StoryRootType {
-  story: Story | null;
+  story: Story;
   strengths: Strength[];
   focusAreas: FocusArea[];
   loading: boolean;

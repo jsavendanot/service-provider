@@ -9,16 +9,16 @@ import {
   stopLoading
 } from './storySlice';
 import { FocusArea, AreaApiType } from 'types/other';
-import { Strength, StoryApiType } from 'types/story';
+import { Strength, Story } from 'types/story';
 
 //** ASYNC FUNCS */
 export const fetchStoryData = (): AppThunk => async dispatch => {
   try {
     dispatch(startLoading());
-    const storyData = await callMyStoryReadApi();
+    const story = await callMyStoryReadApi();
     dispatch(
       fetchStory({
-        story: { story: storyData.Story, storyId: storyData.MyStoryId }
+        story
       })
     );
   } catch (err) {
@@ -60,7 +60,7 @@ const callMyStoryReadApi = () => {
   return axios
     .get(`/MyStory/Read/${sessionStorage.getItem('UserId')!}`)
     .then(response => {
-      const story: StoryApiType = response.data;
+      const story: Story = response.data;
       return story;
     });
 };
