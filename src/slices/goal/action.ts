@@ -88,7 +88,7 @@ export const addNewComment = (
 
 export const fetchProgressState = (): AppThunk => async dispatch => {
   try {
-    const progress = await getProgressCheckIn();
+    const progress = await callGoalStepProgressSummaryApi();
     await dispatch(fetchProgress({ progress }));
   } catch (err) {
     dispatch(stopLoading());
@@ -166,7 +166,7 @@ const callStepListApi = (
     });
 };
 
-const getProgressCheckIn = () => {
+const callGoalStepProgressSummaryApi = () => {
   axios.defaults.headers.common['Authorization'] =
     'Bearer ' + authentication.getAccessToken();
 

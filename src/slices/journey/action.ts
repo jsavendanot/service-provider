@@ -9,17 +9,20 @@ import {
   JournalApiType
 } from 'types/journey';
 
+//** ASYNC FUNCS */
 export const fetchJournals = (): AppThunk => async dispatch => {
   try {
     dispatch(startLoading());
-    await fetchJournalsList().then(async data => {
-      await Promise.all(data.map(fetchJournalDetail)).then(journalsData => {
-        dispatch(
-          fetch({
-            journals: journalsData
-          })
-        );
-      });
+    await callJournalShareCarerListApi().then(async data => {
+      await Promise.all(data.map(callJournalCarerReadApi)).then(
+        journalsData => {
+          dispatch(
+            fetch({
+              journals: journalsData
+            })
+          );
+        }
+      );
     });
   } catch (err) {
     dispatch(stopLoading());
@@ -27,7 +30,8 @@ export const fetchJournals = (): AppThunk => async dispatch => {
   }
 };
 
-export const fetchJournalsList = () => {
+//** API FUNCS */
+export const callJournalShareCarerListApi = () => {
   axios.defaults.headers.common['Authorization'] =
     'Bearer ' + authentication.getAccessToken();
   let journalsList: JournalApiListType[] = [];
@@ -41,7 +45,7 @@ export const fetchJournalsList = () => {
     });
 };
 
-export const fetchJournalDetail = (journal: JournalApiListType) => {
+export const callJournalCarerReadApi = (journal: JournalApiListType) => {
   axios.defaults.headers.common['Authorization'] =
     'Bearer ' + authentication.getAccessToken();
 

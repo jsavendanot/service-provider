@@ -4,10 +4,11 @@ import authentication from '@kdpw/msal-b2c-react';
 import { fetch, startLoading, stopLoading } from './peopleSlice';
 import { Person } from 'types/people';
 
+//** ASYNC FUNCS */
 export const fetchPeople = (): AppThunk => async dispatch => {
   try {
     dispatch(startLoading());
-    const people = await getPeople();
+    const people = await callRecoveryPlanListApi();
     dispatch(
       fetch({
         people
@@ -31,7 +32,8 @@ export const selectPerson = (person: Person): AppThunk => async dispatch => {
   }
 };
 
-export const getPeople = () => {
+//** API FUNCS */
+export const callRecoveryPlanListApi = () => {
   axios.defaults.headers.common['Authorization'] =
     'Bearer ' + authentication.getAccessToken();
   return axios.get('/RecoveryPlan/List').then(response => {

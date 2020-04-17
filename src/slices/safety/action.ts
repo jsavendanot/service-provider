@@ -11,10 +11,11 @@ import {
 } from './safetySlice';
 import { Value } from 'types/safety';
 
+//** ASYNC FUNCS */
 export const fetchStaywellData = (): AppThunk => async dispatch => {
   try {
     dispatch(startLoading());
-    const values = await getStaywell();
+    const values = await callStayWellReadApi();
     dispatch(
       fetchStaywell({
         values
@@ -36,7 +37,7 @@ export const getSafetyAccess = (): AppThunk => async dispatch => {
 
 export const fetchStressData = (): AppThunk => async dispatch => {
   try {
-    const values = await getStress();
+    const values = await callStressMeReadApi();
     dispatch(
       fetchStress({
         values
@@ -49,7 +50,7 @@ export const fetchStressData = (): AppThunk => async dispatch => {
 
 export const fetchWarnDiffData = (): AppThunk => async dispatch => {
   try {
-    const values = await getWarningSignDiff();
+    const values = await callWarningSignReadApi();
     dispatch(
       fetchWarnDiff({
         values
@@ -62,7 +63,7 @@ export const fetchWarnDiffData = (): AppThunk => async dispatch => {
 
 export const fetchWarnStrData = (): AppThunk => async dispatch => {
   try {
-    const values = await getWarningSignStr();
+    const values = await callCopingStrategyReadApi();
     dispatch(
       fetchWarnStr({
         values
@@ -73,30 +74,8 @@ export const fetchWarnStrData = (): AppThunk => async dispatch => {
   }
 };
 
-// export const fetchPeopleData = (): AppThunk => async (dispatch, getState) => {
-//   try {
-//     const people: Service[] = [];
-//     const sharedSafetyList = await getSharedSafetyPlan();
-//     const networks = getState().network.networks;
-//     sharedSafetyList.forEach(item => {
-//       const network = networks.find(
-//         person => person.id === item.SharedWithNetworkContactId
-//       );
-//       const serviceInstance = new ServiceClass(network?.name!);
-//       serviceInstance.setNumber(network?.phone!);
-
-//       const deSerializedService: Service = JSON.parse(
-//         JSON.stringify(serviceInstance)
-//       );
-//       people.push(deSerializedService);
-//     });
-//     dispatch(fetchPeople({ values: people }));
-//   } catch (err) {
-//     // dispatch(failed(err.toString()));
-//   }
-// };
-
-const getStaywell = () => {
+//** API FUNCS */
+const callStayWellReadApi = () => {
   axios.defaults.headers.common['Authorization'] =
     'Bearer ' + authentication.getAccessToken();
   const values: Value[] = [];
@@ -113,7 +92,7 @@ const getStaywell = () => {
     });
 };
 
-const getStress = () => {
+const callStressMeReadApi = () => {
   axios.defaults.headers.common['Authorization'] =
     'Bearer ' + authentication.getAccessToken();
   const values: Value[] = [];
@@ -130,7 +109,7 @@ const getStress = () => {
     });
 };
 
-const getWarningSignDiff = () => {
+const callWarningSignReadApi = () => {
   axios.defaults.headers.common['Authorization'] =
     'Bearer ' + authentication.getAccessToken();
 
@@ -145,7 +124,7 @@ const getWarningSignDiff = () => {
     });
 };
 
-const getWarningSignStr = () => {
+const callCopingStrategyReadApi = () => {
   axios.defaults.headers.common['Authorization'] =
     'Bearer ' + authentication.getAccessToken();
 
@@ -162,18 +141,3 @@ const getWarningSignStr = () => {
       return strategies;
     });
 };
-
-// const getSharedSafetyPlan = () => {
-//   axios.defaults.headers.common['Authorization'] =
-//     'Bearer ' + authentication.getAccessToken();
-
-//   return axios
-//     .get(`/SafetyPlanShare/List/${sessionStorage.getItem('SafetyPlanId')!}`)
-//     .then(response => {
-//       const sharedSafetyList: ShareNetworkApi[] = [];
-//       response.data.forEach((item: ShareNetworkApi) => {
-//         sharedSafetyList.push(item);
-//       });
-//       return sharedSafetyList;
-//     });
-// };

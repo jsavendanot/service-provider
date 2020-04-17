@@ -3,17 +3,18 @@ import axios from 'common/utils/axios';
 import authentication from '@kdpw/msal-b2c-react';
 import { ProfileApiType } from 'types/profile';
 
+//** ASYNC FUNCS */
 export const startSession = (): AppThunk => async dispatch => {
   try {
-    await checkUserSetup()
+    await callProfileCheckApi()
       .then(async response => {
         // console.log(response);
-        await readProfile();
+        await callProfileReadApi();
       })
       .catch(async error => {
         // console.log(error);
-        await setUpUser();
-        await readProfile();
+        await callProfileSetUpApi();
+        await callProfileReadApi();
       });
   } catch (err) {
     // dispatch(failed(err.toString()));
@@ -29,7 +30,8 @@ export const endSession = (): AppThunk => async dispatch => {
   }
 };
 
-export const readProfile = () => {
+//** API FUNCS */
+export const callProfileReadApi = () => {
   axios.defaults.headers.common['Authorization'] =
     'Bearer ' + authentication.getAccessToken();
 
@@ -43,13 +45,13 @@ export const readProfile = () => {
   });
 };
 
-export const setUpUser = () => {
+export const callProfileSetUpApi = () => {
   axios.defaults.headers.common['Authorization'] =
     'Bearer ' + authentication.getAccessToken();
   return axios.post('/Profile/Setup/935000001');
 };
 
-export const checkUserSetup = () => {
+export const callProfileCheckApi = () => {
   axios.defaults.headers.common['Authorization'] =
     'Bearer ' + authentication.getAccessToken();
   return axios.post('/Profile/Check');
