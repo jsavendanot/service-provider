@@ -94,7 +94,7 @@ const Journal: React.FC<Props> = ({ journal }) => {
   return (
     <div className={classes.root}>
       <span className={classes.dayText}>
-        {moment(journal.date).format('dddd DD / MM / YYYY')}
+        {moment(journal.CreatedOnDate).format('dddd DD / MM / YYYY')}
       </span>
       <Divider className={classes.divider} />
       <div className={classes.stepsContainer}>
@@ -110,41 +110,43 @@ const Journal: React.FC<Props> = ({ journal }) => {
       <Paper style={{ borderRadius: '14px', padding: '10px' }} elevation={2}>
         <div
           className={classes.content}
-          onClick={() => history.push(`/journal/${journal.id}`)}>
-          <span className={classes.title}>{journal.title}</span>
-          <span className={classes.text}>{journal.journalText}</span>
+          onClick={() => history.push(`/journal/${journal.Id}`)}>
+          <span className={classes.title}>{journal.Message.split(';')[0]}</span>
+          <span className={classes.text}>{`${journal.Message.split(
+            ';'
+          )[1].substring(0, 160)}...`}</span>
         </div>
         <div className={classes.footerContent}>
           <div style={{ flexGrow: 1 }}>
-            {journal.feeling === 'VeryHappy' && (
+            {journal.HowAreYouFeeling === 'VeryHappy' && (
               <img
                 src="/images/journey/feelings/1.svg"
                 alt=""
                 className={classes.feelingImage}
               />
             )}
-            {journal.feeling === 'Happy' && (
+            {journal.HowAreYouFeeling === 'Happy' && (
               <img
                 src="/images/journey/feelings/2.svg"
                 alt=""
                 className={classes.feelingImage}
               />
             )}
-            {journal.feeling === 'Neutral' && (
+            {journal.HowAreYouFeeling === 'Neutral' && (
               <img
                 src="/images/journey/feelings/3.svg"
                 alt=""
                 className={classes.feelingImage}
               />
             )}
-            {journal.feeling === 'Sad' && (
+            {journal.HowAreYouFeeling === 'Sad' && (
               <img
                 src="/images/journey/feelings/4.svg"
                 alt=""
                 className={classes.feelingImage}
               />
             )}
-            {journal.feeling === 'VerySad' && (
+            {journal.HowAreYouFeeling === 'VerySad' && (
               <img
                 src="/images/journey/feelings/5.svg"
                 alt=""
@@ -155,7 +157,7 @@ const Journal: React.FC<Props> = ({ journal }) => {
           <IconButton style={{ padding: '0', marginRight: '25px' }}>
             <Comment />
           </IconButton>
-          <span className={classes.dayText}>{journal.time}</span>
+          <span className={classes.dayText}>{journal.CreatedOnDate}</span>
         </div>
       </Paper>
     </div>

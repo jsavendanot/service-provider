@@ -110,7 +110,7 @@ export const JournalDetail: React.FC<Props> = ({ match }) => {
 
   const journal: Journal = useSelector(
     (state: RootState) =>
-      state.journey.journals.find(journal => journal.id === id)!
+      state.journey.journals.find(journal => journal.Id === id)!
   );
 
   return (
@@ -137,16 +137,20 @@ export const JournalDetail: React.FC<Props> = ({ match }) => {
                 flexDirection: 'column',
                 padding: '0 20px'
               }}>
-              <span className={classes.title}>{journal.title}</span>
+              <span className={classes.title}>
+                {journal.Message.split(';')[0]}
+              </span>
               <div className={classes.dateTime}>
                 <img
                   src="/images/journey/journal/clock_icon.svg"
                   alt=""
                   style={{ margin: '0 5px 0 0px' }}
                 />
-                {moment(journal.date).format('LLLL')}
+                {moment(journal.CreatedOnDate).format('LLLL')}
               </div>
-              <div className={classes.descText}>{journal.journalText}</div>
+              <div className={classes.descText}>
+                {journal.Message.split(';')[1]}
+              </div>
               <div
                 style={{
                   display: 'flex',

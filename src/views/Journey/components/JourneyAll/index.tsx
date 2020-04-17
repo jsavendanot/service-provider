@@ -38,7 +38,7 @@ const JourneyAll: React.FC<Props> = ({ journals }) => {
         <div style={{ display: 'flex', flexDirection: 'column' }}>
           <span className={classes.title}>All Journals</span>
           {journals.map(journal => {
-            return <Journal key={journal.id} journal={journal} />;
+            return <Journal key={journal.Id} journal={journal} />;
           })}
         </div>
       </Grid>
