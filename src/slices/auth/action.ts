@@ -43,6 +43,7 @@ export const callProfileReadApi = () => {
     sessionStorage.setItem('Provider_LastName', profile.Surname);
     sessionStorage.setItem('Provider_Avatar', profile.Image);
     sessionStorage.setItem('Provider_Email', profile.PrimaryEmail);
+    sessionStorage.setItem('Provider_MobilePhone', profile.MobilePhone);
     return profile;
   });
 };

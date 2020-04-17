@@ -164,7 +164,9 @@ const NavBar: React.FC<Props> = ({ className }) => {
               alt=""
               style={{ marginRight: '15px' }}
             />
-            <div className={classes.contactText}>0412 345 678</div>
+            <div className={classes.contactText}>
+              {sessionStorage.getItem('Provider_MobilePhone')}
+            </div>
           </div>
           <div className={classes.contactItem}>
             <img
@@ -172,7 +174,9 @@ const NavBar: React.FC<Props> = ({ className }) => {
               alt=""
               style={{ marginRight: '15px' }}
             />
-            <div className={classes.contactText}>kristen.ramos@example.com</div>
+            <div className={classes.contactText}>
+              {sessionStorage.getItem('Provider_Email')}
+            </div>
           </div>
         </div>
       </nav>
