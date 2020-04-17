@@ -6,7 +6,7 @@ import { Grid } from '@material-ui/core';
 import { makeStyles } from '@material-ui/styles';
 import { KeyboardArrowLeft } from '@material-ui/icons';
 
-import { AreaBox, Button } from 'components';
+import { AreaBox, Button } from 'common/components';
 import { AreaCard } from './components';
 import { StoryRootType } from 'types/story';
 import { useSelector } from 'react-redux';

@@ -1,4 +1,4 @@
-import mock from 'utils/mock';
+import mock from 'common/utils/mock';
 
 mock.onGet('/api/staywell').reply(200, {
   staywell: [

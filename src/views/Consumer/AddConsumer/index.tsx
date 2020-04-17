@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import useRouter from 'utils/useRouter';
+import useRouter from 'common/utils/useRouter';
 import clsx from 'clsx';
 
 import { Grid } from '@material-ui/core';

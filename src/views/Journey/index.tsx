@@ -5,7 +5,7 @@ import { Grid } from '@material-ui/core';
 import { makeStyles } from '@material-ui/styles';
 import { useDispatch, useSelector } from 'react-redux';
 
-import { TabMenu, Loading } from 'components';
+import { TabMenu, Loading } from 'common/components';
 import { JourneyAll, Calendar } from './components';
 import { fetchJournals } from 'slices/journey/action';
 import { Journal } from 'types/journey';

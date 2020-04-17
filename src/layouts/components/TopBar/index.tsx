@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import clsx from 'clsx';
-import useRouter from 'utils/useRouter';
+import useRouter from 'common/utils/useRouter';
 
 import { makeStyles } from '@material-ui/styles';
 import {

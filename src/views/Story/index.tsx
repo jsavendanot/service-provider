@@ -13,7 +13,7 @@ import { fetchAllFocusAreas } from 'slices/other/action';
 import { Gallery, MyStory, Strenghts, FocusAreas } from './components';
 import { StoryRootType } from 'types/story';
 import { RootState } from 'reducer';
-import { Loading } from 'components';
+import { Loading } from 'common/components';
 
 const useStyles = makeStyles(() => ({
   root: {

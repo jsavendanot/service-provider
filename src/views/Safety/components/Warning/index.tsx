@@ -5,7 +5,7 @@ import { Value } from 'types/safety';
 import { makeStyles } from '@material-ui/styles';
 import { KeyboardArrowUp, Add } from '@material-ui/icons';
 
-import { Button } from 'components';
+import { Button } from 'common/components';
 
 const useStyles = makeStyles(() => ({
   root: {

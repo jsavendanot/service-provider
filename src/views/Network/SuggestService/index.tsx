@@ -1,12 +1,12 @@
 import React, { useState, useEffect, ChangeEvent } from 'react';
-import useRouter from 'utils/useRouter';
+import useRouter from 'common/utils/useRouter';
 import validate from 'validate.js';
 
 import { Grid, TextField } from '@material-ui/core';
 import { makeStyles } from '@material-ui/styles';
 import { KeyboardArrowLeft } from '@material-ui/icons';
 
-import { Button } from 'components';
+import { Button } from 'common/components';
 import { SharedItem } from './components';
 
 const useStyles = makeStyles(() => ({

@@ -1,4 +1,4 @@
-import mock from 'utils/mock';
+import mock from 'common/utils/mock';
 
 mock.onGet('/api/areas').reply(200, {
   areas: [

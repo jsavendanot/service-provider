@@ -4,7 +4,7 @@ import { useDispatch } from 'react-redux';
 import { addNewComment } from 'slices/goal/action';
 import { Grid, Avatar, TextField } from '@material-ui/core';
 
-import { Button, Comment } from 'components';
+import { Button, Comment } from 'common/components';
 import { GoalComment } from 'types/goal';
 
 const useStyles = makeStyles(() => ({

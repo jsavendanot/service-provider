@@ -5,7 +5,7 @@ import { Grid } from '@material-ui/core';
 import { makeStyles } from '@material-ui/styles';
 import { Add } from '@material-ui/icons';
 
-import { AreaBox, Button } from 'components';
+import { AreaBox, Button } from 'common/components';
 
 const useStyles = makeStyles(() => ({
   root: {

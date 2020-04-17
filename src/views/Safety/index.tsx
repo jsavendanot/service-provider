@@ -15,7 +15,7 @@ import {
 import { SafetyCard, Warning, Unwell, Contact } from './components';
 import { SafetyRootType } from 'types/safety';
 import { RootState } from 'reducer';
-import { Loading } from 'components';
+import { Loading } from 'common/components';
 
 const useStyles = makeStyles(() => ({
   root: {

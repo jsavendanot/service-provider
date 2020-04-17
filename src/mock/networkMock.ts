@@ -1,5 +1,5 @@
 import uuid from 'uuid/v1';
-import mock from 'utils/mock';
+import mock from 'common/utils/mock';
 
 mock.onGet('/api/networks').reply(200, {
   people: [

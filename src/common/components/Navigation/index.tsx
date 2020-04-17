@@ -1,7 +1,7 @@
 /* eslint-disable react/no-multi-comp */
 import React from 'react';
 import { RouteComponentProps } from 'react-router-dom';
-import useRouter from 'utils/useRouter';
+import useRouter from 'common/utils/useRouter';
 
 import { List, Typography, Divider } from '@material-ui/core';
 

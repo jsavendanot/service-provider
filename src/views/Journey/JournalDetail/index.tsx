@@ -1,5 +1,5 @@
 import React from 'react';
-import useRouter from 'utils/useRouter';
+import useRouter from 'common/utils/useRouter';
 
 import { Grid } from '@material-ui/core';
 import { makeStyles } from '@material-ui/styles';

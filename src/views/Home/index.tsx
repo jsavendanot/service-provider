@@ -7,7 +7,7 @@ import { fetchPeople } from 'slices/people/action';
 import { Grid } from '@material-ui/core';
 import { makeStyles } from '@material-ui/styles';
 
-import { Loading } from 'components';
+import { Loading } from 'common/components';
 import { Consumers, Toolbar } from './components';
 import { Person } from 'types/people';
 import { RootState } from 'reducer';

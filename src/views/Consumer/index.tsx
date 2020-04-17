@@ -3,7 +3,7 @@ import React, { useState, ChangeEvent } from 'react';
 import { Grid, Tabs, Tab, Divider } from '@material-ui/core';
 import { makeStyles } from '@material-ui/styles';
 
-import { Button } from 'components';
+import { Button } from 'common/components';
 import { General, Health } from './components';
 
 const useStyles = makeStyles(() => ({

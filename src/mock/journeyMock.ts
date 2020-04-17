@@ -1,4 +1,4 @@
-import mock from 'utils/mock';
+import mock from 'common/utils/mock';
 
 mock.onGet('/api/journals').reply(200, {
   journals: [

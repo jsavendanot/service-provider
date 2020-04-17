@@ -3,7 +3,7 @@ import React from 'react';
 import { Grid } from '@material-ui/core';
 import { makeStyles } from '@material-ui/styles';
 
-import { Button } from 'components';
+import { Button } from 'common/components';
 
 const useStyles = makeStyles(() => ({
   root: {

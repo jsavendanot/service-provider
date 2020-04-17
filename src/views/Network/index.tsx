@@ -5,7 +5,7 @@ import { Grid } from '@material-ui/core';
 import { makeStyles } from '@material-ui/styles';
 import { Add } from '@material-ui/icons';
 
-import { TabMenu, Button } from 'components';
+import { TabMenu, Button } from 'common/components';
 import { Toolbar, People, Services } from './components';
 
 const useStyles = makeStyles(() => ({

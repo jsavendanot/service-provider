@@ -4,7 +4,7 @@ import validate from 'validate.js';
 import { Grid, TextField, Switch } from '@material-ui/core';
 import { makeStyles } from '@material-ui/styles';
 
-import { Button } from 'components';
+import { Button } from 'common/components';
 import { StepForm } from './components';
 import { Add } from '@material-ui/icons';
 

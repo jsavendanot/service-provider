@@ -1,5 +1,5 @@
 import { AppThunk } from 'store';
-import axios from 'utils/axios';
+import axios from 'common/utils/axios';
 import authentication from '@kdpw/msal-b2c-react';
 import { fetch, stopLoading, startLoading } from './journeySlice';
 import {

@@ -1,5 +1,5 @@
 import React from 'react';
-import useRouter from 'utils/useRouter';
+import useRouter from 'common/utils/useRouter';
 import { Journal as JournalType } from 'types/journey';
 import moment from 'moment';
 

@@ -11,7 +11,7 @@ import { Grid, TextField, FormControlLabel, Checkbox } from '@material-ui/core';
 import { makeStyles } from '@material-ui/styles';
 
 import { NavProps } from '../../types';
-import { Button } from 'components';
+import { Button } from 'common/components';
 
 const useStyles = makeStyles(() => ({
   /** Title */

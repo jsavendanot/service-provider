@@ -5,7 +5,7 @@ import { TextField } from '@material-ui/core';
 import { makeStyles } from '@material-ui/styles';
 import { KeyboardArrowUp, Add } from '@material-ui/icons';
 
-import { Button } from 'components';
+import { Button } from 'common/components';
 import { Value } from 'types/safety';
 
 const useStyles = makeStyles(() => ({

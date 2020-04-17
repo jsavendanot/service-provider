@@ -1,6 +1,6 @@
 import React from 'react';
 import moment from 'moment';
-import useRouter from 'utils/useRouter';
+import useRouter from 'common/utils/useRouter';
 import { Consumer as ConsumerType } from 'types/home';
 
 import { Avatar } from '@material-ui/core';

@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import axios from 'utils/axios';
+import axios from 'common/utils/axios';
 import { Network } from 'types/network';
 
 import { Grid } from '@material-ui/core';

@@ -4,7 +4,7 @@ import { TextField } from '@material-ui/core';
 import { makeStyles } from '@material-ui/styles';
 import { Add } from '@material-ui/icons';
 
-import { Button } from 'components';
+import { Button } from 'common/components';
 import { Strength } from 'types/story';
 
 const useStyles = makeStyles(() => ({

@@ -4,7 +4,7 @@ import clsx from 'clsx';
 import { makeStyles } from '@material-ui/styles';
 import { Add } from '@material-ui/icons';
 
-import { Button } from 'components';
+import { Button } from 'common/components';
 import { FocusArea } from 'types/other';
 
 const useStyles = makeStyles(() => ({

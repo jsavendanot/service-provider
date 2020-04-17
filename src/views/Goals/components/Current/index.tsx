@@ -3,7 +3,7 @@ import { Goal } from 'types/goal';
 
 import { Grid } from '@material-ui/core';
 
-import { GoalCard } from 'components';
+import { GoalCard } from 'common/components';
 
 type Props = {
   goals: Goal[];

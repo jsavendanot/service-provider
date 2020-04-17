@@ -1,11 +1,11 @@
 import React, { useState, useEffect } from 'react';
-import useRouter from 'utils/useRouter';
+import useRouter from 'common/utils/useRouter';
 
 import { Grid } from '@material-ui/core';
 import { makeStyles } from '@material-ui/styles';
 import { KeyboardArrowLeft, Add } from '@material-ui/icons';
 
-import { Button, Loading } from 'components';
+import { Button, Loading } from 'common/components';
 import { StepCard, Comments, Progress, About } from './components';
 import { RouteComponentProps } from 'react-router-dom';
 import { Goal, Step, GoalComment } from 'types/goal';

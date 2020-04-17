@@ -1,12 +1,12 @@
 import React from 'react';
 import { FocusArea } from 'types/other';
-import useRouter from 'utils/useRouter';
+import useRouter from 'common/utils/useRouter';
 
 import { Grid } from '@material-ui/core';
 import { makeStyles } from '@material-ui/styles';
 import { Add } from '@material-ui/icons';
 
-import { Button, AreaBox } from 'components';
+import { Button, AreaBox } from 'common/components';
 
 const useStyles = makeStyles(() => ({
   root: {

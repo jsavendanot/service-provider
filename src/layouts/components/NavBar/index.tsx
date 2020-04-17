@@ -1,11 +1,11 @@
 import React from 'react';
 import clsx from 'clsx';
-import useRouter from 'utils/useRouter';
+import useRouter from 'common/utils/useRouter';
 
 import { makeStyles } from '@material-ui/styles';
 import { Paper, Theme, Divider, Avatar } from '@material-ui/core';
 
-import { Navigation } from 'components';
+import { Navigation } from 'common/components';
 import navigationConfig from '../../navigationConfig';
 
 const useStyles = makeStyles((theme: Theme) => ({

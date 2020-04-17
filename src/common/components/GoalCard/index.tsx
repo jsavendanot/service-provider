@@ -1,12 +1,12 @@
 import React, { useState } from 'react';
 import { Goal, Step } from 'types/goal';
-import useRouter from 'utils/useRouter';
+import useRouter from 'common/utils/useRouter';
 
 import { Grid, LinearProgress, Divider } from '@material-ui/core';
 import { makeStyles, withStyles } from '@material-ui/styles';
 import { Add } from '@material-ui/icons';
 
-import { Button } from 'components';
+import { Button } from 'common/components';
 import { StepCard } from './components';
 import { FocusArea } from 'types/other';
 import { useSelector } from 'react-redux';

@@ -1,5 +1,5 @@
 import React from 'react';
-import useRouter from 'utils/useRouter';
+import useRouter from 'common/utils/useRouter';
 import { useDispatch } from 'react-redux';
 import { endSession } from 'slices/auth/action';
 

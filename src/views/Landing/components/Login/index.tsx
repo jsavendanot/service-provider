@@ -1,11 +1,11 @@
 import React, { useState, useEffect } from 'react';
 import validate from 'validate.js';
-import useRouter from 'utils/useRouter';
+import useRouter from 'common/utils/useRouter';
 
 import { Grid, Theme } from '@material-ui/core';
 import { makeStyles } from '@material-ui/styles';
 
-import { Button } from 'components';
+import { Button } from 'common/components';
 
 const useStyles = makeStyles((theme: Theme) => ({
   /** Form */

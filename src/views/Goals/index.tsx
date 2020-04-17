@@ -7,7 +7,7 @@ import { Add } from '@material-ui/icons';
 import { useDispatch, useSelector } from 'react-redux';
 import { fetchGoals } from 'slices/goal/action';
 
-import { Button, TabMenu, Loading } from 'components';
+import { Button, TabMenu, Loading } from 'common/components';
 import { Toolbar, Current, Completed } from './components';
 import { Goal } from 'types/goal';
 import { RootState } from 'reducer';

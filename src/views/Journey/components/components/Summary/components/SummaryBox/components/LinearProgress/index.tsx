@@ -5,7 +5,7 @@ import { LinearProgress, Dialog, DialogContent } from '@material-ui/core';
 import { KeyboardArrowRight } from '@material-ui/icons';
 import { makeStyles, withStyles } from '@material-ui/styles';
 
-import { GoalCard } from 'components';
+import { GoalCard } from 'common/components';
 
 const useStyles = makeStyles(() => ({
   root: {
