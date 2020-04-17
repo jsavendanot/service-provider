@@ -37,11 +37,7 @@ export const callRecoveryPlanListApi = () => {
   axios.defaults.headers.common['Authorization'] =
     'Bearer ' + authentication.getAccessToken();
   return axios.get('/RecoveryPlan/List').then(response => {
-    const people: Person[] = [];
-    response.data.forEach((element: Person) => {
-      element.Photo = `/images/avatars/avata_10.png`;
-      people.push(element);
-    });
+    const people: Person[] = JSON.parse(JSON.stringify(response.data));
     return people;
   });
 };

@@ -126,7 +126,7 @@ const NavBar: React.FC<Props> = ({ className }) => {
           <Avatar
             alt=""
             className={classes.avatar}
-            src="/images/avatar/avatar_1.svg"
+            src={'data:image/png;base64,' + sessionStorage.getItem('Photo')!}
           />
           <span className={classes.profileName}>
             {sessionStorage.getItem('FirstName')}
@@ -134,7 +134,7 @@ const NavBar: React.FC<Props> = ({ className }) => {
           <span className={classes.profileName}>
             {sessionStorage.getItem('SurName')}
           </span>
-          <span className={classes.profileDate}>11/09/1990</span>
+          {/* <span className={classes.profileDate}>11/09/1990</span> */}
           <button
             className={classes.profileButton}
             onClick={() => history.push('/consumer')}>

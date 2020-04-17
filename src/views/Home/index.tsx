@@ -51,7 +51,7 @@ export const Home: React.FC = () => {
                 consumers={people.map(person => {
                   const newConsumer: Consumer = {
                     id: person.UserId,
-                    avatar: '/images/avatar/avatar_1.svg',
+                    avatar: person.Photo,
                     name: person.Name,
                     dob: person.DateOfBirth,
                     lastActive: 'Thu, 24 November 2019 ',

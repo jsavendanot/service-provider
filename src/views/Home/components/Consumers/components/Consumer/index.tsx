@@ -86,10 +86,16 @@ export const Consumer: React.FC<ConsumerType> = ({
           marginBottom: '10px'
         }}>
         <div style={{ flexGrow: 1, display: 'flex', alignItems: 'flex-start' }}>
-          <Avatar alt="" className={classes.avatar} src={avatar} />
+          <Avatar
+            alt=""
+            className={classes.avatar}
+            src={'data:image/png;base64,' + avatar}
+          />
           <div style={{ display: 'flex', flexDirection: 'column' }}>
             <span className={classes.consumerName}>{name}</span>
-            <span className={classes.consumerDob}>{dob}</span>
+            <span className={classes.consumerDob}>
+              {moment(dob).format('L')}
+            </span>
           </div>
         </div>
         <img src="/images/home/flash_icon.svg" alt="" />
