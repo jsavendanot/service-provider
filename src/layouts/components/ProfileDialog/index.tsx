@@ -63,7 +63,10 @@ export default function ProfileDialog() {
         <Avatar
           alt=""
           className={classes.avatar}
-          src="/images/topbar/provider_avatar.svg"
+          src={
+            'data:image/png;base64,' +
+            sessionStorage.getItem('Provider_Avatar')!
+          }
         />
         <div
           style={{
@@ -84,7 +87,7 @@ export default function ProfileDialog() {
             wordWrap: 'break-word'
           }}>
           <span className={classes.providerEmail}>
-            renee.hughes@example.com
+            {sessionStorage.getItem('Provider_Email')}
           </span>
         </div>
       </div>

@@ -10,7 +10,8 @@ import {
   InputBase,
   IconButton,
   Dialog,
-  DialogContent
+  DialogContent,
+  Avatar
 } from '@material-ui/core';
 import { Search } from '@material-ui/icons';
 
@@ -64,6 +65,10 @@ const useStyles = makeStyles(() => ({
     padding: '15px',
     boxShadow:
       '0px 2px 4px rgba(0, 0, 0, 0.24), 0px 2px 8px rgba(0, 0, 0, 0.12)'
+  },
+  avatar: {
+    marginBottom: '5px',
+    cursor: 'pointer'
   }
 }));
 
@@ -170,10 +175,13 @@ const TopBar: React.FC<Props> = ({ className }) => {
                   />
                   <span className={classes.topMenuText}>Settings</span>
                 </div>
-                <img
-                  src="/images/topbar/provider_avatar.svg"
+                <Avatar
                   alt=""
-                  style={{ marginBottom: '5px', cursor: 'pointer' }}
+                  className={classes.avatar}
+                  src={
+                    'data:image/png;base64,' +
+                    sessionStorage.getItem('Provider_Avatar')!
+                  }
                   onClick={handleOpen}
                 />
               </div>

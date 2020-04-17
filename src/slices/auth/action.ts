@@ -1,7 +1,7 @@
 import { AppThunk } from 'store';
 import axios from 'common/utils/axios';
 import authentication from '@kdpw/msal-b2c-react';
-import { ProfileApiType } from 'types/profile';
+import { Profile } from 'types/profile';
 
 //** ASYNC FUNCS */
 export const startSession = (): AppThunk => async dispatch => {
@@ -36,11 +36,13 @@ export const callProfileReadApi = () => {
     'Bearer ' + authentication.getAccessToken();
 
   return axios.get('/Profile/Read/?contactType=935000001').then(response => {
-    const profile: ProfileApiType = response.data;
+    const profile: Profile = response.data;
     sessionStorage.setItem('Provider_UserId', profile.UserId);
     sessionStorage.setItem('Provider_SafetyPlanId', profile.SafetyPlanId);
-    sessionStorage.setItem('Provider_FirstName', profile.FirstName!);
-    sessionStorage.setItem('Provider_LastName', profile.Surname!);
+    sessionStorage.setItem('Provider_FirstName', profile.FirstName);
+    sessionStorage.setItem('Provider_LastName', profile.Surname);
+    sessionStorage.setItem('Provider_Avatar', profile.Image);
+    sessionStorage.setItem('Provider_Email', profile.PrimaryEmail);
     return profile;
   });
 };

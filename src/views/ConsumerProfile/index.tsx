@@ -1,6 +1,6 @@
 import React, { useState, ChangeEvent } from 'react';
 
-import { Grid, Tabs, Tab, Divider } from '@material-ui/core';
+import { Grid, Tabs, Tab, Divider, Avatar } from '@material-ui/core';
 import { makeStyles } from '@material-ui/styles';
 
 import { Button } from 'common/components';
@@ -44,6 +44,11 @@ const useStyles = makeStyles(() => ({
     right: '70px',
     bottom: '35px',
     cursor: 'pointer'
+  },
+  avatar: {
+    marginTop: '20px',
+    width: '100px',
+    height: '100px'
   }
 }));
 
@@ -82,10 +87,10 @@ export const Consumer: React.FC = () => {
             position: 'relative'
           }}>
           <span className={classes.menu}>Profile</span>
-          <img
-            src="/images/consumer/avatar.svg"
+          <Avatar
             alt=""
-            style={{ marginTop: '20px' }}
+            className={classes.avatar}
+            src={'data:image/png;base64,' + sessionStorage.getItem('Photo')!}
           />
           <img
             src="/images/consumer/upload_icon.svg"
