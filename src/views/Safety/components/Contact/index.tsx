@@ -1,11 +1,11 @@
 import React from 'react';
 import clsx from 'clsx';
-import { Service } from 'types/safety';
 
 import { makeStyles } from '@material-ui/styles';
 import { KeyboardArrowUp, Add, Phone } from '@material-ui/icons';
 
 import { Button } from 'common/components';
+import { Network } from 'types/network';
 
 const useStyles = makeStyles(() => ({
   root: {
@@ -100,8 +100,8 @@ type Props = {
   id: number;
   title: string;
   description: string;
-  people: Service[];
-  services: Service[];
+  people: Network[];
+  services: Network[];
   collapse: boolean;
   change: () => void;
 };
@@ -148,19 +148,11 @@ export const Contact: React.FC<Props> = ({
             {people.map((item, index) => {
               return (
                 <div key={index} className={classes.values}>
-                  <div className={classes.value}>{item.who}</div>
-                  {item.numbers && (
-                    <div className={classes.phone}>
-                      <Phone style={{ fill: '#C57D7D', marginRight: '10px' }} />
-                      {item.numbers.map(value => {
-                        return (
-                          <span key={value.id} className={classes.phoneText}>
-                            {value.name},
-                          </span>
-                        );
-                      })}
-                    </div>
-                  )}
+                  <div className={classes.value}>{item.Name}</div>
+                  <div className={classes.phone}>
+                    <Phone style={{ fill: '#C57D7D', marginRight: '10px' }} />
+                    <span className={classes.phoneText}>{item.Phone},</span>
+                  </div>
                 </div>
               );
             })}
@@ -199,19 +191,11 @@ export const Contact: React.FC<Props> = ({
             {services.map((item, index) => {
               return (
                 <div key={index} className={classes.values}>
-                  <div className={classes.value}>{item.who}</div>
-                  {item.numbers && (
-                    <div className={classes.phone}>
-                      <Phone style={{ fill: '#C57D7D', marginRight: '10px' }} />
-                      {item.numbers.map(value => {
-                        return (
-                          <span key={value.id} className={classes.phoneText}>
-                            {value.name},
-                          </span>
-                        );
-                      })}
-                    </div>
-                  )}
+                  <div className={classes.value}>{item.Name}</div>
+                  <div className={classes.phone}>
+                    <Phone style={{ fill: '#C57D7D', marginRight: '10px' }} />
+                    <span className={classes.phoneText}>{item.Phone},</span>
+                  </div>
                 </div>
               );
             })}

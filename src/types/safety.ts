@@ -1,3 +1,5 @@
+import { Network } from './network';
+
 export interface Suggestion {
   id: string;
   name: string;
@@ -9,29 +11,17 @@ export interface Value {
 }
 
 export interface Unwell {
+  id: string;
   things: Value[];
   whos: Value[];
 }
 
-export interface Service {
-  who: string;
-  numbers: Value[];
-}
-
-export class ServiceClass implements Service {
-  who: string;
-  numbers: Value[];
-  constructor(who: string) {
-    this.who = who;
-    this.numbers = [];
-  }
-
-  setNumber = (number: string) => {
-    this.numbers.push({
-      id: number,
-      name: number
-    });
-  };
+export interface UnwellApiType {
+  UnwellId: string;
+  Name: string;
+  Description: string;
+  SafetyPlanId: string;
+  NetworkContactIdResponsible: string;
 }
 
 export interface SafetyRootType {
@@ -41,6 +31,7 @@ export interface SafetyRootType {
   strategies: Value[];
   pleaseDo: Unwell[];
   doNotDo: Unwell[];
-  people: Service[];
+  people: Network[];
+  organisations: Network[];
   loading: boolean;
 }

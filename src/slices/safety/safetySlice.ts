@@ -1,5 +1,5 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
-import { SafetyRootType, Value, Unwell, Service } from 'types/safety';
+import { SafetyRootType, Value, Unwell } from 'types/safety';
 
 const initialState: SafetyRootType = {
   staywell: [],
@@ -9,6 +9,7 @@ const initialState: SafetyRootType = {
   pleaseDo: [],
   doNotDo: [],
   people: [],
+  organisations: [],
   loading: false
 };
 
@@ -42,10 +43,6 @@ const safetySlice = createSlice({
       const { values } = action.payload;
       state.doNotDo = values;
     },
-    fetchPeople(state, action: PayloadAction<{ values: Service[] }>) {
-      const { values } = action.payload;
-      state.people = values;
-    },
     startLoading(state) {
       state.loading = true;
     },
@@ -62,7 +59,6 @@ export const {
   fetchWarnStr,
   fetchUnwellDo,
   fetchUnwellDoNot,
-  fetchPeople,
   startLoading,
   stopLoading
 } = safetySlice.actions;

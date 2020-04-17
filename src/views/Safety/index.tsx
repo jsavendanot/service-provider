@@ -181,7 +181,7 @@ export const Safety: React.FC = () => {
                 title="People or services who I can contact"
                 description="People or services who I can contact for support if I need immediate help."
                 people={safetyStory.people}
-                services={safetyStory.people}
+                services={safetyStory.organisations}
                 collapse={collapses.contact}
                 change={() => handleCollapse('contact', !collapses.contact)}
               />
