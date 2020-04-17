@@ -62,16 +62,16 @@ export const NetworkCard: React.FC<Props> = ({ network }) => {
   return (
     <div className={classes.root}>
       <div style={{ display: 'flex' }}>
-        <Avatar alt="" className={classes.avatar} src={network.avatar} />
+        <Avatar alt="" className={classes.avatar} src={network.Phone} />
         <div
           style={{
             display: 'flex',
             flexDirection: 'column',
             paddingLeft: '20px'
           }}>
-          <span className={classes.nameText}>{network.name}</span>
-          <span className={classes.title}>{network.phone}</span>
-          <span className={classes.title}>{network.email}</span>
+          <span className={classes.nameText}>{network.Name}</span>
+          <span className={classes.title}>{network.Phone}</span>
+          <span className={classes.title}>{network.Email}</span>
         </div>
       </div>
       <Divider className={classes.divider} />

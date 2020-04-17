@@ -1,4 +1,4 @@
-import { NetworkApiType } from './network';
+import { Network } from './network';
 
 export interface StepForm {
   id: string;
@@ -18,7 +18,7 @@ export interface StepForm {
   };
   share: {
     whoCanSee: 'Network' | 'OnlyMe' | 'SpecificPeople';
-    network: NetworkApiType[];
+    network: Network[];
   };
 }
 

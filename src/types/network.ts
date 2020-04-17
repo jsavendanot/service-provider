@@ -4,52 +4,6 @@ export interface More {
 }
 
 export interface Network {
-  id: string;
-  name: string;
-  avatar: string;
-  email: string;
-  phone: string;
-  address: string;
-  type: 'Person' | 'Organisation' | '';
-  more: More[];
-}
-
-export class NetworkClass implements Network {
-  id: string;
-  name: string;
-  avatar: string;
-  email: string;
-  phone: string;
-  address: string;
-  type: 'Person' | 'Organisation' | '';
-  more: More[];
-  constructor(
-    id: string,
-    name: string,
-    email: string,
-    phone: string,
-    address: string,
-    type: 'Person' | 'Organisation' | '',
-    relationship: string,
-    avatar: string
-  ) {
-    this.id = id;
-    this.name = name;
-    this.email = email;
-    this.phone = phone;
-    this.address = address;
-    this.type = type;
-    this.avatar = avatar;
-    this.more = [
-      {
-        title: 'Relationship',
-        value: relationship
-      }
-    ];
-  }
-}
-
-export interface NetworkApiType {
   Id: string;
   UserId: string;
   ContactId: string;
@@ -61,6 +15,29 @@ export interface NetworkApiType {
   Type: 'Person' | 'Organisation' | '';
   Relationship: string;
   Image: string;
+}
+
+export interface Invitation {
+  InvitationId: string;
+  Name: string;
+  EmailAddress: string;
+  Subject: string;
+  Message: string;
+  UserId: string;
+  AcceptedOn: string;
+  AccountType: string;
+  AllowRecPlanAccess: boolean;
+  GoalsToShare: string;
+  ShareAllGoals: boolean;
+  JournalsToShare: string;
+  ShareAllJournals: boolean;
+  ShareMyStory: boolean;
+  ShareSafetyPlan: boolean;
+  ShareNetworkContacts: boolean;
+  Relationship: string;
+  SharingPurpose: string;
+  InvitationCode: string;
+  CreatedOn: string;
 }
 
 export interface ShareNetworkApi {

@@ -31,7 +31,7 @@ export const Services: React.FC = () => {
     <Grid container spacing={3}>
       {networks.map(network => {
         return (
-          <Grid item xs={4} key={network.id}>
+          <Grid item xs={4} key={network.Id}>
             <NetworkCard network={network} />
           </Grid>
         );
