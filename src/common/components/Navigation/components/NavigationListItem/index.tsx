@@ -130,25 +130,42 @@ const NavigationListItem: React.FC<Props> = ({ title, href, depth, icon }) => {
 
   return (
     <ListItem className={classes.itemLeaf} disableGutters>
-      <MyExtendedButton
-        activeClassName={classes.active}
-        className={classes.buttonLeaf}
-        component={CustomRouterLink}
-        exact
-        style={style}
-        to={href}>
-        <div className={classes.buttonContent}>
-          <div
-            style={{
-              width: '100%',
-              display: 'flex',
-              alignItems: 'center'
-            }}>
-            <img src={icon} alt="" style={{ marginRight: '15px' }} />
-            <span className={classes.buttonTextActive}>{title}</span>
+      {sessionStorage.getItem('UserId') !== null &&
+      sessionStorage.getItem('UserId') !== '' ? (
+        <MyExtendedButton
+          activeClassName={classes.active}
+          className={classes.buttonLeaf}
+          component={CustomRouterLink}
+          exact
+          style={style}
+          to={href}>
+          <div className={classes.buttonContent}>
+            <div
+              style={{
+                width: '100%',
+                display: 'flex',
+                alignItems: 'center'
+              }}>
+              <img src={icon} alt="" style={{ marginRight: '15px' }} />
+              <span className={classes.buttonTextActive}>{title}</span>
+            </div>
           </div>
-        </div>
-      </MyExtendedButton>
+        </MyExtendedButton>
+      ) : (
+        <Button className={classes.buttonLeaf} style={style}>
+          <div className={classes.buttonContent}>
+            <div
+              style={{
+                width: '100%',
+                display: 'flex',
+                alignItems: 'center'
+              }}>
+              <img src={icon} alt="" style={{ marginRight: '15px' }} />
+              <span className={classes.buttonTextActive}>{title}</span>
+            </div>
+          </div>
+        </Button>
+      )}
     </ListItem>
   );
 };
