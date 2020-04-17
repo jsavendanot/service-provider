@@ -117,67 +117,15 @@ const Login: React.FC<Props> = ({ register }) => {
     }));
   }, [formState.values]);
 
-  // const changeHandler = (event: ChangeEvent<HTMLInputElement>) => {
-  //   event.persist();
-
-  //   setFormState(formState => ({
-  //     ...formState,
-  //     values: {
-  //       ...formState.values,
-  //       [event.target.name]: event.target.value
-  //     },
-  //     touched: {
-  //       ...formState.touched,
-  //       [event.target.name]: true
-  //     }
-  //   }));
-  // };
-
   const handleSubmit = () => {
-    history.replace('/home');
+    history.push('/home');
   };
-
-  // const hasError = (field: string): boolean =>
-  //   field in formState.touched && field in formState.errors ? true : false;
 
   return (
     <Grid container justify="center">
       <Grid item xs={4}>
         <div className={classes.form}>
-          <span className={classes.formTitle}>Service Provider sign in</span>
-          {/* <TextField
-            error={hasError('email')}
-            helperText={
-              hasError('email')
-                ? formState.errors.email && formState.errors.email[0]
-                : null
-            }
-            fullWidth
-            label="Email"
-            name="email"
-            autoComplete="off"
-            value={formState.values.email || ''}
-            variant="outlined"
-            className={classes.textField}
-            onChange={changeHandler}
-          />
-          <TextField
-            error={hasError('password')}
-            helperText={
-              hasError('password')
-                ? formState.errors.password && formState.errors.password[0]
-                : null
-            }
-            fullWidth
-            autoComplete="off"
-            label="Password"
-            name="password"
-            type="password"
-            value={formState.values.password || ''}
-            variant="outlined"
-            className={classes.textField}
-            onChange={changeHandler}
-          /> */}
+          <span className={classes.formTitle}>Service Provider</span>
           <div style={{ marginTop: '10px' }}>
             <Button type="primary" click={handleSubmit}>
               Sign in

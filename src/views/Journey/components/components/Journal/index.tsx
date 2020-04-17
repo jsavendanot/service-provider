@@ -89,7 +89,7 @@ type Props = {
 
 const Journal: React.FC<Props> = ({ journal }) => {
   const classes = useStyles();
-  const { history } = useRouter();
+  const { history, location } = useRouter();
 
   return (
     <div className={classes.root}>
@@ -110,7 +110,7 @@ const Journal: React.FC<Props> = ({ journal }) => {
       <Paper style={{ borderRadius: '14px', padding: '10px' }} elevation={2}>
         <div
           className={classes.content}
-          onClick={() => history.push(`/journal/${journal.Id}`)}>
+          onClick={() => history.push(`${location.pathname}/${journal.Id}`)}>
           <span className={classes.title}>{journal.Message.split(';')[0]}</span>
           <span className={classes.text}>{`${journal.Message.split(
             ';'

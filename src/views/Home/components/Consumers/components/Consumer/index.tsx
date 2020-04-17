@@ -74,7 +74,7 @@ export const Consumer: React.FC<ConsumerType> = ({
 
   const clickHandler = () => {
     dispatch(selectPerson(people.find(person => person.UserId === id)!));
-    history.push(`/dashboard/consumer/${id}`);
+    history.push(`/dashboard/${id}`);
   };
 
   return (

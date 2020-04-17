@@ -72,7 +72,7 @@ export const FocusAreas: React.FC<Props> = ({ myAreas }) => {
       <div style={{ width: '91px', marginTop: '20px', marginLeft: '50px' }}>
         <Button
           type="primarySmall"
-          click={() => history.push('/story/1/suggest')}>
+          click={() => history.push('/suggest/story')}>
           <Add style={{ marginRight: '5px' }} />
           Add
         </Button>

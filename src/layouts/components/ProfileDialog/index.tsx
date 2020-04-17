@@ -59,7 +59,7 @@ export default function ProfileDialog() {
           flexDirection: 'column',
           alignItems: 'center'
         }}
-        onClick={() => history.push('/profile/kris')}>
+        onClick={() => history.push('/profile')}>
         <Avatar
           alt=""
           className={classes.avatar}

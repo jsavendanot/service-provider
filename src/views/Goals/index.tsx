@@ -84,7 +84,7 @@ const Goals: React.FC<Props> = ({ match, history }) => {
                 <div style={{ width: '186px' }}>
                   <Button
                     type="primary"
-                    click={() => history.push('/goals/1/suggest')}>
+                    click={() => history.push('/suggest/goal')}>
                     <div
                       style={{
                         display: 'flex',

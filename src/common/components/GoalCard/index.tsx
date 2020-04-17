@@ -116,7 +116,7 @@ type Props = {
 
 export const GoalCard: React.FC<Props> = ({ goal }) => {
   const classes = useStyles();
-  const { history } = useRouter();
+  const { history, location } = useRouter();
 
   const [focusAreas] = useState<FocusArea[]>(
     JSON.parse(sessionStorage.getItem('focusAreas')!)
@@ -180,7 +180,7 @@ export const GoalCard: React.FC<Props> = ({ goal }) => {
           <div>
             <Button
               type="secondarySmall"
-              click={() => history.push(`/goal/${goal.Id}`)}>
+              click={() => history.push(`${location.pathname}/${goal.Id}`)}>
               View
             </Button>
           </div>

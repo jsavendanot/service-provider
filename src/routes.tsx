@@ -1,141 +1,194 @@
 /* eslint-disable react/no-multi-comp */
 /* eslint-disable react/display-name */
-import React, { lazy } from 'react';
-import { Redirect } from 'react-router-dom';
+import { lazy } from 'react';
 import { RouteConfig } from 'react-router-config';
 import authentication from '@kdpw/msal-b2c-react';
 
-import { BaseLayout, LayoutWithNavbar, MainLayout } from './layouts';
+import { BaseLayout, MainLayout } from './layouts';
 
 const routes: RouteConfig[] = [
   {
-    path: '/',
-    exact: true,
-    component: (): any => <Redirect to="/auth" />
-  },
-  /** Base layout */
-  {
-    path: '/auth',
-    component: BaseLayout,
-    routes: [
-      {
-        path: '/auth',
-        exact: true,
-        component: lazy(() => import('views/Landing'))
-      }
-    ]
-  },
-  /** Views without navigation bar */
-  {
-    path: '/profile/:name',
-    component: LayoutWithNavbar,
-    routes: [
-      {
-        path: '/profile/:name',
-        exact: true,
-        component: authentication.required(lazy(() => import('views/Profile')))
-      }
-    ]
-  },
-  {
-    path: '/consumer/add',
-    component: LayoutWithNavbar,
-    routes: [
-      {
-        path: '/consumer/add',
-        exact: true,
-        component: authentication.required(
-          lazy(() => import('views/Consumer/AddConsumer'))
-        )
-      }
-    ]
-  },
-  /** Main views with navigation bars */
-  {
-    route: '*',
-    component: MainLayout,
+    path: '/home',
+    component: authentication.required(MainLayout),
     routes: [
       {
         path: '/home',
         exact: true,
         component: authentication.required(lazy(() => import('views/Home')))
+      }
+    ]
+  },
+
+  {
+    path: '/profile',
+    component: MainLayout,
+    routes: [
+      {
+        path: '/profile',
+        exact: true,
+        component: authentication.required(lazy(() => import('views/Profile')))
+      }
+    ]
+  },
+
+  {
+    path: '/consumer',
+    component: MainLayout,
+    routes: [
+      {
+        path: '/consumer',
+        exact: true,
+        component: authentication.required(
+          lazy(() => import('views/ConsumerProfile'))
+        )
       },
       {
-        path: '/dashboard/consumer/:id',
+        path: '/consumer/add',
+        exact: true,
+        component: authentication.required(
+          lazy(() => import('views/ConsumerProfile/AddConsumer'))
+        )
+      }
+    ]
+  },
+
+  {
+    path: '/dashboard',
+    component: MainLayout,
+    routes: [
+      {
+        path: '/dashboard/:id',
         exact: true,
         component: authentication.required(
           lazy(() => import('views/Dashboard'))
         )
-      },
-      {
-        path: '/consumer',
-        exact: true,
-        component: authentication.required(lazy(() => import('views/Consumer')))
-      },
+      }
+    ]
+  },
+
+  {
+    path: '/goals',
+    component: MainLayout,
+    routes: [
       {
         path: '/goals/:tab',
         exact: true,
         component: authentication.required(lazy(() => import('views/Goals')))
       },
       {
-        path: '/goals/:id/suggest',
+        path: '/goals/:tab/:id',
+        exact: true,
+        component: authentication.required(
+          lazy(() => import('views/Goals/GoalDetail'))
+        )
+      }
+    ]
+  },
+
+  {
+    path: '/suggest',
+    component: MainLayout,
+    routes: [
+      {
+        path: '/suggest/goal',
         exact: true,
         component: authentication.required(
           lazy(() => import('views/Goals/SuggestGoal'))
         )
       },
       {
-        path: '/goal/:id',
-        exact: true,
-        component: authentication.required(
-          lazy(() => import('views/Goals/GoalDetail'))
-        )
-      },
-      {
-        path: '/journey/:tab',
-        exact: true,
-        component: authentication.required(lazy(() => import('views/Journey')))
-      },
-      {
-        path: '/journal/:id',
-        exact: true,
-        component: authentication.required(
-          lazy(() => import('views/Journey/JournalDetail'))
-        )
-      },
-      {
-        path: '/story',
-        exact: true,
-        component: authentication.required(lazy(() => import('views/Story')))
-      },
-      {
-        path: '/story/:id/suggest',
+        path: '/suggest/story',
         exact: true,
         component: authentication.required(
           lazy(() => import('views/Story/SuggestArea'))
         )
       },
       {
-        path: '/safety',
-        exact: true,
-        component: authentication.required(lazy(() => import('views/Safety')))
-      },
-      {
-        path: '/network/:tab',
-        exact: true,
-        component: authentication.required(lazy(() => import('views/Network')))
-      },
-      {
-        path: '/network/:id/suggest',
+        path: '/suggest/network',
         exact: true,
         component: authentication.required(
           lazy(() => import('views/Network/SuggestService'))
         )
+      }
+    ]
+  },
+
+  {
+    path: '/journey',
+    component: MainLayout,
+    routes: [
+      {
+        path: '/journey/:tab',
+        exact: true,
+        component: authentication.required(lazy(() => import('views/Journey')))
       },
+      {
+        path: '/journey/:tab/:id',
+        exact: true,
+        component: authentication.required(
+          lazy(() => import('views/Journey/JournalDetail'))
+        )
+      }
+    ]
+  },
+
+  {
+    path: '/story',
+    component: MainLayout,
+    routes: [
+      {
+        path: '/story',
+        exact: true,
+        component: authentication.required(lazy(() => import('views/Story')))
+      }
+    ]
+  },
+
+  {
+    path: '/safety',
+    component: MainLayout,
+    routes: [
+      {
+        path: '/safety',
+        exact: true,
+        component: authentication.required(lazy(() => import('views/Safety')))
+      }
+    ]
+  },
+
+  {
+    path: '/network',
+    component: MainLayout,
+    routes: [
+      {
+        path: '/network/:tab',
+        exact: true,
+        component: authentication.required(lazy(() => import('views/Network')))
+      }
+    ]
+  },
+
+  {
+    path: '/export',
+    component: MainLayout,
+    routes: [
       {
         path: '/export',
         exact: true,
         component: authentication.required(lazy(() => import('views/Export')))
+      }
+    ]
+  },
+
+  //** BaseLayout */
+  {
+    path: '/',
+    component: BaseLayout,
+    routes: [
+      {
+        path: '/',
+        exact: true,
+        component: lazy(() => import('views/Landing'))
       }
     ]
   }

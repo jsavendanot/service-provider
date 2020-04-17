@@ -68,7 +68,7 @@ export const Network: React.FC<Props> = ({ match, history }) => {
               <div style={{ width: '218px' }}>
                 <Button
                   type="primary"
-                  click={() => history.push('/network/1/suggest')}>
+                  click={() => history.push('/suggest/network')}>
                   <div
                     style={{
                       display: 'flex',
