@@ -6,10 +6,11 @@ import { makeStyles } from '@material-ui/styles';
 import { KeyboardArrowLeft } from '@material-ui/icons';
 
 import { RouteComponentProps } from 'react-router-dom';
-import { Journal } from 'types/journey';
+import { Journal, JournalComment } from 'types/journey';
 import { useSelector } from 'react-redux';
 import { RootState } from 'reducer';
 import moment from 'moment';
+import { Comments, Moods } from './components';
 
 const useStyles = makeStyles(() => ({
   root: {
@@ -113,6 +114,10 @@ export const JournalDetail: React.FC<Props> = ({ match }) => {
       state.journey.journals.find(journal => journal.Id === id)!
   );
 
+  const comments: JournalComment[] = useSelector((state: RootState) =>
+    state.journey.comments.filter(item => item.JournalId === id)
+  );
+
   return (
     <Grid container className={classes.root}>
       <Grid item xs={12}>
@@ -151,51 +156,22 @@ export const JournalDetail: React.FC<Props> = ({ match }) => {
               <div className={classes.descText}>
                 {journal.Message.split(';')[1]}
               </div>
-              <div
-                style={{
-                  display: 'flex',
-                  flexDirection: 'column',
-                  margin: '10px 0'
-                }}>
-                <span className={classes.subTitle}>Mood</span>
-                <div style={{ display: 'flex', justifyContent: 'center' }}>
-                  <div className={classes.feelingsContainer}>
-                    <img
-                      src="/images/journey/feelings/5.svg"
-                      alt=""
-                      className={classes.selectedFeeling}
-                    />
-                    <img
-                      src="/images/journey/feelings/4.svg"
-                      alt=""
-                      className={classes.selectedFeeling}
-                    />
-                    <img
-                      src="/images/journey/feelings/3.svg"
-                      alt=""
-                      className={classes.selectedFeeling}
-                    />
-                    <img
-                      src="/images/journey/feelings/2.svg"
-                      alt=""
-                      className={classes.selectedFeeling}
-                    />
-                    <img
-                      src="/images/journey/feelings/1.svg"
-                      alt=""
-                      className={classes.selectedFeeling}
-                    />
-                  </div>
-                </div>
-              </div>
+              <Moods feeling={journal.HowAreYouFeeling} />
               <div style={{ display: 'flex', flexDirection: 'column' }}>
                 <span className={classes.subTitle}>Journal Shared with</span>
-                <div className={classes.network}>My mom, Dr Kris, Rudy</div>
+                <div className={classes.network}></div>
               </div>
             </div>
           </Grid>
-          <Grid item xs={6}>
-            // TODO journal comment will be here
+          <Grid item xs={6} container>
+            <Grid item xs={12} container justify="center">
+              <div style={{ marginBottom: '100px' }}>
+                <img src="/images/journey/default_image.svg" alt="" />
+              </div>
+            </Grid>
+            <Grid item xs={12}>
+              <Comments goalId={id} comments={comments} />
+            </Grid>
           </Grid>
         </Grid>
       </Grid>

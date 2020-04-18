@@ -5,7 +5,7 @@ import { addNewComment } from 'slices/goal/action';
 import { Grid, Avatar, TextField } from '@material-ui/core';
 
 import { Button, Comment } from 'common/components';
-import { GoalComment } from 'types/goal';
+import { JournalComment } from 'types/journey';
 
 const useStyles = makeStyles(() => ({
   label: {
@@ -32,7 +32,7 @@ const useStyles = makeStyles(() => ({
 
 type Props = {
   goalId: string;
-  comments: GoalComment[];
+  comments: JournalComment[];
 };
 
 export const Comments: React.FC<Props> = ({ goalId, comments }) => {
@@ -70,7 +70,7 @@ export const Comments: React.FC<Props> = ({ goalId, comments }) => {
           <Grid item xs={10}>
             <TextField
               variant="outlined"
-              placeholder="Say something about this goal..."
+              placeholder="Say something about this journal..."
               fullWidth
               multiline
               value={message}
