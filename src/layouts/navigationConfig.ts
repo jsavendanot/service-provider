@@ -8,7 +8,7 @@ export default [
       {
         id: '1',
         title: 'Dashboard',
-        href: '/dashboard/1',
+        href: '/dashboard',
         icon: '/images/navbar/dashboard.svg'
       },
       {

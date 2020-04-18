@@ -57,7 +57,7 @@ const routes: RouteConfig[] = [
     component: MainLayout,
     routes: [
       {
-        path: '/dashboard/:id',
+        path: '/dashboard',
         exact: true,
         component: authentication.required(
           lazy(() => import('views/Dashboard'))
