@@ -8,6 +8,7 @@ import journeyReducer from 'slices/journey/journeySlice';
 import storyReducer from 'slices/story/storySlice';
 import safetyReducer from 'slices/safety/safetySlice';
 import dashboardReducer from 'slices/dashboard/dashboardSlice';
+import profileReducer from 'slices/profile/profileSlice';
 
 const rootReducer = combineReducers({
   auth: authReducer,
@@ -17,7 +18,8 @@ const rootReducer = combineReducers({
   journey: journeyReducer,
   story: storyReducer,
   safety: safetyReducer,
-  dashboard: dashboardReducer
+  dashboard: dashboardReducer,
+  profile: profileReducer
 });
 
 export type RootState = ReturnType<typeof rootReducer>;

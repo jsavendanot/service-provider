@@ -77,7 +77,10 @@ export const Consumer: React.FC = () => {
             paddingTop: '35px',
             position: 'relative'
           }}>
-          <span className={classes.menu}>Profile</span>
+          <span className={classes.menu}>
+            {`${sessionStorage.getItem('FirstName')!} 
+            ${sessionStorage.getItem('SurName')!}`}
+          </span>
           <Avatar
             alt=""
             className={classes.avatar}

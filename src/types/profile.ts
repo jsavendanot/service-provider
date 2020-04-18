@@ -35,6 +35,6 @@ export interface Profile {
 }
 
 export interface ProfileRootType {
-  invited: boolean;
   profile: Profile;
+  loading: boolean;
 }
