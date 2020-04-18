@@ -5,7 +5,14 @@ import { Goal } from 'types/goal';
 
 import { makeStyles } from '@material-ui/styles';
 
-import { CircularProgress, MoodOverTime, LinearProgress } from './components';
+import {
+  CircularProgress,
+  MoodOverTime,
+  LinearProgress,
+  AverageMood
+} from './components';
+import { JournalChart } from 'types/journey';
+import moment from 'moment';
 
 const useStyles = makeStyles(() => ({
   tabContainer: {
@@ -75,7 +82,11 @@ const useStyles = makeStyles(() => ({
   }
 }));
 
-const SummaryBox: React.FC = () => {
+type Props = {
+  journalsChart: JournalChart[];
+};
+
+const SummaryBox: React.FC<Props> = ({ journalsChart }) => {
   const classes = useStyles();
 
   /** Tabs */
@@ -96,26 +107,12 @@ const SummaryBox: React.FC = () => {
 
   /** Mood over time */
   const data = {
-    thisWeek: {
-      data: [],
-      labels: []
-    },
-    thisMonth: {
-      data: [],
-      labels: []
-    },
-    thisYear: {
-      data: [0, 1, 3, 2, 3, 4, 5],
-      labels: [
-        '06 Jul',
-        '07 Jul',
-        '08 Jul',
-        '09 Jul',
-        '10 Jul',
-        '11 Jul',
-        '12 Jul'
-      ]
-    }
+    data: [...journalsChart.map(item => item.HowAreYouFeeling)],
+    labels: [
+      ...journalsChart.map(item =>
+        moment(item.CreatedOnDate).format('MMMM Do, h:mm a')
+      )
+    ]
   };
 
   /** Fetch goals */
@@ -142,7 +139,12 @@ const SummaryBox: React.FC = () => {
   return (
     <>
       <div className={classes.tabContainer}>
-        <span className={classes.tabDate}>06 Jul 2019 - 14 Sep 2019</span>
+        <span className={classes.tabDate}>{`${moment(
+          journalsChart.length > 0
+            ? journalsChart[0].CreatedOnDate
+            : new Date().toDateString()
+        ).format('MMMM Do YYYY')} - 
+        ${moment(new Date().toDateString()).format('MMMM Do YYYY')}`}</span>
         <div style={{ display: 'flex', width: '100%' }}>
           <div
             className={clsx(
@@ -150,14 +152,12 @@ const SummaryBox: React.FC = () => {
               tab !== 'mood' && classes.tabSubMenuBox
             )}
             onClick={() => handleTabsChange('mood')}>
-            <img
-              src="/images/journey/summary/mood.svg"
-              alt=""
-              className={clsx(
-                tab === 'mood' && classes.moodTabImageActive,
-                tab !== 'mood' && classes.moodTabImage
-              )}
-            />
+            {journalsChart.length > 0 && (
+              <AverageMood
+                tab={tab}
+                feelings={[...journalsChart.map(item => item.HowAreYouFeeling)]}
+              />
+            )}
             <span
               className={clsx(
                 tab === 'mood' && classes.tabSubMenuTextActive,
@@ -172,34 +172,38 @@ const SummaryBox: React.FC = () => {
               tab !== 'goals' && classes.tabSubMenuBox
             )}
             onClick={() => handleTabsChange('goals')}>
-            {tab === 'goals' ? (
-              <CircularProgress value={67} active />
-            ) : (
-              <CircularProgress value={67} />
-            )}
+            <CircularProgress
+              value={
+                goals.length > 0
+                  ? (goals.filter(item => item.PercentageComplete === 1)
+                      .length /
+                      goals.length) *
+                    100
+                  : 0
+              }
+              active
+            />
+
             <span
               className={clsx(
                 tab === 'goals' && classes.tabSubMenuTextActive,
                 tab !== 'goals' && classes.tabSubMenuText
               )}>
-              67% of Goals
-              <br />
-              Achieved
+              Goals Achieved
             </span>
           </div>
         </div>
         <div style={{ width: '100%', marginTop: '20px' }}>
           {tab === 'mood' && (
-            <MoodOverTime
-              data={data.thisYear.data}
-              labels={data.thisYear.labels}
-            />
+            <MoodOverTime data={data.data} labels={data.labels} />
           )}
           {tab === 'goals' && (
             <>
-              {goals.map(goal => {
-                return <LinearProgress key={goal.Id} goal={goal} />;
-              })}
+              {goals
+                .filter(item => item.PercentageComplete === 1)
+                .map(goal => {
+                  return <LinearProgress key={goal.Id} goal={goal} />;
+                })}
             </>
           )}
         </div>

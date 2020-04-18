@@ -120,14 +120,14 @@ const Journal: React.FC<Props> = ({ journal }) => {
           <div style={{ flexGrow: 1 }}>
             {journal.HowAreYouFeeling === 'VeryHappy' && (
               <img
-                src="/images/journey/feelings/1.svg"
+                src="/images/journey/feelings/5.svg"
                 alt=""
                 className={classes.feelingImage}
               />
             )}
             {journal.HowAreYouFeeling === 'Happy' && (
               <img
-                src="/images/journey/feelings/2.svg"
+                src="/images/journey/feelings/4.svg"
                 alt=""
                 className={classes.feelingImage}
               />
@@ -141,14 +141,14 @@ const Journal: React.FC<Props> = ({ journal }) => {
             )}
             {journal.HowAreYouFeeling === 'Sad' && (
               <img
-                src="/images/journey/feelings/4.svg"
+                src="/images/journey/feelings/2.svg"
                 alt=""
                 className={classes.feelingImage}
               />
             )}
             {journal.HowAreYouFeeling === 'VerySad' && (
               <img
-                src="/images/journey/feelings/5.svg"
+                src="/images/journey/feelings/1.svg"
                 alt=""
                 className={classes.feelingImage}
               />
@@ -157,7 +157,7 @@ const Journal: React.FC<Props> = ({ journal }) => {
           <IconButton style={{ padding: '0', marginRight: '25px' }}>
             <Comment />
           </IconButton>
-          <span className={classes.dayText}>{journal.CreatedOnDate}</span>
+          {/* <span className={classes.dayText}>{journal.CreatedOnDate}</span> */}
         </div>
       </Paper>
     </div>

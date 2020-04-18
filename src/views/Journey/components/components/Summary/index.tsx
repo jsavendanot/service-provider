@@ -4,6 +4,9 @@ import { makeStyles } from '@material-ui/styles';
 import { Tabs, Tab, Theme } from '@material-ui/core';
 
 import { SummaryBox } from './components';
+import { JournalChart } from 'types/journey';
+import { useSelector } from 'react-redux';
+import { RootState } from 'reducer';
 
 const useStyles = makeStyles((theme: Theme) => ({
   root: {
@@ -39,6 +42,10 @@ const useStyles = makeStyles((theme: Theme) => ({
 
 const Summary: React.FC = () => {
   const classes = useStyles();
+
+  const journalsChart: JournalChart[] = useSelector(
+    (state: RootState) => state.journey.journalsChart
+  );
 
   /** Tabs */
   const [tab, setTab] = useState('week');
@@ -86,10 +93,10 @@ const Summary: React.FC = () => {
             />
           ))}
         </Tabs>
-        {tab === 'all' && <SummaryBox />}
-        {tab === 'week' && <SummaryBox />}
-        {tab === 'month' && <SummaryBox />}
-        {tab === 'year' && <SummaryBox />}
+        {tab === 'all' && <SummaryBox journalsChart={journalsChart} />}
+        {tab === 'week' && <SummaryBox journalsChart={journalsChart} />}
+        {tab === 'month' && <SummaryBox journalsChart={journalsChart} />}
+        {tab === 'year' && <SummaryBox journalsChart={journalsChart} />}
       </div>
     </>
   );
