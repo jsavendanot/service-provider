@@ -143,13 +143,15 @@ const TopBar: React.FC<Props> = ({ className }) => {
                   alignItems: 'flex-start',
                   paddingTop: '11px'
                 }}>
-                <div className={classes.topMenu}>
+                <div
+                  className={classes.topMenu}
+                  onClick={() => history.push('/home')}>
                   <img
                     src="/images/topbar/consumers.svg"
                     alt=""
                     className={classes.menuIcon}
                   />
-                  <span className={classes.topMenuText}>Consumer</span>
+                  <span className={classes.topMenuText}>Consumers</span>
                 </div>
                 <div className={classes.topMenu}>
                   <img
