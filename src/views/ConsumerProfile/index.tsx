@@ -1,6 +1,6 @@
 import React, { useState, ChangeEvent } from 'react';
 
-import { Grid, Tabs, Tab, Divider, Avatar } from '@material-ui/core';
+import { Grid, Tabs, Tab, Avatar } from '@material-ui/core';
 import { makeStyles } from '@material-ui/styles';
 
 import { Button } from 'common/components';
@@ -35,15 +35,6 @@ const useStyles = makeStyles(() => ({
     lineHeight: '21px',
     color: '#692B40',
     textTransform: 'capitalize'
-  },
-  divider: {
-    border: '1px solid #C57D7D'
-  },
-  uploadIcon: {
-    position: 'absolute',
-    right: '70px',
-    bottom: '35px',
-    cursor: 'pointer'
   },
   avatar: {
     marginTop: '20px',
@@ -92,11 +83,6 @@ export const Consumer: React.FC = () => {
             className={classes.avatar}
             src={'data:image/png;base64,' + sessionStorage.getItem('Photo')!}
           />
-          <img
-            src="/images/consumer/upload_icon.svg"
-            alt=""
-            className={classes.uploadIcon}
-          />
         </div>
       </Grid>
       <Grid item xs={6}>
@@ -117,7 +103,6 @@ export const Consumer: React.FC = () => {
               />
             ))}
           </Tabs>
-          <Divider className={classes.divider} />
           {tab === 'general' && <General />}
           {tab === 'health' && <Health />}
         </div>
@@ -132,7 +117,7 @@ export const Consumer: React.FC = () => {
           }}>
           <div
             style={{
-              width: '136px'
+              width: '180px'
             }}>
             <Button type="primary" disabled>
               Save Changes
