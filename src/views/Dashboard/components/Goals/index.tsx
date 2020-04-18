@@ -74,9 +74,7 @@ export const Goals: React.FC<GoalsProps> = ({
             alt=""
             style={{ marginRight: '10px' }}
           />
-          <span className={classes.goaBoxStepText}>
-            {/* + {numberOfSteps} steps */}
-          </span>
+          <span className={classes.goaBoxStepText}>{goals.length} goals</span>
         </div>
         <span className={classes.value}>{date}</span>
       </div>

@@ -161,17 +161,7 @@ export const JournalDetail: React.FC<Props> = ({ match }) => {
                 <div style={{ display: 'flex', justifyContent: 'center' }}>
                   <div className={classes.feelingsContainer}>
                     <img
-                      src="/images/journey/feelings/1.svg"
-                      alt=""
-                      className={classes.selectedFeeling}
-                    />
-                    <img
-                      src="/images/journey/feelings/2.svg"
-                      alt=""
-                      className={classes.selectedFeeling}
-                    />
-                    <img
-                      src="/images/journey/feelings/3.svg"
+                      src="/images/journey/feelings/5.svg"
                       alt=""
                       className={classes.selectedFeeling}
                     />
@@ -181,7 +171,17 @@ export const JournalDetail: React.FC<Props> = ({ match }) => {
                       className={classes.selectedFeeling}
                     />
                     <img
-                      src="/images/journey/feelings/5.svg"
+                      src="/images/journey/feelings/3.svg"
+                      alt=""
+                      className={classes.selectedFeeling}
+                    />
+                    <img
+                      src="/images/journey/feelings/2.svg"
+                      alt=""
+                      className={classes.selectedFeeling}
+                    />
+                    <img
+                      src="/images/journey/feelings/1.svg"
                       alt=""
                       className={classes.selectedFeeling}
                     />

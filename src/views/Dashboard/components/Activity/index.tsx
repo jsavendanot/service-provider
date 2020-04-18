@@ -2,6 +2,7 @@ import React from 'react';
 
 import { Divider } from '@material-ui/core';
 import { makeStyles } from '@material-ui/styles';
+import moment from 'moment';
 
 const useStyles = makeStyles(() => ({
   root: {
@@ -93,7 +94,9 @@ export const Activity: React.FC<ActivityProps> = ({
         <span className={classes.activityButtonDesc}>{description}</span>
       </div>
       <div style={{ display: 'flex', justifyContent: 'flex-end' }}>
-        <span className={classes.activityDate}>{date}</span>
+        <span className={classes.activityDate}>
+          {moment(date).format('LLL')}
+        </span>
       </div>
       <div style={{ margin: '10px 0' }}>
         <Divider className={classes.divider} />

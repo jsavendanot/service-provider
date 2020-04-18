@@ -1,6 +1,5 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import clsx from 'clsx';
-import axios from 'common/utils/axios';
 import { Goal } from 'types/goal';
 
 import { makeStyles } from '@material-ui/styles';
@@ -13,6 +12,8 @@ import {
 } from './components';
 import { JournalChart } from 'types/journey';
 import moment from 'moment';
+import { useSelector } from 'react-redux';
+import { RootState } from 'reducer';
 
 const useStyles = makeStyles(() => ({
   tabContainer: {
@@ -89,6 +90,8 @@ type Props = {
 const SummaryBox: React.FC<Props> = ({ journalsChart }) => {
   const classes = useStyles();
 
+  const goals: Goal[] = useSelector((state: RootState) => state.goal.goals);
+
   /** Tabs */
   const [tab, setTab] = useState('goals');
 
@@ -114,27 +117,6 @@ const SummaryBox: React.FC<Props> = ({ journalsChart }) => {
       )
     ]
   };
-
-  /** Fetch goals */
-  const [goals, setGoals] = useState<Goal[]>([]);
-
-  useEffect(() => {
-    let mounted = true;
-
-    const fetchData = () => {
-      axios.get('/api/goals').then(response => {
-        if (mounted) {
-          setGoals(response.data.current);
-        }
-      });
-    };
-
-    fetchData();
-
-    return () => {
-      mounted = false;
-    };
-  }, []);
 
   return (
     <>

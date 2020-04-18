@@ -3,6 +3,7 @@ import clsx from 'clsx';
 import { Step } from 'types/goal';
 
 import { makeStyles } from '@material-ui/styles';
+import moment from 'moment';
 
 const useStyles = makeStyles(() => ({
   root: {
@@ -118,7 +119,7 @@ export const StepCard: React.FC<Props> = ({ step, number }) => {
             style={{ marginRight: '5px' }}
           />
           <span className={classes.dateText}>
-            {step.IsDeadline && step.EndDate}
+            {step.IsDeadline && moment(step.EndDate).format('LLL')}
           </span>
         </div>
       </div>

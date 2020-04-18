@@ -12,6 +12,7 @@ import { RootState } from 'reducer';
 import { Loading } from 'common/components';
 import moment from 'moment';
 import { Journal } from 'types/journey';
+import { Goal } from 'types/goal';
 
 const useStyles = makeStyles(() => ({
   menu: {
@@ -82,6 +83,8 @@ export const Dashboard: React.FC<Props> = (props: Props) => {
     (state: RootState) => state.dashboard.loading
   );
 
+  const goals: Goal[] = useSelector((state: RootState) => state.goal.goals);
+
   const journals: Journal[] = useSelector(
     (state: RootState) => state.journey.journals
   );
@@ -106,7 +109,7 @@ export const Dashboard: React.FC<Props> = (props: Props) => {
             <div style={{ margin: '10px 0' }}>
               <div style={{ margin: '5px 0' }}>
                 <span className={classes.name}>Last active:</span>
-                <span className={classes.name}>Thu, 24 November 2019</span>
+                <span className={classes.name}>{moment().format('LLL')}</span>
               </div>
               <div
                 style={{
@@ -161,7 +164,7 @@ export const Dashboard: React.FC<Props> = (props: Props) => {
                     <FormControlLabel
                       control={
                         <Checkbox
-                          checked={true}
+                          checked={false}
                           value="1"
                           className={classes.updateCheckBox}
                         />
@@ -195,7 +198,7 @@ export const Dashboard: React.FC<Props> = (props: Props) => {
                     <FormControlLabel
                       control={
                         <Checkbox
-                          checked={true}
+                          checked={false}
                           value="1"
                           className={classes.messageCheckBox}
                         />
@@ -212,39 +215,14 @@ export const Dashboard: React.FC<Props> = (props: Props) => {
                   </div>
                 }
                 title={`${sessionStorage.getItem('FirstName')}'s activity`}>
-                {[
-                  {
-                    id: 1,
-                    activity: 'Update',
-                    description:
-                      'Added a new goal “Reconnect with my brother”.',
-                    date: '30 November 2019 2:09 AM',
-                    color: '#75B7FF'
-                  },
-                  {
-                    id: 2,
-                    activity: 'Review',
-                    description:
-                      'Approved new goal “Learn to control my temper”.',
-                    date: '30 November 2019 2:09 AM',
-                    color: '#C8A468'
-                  },
-                  {
-                    id: 3,
-                    activity: 'Message',
-                    description:
-                      'Replied to your comment “I knew you would nail it!”',
-                    date: '30 November 2019 2:09 AM',
-                    color: '#C57D7D'
-                  }
-                ].map(activity => {
+                {goals.map(item => {
                   return (
                     <Activity
-                      key={activity.id}
-                      activity={activity.activity}
-                      description={activity.description}
-                      date={activity.date}
-                      color={activity.color}
+                      key={item.Id}
+                      activity="Review"
+                      description={item.Name}
+                      date={item.CompletedDate}
+                      color="#C8A468"
                     />
                   );
                 })}
