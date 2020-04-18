@@ -3,6 +3,10 @@ import React from 'react';
 import { makeStyles } from '@material-ui/styles';
 
 import { MoodOverTime } from './components';
+import { JournalChart } from 'types/journey';
+import { useSelector } from 'react-redux';
+import { RootState } from 'reducer';
+import moment from 'moment';
 
 const useStyles = makeStyles(() => ({
   goaBoxStepText: {
@@ -39,20 +43,18 @@ export type MoodsProps = {
 export const Moods: React.FC<MoodsProps> = ({ numberOfJournals, date }) => {
   const classes = useStyles();
 
+  const journalsChart: JournalChart[] = useSelector(
+    (state: RootState) => state.journey.journalsChart
+  );
+
   /** Mood over time */
   const data = {
-    thisWeek: {
-      data: [],
-      labels: []
-    },
-    thisMonth: {
-      data: [],
-      labels: []
-    },
-    thisYear: {
-      data: [0, 2, 2, 1, 3, 5, 4, 4],
-      labels: ['12/9', '13/9', '14/9', '15/9', '16/9', '17/9', '18/9']
-    }
+    data: [...journalsChart.map(item => item.HowAreYouFeeling)],
+    labels: [
+      ...journalsChart.map(item =>
+        moment(item.CreatedOnDate).format('MMMM Do, h:mm a')
+      )
+    ]
   };
 
   return (
@@ -76,7 +78,7 @@ export const Moods: React.FC<MoodsProps> = ({ numberOfJournals, date }) => {
         <span className={classes.value}>{date}</span>
       </div>
       <div style={{ padding: '20px 0' }}>
-        <MoodOverTime data={data.thisYear.data} labels={data.thisYear.labels} />
+        <MoodOverTime data={data.data} labels={data.labels} />
       </div>
     </div>
   );

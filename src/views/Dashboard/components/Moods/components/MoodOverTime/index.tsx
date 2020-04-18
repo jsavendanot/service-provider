@@ -31,6 +31,28 @@ type DataSetType = {
   labels: string[];
 };
 
+const converter = (feelingNum: 1 | 2 | 3 | 4 | 5) => {
+  switch (feelingNum) {
+    case 1: {
+      return 'Very Sad';
+    }
+    case 2: {
+      return 'Sad';
+    }
+    case 3: {
+      return 'Neutral';
+    }
+    case 4: {
+      return 'Happy';
+    }
+    case 5: {
+      return 'Very Happy';
+    }
+    default:
+      return 1;
+  }
+};
+
 const MoodOverTime: React.FC<Props> = ({
   data: dataProp,
   labels,
@@ -105,8 +127,8 @@ const MoodOverTime: React.FC<Props> = ({
             padding: 20,
             fontColor: theme.palette.text.secondary,
             beginAtZero: true,
-            min: 0,
-            maxTicksLimit: 7,
+            min: 1,
+            maxTicksLimit: 5,
             callback: (value: number): number => {
               return value > 0 ? value : value;
             }
@@ -128,10 +150,9 @@ const MoodOverTime: React.FC<Props> = ({
       bodyFontColor: theme.palette.text.secondary,
       footerFontColor: theme.palette.text.secondary,
       callbacks: {
-        title: {},
-        label: (tooltipItem: { yLabel: number }): number => {
-          const label = tooltipItem.yLabel;
-          return label;
+        label: (tooltipItem: any) => {
+          const feeling = converter(tooltipItem.yLabel);
+          return feeling;
         }
       }
     }

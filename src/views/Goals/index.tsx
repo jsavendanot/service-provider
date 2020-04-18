@@ -5,12 +5,12 @@ import { Grid } from '@material-ui/core';
 import { makeStyles } from '@material-ui/styles';
 import { Add } from '@material-ui/icons';
 import { useDispatch, useSelector } from 'react-redux';
-import { fetchGoals } from 'slices/goal/action';
 
 import { Button, TabMenu, Loading } from 'common/components';
 import { Toolbar, Current, Completed } from './components';
 import { Goal } from 'types/goal';
 import { RootState } from 'reducer';
+import { fetchGoalsProgress } from 'slices/goal/action';
 
 const useStyles = makeStyles(() => ({
   root: {
@@ -52,10 +52,11 @@ const Goals: React.FC<Props> = ({ match, history }) => {
   const loading: boolean = useSelector(
     (state: RootState) => state.goal.loading
   );
+
   const goals: Goal[] = useSelector((state: RootState) => state.goal.goals);
 
   useEffect(() => {
-    dispatch(fetchGoals());
+    dispatch(fetchGoalsProgress());
   }, [dispatch]);
 
   return (

@@ -2,6 +2,9 @@ import React from 'react';
 
 import { LinearProgress } from '@material-ui/core';
 import { makeStyles, withStyles } from '@material-ui/styles';
+import { Goal } from 'types/goal';
+import { useSelector } from 'react-redux';
+import { RootState } from 'reducer';
 
 const useStyles = makeStyles(() => ({
   goaBoxStepText: {
@@ -54,6 +57,9 @@ export const Goals: React.FC<GoalsProps> = ({
   date
 }) => {
   const classes = useStyles();
+
+  const goals: Goal[] = useSelector((state: RootState) => state.goal.goals);
+
   return (
     <>
       <div style={{ display: 'flex', alignItems: 'center' }}>
@@ -69,7 +75,7 @@ export const Goals: React.FC<GoalsProps> = ({
             style={{ marginRight: '10px' }}
           />
           <span className={classes.goaBoxStepText}>
-            + {numberOfSteps} steps
+            {/* + {numberOfSteps} steps */}
           </span>
         </div>
         <span className={classes.value}>{date}</span>
@@ -78,7 +84,13 @@ export const Goals: React.FC<GoalsProps> = ({
         <BorderLinearProgress
           variant="determinate"
           color="secondary"
-          value={percent}
+          value={
+            goals.length > 0
+              ? (goals.filter(item => item.PercentageComplete === 1).length /
+                  goals.length) *
+                100
+              : 0
+          }
         />
       </div>
       <div
@@ -87,7 +99,9 @@ export const Goals: React.FC<GoalsProps> = ({
           justifyContent: 'flex-end'
         }}>
         <span className={classes.goalBoxCompletedText}>
-          3 out of 5 goals completed
+          {`${
+            goals.filter(item => item.PercentageComplete === 1).length
+          } out of ${goals.length} goals completed`}
         </span>
       </div>
     </>

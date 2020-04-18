@@ -1,8 +1,15 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
-import { JourneyRootType, Journal } from 'types/journey';
+import {
+  JourneyRootType,
+  Journal,
+  JournalComment,
+  JournalChart
+} from 'types/journey';
 
 const initialState: JourneyRootType = {
   journals: [],
+  journalsChart: [],
+  comments: [],
   sharedNetwork: [],
   loading: false
 };
@@ -14,7 +21,20 @@ const journeySlice = createSlice({
     fetch(state, action: PayloadAction<{ journals: Journal[] }>) {
       const { journals } = action.payload;
       state.journals = journals;
-      state.loading = false;
+    },
+    fetchComments(
+      state,
+      action: PayloadAction<{ comments: JournalComment[] }>
+    ) {
+      const { comments } = action.payload;
+      state.comments = comments;
+    },
+    fetchJournalsChart(
+      state,
+      action: PayloadAction<{ journalsChart: JournalChart[] }>
+    ) {
+      const { journalsChart } = action.payload;
+      state.journalsChart = journalsChart;
     },
     startLoading(state) {
       state.loading = true;
@@ -25,5 +45,11 @@ const journeySlice = createSlice({
   }
 });
 
-export const { fetch, startLoading, stopLoading } = journeySlice.actions;
+export const {
+  fetch,
+  fetchComments,
+  fetchJournalsChart,
+  startLoading,
+  stopLoading
+} = journeySlice.actions;
 export default journeySlice.reducer;

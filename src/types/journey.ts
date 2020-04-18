@@ -9,6 +9,13 @@ export interface Journal {
   Image: string;
 }
 
+export interface JournalChart {
+  Id: string;
+  Message: string;
+  HowAreYouFeeling: 1 | 2 | 3 | 4 | 5;
+  CreatedOnDate: string;
+}
+
 export interface JournalList {
   RecoveryPlanId: string;
   UserId: string;
@@ -17,8 +24,18 @@ export interface JournalList {
   SharedWithName: string;
 }
 
+export interface JournalComment {
+  Id: string;
+  JournalId: string;
+  Message: string;
+  PersonName: string;
+  CreatedOnDate: string;
+}
+
 export interface JourneyRootType {
   journals: Journal[];
+  journalsChart: JournalChart[];
   sharedNetwork: Network[];
+  comments: JournalComment[];
   loading: boolean;
 }

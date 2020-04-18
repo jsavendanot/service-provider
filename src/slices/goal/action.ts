@@ -2,7 +2,6 @@ import { AppThunk } from 'store';
 import axios from 'common/utils/axios';
 import authentication from '@kdpw/msal-b2c-react';
 import {
-  fetch,
   fetchSteps,
   fetchComments,
   fetchProgress,
@@ -13,27 +12,24 @@ import { Goal, Step, GoalList, ProgressCheckIn, GoalComment } from 'types/goal';
 import uuid from 'uuid';
 import moment from 'moment';
 
-/** ASYNC FUNCS */
-export const fetchGoals = (): AppThunk => async dispatch => {
+//** ASYNC FUNCS */
+export const fetchGoalsProgress = (): AppThunk => async (
+  dispatch,
+  getState
+) => {
   try {
     dispatch(startLoading());
-    const goalsList = await callGoalListApi();
-
-    await Promise.all(goalsList.map(callGoalDetailApi)).then(response => {
-      dispatch(fetch({ goals: response }));
-    });
-
     await dispatch(fetchProgressState());
 
     dispatch(stopLoading());
-    await dispatch(fetchStepsState(goalsList));
+    await dispatch(fetchStepsState(getState().goal.goals));
   } catch (err) {
     dispatch(stopLoading());
     // dispatch(failed(err.toString()));
   }
 };
 
-export const fetchStepsState = (goals: GoalList[]): AppThunk => async (
+export const fetchStepsState = (goals: Goal[]): AppThunk => async (
   dispatch,
   getState
 ) => {
@@ -41,8 +37,8 @@ export const fetchStepsState = (goals: GoalList[]): AppThunk => async (
     let totalSteps: Step[] = [];
     for (const goal of goals) {
       const steps = await callStepListApi(
-        goal.GoalId,
-        goal.UserId,
+        goal.Id,
+        sessionStorage.getItem('UserId')!,
         getState().goal.progress
       );
       totalSteps = totalSteps.concat(steps);
@@ -88,7 +84,7 @@ export const addNewComment = (
 
 export const fetchProgressState = (): AppThunk => async dispatch => {
   try {
-    const progress = await callGoalStepProgressSummaryApi();
+    const progress = await getProgressCheckIn();
     await dispatch(fetchProgress({ progress }));
   } catch (err) {
     dispatch(stopLoading());
@@ -96,7 +92,7 @@ export const fetchProgressState = (): AppThunk => async dispatch => {
   }
 };
 
-/** API FUNCS */
+//** API FUNCS */
 export const callGoalListApi = () => {
   axios.defaults.headers.common['Authorization'] =
     'Bearer ' + authentication.getAccessToken();
@@ -108,7 +104,7 @@ export const callGoalListApi = () => {
     });
 };
 
-const callGoalDetailApi = (goal: GoalList) => {
+export const callGoalDetailApi = (goal: GoalList) => {
   axios.defaults.headers.common['Authorization'] =
     'Bearer ' + authentication.getAccessToken();
 
@@ -166,7 +162,7 @@ const callStepListApi = (
     });
 };
 
-const callGoalStepProgressSummaryApi = () => {
+const getProgressCheckIn = () => {
   axios.defaults.headers.common['Authorization'] =
     'Bearer ' + authentication.getAccessToken();
 
