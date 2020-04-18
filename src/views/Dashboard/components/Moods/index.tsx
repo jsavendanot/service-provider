@@ -72,7 +72,7 @@ export const Moods: React.FC<MoodsProps> = ({ numberOfJournals, date }) => {
             style={{ marginRight: '10px' }}
           />
           <span className={classes.goaBoxStepText}>
-            + {numberOfJournals} journals
+            {numberOfJournals} journals
           </span>
         </div>
         <span className={classes.value}>{date}</span>

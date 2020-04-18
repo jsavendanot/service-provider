@@ -13,7 +13,7 @@ export const Current: React.FC<Props> = ({ goals }) => {
   return (
     <Grid container spacing={3}>
       {goals
-        .filter(goal => goal.PercentageComplete === 1)
+        .filter(goal => goal.PercentageComplete < 1)
         .map(goal => {
           return (
             <Grid item xs={4} key={goal.Id}>

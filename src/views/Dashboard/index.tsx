@@ -10,6 +10,8 @@ import { fetchDashboardInfo } from 'slices/dashboard/action';
 import { fetchAllFocusAreas } from 'slices/other/action';
 import { RootState } from 'reducer';
 import { Loading } from 'common/components';
+import moment from 'moment';
+import { Journal } from 'types/journey';
 
 const useStyles = makeStyles(() => ({
   menu: {
@@ -80,6 +82,10 @@ export const Dashboard: React.FC<Props> = (props: Props) => {
     (state: RootState) => state.dashboard.loading
   );
 
+  const journals: Journal[] = useSelector(
+    (state: RootState) => state.journey.journals
+  );
+
   useEffect(() => {
     dispatch(fetchAllFocusAreas());
     dispatch(fetchDashboardInfo());
@@ -114,7 +120,7 @@ export const Dashboard: React.FC<Props> = (props: Props) => {
                   alt=""
                   style={{ margin: '0 10px' }}
                 />
-                <span className={classes.value}>November 30, 2019 2:09 AM</span>
+                <span className={classes.value}>{moment().format('LLL')}</span>
               </div>
             </div>
           </div>
@@ -129,14 +135,17 @@ export const Dashboard: React.FC<Props> = (props: Props) => {
                     <Goals
                       numberOfSteps={3}
                       percent={60}
-                      date="since 10 Aug, 2019"
+                      date={moment().format('LL')}
                     />
                   </DashboardBox>
                 </Grid>
                 <Grid item xs={12}>
                   <DashboardBox
                     title={`${sessionStorage.getItem('FirstName')}'s moods`}>
-                    <Moods numberOfJournals={2} date="since 10 Aug, 2019" />
+                    <Moods
+                      numberOfJournals={journals.length}
+                      date={moment().format('LL')}
+                    />
                   </DashboardBox>
                 </Grid>
               </Grid>
