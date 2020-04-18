@@ -7,11 +7,29 @@ import {
   fetchWarnDiff,
   fetchWarnStr,
   startLoading,
-  stopLoading
+  stopLoading,
+  fetchUnwellDo,
+  fetchUnwellDoNot
 } from './safetySlice';
-import { Value } from 'types/safety';
+import { Value, UnwellApiType, Unwell } from 'types/safety';
 
 //** ASYNC FUNCS */
+export const fetchSafetyPlanServices = (): AppThunk => async dispatch => {
+  try {
+    dispatch(startLoading());
+    await dispatch(fetchStaywellData());
+    await dispatch(fetchStressData());
+    await dispatch(fetchWarnDiffData());
+    await dispatch(fetchWarnStrData());
+    await dispatch(fetchUnwell());
+    await dispatch(fetchUnwellNot());
+    dispatch(stopLoading());
+  } catch (err) {
+    dispatch(stopLoading());
+    // dispatch(failed(err.toString()));
+  }
+};
+
 export const fetchStaywellData = (): AppThunk => async dispatch => {
   try {
     dispatch(startLoading());
@@ -67,6 +85,80 @@ export const fetchWarnStrData = (): AppThunk => async dispatch => {
     dispatch(
       fetchWarnStr({
         values
+      })
+    );
+  } catch (err) {
+    // dispatch(failed(err.toString()));
+  }
+};
+
+export const fetchUnwell = (): AppThunk => async dispatch => {
+  try {
+    const values = await callUnwellHappenReadApi();
+
+    const unwellList: Unwell[] = [];
+    values.forEach((value, index) => {
+      const things: Value[] = [];
+      const thing: Value = {
+        id: index.toString(),
+        name: value.Description
+      };
+      things.push(thing);
+
+      const whos: Value[] = [];
+      const who: Value = {
+        id: index.toString(),
+        name: value.NetworkContactIdResponsible
+      };
+      whos.push(who);
+
+      unwellList.push({
+        id: value.UnwellId,
+        things,
+        whos
+      });
+    });
+
+    dispatch(
+      fetchUnwellDo({
+        values: unwellList
+      })
+    );
+  } catch (err) {
+    // dispatch(failed(err.toString()));
+  }
+};
+
+export const fetchUnwellNot = (): AppThunk => async dispatch => {
+  try {
+    const values = await callUnwellNotHappenReadApi();
+
+    const unwellList: Unwell[] = [];
+    values.forEach((value, index) => {
+      const things: Value[] = [];
+      const thing: Value = {
+        id: index.toString(),
+        name: value.Description
+      };
+      things.push(thing);
+
+      const whos: Value[] = [];
+      const who: Value = {
+        id: index.toString(),
+        name: value.NetworkContactIdResponsible
+      };
+      whos.push(who);
+
+      unwellList.push({
+        id: value.UnwellId,
+        things,
+        whos
+      });
+    });
+
+    dispatch(
+      fetchUnwellDoNot({
+        values: unwellList
       })
     );
   } catch (err) {
@@ -139,5 +231,33 @@ const callCopingStrategyReadApi = () => {
         });
       });
       return strategies;
+    });
+};
+
+const callUnwellHappenReadApi = () => {
+  axios.defaults.headers.common['Authorization'] =
+    'Bearer ' + authentication.getAccessToken();
+
+  return axios
+    .get(`/UnwellHappen/Read/${sessionStorage.getItem('UserId')!}`)
+    .then(response => {
+      const unwellList: UnwellApiType[] = JSON.parse(
+        JSON.stringify(response.data)
+      );
+      return unwellList;
+    });
+};
+
+const callUnwellNotHappenReadApi = () => {
+  axios.defaults.headers.common['Authorization'] =
+    'Bearer ' + authentication.getAccessToken();
+
+  return axios
+    .get(`/UnwellNotHappen/Read/${sessionStorage.getItem('UserId')!}`)
+    .then(response => {
+      const unwellList: UnwellApiType[] = JSON.parse(
+        JSON.stringify(response.data)
+      );
+      return unwellList;
     });
 };

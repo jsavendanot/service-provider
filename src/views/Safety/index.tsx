@@ -4,13 +4,7 @@ import { Grid, Switch } from '@material-ui/core';
 import { makeStyles } from '@material-ui/styles';
 import { useDispatch, useSelector } from 'react-redux';
 
-import {
-  fetchStaywellData,
-  fetchStressData,
-  fetchWarnDiffData,
-  fetchWarnStrData
-  // fetchPeopleData
-} from 'slices/safety/action';
+import { fetchSafetyPlanServices } from 'slices/safety/action';
 
 import { SafetyCard, Warning, Unwell, Contact } from './components';
 import { SafetyRootType } from 'types/safety';
@@ -88,11 +82,7 @@ export const Safety: React.FC = () => {
   );
 
   useEffect(() => {
-    dispatch(fetchStaywellData());
-    dispatch(fetchStressData());
-    dispatch(fetchWarnDiffData());
-    dispatch(fetchWarnStrData());
-    // dispatch(fetchPeopleData());
+    dispatch(fetchSafetyPlanServices());
   }, [dispatch]);
 
   return (

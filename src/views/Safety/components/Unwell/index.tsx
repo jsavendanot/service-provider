@@ -177,7 +177,7 @@ export const Unwell: React.FC<Props> = ({
                       {item.whos.map(value => {
                         return (
                           <span key={value.id} className={classes.supportText}>
-                            {value.name},
+                            {/* {value.name}, */}
                           </span>
                         );
                       })}
@@ -242,7 +242,7 @@ export const Unwell: React.FC<Props> = ({
                       {item.whos.map(value => {
                         return (
                           <span key={value.id} className={classes.supportText}>
-                            {value.name},
+                            {/* {value.name}, */}
                           </span>
                         );
                       })}
