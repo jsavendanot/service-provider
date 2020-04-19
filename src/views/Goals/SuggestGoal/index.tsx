@@ -57,6 +57,7 @@ export const SuggestGoal: React.FC<Props> = ({ history }) => {
     dispatch(fetchMyAreas());
   }, [dispatch]);
 
+  const [selectedArea, setSelectedArea] = useState('');
   const [areas] = useState<FocusArea[]>(focusAreas);
   const [myAreas, setMyAreas] = useState<FocusArea[]>([...myFocusAreas]);
 
@@ -107,6 +108,8 @@ export const SuggestGoal: React.FC<Props> = ({ history }) => {
                       <AreaCard
                         area={area}
                         clickable
+                        selectedArea={selectedArea}
+                        click={() => setSelectedArea(area.id)}
                         actionType="remove"
                         action={id => handleRemove(id)}
                       />
@@ -123,7 +126,8 @@ export const SuggestGoal: React.FC<Props> = ({ history }) => {
                     return (
                       <AreaCard
                         area={area}
-                        clickable
+                        selectedArea={selectedArea}
+                        click={() => setSelectedArea(area.id)}
                         actionType="add"
                         action={id => handleAdd(id)}
                       />

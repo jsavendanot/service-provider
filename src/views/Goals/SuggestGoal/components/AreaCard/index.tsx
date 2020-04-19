@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React from 'react';
 import clsx from 'clsx';
 
 import { makeStyles } from '@material-ui/styles';
@@ -56,19 +56,22 @@ const useStyles = makeStyles(() => ({
 
 type Props = {
   area: FocusArea;
-  clickable: boolean;
+  selectedArea: string;
+  clickable?: boolean;
   actionType: 'add' | 'remove';
   action: (id: string) => void;
+  click: () => void;
 };
 
 export const AreaCard: React.FC<Props> = ({
   area,
+  selectedArea,
   clickable,
   actionType,
-  action
+  action,
+  click
 }) => {
   const classes = useStyles();
-  const [clicked, setClicked] = useState(false);
 
   const removeIcon = (
     <RemoveCircleOutline
@@ -99,9 +102,9 @@ export const AreaCard: React.FC<Props> = ({
           <div
             className={clsx(
               classes.body,
-              clicked && clickable && classes.bodyClicked
+              selectedArea === area.id && clickable && classes.bodyClicked
             )}
-            onClick={() => setClicked(value => !value)}>
+            onClick={click}>
             <span
               className={clsx(
                 classes.name,
@@ -116,7 +119,7 @@ export const AreaCard: React.FC<Props> = ({
               </Button>
             </div>
           </div>
-          {clicked && clickable && (
+          {selectedArea === area.id && clickable && (
             <div className={classes.desc}>{area.description}</div>
           )}
         </div>
