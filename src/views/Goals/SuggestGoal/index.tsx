@@ -47,8 +47,12 @@ export const SuggestGoal: React.FC<Props> = ({ history }) => {
     (state: RootState) => state.other.focusAreas
   );
 
+  const myFocusAreas: FocusArea[] = useSelector(
+    (state: RootState) => state.story.focusAreas
+  );
+
   const [areas] = useState<FocusArea[]>(focusAreas);
-  const [myAreas, setMyAreas] = useState<FocusArea[]>([]);
+  const [myAreas, setMyAreas] = useState<FocusArea[]>([...myFocusAreas]);
 
   const handleRemove = (id: string) => {
     myAreas.splice(
