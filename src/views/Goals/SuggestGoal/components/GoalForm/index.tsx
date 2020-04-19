@@ -7,6 +7,8 @@ import { makeStyles } from '@material-ui/styles';
 import { Button } from 'common/components';
 import { StepForm } from './components';
 import { Add } from '@material-ui/icons';
+import { GoalInfo, StepInfo } from 'types/suggestion';
+import moment from 'moment';
 
 const useStyles = makeStyles(() => ({
   root: {
@@ -54,19 +56,19 @@ const useStyles = makeStyles(() => ({
 }));
 
 const schema = {
-  goalName: {
+  Name: {
     presence: { allowEmpty: false, message: 'is required' },
     length: {
       maximum: 400
     }
   },
-  goalDesc: {
+  Description: {
     presence: { allowEmpty: false, message: 'is required' },
     length: {
       maximum: 400
     }
   },
-  deadline: {
+  IsDeadline: {
     presence: { allowEmpty: false, message: 'is required' },
     length: {
       maximum: 10
@@ -77,33 +79,33 @@ const schema = {
 type FormStateType = {
   isValid: boolean;
   values: {
-    goalName?: string;
-    goalDesc?: string;
-    deadline?: string;
+    Name?: '';
+    Description?: '';
+    IsDeadline?: '';
   };
   touched: {
-    goalName?: boolean;
-    goalDesc?: boolean;
-    deadline?: boolean;
+    Name?: boolean;
+    Description?: boolean;
+    IsDeadline?: boolean;
   };
   errors: {
-    goalName?: string[];
-    goalDesc?: string[];
-    deadline?: string[];
+    Name?: string[];
+    Description?: string[];
+    IsDeadline?: string[];
   };
 };
 
-export const GoalForm: React.FC = () => {
+type Props = {
+  areaId: string;
+};
+
+export const GoalForm: React.FC<Props> = ({ areaId }) => {
   const classes = useStyles();
 
-  /** Deadline */
-  const [deadline, setDeadline] = useState(false);
-
   const handeSwitch = (event: ChangeEvent<HTMLInputElement>) => {
-    setDeadline(event.target.checked);
+    // setDeadline(event.target.checked);
   };
 
-  /** Handle Fields */
   const [formState, setFormState] = useState<FormStateType>({
     isValid: false,
     values: {},
@@ -135,6 +137,25 @@ export const GoalForm: React.FC = () => {
       }
     }));
   };
+
+  const [goal, setGoal] = useState<GoalInfo>({
+    Name: formState.values.Name ? formState.values.Name : '',
+    Description: formState.values.Description
+      ? formState.values.Description
+      : '',
+    IsDeadline: formState.values.IsDeadline
+      ? formState.values.IsDeadline
+      : false,
+    StartDate: moment(new Date().toString()).toString(),
+    EndDate: moment(new Date().toString())
+      .add(1, 'day')
+      .toString(),
+    Image: '',
+    ImageType: '',
+    VisibleTo: '',
+    FocusArea: areaId,
+    Steps: []
+  });
 
   /** Steps */
   const [numberOfSteps, setNumberOfSteps] = useState(1);
@@ -169,8 +190,8 @@ export const GoalForm: React.FC = () => {
               placeholder="Learn to control my temper"
               fullWidth
               multiline
-              name="goalName"
-              value={formState.values.goalName || ''}
+              name="Name"
+              value={formState.values.Name || ''}
               autoComplete="off"
               rows="2"
               style={{ marginTop: '15px' }}
@@ -194,8 +215,8 @@ export const GoalForm: React.FC = () => {
               placeholder="It’s more possible to be happy if everyone around me is happy."
               fullWidth
               multiline
-              name="goalDesc"
-              value={formState.values.goalDesc || ''}
+              name="Description"
+              value={formState.values.Description || ''}
               autoComplete="off"
               rows="3"
               style={{ marginTop: '15px' }}
@@ -214,9 +235,9 @@ export const GoalForm: React.FC = () => {
             }}>
             <span className={classes.title}>Goal Deadline</span>
             <Switch
-              checked={deadline}
+              checked={goal.IsDeadline}
               color="primary"
-              value={formState.values.deadline}
+              value={formState.values.IsDeadline}
               onChange={event => handeSwitch(event)}
             />
           </div>

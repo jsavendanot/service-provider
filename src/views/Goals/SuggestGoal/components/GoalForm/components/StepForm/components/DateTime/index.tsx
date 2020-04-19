@@ -1,6 +1,7 @@
-import React, { useState, ChangeEvent } from 'react';
+import React, { ChangeEvent, Dispatch, SetStateAction } from 'react';
 import moment from 'moment';
-import { StepForm } from 'types/goal';
+import { StepInfo } from 'types/suggestion';
+import produce from 'immer';
 
 import {
   Switch,
@@ -56,16 +57,58 @@ const useStyles = makeStyles(() => ({
 }));
 
 type Props = {
-  step: StepForm;
+  step: StepInfo;
+  setStep: Dispatch<SetStateAction<StepInfo>>;
 };
 
-export const DateTime: React.FC<Props> = ({ step }) => {
+export const DateTime: React.FC<Props> = ({ step, setStep }) => {
   const classes = useStyles();
 
-  const [switched, setSwitched] = useState(false);
+  const handleDateTimeFields = (
+    field: 'switch' | 'reminder',
+    value: boolean
+  ) => {
+    if (typeof value === 'boolean') {
+      if (field === 'reminder') {
+        setStep(
+          produce((draft: StepInfo) => {
+            draft.IsDeadline = value;
+          })
+        );
+      }
 
-  const handeSwitch = (event: ChangeEvent<HTMLInputElement>) => {
-    setSwitched(event.target.checked);
+      if (field === 'switch') {
+        setStep(
+          produce((draft: StepInfo) => {
+            draft.IsDeadline = value;
+            draft.EndDate = moment(step.EndDate).toString();
+          })
+        );
+      }
+
+      if (field === 'switch' && value) {
+        if (!step.IsDeadline) {
+          setStep(
+            produce((draft: StepInfo) => {
+              draft.IsDeadline = false;
+              draft.RepeatTimes = 0;
+              draft.RepeatUnit = '';
+              draft.RepeatFrequency = 'day';
+              draft.RepeatTotalTimes = 0;
+            })
+          );
+        }
+      }
+
+      if (field === 'switch' && !value) {
+        setStep(
+          produce((draft: StepInfo) => {
+            draft.IsDeadline = false;
+            draft.EndDate = moment(step.EndDate).toString();
+          })
+        );
+      }
+    }
   };
 
   return (
@@ -73,20 +116,18 @@ export const DateTime: React.FC<Props> = ({ step }) => {
       <div className={classes.header}>
         <span className={classes.title}>Date / Time</span>
         <Switch
-          checked={switched}
+          checked={step.IsDeadline}
           color="primary"
-          value={switched}
-          onChange={event => handeSwitch(event)}
+          value={step.IsDeadline}
+          onChange={() => handleDateTimeFields('switch', !step.IsDeadline)}
         />
       </div>
-      {switched && (
+      {step.IsDeadline && (
         <div className={classes.body}>
           <div className={classes.bodyRow}>
             <div style={{ display: 'flex', alignItems: 'center' }}>
               <span className={classes.bodyText}>
-                {moment(step.dateTime.reminderDate).format(
-                  'dddd DD / MM / YYYY'
-                )}
+                {moment(step.EndDate).format('dddd DD / MM / YYYY')}
               </span>
               <CalendarToday style={{ fill: '#C57D7D', marginLeft: '20px' }} />
             </div>
@@ -94,7 +135,7 @@ export const DateTime: React.FC<Props> = ({ step }) => {
               <FormControlLabel
                 control={
                   <Checkbox
-                    checked={step.dateTime.reminder}
+                    checked={!step.IsDeadline}
                     value=""
                     color="primary"
                   />

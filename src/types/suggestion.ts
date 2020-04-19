@@ -1,36 +1,38 @@
-export interface GoalSuggestion {
+export interface StepInfo {
+  Id: string;
+  GoalId: string;
+  Name: string;
+  RepeatTimes: number;
+  RepeatUnit: string;
+  RepeatFrequency: string;
+  RepeatTotalTimes: number;
+  VisibleTo: string;
+  IsDeadline: boolean;
+  StartDate: string;
+  EndDate: string;
+}
+
+export interface GoalInfo {
+  Name: string;
+  Description: string;
+  IsDeadline: boolean;
+  StartDate: string;
+  EndDate: string;
+  Image: string;
+  ImageType: string;
+  VisibleTo: string;
+  FocusArea: string;
+  Steps: StepInfo[];
+}
+
+export interface Suggestion {
   SuggestionId: string;
   RecoveryPlanId: string;
   SuggestedByUserId: string;
   Name: string;
   ExtraInfo: string;
   GroupName: string;
-  GoalInfo: {
-    Name: string;
-    Description: string;
-    IsDeadline: true;
-    StartDate: string;
-    EndDate: string;
-    Image: string;
-    ImageType: string;
-    VisibleTo: string;
-    FocusArea: string;
-    Steps: [
-      {
-        Id: string;
-        GoalId: string;
-        Name: string;
-        RepeatTimes: 0;
-        RepeatUnit: string;
-        RepeatFrequency: string;
-        RepeatTotalTimes: 0;
-        VisibleTo: string;
-        IsDeadline: true;
-        StartDate: string;
-        EndDate: string;
-      }
-    ];
-  };
+  GoalInfo: GoalInfo;
   AcceptedOn: string;
   RejectedOn: string;
 }

@@ -1,11 +1,11 @@
 import { AppThunk } from 'store';
 import axios from 'common/utils/axios';
 import authentication from '@kdpw/msal-b2c-react';
-import { GoalSuggestion } from 'types/suggestion';
+import { Suggestion } from 'types/suggestion';
 
 //** ASYNC FUNCS */
 export const suggestGoal = (
-  suggestion: GoalSuggestion
+  suggestion: Suggestion
 ): AppThunk => async dispatch => {
   try {
     await callSuggestionServiceProviderCreate(suggestion);
@@ -15,7 +15,7 @@ export const suggestGoal = (
 };
 
 //** API FUNCS */
-const callSuggestionServiceProviderCreate = (suggestion: GoalSuggestion) => {
+const callSuggestionServiceProviderCreate = (suggestion: Suggestion) => {
   axios.defaults.headers.common['Authorization'] =
     'Bearer ' + authentication.getAccessToken();
   return axios.post('/Suggestion/ServiceProvider/Create', suggestion);

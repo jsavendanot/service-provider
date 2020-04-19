@@ -1,5 +1,5 @@
-import React from 'react';
-import { StepForm } from 'types/goal';
+import React, { Dispatch, SetStateAction } from 'react';
+import { StepInfo } from 'types/suggestion';
 
 import { FormControlLabel, RadioGroup, Radio } from '@material-ui/core';
 import { makeStyles } from '@material-ui/styles';
@@ -41,7 +41,8 @@ const useStyles = makeStyles(() => ({
 }));
 
 type Props = {
-  step: StepForm;
+  step: StepInfo;
+  setStep: Dispatch<SetStateAction<StepInfo>>;
 };
 
 export const Share: React.FC<Props> = ({ step }) => {
@@ -56,7 +57,7 @@ export const Share: React.FC<Props> = ({ step }) => {
         <RadioGroup
           aria-label="share"
           name="share"
-          value={step.share.whoCanSee}
+          value={step.VisibleTo}
           style={{ margin: '10px 0', paddingLeft: '10px' }}>
           <FormControlLabel
             value="everyone"

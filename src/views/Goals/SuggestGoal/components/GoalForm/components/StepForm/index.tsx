@@ -9,6 +9,7 @@ import { TextField } from '@material-ui/core';
 import { makeStyles } from '@material-ui/styles';
 
 import { Repeat, DateTime, Share } from './components';
+import { StepInfo } from 'types/suggestion';
 
 const useStyles = makeStyles(() => ({
   root: {
@@ -36,7 +37,7 @@ const useStyles = makeStyles(() => ({
 }));
 
 const schema = {
-  stepName: {
+  Name: {
     presence: { allowEmpty: false, message: 'is required' },
     length: {
       maximum: 400
@@ -47,13 +48,13 @@ const schema = {
 type FormStateType = {
   isValid: boolean;
   values: {
-    stepName?: string;
+    Name?: string;
   };
   touched: {
-    stepName?: boolean;
+    Name?: boolean;
   };
   errors: {
-    stepName?: string[];
+    Name?: string[];
   };
 };
 
@@ -63,28 +64,6 @@ type Props = {
 
 export const StepForm: React.FC<Props> = ({ stepNum }) => {
   const classes = useStyles();
-
-  const [step] = useState<StepFormType>({
-    id: uuid(),
-    name: '',
-    repeat: {
-      switch: false,
-      number: 0,
-      type: '',
-      frequencyNumber: 0,
-      frequencyType: 'week',
-      targetNumber: 0
-    },
-    dateTime: {
-      switch: false,
-      reminder: false,
-      reminderDate: moment().toString()
-    },
-    share: {
-      whoCanSee: 'Network',
-      network: []
-    }
-  });
 
   /** Handle Fields */
   const [formState, setFormState] = useState<FormStateType>({
@@ -122,27 +101,41 @@ export const StepForm: React.FC<Props> = ({ stepNum }) => {
   const hasError = (field: string): boolean =>
     field in formState.touched && field in formState.errors ? true : false;
 
+  const [step, setStep] = useState<StepInfo>({
+    Id: formState.values.Name ? formState.values.Name : '',
+    GoalId: '',
+    Name: '',
+    RepeatTimes: 0,
+    RepeatUnit: '',
+    RepeatFrequency: 'day',
+    RepeatTotalTimes: 0,
+    VisibleTo: '',
+    IsDeadline: false,
+    StartDate: '',
+    EndDate: ''
+  });
+
   return (
     <div className={clsx(classes.root, stepNum > 1 && classes.topDashBorder)}>
       <span className={classes.title}>Step {stepNum}</span>
       <TextField
-        error={hasError('stepName')}
+        error={hasError('Name')}
         helperText={
-          hasError('stepName')
-            ? formState.errors.stepName && formState.errors.stepName[0]
+          hasError('Name')
+            ? formState.errors.Name && formState.errors.Name[0]
             : null
         }
         fullWidth
         label="Step name"
-        name="stepName"
+        name="Name"
         autoComplete="off"
-        value={formState.values.stepName || ''}
+        value={formState.values.Name || ''}
         variant="outlined"
         onChange={handleChange}
       />
-      <Repeat step={step} />
-      <DateTime step={step} />
-      <Share step={step} />
+      <Repeat step={step} setStep={setStep} />
+      <DateTime step={step} setStep={setStep} />
+      <Share step={step} setStep={setStep} />
     </div>
   );
 };

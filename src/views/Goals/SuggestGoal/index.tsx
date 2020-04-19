@@ -138,7 +138,7 @@ export const SuggestGoal: React.FC<Props> = ({ history }) => {
           </Grid>
           <Grid item xs={1} />
           <Grid item xs={5}>
-            <GoalForm />
+            <GoalForm areaId={selectedArea} />
           </Grid>
         </Grid>
       </Grid>

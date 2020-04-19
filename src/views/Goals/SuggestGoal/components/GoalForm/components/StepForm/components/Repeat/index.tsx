@@ -1,8 +1,8 @@
-import React, { useState, ChangeEvent } from 'react';
-import { StepForm } from 'types/goal';
+import React, { useState, ChangeEvent, Dispatch, SetStateAction } from 'react';
 
 import { Switch, TextField, FormControl, Select } from '@material-ui/core';
 import { makeStyles } from '@material-ui/styles';
+import { StepInfo } from 'types/suggestion';
 
 const useStyles = makeStyles(() => ({
   root: {
@@ -66,16 +66,15 @@ const useStyles = makeStyles(() => ({
 }));
 
 type Props = {
-  step: StepForm;
+  step: StepInfo;
+  setStep: Dispatch<SetStateAction<StepInfo>>;
 };
 
 export const Repeat: React.FC<Props> = ({ step }) => {
   const classes = useStyles();
 
-  const [switched, setSwitched] = useState(false);
-
   const handeSwitch = (event: ChangeEvent<HTMLInputElement>) => {
-    setSwitched(event.target.checked);
+    // setSwitched(event.target.checked);
   };
 
   return (
@@ -83,13 +82,13 @@ export const Repeat: React.FC<Props> = ({ step }) => {
       <div className={classes.header}>
         <span className={classes.title}>Repeat</span>
         <Switch
-          checked={switched}
+          checked={!step.IsDeadline}
           color="primary"
-          value={switched}
+          value={!step.IsDeadline}
           onChange={event => handeSwitch(event)}
         />
       </div>
-      {switched && (
+      {!step.IsDeadline && (
         <div className={classes.body}>
           <div className={classes.bodyRow}>
             <TextField
@@ -98,7 +97,7 @@ export const Repeat: React.FC<Props> = ({ step }) => {
               placeholder=""
               className={classes.textField}
               style={{ width: '20%' }}
-              value={step.repeat.number}
+              value={step.RepeatTimes}
               InputProps={{
                 readOnly: true
               }}
@@ -109,7 +108,7 @@ export const Repeat: React.FC<Props> = ({ step }) => {
               placeholder=""
               className={classes.textField}
               style={{ width: '30%' }}
-              value={step.repeat.type}
+              value={step.RepeatUnit}
               InputProps={{
                 readOnly: true
               }}
@@ -124,7 +123,7 @@ export const Repeat: React.FC<Props> = ({ step }) => {
               multiline
               className={classes.textField}
               style={{ width: '20%', marginBottom: '5px' }}
-              value={step.repeat.frequencyNumber}
+              // value={step.RepeatFrequency}
               InputProps={{
                 readOnly: true
               }}
@@ -132,16 +131,17 @@ export const Repeat: React.FC<Props> = ({ step }) => {
             <FormControl variant="outlined" className={classes.selectFrequency}>
               <Select
                 native
-                value={step.repeat.frequencyType}
+                value={step.RepeatFrequency}
                 inputProps={{
                   name: 'frequency',
                   id: 'filled-frequency-native-simple',
                   readOnly: true
                 }}
                 className={classes.selectOption}>
-                <option value="week">week</option>
-                <option value="month">month</option>
                 <option value="year">year</option>
+                <option value="month">month</option>
+                <option value="week">week</option>
+                <option value="day">day</option>
               </Select>
             </FormControl>
           </div>
@@ -158,13 +158,13 @@ export const Repeat: React.FC<Props> = ({ step }) => {
               multiline
               className={classes.textField}
               style={{ width: '40%' }}
-              value={step.repeat.targetNumber}
+              value={step.RepeatTotalTimes}
               InputProps={{
                 readOnly: true
               }}
             />
             <span className={classes.bodyText}>
-              {step.repeat.type ? step.repeat.type : 'times'}
+              {step.RepeatUnit ? step.RepeatUnit : 'times'}
             </span>
           </div>
         </div>
