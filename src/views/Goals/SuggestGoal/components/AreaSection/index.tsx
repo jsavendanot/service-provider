@@ -2,10 +2,6 @@ import React from 'react';
 
 import { makeStyles } from '@material-ui/styles';
 
-import { AreaCard } from './components';
-import { RemoveCircleOutline, AddCircleOutline } from '@material-ui/icons';
-import { FocusArea } from 'types/other';
-
 const useStyles = makeStyles(() => ({
   root: {
     margin: '10px 0',
@@ -28,74 +24,22 @@ const useStyles = makeStyles(() => ({
     fontSize: '14px',
     lineHeight: '127.69%',
     color: '#37474F'
-  },
-  cardContainer: {
-    display: 'flex',
-    alignItems: 'center'
   }
 }));
 
 type Props = {
   name: string;
-  areas: FocusArea[];
   note: string;
-  actionType: 'add' | 'remove';
-  action: (id: string) => void;
 };
 
-export const AreaSection: React.FC<Props> = ({
-  name,
-  areas,
-  note,
-  actionType,
-  action
-}) => {
+export const AreaSection: React.FC<Props> = ({ name, note, children }) => {
   const classes = useStyles();
-
-  const removeIcon = (
-    <RemoveCircleOutline
-      fontSize="large"
-      style={{
-        fill: '#C57D7D',
-        marginLeft: '10px',
-        cursor: 'pointer'
-      }}
-    />
-  );
-
-  const addIcon = (
-    <AddCircleOutline
-      fontSize="large"
-      style={{
-        fill: '#C57D7D',
-        marginLeft: '10px',
-        cursor: 'pointer'
-      }}
-    />
-  );
 
   return (
     <div className={classes.root}>
       <span className={classes.subTitle}>{name}</span>
       <span className={classes.note}>{note}</span>
-      <div style={{ padding: '10px 0' }}>
-        {areas.map(area => {
-          return (
-            <div className={classes.cardContainer} key={area.id}>
-              <div style={{ flexGrow: 1 }}>
-                {actionType === 'add' && (
-                  <AreaCard area={area} clickable={false} />
-                )}
-                {actionType === 'remove' && <AreaCard area={area} clickable />}
-              </div>
-              <div onClick={() => action(area.id)}>
-                {actionType === 'add' && addIcon}
-                {actionType === 'remove' && removeIcon}
-              </div>
-            </div>
-          );
-        })}
-      </div>
+      <div style={{ padding: '10px 0' }}>{children}</div>
     </div>
   );
 };

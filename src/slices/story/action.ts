@@ -40,7 +40,7 @@ export const fetchStrenghtsData = (): AppThunk => async dispatch => {
   }
 };
 
-export const fetchAreasData = (): AppThunk => async dispatch => {
+export const fetchMyAreas = (): AppThunk => async dispatch => {
   try {
     const focusAreas = await callFocusAreaListApi();
     const myFocusAreas = focusAreas.filter(item => item.isSelected);

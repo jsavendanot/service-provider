@@ -1,14 +1,15 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { RouteComponentProps } from 'react-router-dom';
 
 import { Grid } from '@material-ui/core';
 import { makeStyles } from '@material-ui/styles';
 import { KeyboardArrowLeft } from '@material-ui/icons';
 
-import { AreaSection, GoalForm } from './components';
+import { AreaSection, GoalForm, AreaCard } from './components';
 import { FocusArea } from 'types/other';
-import { useSelector } from 'react-redux';
+import { useSelector, useDispatch } from 'react-redux';
 import { RootState } from 'reducer';
+import { fetchMyAreas } from 'slices/story/action';
 
 const useStyles = makeStyles(() => ({
   root: {
@@ -42,14 +43,19 @@ type Props = RouteComponentProps<MatchParams>;
 
 export const SuggestGoal: React.FC<Props> = ({ history }) => {
   const classes = useStyles();
+  const dispatch = useDispatch();
 
-  const focusAreas: FocusArea[] = useSelector(
-    (state: RootState) => state.other.focusAreas
+  const [focusAreas] = useState<FocusArea[]>(
+    JSON.parse(sessionStorage.getItem('focusAreas')!)
   );
 
   const myFocusAreas: FocusArea[] = useSelector(
     (state: RootState) => state.story.focusAreas
   );
+
+  useEffect(() => {
+    dispatch(fetchMyAreas());
+  }, [dispatch]);
 
   const [areas] = useState<FocusArea[]>(focusAreas);
   const [myAreas, setMyAreas] = useState<FocusArea[]>([...myFocusAreas]);
@@ -95,21 +101,35 @@ export const SuggestGoal: React.FC<Props> = ({ history }) => {
               <div style={{ borderBottom: '2px dashed #C57D7D' }}>
                 <AreaSection
                   name="Focus areas"
-                  areas={myAreas}
-                  note="These areas can be modified by the consumer in ‘My Story’."
-                  actionType="remove"
-                  action={id => handleRemove(id)}
-                />
+                  note="These areas can be modified by the consumer in ‘My Story’.">
+                  {myAreas.map(area => {
+                    return (
+                      <AreaCard
+                        area={area}
+                        clickable
+                        actionType="remove"
+                        action={id => handleRemove(id)}
+                      />
+                    );
+                  })}
+                </AreaSection>
               </div>
               <AreaSection
                 name="Other areas"
-                areas={areas.filter(
-                  area => !myAreas.find(item => item.id === area.id)
-                )}
-                note="A service provider can suggest new focus aress using."
-                actionType="add"
-                action={id => handleAdd(id)}
-              />
+                note="A service provider can suggest new focus areas using.">
+                {areas
+                  .filter(area => !myAreas.find(item => item.id === area.id))
+                  .map(area => {
+                    return (
+                      <AreaCard
+                        area={area}
+                        clickable
+                        actionType="add"
+                        action={id => handleAdd(id)}
+                      />
+                    );
+                  })}
+              </AreaSection>
             </div>
           </Grid>
           <Grid item xs={1} />

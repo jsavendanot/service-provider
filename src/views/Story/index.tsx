@@ -6,7 +6,7 @@ import { useSelector, useDispatch } from 'react-redux';
 import {
   fetchStoryData,
   fetchStrenghtsData,
-  fetchAreasData
+  fetchMyAreas
 } from 'slices/story/action';
 import { fetchAllFocusAreas } from 'slices/other/action';
 
@@ -46,7 +46,7 @@ export const Story: React.FC = () => {
   useEffect(() => {
     dispatch(fetchStoryData());
     dispatch(fetchStrenghtsData());
-    dispatch(fetchAreasData());
+    dispatch(fetchMyAreas());
   }, [dispatch]);
 
   return (
