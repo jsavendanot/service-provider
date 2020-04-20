@@ -64,28 +64,47 @@ type Props = {
 export const DateTime: React.FC<Props> = ({ step, setStep }) => {
   const classes = useStyles();
 
-  const handleStepFieldsChange = (field: 'IsDeadline', value: boolean) => {
-    if (field === 'IsDeadline') {
-      if (!value) {
+  const handleDateTimeFields = (
+    field: 'switch' | 'reminder',
+    value: boolean
+  ) => {
+    if (typeof value === 'boolean') {
+      if (field === 'reminder') {
         setStep(
           produce((draft: StepInfo) => {
-            draft.IsDeadline = false;
-            draft.RepeatTimes = 0;
-            draft.RepeatUnit = '';
-            draft.RepeatFrequency = 'day';
-            draft.RepeatTotalTimes = 0;
-            draft.EndDate = '';
-            draft.StartDate = '';
+            draft.IsDeadline = value;
           })
         );
       }
 
-      if (value) {
+      if (field === 'switch') {
         setStep(
           produce((draft: StepInfo) => {
-            draft.IsDeadline = true;
+            draft.IsDeadline = value;
             draft.EndDate = moment(step.EndDate).toString();
-            draft.StartDate = moment(step.EndDate).toString();
+          })
+        );
+      }
+
+      if (field === 'switch' && value) {
+        if (!step.IsDeadline) {
+          setStep(
+            produce((draft: StepInfo) => {
+              draft.IsDeadline = false;
+              draft.RepeatTimes = 0;
+              draft.RepeatUnit = '';
+              draft.RepeatFrequency = 'day';
+              draft.RepeatTotalTimes = 0;
+            })
+          );
+        }
+      }
+
+      if (field === 'switch' && !value) {
+        setStep(
+          produce((draft: StepInfo) => {
+            draft.IsDeadline = false;
+            draft.EndDate = moment(step.EndDate).toString();
           })
         );
       }
@@ -100,9 +119,7 @@ export const DateTime: React.FC<Props> = ({ step, setStep }) => {
           checked={step.IsDeadline}
           color="primary"
           value={step.IsDeadline}
-          onChange={() =>
-            handleStepFieldsChange('IsDeadline', !step.IsDeadline)
-          }
+          onChange={() => handleDateTimeFields('switch', !step.IsDeadline)}
         />
       </div>
       {step.IsDeadline && (

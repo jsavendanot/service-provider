@@ -1,27 +1,5 @@
 import { Network } from './network';
 
-export interface StepForm {
-  id: string;
-  name: string;
-  repeat: {
-    switch: boolean;
-    number: number;
-    type: string;
-    frequencyNumber: number;
-    frequencyType: string;
-    targetNumber: number;
-  };
-  dateTime: {
-    switch: boolean;
-    reminder: boolean;
-    reminderDate: string;
-  };
-  share: {
-    whoCanSee: 'Network' | 'OnlyMe' | 'SpecificPeople';
-    network: Network[];
-  };
-}
-
 export interface GoalList {
   RecoveryPlanId: string;
   UserId: string;

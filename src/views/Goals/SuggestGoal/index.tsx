@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import { RouteComponentProps } from 'react-router-dom';
 
 import { Grid } from '@material-ui/core';
@@ -9,7 +9,6 @@ import { AreaSection, GoalForm, AreaCard } from './components';
 import { FocusArea } from 'types/other';
 import { useSelector, useDispatch } from 'react-redux';
 import { RootState } from 'reducer';
-import { fetchMyAreas } from 'slices/story/action';
 
 const useStyles = makeStyles(() => ({
   root: {
@@ -52,10 +51,6 @@ export const SuggestGoal: React.FC<Props> = ({ history }) => {
   const myFocusAreas: FocusArea[] = useSelector(
     (state: RootState) => state.story.focusAreas
   );
-
-  useEffect(() => {
-    dispatch(fetchMyAreas());
-  }, [dispatch]);
 
   const [selectedArea, setSelectedArea] = useState('');
   const [areas] = useState<FocusArea[]>(focusAreas);

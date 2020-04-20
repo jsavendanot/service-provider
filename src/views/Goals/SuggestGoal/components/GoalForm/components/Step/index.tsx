@@ -1,7 +1,6 @@
-import React, { useState, useEffect, Dispatch, SetStateAction } from 'react';
+import React, { useState, useEffect, ChangeEvent } from 'react';
 import validate from 'validate.js';
 import clsx from 'clsx';
-import produce from 'immer';
 
 import { TextField } from '@material-ui/core';
 import { makeStyles } from '@material-ui/styles';
@@ -58,13 +57,12 @@ type FormStateType = {
 
 type Props = {
   stepNum: number;
-  step: StepInfo;
-  setStep: Dispatch<SetStateAction<StepInfo>>;
 };
 
-export const StepForm: React.FC<Props> = ({ stepNum, step, setStep }) => {
+export const StepForm: React.FC<Props> = ({ stepNum }) => {
   const classes = useStyles();
 
+  /** Handle Fields */
   const [formState, setFormState] = useState<FormStateType>({
     isValid: false,
     values: {},
@@ -81,16 +79,38 @@ export const StepForm: React.FC<Props> = ({ stepNum, step, setStep }) => {
     }));
   }, [formState.values]);
 
-  const handleStepFieldsChange = (field: 'Name', value: string) => {
-    setStep(
-      produce((draft: StepInfo) => {
-        draft[field] = value;
-      })
-    );
+  const handleChange = (event: ChangeEvent<HTMLInputElement>) => {
+    event.persist();
+
+    setFormState(formState => ({
+      ...formState,
+      values: {
+        ...formState.values,
+        [event.target.name]: event.target.value
+      },
+      touched: {
+        ...formState.touched,
+        [event.target.name]: true
+      }
+    }));
   };
 
   const hasError = (field: string): boolean =>
     field in formState.touched && field in formState.errors ? true : false;
+
+  const [step, setStep] = useState<StepInfo>({
+    Id: formState.values.Name ? formState.values.Name : '',
+    GoalId: '',
+    Name: '',
+    RepeatTimes: 0,
+    RepeatUnit: '',
+    RepeatFrequency: 'day',
+    RepeatTotalTimes: 0,
+    VisibleTo: '',
+    IsDeadline: false,
+    StartDate: '',
+    EndDate: ''
+  });
 
   return (
     <div className={clsx(classes.root, stepNum > 1 && classes.topDashBorder)}>
@@ -106,9 +126,9 @@ export const StepForm: React.FC<Props> = ({ stepNum, step, setStep }) => {
         label="Step name"
         name="Name"
         autoComplete="off"
-        value={step.Name}
+        value={formState.values.Name || ''}
         variant="outlined"
-        onChange={event => handleStepFieldsChange('Name', event.target.value)}
+        onChange={handleChange}
       />
       <Repeat step={step} setStep={setStep} />
       <DateTime step={step} setStep={setStep} />

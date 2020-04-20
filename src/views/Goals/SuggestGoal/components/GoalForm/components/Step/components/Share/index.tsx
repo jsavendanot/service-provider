@@ -9,7 +9,6 @@ import {
   PersonPin,
   KeyboardArrowRight
 } from '@material-ui/icons';
-import produce from 'immer';
 
 const useStyles = makeStyles(() => ({
   root: {
@@ -46,18 +45,8 @@ type Props = {
   setStep: Dispatch<SetStateAction<StepInfo>>;
 };
 
-export const Share: React.FC<Props> = ({ step, setStep }) => {
+export const Share: React.FC<Props> = ({ step }) => {
   const classes = useStyles();
-
-  const handleStepsFieldChange = (
-    value: 'Network' | 'OnlyMe' | 'SpecificPeople'
-  ) => {
-    setStep(
-      produce((draft: StepInfo) => {
-        draft.VisibleTo = value;
-      })
-    );
-  };
 
   return (
     <div className={classes.root}>
@@ -69,14 +58,9 @@ export const Share: React.FC<Props> = ({ step, setStep }) => {
           aria-label="share"
           name="share"
           value={step.VisibleTo}
-          style={{ margin: '10px 0', paddingLeft: '10px' }}
-          onChange={event =>
-            handleStepsFieldChange(
-              event.target.value as 'Network' | 'OnlyMe' | 'SpecificPeople'
-            )
-          }>
+          style={{ margin: '10px 0', paddingLeft: '10px' }}>
           <FormControlLabel
-            value="Network"
+            value="everyone"
             control={<Radio color="primary" />}
             label={
               <div
@@ -92,7 +76,7 @@ export const Share: React.FC<Props> = ({ step, setStep }) => {
             }
           />
           <FormControlLabel
-            value="OnlyMe"
+            value="me"
             control={<Radio color="primary" />}
             label={
               <div
@@ -106,7 +90,7 @@ export const Share: React.FC<Props> = ({ step, setStep }) => {
             }
           />
           <FormControlLabel
-            value="SpecificPeople"
+            value="specific"
             control={<Radio color="primary" />}
             label={
               <div

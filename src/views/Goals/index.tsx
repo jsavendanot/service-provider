@@ -11,6 +11,7 @@ import { Toolbar, Current, Completed } from './components';
 import { Goal } from 'types/goal';
 import { RootState } from 'reducer';
 import { fetchGoalsProgress } from 'slices/goal/action';
+import { fetchMyAreas } from 'slices/story/action';
 
 const useStyles = makeStyles(() => ({
   root: {
@@ -57,6 +58,7 @@ const Goals: React.FC<Props> = ({ match, history }) => {
 
   useEffect(() => {
     dispatch(fetchGoalsProgress());
+    dispatch(fetchMyAreas());
   }, [dispatch]);
 
   return (

@@ -1,14 +1,15 @@
-import React, { useState, useEffect, ChangeEvent } from 'react';
+import React, { useState, useEffect } from 'react';
 import validate from 'validate.js';
 
 import { Grid, TextField, Switch } from '@material-ui/core';
 import { makeStyles } from '@material-ui/styles';
 
 import { Button } from 'common/components';
-import { StepForm } from './components';
+import { StepForm, Step } from './components';
 import { Add } from '@material-ui/icons';
 import { GoalInfo, StepInfo } from 'types/suggestion';
 import moment from 'moment';
+import produce from 'immer';
 
 const useStyles = makeStyles(() => ({
   root: {
@@ -102,10 +103,6 @@ type Props = {
 export const GoalForm: React.FC<Props> = ({ areaId }) => {
   const classes = useStyles();
 
-  const handeSwitch = (event: ChangeEvent<HTMLInputElement>) => {
-    // setDeadline(event.target.checked);
-  };
-
   const [formState, setFormState] = useState<FormStateType>({
     isValid: false,
     values: {},
@@ -122,30 +119,10 @@ export const GoalForm: React.FC<Props> = ({ areaId }) => {
     }));
   }, [formState.values]);
 
-  const handleChange = (event: ChangeEvent<HTMLInputElement>) => {
-    event.persist();
-
-    setFormState(formState => ({
-      ...formState,
-      values: {
-        ...formState.values,
-        [event.target.name]: event.target.value
-      },
-      touched: {
-        ...formState.touched,
-        [event.target.name]: true
-      }
-    }));
-  };
-
   const [goal, setGoal] = useState<GoalInfo>({
-    Name: formState.values.Name ? formState.values.Name : '',
-    Description: formState.values.Description
-      ? formState.values.Description
-      : '',
-    IsDeadline: formState.values.IsDeadline
-      ? formState.values.IsDeadline
-      : false,
+    Name: '',
+    Description: '',
+    IsDeadline: false,
     StartDate: moment(new Date().toString()).toString(),
     EndDate: moment(new Date().toString())
       .add(1, 'day')
@@ -157,8 +134,41 @@ export const GoalForm: React.FC<Props> = ({ areaId }) => {
     Steps: []
   });
 
+  const handleGoalFieldsChange = (
+    field: 'Name' | 'Description',
+    value: string
+  ) => {
+    setGoal(
+      produce((draft: GoalInfo) => {
+        draft[field] = value;
+      })
+    );
+  };
+
+  const [step, setStep] = useState<StepInfo>({
+    Id: '',
+    GoalId: '',
+    Name: '',
+    RepeatTimes: 0,
+    RepeatUnit: '',
+    RepeatFrequency: 'day',
+    RepeatTotalTimes: 0,
+    VisibleTo: '',
+    IsDeadline: false,
+    StartDate: '',
+    EndDate: ''
+  });
+
   /** Steps */
-  const [numberOfSteps, setNumberOfSteps] = useState(1);
+  const [steps, setSteps] = useState<StepInfo[]>([]);
+
+  const addStep = () => {
+    console.log(step);
+  };
+
+  const handleSubmitButtonClick = () => {
+    console.log(goal);
+  };
 
   return (
     <div className={classes.root}>
@@ -191,12 +201,15 @@ export const GoalForm: React.FC<Props> = ({ areaId }) => {
               fullWidth
               multiline
               name="Name"
-              value={formState.values.Name || ''}
+              value={goal.Name || ''}
               autoComplete="off"
               rows="2"
               style={{ marginTop: '15px' }}
               className={classes.textField}
-              onChange={handleChange}
+              onChange={event =>
+                handleGoalFieldsChange('Name', event.target.value)
+              }
+              inputProps={{ maxLength: 120 }}
             />
           </div>
         </Grid>
@@ -216,12 +229,15 @@ export const GoalForm: React.FC<Props> = ({ areaId }) => {
               fullWidth
               multiline
               name="Description"
-              value={formState.values.Description || ''}
+              value={goal.Description || ''}
               autoComplete="off"
               rows="3"
               style={{ marginTop: '15px' }}
               className={classes.textField}
-              onChange={handleChange}
+              onChange={event =>
+                handleGoalFieldsChange('Description', event.target.value)
+              }
+              inputProps={{ maxLength: 1000 }}
             />
           </div>
         </Grid>
@@ -238,7 +254,6 @@ export const GoalForm: React.FC<Props> = ({ areaId }) => {
               checked={goal.IsDeadline}
               color="primary"
               value={formState.values.IsDeadline}
-              onChange={event => handeSwitch(event)}
             />
           </div>
         </Grid>
@@ -247,15 +262,17 @@ export const GoalForm: React.FC<Props> = ({ areaId }) => {
             Steps to achieve the goal
           </div>
           <div className={classes.stepForms}>
-            {[...Array(numberOfSteps)].map((_, i) => {
-              return <StepForm key={i} stepNum={i + 1} />;
-            })}
-
+            {/* {steps.map((step, i) => {
+              return <Step key={i} stepNum={i + 1} />;
+            })} */}
+            <StepForm
+              stepNum={steps.length + 1}
+              step={step}
+              setStep={setStep}
+            />
             <div className={classes.buttonContainer}>
               <div style={{ width: '129px' }}>
-                <Button
-                  type="primarySmall"
-                  click={() => setNumberOfSteps(value => value + 1)}>
+                <Button type="primarySmall" click={addStep}>
                   <Add style={{ marginRight: '5px' }} />
                   Add step
                 </Button>
@@ -271,7 +288,9 @@ export const GoalForm: React.FC<Props> = ({ areaId }) => {
               marginTop: '50px'
             }}>
             <div style={{ width: '162px' }}>
-              <Button type="primary">Confirm Goal</Button>
+              <Button type="primary" click={handleSubmitButtonClick}>
+                Confirm Goal
+              </Button>
             </div>
           </div>
         </Grid>

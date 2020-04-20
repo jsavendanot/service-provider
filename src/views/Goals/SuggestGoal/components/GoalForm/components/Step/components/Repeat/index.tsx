@@ -1,10 +1,8 @@
-import React, { Dispatch, SetStateAction } from 'react';
+import React, { ChangeEvent, Dispatch, SetStateAction } from 'react';
 
 import { Switch, TextField, FormControl, Select } from '@material-ui/core';
 import { makeStyles } from '@material-ui/styles';
 import { StepInfo } from 'types/suggestion';
-import produce from 'immer';
-import moment from 'moment';
 
 const useStyles = makeStyles(() => ({
   root: {
@@ -72,67 +70,11 @@ type Props = {
   setStep: Dispatch<SetStateAction<StepInfo>>;
 };
 
-export const Repeat: React.FC<Props> = ({ step, setStep }) => {
+export const Repeat: React.FC<Props> = ({ step }) => {
   const classes = useStyles();
 
-  const handleStepFieldsChange = (
-    field:
-      | 'RepeatTimes'
-      | 'RepeatUnit'
-      | 'RepeatFrequency'
-      | 'RepeatTotalTimes'
-      | 'IsDeadline',
-    value: string | number | boolean
-  ) => {
-    if (field === 'RepeatTimes') {
-      setStep(
-        produce((draft: StepInfo) => {
-          draft[field] = value as number;
-        })
-      );
-    } else if (field === 'RepeatUnit') {
-      setStep(
-        produce((draft: StepInfo) => {
-          draft[field] = value as string;
-        })
-      );
-    } else if (field === 'RepeatFrequency') {
-      setStep(
-        produce((draft: StepInfo) => {
-          draft[field] = value as string;
-        })
-      );
-    } else if (field === 'RepeatTotalTimes') {
-      setStep(
-        produce((draft: StepInfo) => {
-          draft[field] = value as number;
-        })
-      );
-    } else if (field === 'IsDeadline') {
-      if (value) {
-        setStep(
-          produce((draft: StepInfo) => {
-            draft.IsDeadline = false;
-            draft.StartDate = '';
-            draft.EndDate = '';
-          })
-        );
-      }
-
-      if (!value) {
-        setStep(
-          produce((draft: StepInfo) => {
-            draft.IsDeadline = true;
-            draft.RepeatTimes = 0;
-            draft.RepeatUnit = '';
-            draft.RepeatFrequency = 'day';
-            draft.RepeatTotalTimes = 0;
-            draft.StartDate = moment().toString();
-            draft.EndDate = moment().toString();
-          })
-        );
-      }
-    }
+  const handeSwitch = (event: ChangeEvent<HTMLInputElement>) => {
+    // setSwitched(event.target.checked);
   };
 
   return (
@@ -142,9 +84,8 @@ export const Repeat: React.FC<Props> = ({ step, setStep }) => {
         <Switch
           checked={!step.IsDeadline}
           color="primary"
-          onChange={event =>
-            handleStepFieldsChange('IsDeadline', step.IsDeadline)
-          }
+          value={!step.IsDeadline}
+          onChange={event => handeSwitch(event)}
         />
       </div>
       {!step.IsDeadline && (
@@ -154,31 +95,23 @@ export const Repeat: React.FC<Props> = ({ step, setStep }) => {
               id="outlined-basic"
               label=""
               placeholder=""
-              type="number"
-              autoComplete="off"
               className={classes.textField}
               style={{ width: '20%' }}
               value={step.RepeatTimes}
-              inputProps={{
-                max: 10,
-                min: 0
+              InputProps={{
+                readOnly: true
               }}
-              onChange={event =>
-                handleStepFieldsChange('RepeatTimes', event.target.value)
-              }
             />
             <TextField
               id="outlined-basic"
               label=""
               placeholder=""
-              autoComplete="off"
               className={classes.textField}
               style={{ width: '30%' }}
               value={step.RepeatUnit}
-              inputProps={{ maxLength: 20 }}
-              onChange={event =>
-                handleStepFieldsChange('RepeatUnit', event.target.value)
-              }
+              InputProps={{
+                readOnly: true
+              }}
             />
             <span className={classes.bodyText}>every</span>
           </div>
@@ -191,22 +124,20 @@ export const Repeat: React.FC<Props> = ({ step, setStep }) => {
               className={classes.textField}
               style={{ width: '20%', marginBottom: '5px' }}
               // value={step.RepeatFrequency}
+              InputProps={{
+                readOnly: true
+              }}
             />
             <FormControl variant="outlined" className={classes.selectFrequency}>
               <Select
                 native
                 value={step.RepeatFrequency}
                 inputProps={{
-                  name: 'RepeatFrequency',
-                  id: 'RepeatFrequency'
+                  name: 'frequency',
+                  id: 'filled-frequency-native-simple',
+                  readOnly: true
                 }}
-                className={classes.selectOption}
-                onChange={event =>
-                  handleStepFieldsChange(
-                    'RepeatFrequency',
-                    event.target.value as string
-                  )
-                }>
+                className={classes.selectOption}>
                 <option value="year">year</option>
                 <option value="month">month</option>
                 <option value="week">week</option>
@@ -223,19 +154,14 @@ export const Repeat: React.FC<Props> = ({ step, setStep }) => {
             <TextField
               id="outlined-basic"
               label=""
-              placeholder="0"
-              autoComplete="off"
+              placeholder="100"
               multiline
               className={classes.textField}
               style={{ width: '40%' }}
               value={step.RepeatTotalTimes}
-              inputProps={{
-                max: 100,
-                min: 0
+              InputProps={{
+                readOnly: true
               }}
-              onChange={event =>
-                handleStepFieldsChange('RepeatTotalTimes', event.target.value)
-              }
             />
             <span className={classes.bodyText}>
               {step.RepeatUnit ? step.RepeatUnit : 'times'}
