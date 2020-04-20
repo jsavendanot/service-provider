@@ -7,8 +7,9 @@ import { KeyboardArrowLeft } from '@material-ui/icons';
 
 import { AreaSection, GoalForm, AreaCard } from './components';
 import { FocusArea } from 'types/other';
-import { useSelector, useDispatch } from 'react-redux';
+import { useSelector } from 'react-redux';
 import { RootState } from 'reducer';
+import { Loading } from 'common/components';
 
 const useStyles = makeStyles(() => ({
   root: {
@@ -42,7 +43,10 @@ type Props = RouteComponentProps<MatchParams>;
 
 export const SuggestGoal: React.FC<Props> = ({ history }) => {
   const classes = useStyles();
-  const dispatch = useDispatch();
+
+  const loading: boolean = useSelector(
+    (state: RootState) => state.suggestion.loading
+  );
 
   const [focusAreas] = useState<FocusArea[]>(
     JSON.parse(sessionStorage.getItem('focusAreas')!)
@@ -70,74 +74,77 @@ export const SuggestGoal: React.FC<Props> = ({ history }) => {
   };
 
   return (
-    <Grid container className={classes.root}>
-      <Grid item xs={12}>
-        <div
-          style={{
-            display: 'flex',
-            alignItems: 'center',
-            marginBottom: '20px',
-            cursor: 'pointer'
-          }}
-          onClick={() => history.push('/goals/current')}>
-          <KeyboardArrowLeft style={{ fill: '#692B40' }} />
-          <span className={classes.navText}>back</span>
-        </div>
-      </Grid>
-      <Grid item xs={12}>
-        <Grid container justify="center">
-          <Grid item xs={6}>
-            <div
-              style={{
-                display: 'flex',
-                flexDirection: 'column',
-                padding: '0 20px'
-              }}>
-              <span className={classes.title}>Suggest goal</span>
-              <div style={{ borderBottom: '2px dashed #C57D7D' }}>
+    <>
+      {loading && <Loading />}
+      <Grid container className={classes.root}>
+        <Grid item xs={12}>
+          <div
+            style={{
+              display: 'flex',
+              alignItems: 'center',
+              marginBottom: '20px',
+              cursor: 'pointer'
+            }}
+            onClick={() => history.push('/goals/current')}>
+            <KeyboardArrowLeft style={{ fill: '#692B40' }} />
+            <span className={classes.navText}>back</span>
+          </div>
+        </Grid>
+        <Grid item xs={12}>
+          <Grid container justify="center">
+            <Grid item xs={6}>
+              <div
+                style={{
+                  display: 'flex',
+                  flexDirection: 'column',
+                  padding: '0 20px'
+                }}>
+                <span className={classes.title}>Suggest goal</span>
+                <div style={{ borderBottom: '2px dashed #C57D7D' }}>
+                  <AreaSection
+                    name="Focus areas"
+                    note="These areas can be modified by the consumer in ‘My Story’.">
+                    {myAreas.map(area => {
+                      return (
+                        <AreaCard
+                          area={area}
+                          clickable
+                          selectedArea={selectedArea}
+                          click={() => setSelectedArea(area.id)}
+                          actionType="remove"
+                          action={id => handleRemove(id)}
+                        />
+                      );
+                    })}
+                  </AreaSection>
+                </div>
                 <AreaSection
-                  name="Focus areas"
-                  note="These areas can be modified by the consumer in ‘My Story’.">
-                  {myAreas.map(area => {
-                    return (
-                      <AreaCard
-                        area={area}
-                        clickable
-                        selectedArea={selectedArea}
-                        click={() => setSelectedArea(area.id)}
-                        actionType="remove"
-                        action={id => handleRemove(id)}
-                      />
-                    );
-                  })}
+                  name="Other areas"
+                  note="A service provider can suggest new focus areas using.">
+                  {areas
+                    .filter(area => !myAreas.find(item => item.id === area.id))
+                    .map(area => {
+                      return (
+                        <AreaCard
+                          area={area}
+                          selectedArea={selectedArea}
+                          click={() => setSelectedArea(area.id)}
+                          actionType="add"
+                          action={id => handleAdd(id)}
+                        />
+                      );
+                    })}
                 </AreaSection>
               </div>
-              <AreaSection
-                name="Other areas"
-                note="A service provider can suggest new focus areas using.">
-                {areas
-                  .filter(area => !myAreas.find(item => item.id === area.id))
-                  .map(area => {
-                    return (
-                      <AreaCard
-                        area={area}
-                        selectedArea={selectedArea}
-                        click={() => setSelectedArea(area.id)}
-                        actionType="add"
-                        action={id => handleAdd(id)}
-                      />
-                    );
-                  })}
-              </AreaSection>
-            </div>
-          </Grid>
-          <Grid item xs={1} />
-          <Grid item xs={5}>
-            <GoalForm areaId={selectedArea} />
+            </Grid>
+            <Grid item xs={1} />
+            <Grid item xs={5}>
+              {selectedArea !== '' && <GoalForm areaId={selectedArea} />}
+            </Grid>
           </Grid>
         </Grid>
       </Grid>
-    </Grid>
+    </>
   );
 };
 

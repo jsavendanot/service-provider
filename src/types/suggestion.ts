@@ -36,3 +36,7 @@ export interface Suggestion {
   AcceptedOn: string;
   RejectedOn: string;
 }
+
+export interface SuggestionRootType {
+  loading: boolean;
+}

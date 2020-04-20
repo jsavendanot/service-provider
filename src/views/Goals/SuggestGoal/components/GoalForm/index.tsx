@@ -3,6 +3,8 @@ import validate from 'validate.js';
 
 import { Grid, TextField } from '@material-ui/core';
 import { makeStyles } from '@material-ui/styles';
+import { useDispatch } from 'react-redux';
+import useRouter from 'common/utils/useRouter';
 
 import { Button } from 'common/components';
 import { StepForm, Step, Deadline } from './components';
@@ -10,6 +12,7 @@ import { Add } from '@material-ui/icons';
 import { GoalInfo, StepInfo } from 'types/suggestion';
 import moment from 'moment';
 import produce from 'immer';
+import { suggestGoal } from 'slices/suggestion/action';
 
 const useStyles = makeStyles(() => ({
   root: {
@@ -102,6 +105,8 @@ type Props = {
 
 export const GoalForm: React.FC<Props> = ({ areaId }) => {
   const classes = useStyles();
+  const dispatch = useDispatch();
+  const { history } = useRouter();
 
   const [formState, setFormState] = useState<FormStateType>({
     isValid: false,
@@ -184,7 +189,11 @@ export const GoalForm: React.FC<Props> = ({ areaId }) => {
   };
 
   const handleSubmitButtonClick = () => {
-    console.log(goal);
+    const updatedGoal: GoalInfo = {
+      ...goal,
+      Steps: [...goal.Steps].concat([step])
+    };
+    dispatch(suggestGoal(history, updatedGoal));
   };
 
   return (

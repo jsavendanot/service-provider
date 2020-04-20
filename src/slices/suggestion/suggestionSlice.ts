@@ -1,20 +1,22 @@
-import { createSlice, PayloadAction } from '@reduxjs/toolkit';
-import { OtherRootType, FocusArea } from 'types/other';
+import { createSlice } from '@reduxjs/toolkit';
+import { SuggestionRootType } from 'types/suggestion';
 
-const initialState: OtherRootType = {
-  focusAreas: []
+const initialState: SuggestionRootType = {
+  loading: false
 };
 
 const suggestionSlice = createSlice({
   name: 'suggest',
   initialState: initialState,
   reducers: {
-    fetchAllAreas(state, action: PayloadAction<{ areas: FocusArea[] }>) {
-      const { areas } = action.payload;
-      state.focusAreas = areas;
+    startLoading(state) {
+      state.loading = true;
+    },
+    stopLoading(state) {
+      state.loading = false;
     }
   }
 });
 
-export const { fetchAllAreas } = suggestionSlice.actions;
+export const { startLoading, stopLoading } = suggestionSlice.actions;
 export default suggestionSlice.reducer;

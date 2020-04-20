@@ -1,7 +1,6 @@
-import React, { Dispatch, SetStateAction } from 'react';
+import React from 'react';
 import moment from 'moment';
 import { StepInfo } from 'types/suggestion';
-import produce from 'immer';
 
 import {
   Switch,

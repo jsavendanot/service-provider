@@ -1,4 +1,4 @@
-import React, { Dispatch, SetStateAction } from 'react';
+import React from 'react';
 import { StepInfo } from 'types/suggestion';
 
 import { FormControlLabel, RadioGroup, Radio } from '@material-ui/core';

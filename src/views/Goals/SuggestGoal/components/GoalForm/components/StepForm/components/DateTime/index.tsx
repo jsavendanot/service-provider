@@ -10,7 +10,7 @@ import {
   Checkbox
 } from '@material-ui/core';
 import { makeStyles } from '@material-ui/styles';
-import { CalendarToday, DateRange } from '@material-ui/icons';
+import { DateRange } from '@material-ui/icons';
 import { MaterialUiPickersDate } from '@material-ui/pickers/typings/date';
 import { DatePicker } from '@material-ui/pickers';
 
@@ -110,7 +110,7 @@ export const DateTime: React.FC<Props> = ({ step, setStep }) => {
           produce((draft: StepInfo) => {
             draft.IsDeadline = true;
             draft.EndDate = moment(step.EndDate).toString();
-            draft.StartDate = moment(new Date().toString()).toString();
+            draft.StartDate = moment(step.EndDate).toString();
           })
         );
       }

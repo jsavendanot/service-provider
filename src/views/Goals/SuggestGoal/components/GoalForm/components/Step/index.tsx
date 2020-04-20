@@ -1,5 +1,4 @@
-import React, { useState, useEffect, ChangeEvent } from 'react';
-import validate from 'validate.js';
+import React from 'react';
 import clsx from 'clsx';
 
 import { TextField } from '@material-ui/core';
