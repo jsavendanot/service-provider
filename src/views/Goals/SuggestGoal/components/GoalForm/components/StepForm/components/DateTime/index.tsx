@@ -75,7 +75,7 @@ export const DateTime: React.FC<Props> = ({ step, setStep }) => {
   const handleCalendarAccept = (date: MaterialUiPickersDate) => {
     setStep(
       produce((draft: StepInfo) => {
-        draft.EndDate = date!.toString();
+        draft.EndDate = moment(date!.toString()).format('YYYY-MMM-DD');
       })
     );
   };
@@ -83,7 +83,7 @@ export const DateTime: React.FC<Props> = ({ step, setStep }) => {
     setCalendarTrigger('');
   };
   const calendarOpen2 = Boolean(calendarTrigger);
-  const calendarMinDate2 = moment();
+  const calendarMinDate2 = moment().format('YYYY-MMM-DD');
   let calendarValue2 = '';
   if (calendarTrigger === 'EndDate') {
     calendarValue2 = step[calendarTrigger];
@@ -99,7 +99,7 @@ export const DateTime: React.FC<Props> = ({ step, setStep }) => {
             draft.RepeatUnit = '';
             draft.RepeatFrequency = 'day';
             draft.RepeatTotalTimes = 0;
-            draft.EndDate = moment(new Date().toString()).toString();
+            draft.EndDate = moment(new Date().toString()).format('YYYY-MMM-DD');
             draft.StartDate = '';
           })
         );
@@ -109,8 +109,8 @@ export const DateTime: React.FC<Props> = ({ step, setStep }) => {
         setStep(
           produce((draft: StepInfo) => {
             draft.IsDeadline = true;
-            draft.EndDate = moment(step.EndDate).toString();
-            draft.StartDate = moment(step.EndDate).toString();
+            draft.EndDate = moment(step.EndDate).format('YYYY-MMM-DD');
+            draft.StartDate = moment(step.EndDate).format('YYYY-MMM-DD');
           })
         );
       }

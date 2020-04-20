@@ -128,10 +128,10 @@ export const GoalForm: React.FC<Props> = ({ areaId }) => {
     Name: '',
     Description: '',
     IsDeadline: true,
-    StartDate: moment(new Date().toString()).toString(),
+    StartDate: moment(new Date().toString()).format('YYYY-MMM-DD'),
     EndDate: moment(new Date().toString())
       .add(1, 'day')
-      .toString(),
+      .format('YYYY-MMM-DD'),
     Image: '',
     ImageType: '',
     VisibleTo: 'Network',
@@ -161,7 +161,7 @@ export const GoalForm: React.FC<Props> = ({ areaId }) => {
     VisibleTo: 'Network',
     IsDeadline: false,
     StartDate: '',
-    EndDate: moment(new Date().toString()).toString()
+    EndDate: moment(new Date().toString()).format('YYYY-MMM-DD')
   });
 
   const addStep = () => {
@@ -183,7 +183,7 @@ export const GoalForm: React.FC<Props> = ({ areaId }) => {
         VisibleTo: 'Network',
         IsDeadline: false,
         StartDate: '',
-        EndDate: moment(new Date().toString()).toString()
+        EndDate: moment(new Date().toString()).format('YYYY-MMM-DD')
       });
     }
   };

@@ -60,17 +60,17 @@ export const Deadline: React.FC<Props> = ({ goal, setGoal }) => {
     if (calendarTrigger === 'StartDate') {
       setGoal(
         produce((draft: GoalInfo) => {
-          draft.StartDate = date!.toString();
+          draft.StartDate = moment(date!.toString()).format('YYYY-MMM-DD');
           draft.EndDate = moment(date!.toString())
             .add(1, 'day')
-            .toString();
+            .format('YYYY-MMM-DD');
         })
       );
     }
     if (calendarTrigger === 'EndDate') {
       setGoal(
         produce((draft: GoalInfo) => {
-          draft.EndDate = date!.toString();
+          draft.EndDate = moment(date!.toString()).format('YYYY-MMM-DD');
         })
       );
     }
@@ -82,8 +82,10 @@ export const Deadline: React.FC<Props> = ({ goal, setGoal }) => {
   const calendarOpen = Boolean(calendarTrigger);
   const calendarMinDate =
     calendarTrigger === 'StartDate'
-      ? moment()
-      : moment(new Date(goal.StartDate)).add(1, 'day');
+      ? moment().format('YYYY-MMM-DD')
+      : moment(new Date(goal.StartDate))
+          .add(1, 'day')
+          .format('YYYY-MMM-DD');
   let calendarValue = '';
   if (calendarTrigger === 'StartDate' || calendarTrigger === 'EndDate') {
     calendarValue = goal[calendarTrigger];

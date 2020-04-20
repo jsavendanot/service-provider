@@ -22,6 +22,7 @@ export const suggestGoal = (
       AcceptedOn: '',
       RejectedOn: ''
     };
+    // console.log(suggestion);
     await callSuggestionServiceProviderCreate(suggestion);
     history.push('/goals/current');
 
