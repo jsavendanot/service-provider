@@ -33,106 +33,28 @@ const useStyles = makeStyles(() => ({
   }
 }));
 
-const schema = {
-  Name: {
-    presence: { allowEmpty: false, message: 'is required' },
-    length: {
-      maximum: 400
-    }
-  }
-};
-
-type FormStateType = {
-  isValid: boolean;
-  values: {
-    Name?: string;
-  };
-  touched: {
-    Name?: boolean;
-  };
-  errors: {
-    Name?: string[];
-  };
-};
-
 type Props = {
   stepNum: number;
+  step: StepInfo;
 };
 
-export const StepForm: React.FC<Props> = ({ stepNum }) => {
+export const StepForm: React.FC<Props> = ({ stepNum, step }) => {
   const classes = useStyles();
-
-  /** Handle Fields */
-  const [formState, setFormState] = useState<FormStateType>({
-    isValid: false,
-    values: {},
-    touched: {},
-    errors: {}
-  });
-
-  useEffect(() => {
-    const errors = validate(formState.values, schema);
-    setFormState(formState => ({
-      ...formState,
-      isValid: errors ? false : true,
-      errors: errors || {}
-    }));
-  }, [formState.values]);
-
-  const handleChange = (event: ChangeEvent<HTMLInputElement>) => {
-    event.persist();
-
-    setFormState(formState => ({
-      ...formState,
-      values: {
-        ...formState.values,
-        [event.target.name]: event.target.value
-      },
-      touched: {
-        ...formState.touched,
-        [event.target.name]: true
-      }
-    }));
-  };
-
-  const hasError = (field: string): boolean =>
-    field in formState.touched && field in formState.errors ? true : false;
-
-  const [step, setStep] = useState<StepInfo>({
-    Id: formState.values.Name ? formState.values.Name : '',
-    GoalId: '',
-    Name: '',
-    RepeatTimes: 0,
-    RepeatUnit: '',
-    RepeatFrequency: 'day',
-    RepeatTotalTimes: 0,
-    VisibleTo: '',
-    IsDeadline: false,
-    StartDate: '',
-    EndDate: ''
-  });
 
   return (
     <div className={clsx(classes.root, stepNum > 1 && classes.topDashBorder)}>
       <span className={classes.title}>Step {stepNum}</span>
       <TextField
-        error={hasError('Name')}
-        helperText={
-          hasError('Name')
-            ? formState.errors.Name && formState.errors.Name[0]
-            : null
-        }
         fullWidth
         label="Step name"
         name="Name"
         autoComplete="off"
-        value={formState.values.Name || ''}
+        value={step.Name}
         variant="outlined"
-        onChange={handleChange}
       />
-      <Repeat step={step} setStep={setStep} />
-      <DateTime step={step} setStep={setStep} />
-      <Share step={step} setStep={setStep} />
+      <Repeat step={step} />
+      <DateTime step={step} />
+      <Share step={step} />
     </div>
   );
 };

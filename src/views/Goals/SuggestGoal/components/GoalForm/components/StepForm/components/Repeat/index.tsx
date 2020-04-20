@@ -113,8 +113,8 @@ export const Repeat: React.FC<Props> = ({ step, setStep }) => {
         setStep(
           produce((draft: StepInfo) => {
             draft.IsDeadline = false;
-            draft.StartDate = '';
-            draft.EndDate = '';
+            draft.StartDate = moment(new Date().toString()).toString();
+            draft.EndDate = moment(new Date().toString()).toString();
           })
         );
       }
@@ -127,8 +127,8 @@ export const Repeat: React.FC<Props> = ({ step, setStep }) => {
             draft.RepeatUnit = '';
             draft.RepeatFrequency = 'day';
             draft.RepeatTotalTimes = 0;
-            draft.StartDate = moment().toString();
-            draft.EndDate = moment().toString();
+            draft.StartDate = '';
+            draft.EndDate = moment(new Date().toString()).toString();
           })
         );
       }

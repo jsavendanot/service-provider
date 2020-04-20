@@ -1,4 +1,4 @@
-import React, { Dispatch, SetStateAction } from 'react';
+import React, { Dispatch, SetStateAction, useState } from 'react';
 import moment from 'moment';
 import { StepInfo } from 'types/suggestion';
 import produce from 'immer';
@@ -10,7 +10,9 @@ import {
   Checkbox
 } from '@material-ui/core';
 import { makeStyles } from '@material-ui/styles';
-import { CalendarToday } from '@material-ui/icons';
+import { CalendarToday, DateRange } from '@material-ui/icons';
+import { MaterialUiPickersDate } from '@material-ui/pickers/typings/date';
+import { DatePicker } from '@material-ui/pickers';
 
 const useStyles = makeStyles(() => ({
   root: {
@@ -64,6 +66,29 @@ type Props = {
 export const DateTime: React.FC<Props> = ({ step, setStep }) => {
   const classes = useStyles();
 
+  /** Calendar for Reminder */
+  const [calendarTrigger, setCalendarTrigger] = useState<'EndDate' | ''>('');
+  const handleCalendarOpen = (trigger: 'EndDate' | '') => {
+    setCalendarTrigger(trigger);
+  };
+  const handleCalendarChange = () => {};
+  const handleCalendarAccept = (date: MaterialUiPickersDate) => {
+    setStep(
+      produce((draft: StepInfo) => {
+        draft.EndDate = date!.toString();
+      })
+    );
+  };
+  const handleCalendarClose = () => {
+    setCalendarTrigger('');
+  };
+  const calendarOpen2 = Boolean(calendarTrigger);
+  const calendarMinDate2 = moment();
+  let calendarValue2 = '';
+  if (calendarTrigger === 'EndDate') {
+    calendarValue2 = step[calendarTrigger];
+  }
+
   const handleStepFieldsChange = (field: 'IsDeadline', value: boolean) => {
     if (field === 'IsDeadline') {
       if (!value) {
@@ -74,7 +99,7 @@ export const DateTime: React.FC<Props> = ({ step, setStep }) => {
             draft.RepeatUnit = '';
             draft.RepeatFrequency = 'day';
             draft.RepeatTotalTimes = 0;
-            draft.EndDate = '';
+            draft.EndDate = moment(new Date().toString()).toString();
             draft.StartDate = '';
           })
         );
@@ -85,7 +110,7 @@ export const DateTime: React.FC<Props> = ({ step, setStep }) => {
           produce((draft: StepInfo) => {
             draft.IsDeadline = true;
             draft.EndDate = moment(step.EndDate).toString();
-            draft.StartDate = moment(step.EndDate).toString();
+            draft.StartDate = moment(new Date().toString()).toString();
           })
         );
       }
@@ -112,13 +137,20 @@ export const DateTime: React.FC<Props> = ({ step, setStep }) => {
               <span className={classes.bodyText}>
                 {moment(step.EndDate).format('dddd DD / MM / YYYY')}
               </span>
-              <CalendarToday style={{ fill: '#C57D7D', marginLeft: '20px' }} />
+              <DateRange
+                onClick={() => handleCalendarOpen('EndDate')}
+                style={{
+                  fill: 'rgba(0, 62, 31, 0.78)',
+                  marginLeft: '20px',
+                  cursor: 'pointer'
+                }}
+              />
             </div>
             <FormGroup>
               <FormControlLabel
                 control={
                   <Checkbox
-                    checked={!step.IsDeadline}
+                    checked={step.IsDeadline}
                     value=""
                     color="primary"
                   />
@@ -129,6 +161,16 @@ export const DateTime: React.FC<Props> = ({ step, setStep }) => {
           </div>
         </div>
       )}
+      <DatePicker
+        minDate={calendarMinDate2}
+        onAccept={handleCalendarAccept}
+        onChange={handleCalendarChange}
+        onClose={handleCalendarClose}
+        open={calendarOpen2}
+        style={{ display: 'none' }}
+        value={calendarValue2}
+        variant="dialog"
+      />
     </div>
   );
 };

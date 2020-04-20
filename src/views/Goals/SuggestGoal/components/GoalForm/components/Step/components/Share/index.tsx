@@ -42,7 +42,6 @@ const useStyles = makeStyles(() => ({
 
 type Props = {
   step: StepInfo;
-  setStep: Dispatch<SetStateAction<StepInfo>>;
 };
 
 export const Share: React.FC<Props> = ({ step }) => {
@@ -60,7 +59,7 @@ export const Share: React.FC<Props> = ({ step }) => {
           value={step.VisibleTo}
           style={{ margin: '10px 0', paddingLeft: '10px' }}>
           <FormControlLabel
-            value="everyone"
+            value="Network"
             control={<Radio color="primary" />}
             label={
               <div
@@ -76,7 +75,7 @@ export const Share: React.FC<Props> = ({ step }) => {
             }
           />
           <FormControlLabel
-            value="me"
+            value="OnlyMe"
             control={<Radio color="primary" />}
             label={
               <div
@@ -90,7 +89,7 @@ export const Share: React.FC<Props> = ({ step }) => {
             }
           />
           <FormControlLabel
-            value="specific"
+            value="SpecificPeople"
             control={<Radio color="primary" />}
             label={
               <div

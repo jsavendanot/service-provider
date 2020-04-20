@@ -67,15 +67,10 @@ const useStyles = makeStyles(() => ({
 
 type Props = {
   step: StepInfo;
-  setStep: Dispatch<SetStateAction<StepInfo>>;
 };
 
 export const Repeat: React.FC<Props> = ({ step }) => {
   const classes = useStyles();
-
-  const handeSwitch = (event: ChangeEvent<HTMLInputElement>) => {
-    // setSwitched(event.target.checked);
-  };
 
   return (
     <div className={classes.root}>
@@ -85,7 +80,6 @@ export const Repeat: React.FC<Props> = ({ step }) => {
           checked={!step.IsDeadline}
           color="primary"
           value={!step.IsDeadline}
-          onChange={event => handeSwitch(event)}
         />
       </div>
       {!step.IsDeadline && (

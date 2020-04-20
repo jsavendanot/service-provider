@@ -1,11 +1,11 @@
 import React, { useState, useEffect } from 'react';
 import validate from 'validate.js';
 
-import { Grid, TextField, Switch } from '@material-ui/core';
+import { Grid, TextField } from '@material-ui/core';
 import { makeStyles } from '@material-ui/styles';
 
 import { Button } from 'common/components';
-import { StepForm, Step } from './components';
+import { StepForm, Step, Deadline } from './components';
 import { Add } from '@material-ui/icons';
 import { GoalInfo, StepInfo } from 'types/suggestion';
 import moment from 'moment';
@@ -122,14 +122,14 @@ export const GoalForm: React.FC<Props> = ({ areaId }) => {
   const [goal, setGoal] = useState<GoalInfo>({
     Name: '',
     Description: '',
-    IsDeadline: false,
+    IsDeadline: true,
     StartDate: moment(new Date().toString()).toString(),
     EndDate: moment(new Date().toString())
       .add(1, 'day')
       .toString(),
     Image: '',
     ImageType: '',
-    VisibleTo: '',
+    VisibleTo: 'Network',
     FocusArea: areaId,
     Steps: []
   });
@@ -153,17 +153,34 @@ export const GoalForm: React.FC<Props> = ({ areaId }) => {
     RepeatUnit: '',
     RepeatFrequency: 'day',
     RepeatTotalTimes: 0,
-    VisibleTo: '',
+    VisibleTo: 'Network',
     IsDeadline: false,
     StartDate: '',
-    EndDate: ''
+    EndDate: moment(new Date().toString()).toString()
   });
 
-  /** Steps */
-  const [steps, setSteps] = useState<StepInfo[]>([]);
-
   const addStep = () => {
-    console.log(step);
+    if (goal.Steps.length <= 10 && step.Name !== '') {
+      setGoal(
+        produce((draft: GoalInfo) => {
+          draft.Steps.push(step);
+        })
+      );
+
+      setStep({
+        Id: '',
+        GoalId: '',
+        Name: '',
+        RepeatTimes: 0,
+        RepeatUnit: '',
+        RepeatFrequency: 'day',
+        RepeatTotalTimes: 0,
+        VisibleTo: 'Network',
+        IsDeadline: false,
+        StartDate: '',
+        EndDate: moment(new Date().toString()).toString()
+      });
+    }
   };
 
   const handleSubmitButtonClick = () => {
@@ -242,31 +259,18 @@ export const GoalForm: React.FC<Props> = ({ areaId }) => {
           </div>
         </Grid>
         <Grid item xs={12}>
-          <div
-            style={{
-              display: 'flex',
-              alignItems: 'center',
-              justifyContent: 'space-between',
-              padding: '10px 0 40px'
-            }}>
-            <span className={classes.title}>Goal Deadline</span>
-            <Switch
-              checked={goal.IsDeadline}
-              color="primary"
-              value={formState.values.IsDeadline}
-            />
-          </div>
+          <Deadline goal={goal} setGoal={setGoal} />
         </Grid>
         <Grid item xs={12}>
           <div className={classes.title} style={{ marginBottom: '15px' }}>
             Steps to achieve the goal
           </div>
           <div className={classes.stepForms}>
-            {/* {steps.map((step, i) => {
-              return <Step key={i} stepNum={i + 1} />;
-            })} */}
+            {goal.Steps.map((step, i) => {
+              return <Step key={i} stepNum={i + 1} step={step} />;
+            })}
             <StepForm
-              stepNum={steps.length + 1}
+              stepNum={goal.Steps.length + 1}
               step={step}
               setStep={setStep}
             />

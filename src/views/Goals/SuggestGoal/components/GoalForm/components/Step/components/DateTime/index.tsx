@@ -58,58 +58,10 @@ const useStyles = makeStyles(() => ({
 
 type Props = {
   step: StepInfo;
-  setStep: Dispatch<SetStateAction<StepInfo>>;
 };
 
-export const DateTime: React.FC<Props> = ({ step, setStep }) => {
+export const DateTime: React.FC<Props> = ({ step }) => {
   const classes = useStyles();
-
-  const handleDateTimeFields = (
-    field: 'switch' | 'reminder',
-    value: boolean
-  ) => {
-    if (typeof value === 'boolean') {
-      if (field === 'reminder') {
-        setStep(
-          produce((draft: StepInfo) => {
-            draft.IsDeadline = value;
-          })
-        );
-      }
-
-      if (field === 'switch') {
-        setStep(
-          produce((draft: StepInfo) => {
-            draft.IsDeadline = value;
-            draft.EndDate = moment(step.EndDate).toString();
-          })
-        );
-      }
-
-      if (field === 'switch' && value) {
-        if (!step.IsDeadline) {
-          setStep(
-            produce((draft: StepInfo) => {
-              draft.IsDeadline = false;
-              draft.RepeatTimes = 0;
-              draft.RepeatUnit = '';
-              draft.RepeatFrequency = 'day';
-              draft.RepeatTotalTimes = 0;
-            })
-          );
-        }
-      }
-
-      if (field === 'switch' && !value) {
-        setStep(
-          produce((draft: StepInfo) => {
-            draft.IsDeadline = false;
-            draft.EndDate = moment(step.EndDate).toString();
-          })
-        );
-      }
-    }
-  };
 
   return (
     <div className={classes.root}>
@@ -119,7 +71,6 @@ export const DateTime: React.FC<Props> = ({ step, setStep }) => {
           checked={step.IsDeadline}
           color="primary"
           value={step.IsDeadline}
-          onChange={() => handleDateTimeFields('switch', !step.IsDeadline)}
         />
       </div>
       {step.IsDeadline && (
@@ -135,7 +86,7 @@ export const DateTime: React.FC<Props> = ({ step, setStep }) => {
               <FormControlLabel
                 control={
                   <Checkbox
-                    checked={!step.IsDeadline}
+                    checked={step.IsDeadline}
                     value=""
                     color="primary"
                   />
