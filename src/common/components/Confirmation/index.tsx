@@ -28,7 +28,7 @@ const useStyles = makeStyles(() => ({
     lineHeight: '21px',
     color: '#003E1F'
   },
-  deleteText: {
+  submitText: {
     fontFamily: 'Roboto',
     fontStyle: 'normal',
     fontWeight: 700,
@@ -36,7 +36,7 @@ const useStyles = makeStyles(() => ({
     lineHeight: '21px',
     color: '#FFFFFF'
   },
-  deleteButton: {
+  submitButton: {
     background: '#F79221',
     borderRadius: '25px'
   }
@@ -73,8 +73,8 @@ const Confirmation: React.FC<Props> = ({
             <span className={classes.cancelText} onClick={close}>
               Cancel
             </span>
-            <Button className={classes.deleteButton} onClick={handleAction}>
-              <span className={classes.deleteText}>Delete</span>
+            <Button className={classes.submitButton} onClick={handleAction}>
+              <span className={classes.submitText}>Submit</span>
             </Button>
           </div>
         </div>
