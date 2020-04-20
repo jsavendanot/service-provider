@@ -13,6 +13,7 @@ import { GoalInfo, StepInfo } from 'types/suggestion';
 import moment from 'moment';
 import produce from 'immer';
 import { suggestGoal } from 'slices/suggestion/action';
+import Confirmation from 'common/components/Confirmation';
 
 const useStyles = makeStyles(() => ({
   root: {
@@ -196,119 +197,145 @@ export const GoalForm: React.FC<Props> = ({ areaId }) => {
     dispatch(suggestGoal(history, updatedGoal));
   };
 
+  /** Dialog */
+  const [open, setOpen] = useState(false);
+
+  function openDialog() {
+    setOpen(true);
+  }
+
+  function closeDialog() {
+    setOpen(false);
+  }
+
   return (
-    <div className={classes.root}>
-      <Grid container>
-        <Grid item xs={12}>
-          <div style={{ padding: '10px 0 40px' }}>
+    <>
+      <div className={classes.root}>
+        <Grid container>
+          <Grid item xs={12}>
+            <div style={{ padding: '10px 0 40px' }}>
+              <div
+                style={{
+                  display: 'flex',
+                  alignItems: 'center',
+                  justifyContent: 'space-between'
+                }}>
+                <span className={classes.title}>Goal Name</span>
+                <div style={{ width: '77px' }}>
+                  <Button type="tertiarySmall">
+                    <img
+                      src="/images/safety/suggestion.svg"
+                      alt=""
+                      style={{ marginRight: '5px' }}
+                    />
+                    Tips
+                  </Button>
+                </div>
+              </div>
+              <TextField
+                id="outlined-basic"
+                label=""
+                variant="outlined"
+                placeholder="Learn to control my temper"
+                fullWidth
+                multiline
+                name="Name"
+                value={goal.Name || ''}
+                autoComplete="off"
+                rows="2"
+                style={{ marginTop: '15px' }}
+                className={classes.textField}
+                onChange={event =>
+                  handleGoalFieldsChange('Name', event.target.value)
+                }
+                inputProps={{ maxLength: 120 }}
+              />
+            </div>
+          </Grid>
+          <Grid item xs={12}>
+            <div style={{ padding: '10px 0 40px' }}>
+              <div className={classes.title}>Goal Description</div>
+              <div className={classes.descNote}>
+                Why is this goal so important for you? What would you gain by
+                achieving this goal? Who else will benefit from me achieving
+                this goal? What are possible obstacles?
+              </div>
+              <TextField
+                id="outlined-basic"
+                label=""
+                variant="outlined"
+                placeholder="It’s more possible to be happy if everyone around me is happy."
+                fullWidth
+                multiline
+                name="Description"
+                value={goal.Description || ''}
+                autoComplete="off"
+                rows="3"
+                style={{ marginTop: '15px' }}
+                className={classes.textField}
+                onChange={event =>
+                  handleGoalFieldsChange('Description', event.target.value)
+                }
+                inputProps={{ maxLength: 1000 }}
+              />
+            </div>
+          </Grid>
+          <Grid item xs={12}>
+            <Deadline goal={goal} setGoal={setGoal} />
+          </Grid>
+          <Grid item xs={12}>
+            <div className={classes.title} style={{ marginBottom: '15px' }}>
+              Steps to achieve the goal
+            </div>
+            <div className={classes.stepForms}>
+              {goal.Steps.map((step, i) => {
+                return <Step key={i} stepNum={i + 1} step={step} />;
+              })}
+              <StepForm
+                stepNum={goal.Steps.length + 1}
+                step={step}
+                setStep={setStep}
+              />
+              <div className={classes.buttonContainer}>
+                <div style={{ width: '129px' }}>
+                  <Button type="primarySmall" click={addStep}>
+                    <Add style={{ marginRight: '5px' }} />
+                    Add step
+                  </Button>
+                </div>
+              </div>
+            </div>
+          </Grid>
+          <Grid item xs={12}>
             <div
               style={{
                 display: 'flex',
-                alignItems: 'center',
-                justifyContent: 'space-between'
+                justifyContent: 'flex-end',
+                marginTop: '50px'
               }}>
-              <span className={classes.title}>Goal Name</span>
-              <div style={{ width: '77px' }}>
-                <Button type="tertiarySmall">
-                  <img
-                    src="/images/safety/suggestion.svg"
-                    alt=""
-                    style={{ marginRight: '5px' }}
-                  />
-                  Tips
+              <div style={{ width: '162px' }}>
+                <Button type="primary" click={openDialog}>
+                  Confirm Goal
                 </Button>
               </div>
             </div>
-            <TextField
-              id="outlined-basic"
-              label=""
-              variant="outlined"
-              placeholder="Learn to control my temper"
-              fullWidth
-              multiline
-              name="Name"
-              value={goal.Name || ''}
-              autoComplete="off"
-              rows="2"
-              style={{ marginTop: '15px' }}
-              className={classes.textField}
-              onChange={event =>
-                handleGoalFieldsChange('Name', event.target.value)
-              }
-              inputProps={{ maxLength: 120 }}
-            />
-          </div>
+          </Grid>
         </Grid>
-        <Grid item xs={12}>
-          <div style={{ padding: '10px 0 40px' }}>
-            <div className={classes.title}>Goal Description</div>
-            <div className={classes.descNote}>
-              Why is this goal so important for you? What would you gain by
-              achieving this goal? Who else will benefit from me achieving this
-              goal? What are possible obstacles?
-            </div>
-            <TextField
-              id="outlined-basic"
-              label=""
-              variant="outlined"
-              placeholder="It’s more possible to be happy if everyone around me is happy."
-              fullWidth
-              multiline
-              name="Description"
-              value={goal.Description || ''}
-              autoComplete="off"
-              rows="3"
-              style={{ marginTop: '15px' }}
-              className={classes.textField}
-              onChange={event =>
-                handleGoalFieldsChange('Description', event.target.value)
-              }
-              inputProps={{ maxLength: 1000 }}
-            />
-          </div>
-        </Grid>
-        <Grid item xs={12}>
-          <Deadline goal={goal} setGoal={setGoal} />
-        </Grid>
-        <Grid item xs={12}>
-          <div className={classes.title} style={{ marginBottom: '15px' }}>
-            Steps to achieve the goal
-          </div>
-          <div className={classes.stepForms}>
-            {goal.Steps.map((step, i) => {
-              return <Step key={i} stepNum={i + 1} step={step} />;
-            })}
-            <StepForm
-              stepNum={goal.Steps.length + 1}
-              step={step}
-              setStep={setStep}
-            />
-            <div className={classes.buttonContainer}>
-              <div style={{ width: '129px' }}>
-                <Button type="primarySmall" click={addStep}>
-                  <Add style={{ marginRight: '5px' }} />
-                  Add step
-                </Button>
-              </div>
-            </div>
-          </div>
-        </Grid>
-        <Grid item xs={12}>
-          <div
-            style={{
-              display: 'flex',
-              justifyContent: 'flex-end',
-              marginTop: '50px'
-            }}>
-            <div style={{ width: '162px' }}>
-              <Button type="primary" click={handleSubmitButtonClick}>
-                Confirm Goal
-              </Button>
-            </div>
-          </div>
-        </Grid>
-      </Grid>
-    </div>
+      </div>
+      {open && (
+        <Confirmation
+          open={open}
+          close={closeDialog}
+          action={handleSubmitButtonClick}
+          donRedirect>
+          <span className={classes.title}>
+            Are you sure you want to
+            <br />
+            suggest this goal?
+          </span>
+        </Confirmation>
+      )}
+    </>
   );
 };
 
