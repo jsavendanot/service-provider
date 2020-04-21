@@ -118,8 +118,6 @@ export const Safety: React.FC = () => {
             <Grid item xs={5}>
               <StayWell
                 id={1}
-                title="Things I do to stay well"
-                description="These are things that I can do to be and stay well."
                 values={safetyStory.staywell}
                 collapse={collapses.staywell}
                 change={() => handleCollapse('staywell', !collapses.staywell)}
@@ -129,8 +127,6 @@ export const Safety: React.FC = () => {
             <Grid item xs={5}>
               <Stress
                 id={2}
-                title="Things that stress me"
-                description="Things that may stress me or cause me to have difficulties managing my issues."
                 values={safetyStory.stress}
                 collapse={collapses.stress}
                 change={() => handleCollapse('stress', !collapses.stress)}
@@ -143,11 +139,7 @@ export const Safety: React.FC = () => {
             <Grid item xs={5}>
               <Warning
                 id={3}
-                diffTitle="Warning signs I may be having difficulty"
-                diffDescription="Things I or others may notice when I am unwell."
                 difficulties={safetyStory.difficulties}
-                planTitle="Warning signs I may be having difficulty"
-                planDescription="Things I or others may notice when I am unwell."
                 strategies={safetyStory.strategies}
                 collapse={collapses.warning}
                 change={() => handleCollapse('warning', !collapses.warning)}

@@ -44,8 +44,7 @@ const useStyles = makeStyles(() => ({
     margin: '10px 0'
   },
   values: {
-    display: 'flex',
-    flexDirection: 'column'
+    margin: '5px 0'
   },
   action: {
     padding: '10px',
@@ -105,21 +104,12 @@ const useStyles = makeStyles(() => ({
 
 type Props = {
   id: number;
-  title: string;
-  description: string;
   values: Value[];
   collapse: boolean;
   change: () => void;
 };
 
-export const Stress: React.FC<Props> = ({
-  id,
-  title,
-  description,
-  values,
-  collapse,
-  change
-}) => {
+export const Stress: React.FC<Props> = ({ id, values, collapse, change }) => {
   const classes = useStyles();
 
   const [suggestedValues, setSuggestedValues] = useState<Value[]>([]);
@@ -167,7 +157,7 @@ export const Stress: React.FC<Props> = ({
     <>
       <div className={classes.root}>
         <div style={{ display: 'flex', alignItems: 'flex-start' }}>
-          <div className={classes.title}>{`${id}. ${title}`}</div>
+          <div className={classes.title}>{`${id}. Things that stress me`}</div>
           <IconButton onClick={change}>
             <KeyboardArrowUp
               fontSize="large"
@@ -181,7 +171,10 @@ export const Stress: React.FC<Props> = ({
         )}
         {collapse && (
           <div>
-            <span className={classes.descText}>{description}</span>
+            <span className={classes.descText}>
+              Things that may stress me or cause me to have difficulties
+              managing my issues.
+            </span>
             <div className={classes.values}>
               {values.map(value => {
                 return (

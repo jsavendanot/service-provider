@@ -44,8 +44,7 @@ const useStyles = makeStyles(() => ({
     margin: '10px 0'
   },
   values: {
-    display: 'flex',
-    flexDirection: 'column'
+    margin: '5px 0'
   },
   action: {
     padding: '10px',
@@ -105,21 +104,12 @@ const useStyles = makeStyles(() => ({
 
 type Props = {
   id: number;
-  title: string;
-  description: string;
   values: Value[];
   collapse: boolean;
   change: () => void;
 };
 
-export const StayWell: React.FC<Props> = ({
-  id,
-  title,
-  description,
-  values,
-  collapse,
-  change
-}) => {
+export const StayWell: React.FC<Props> = ({ id, values, collapse, change }) => {
   const classes = useStyles();
 
   const [suggestedValues, setSuggestedValues] = useState<Value[]>([]);
@@ -167,7 +157,8 @@ export const StayWell: React.FC<Props> = ({
     <>
       <div className={classes.root}>
         <div style={{ display: 'flex', alignItems: 'flex-start' }}>
-          <div className={classes.title}>{`${id}. ${title}`}</div>
+          <div
+            className={classes.title}>{`${id}. Things I do to stay well`}</div>
           <IconButton onClick={change}>
             <KeyboardArrowUp
               fontSize="large"
@@ -181,7 +172,9 @@ export const StayWell: React.FC<Props> = ({
         )}
         {collapse && (
           <div>
-            <span className={classes.descText}>{description}</span>
+            <span className={classes.descText}>
+              These are things that I can do to be and stay well.
+            </span>
             <div className={classes.values}>
               {values.map(value => {
                 return (

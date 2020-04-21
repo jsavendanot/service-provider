@@ -3,10 +3,11 @@ import clsx from 'clsx';
 import { Value } from 'types/safety';
 
 import { makeStyles } from '@material-ui/styles';
-import { KeyboardArrowUp, Add } from '@material-ui/icons';
-
-import { Button } from 'common/components';
+import { KeyboardArrowUp } from '@material-ui/icons';
 import { IconButton } from '@material-ui/core';
+
+import Difficulties from './Difficulties';
+import Strategies from './Strategies';
 
 const useStyles = makeStyles(() => ({
   root: {
@@ -26,25 +27,6 @@ const useStyles = makeStyles(() => ({
     color: '#692B40',
     margin: '10px 0',
     flexGrow: 1
-  },
-  descText: {
-    fontFamily: 'Scada',
-    fontStyle: 'normal',
-    fontWeight: 400,
-    fontSize: '14px',
-    lineHeight: '23px',
-    color: '#323F45',
-    margin: '10px 0'
-  },
-  values: {
-    display: 'flex',
-    flexDirection: 'column'
-  },
-  value: {
-    padding: '10px',
-    backgroundColor: '#FFFAE9',
-    borderRadius: '4px',
-    margin: '10px 0'
   },
   action: {
     padding: '10px',
@@ -67,11 +49,7 @@ const useStyles = makeStyles(() => ({
 
 type Props = {
   id: number;
-  diffTitle: string;
-  diffDescription: string;
   difficulties: Value[];
-  planTitle: string;
-  planDescription: string;
   strategies: Value[];
   collapse: boolean;
   change: () => void;
@@ -79,11 +57,7 @@ type Props = {
 
 export const Warning: React.FC<Props> = ({
   id,
-  diffTitle,
-  diffDescription,
   difficulties,
-  planTitle,
-  planDescription,
   strategies,
   collapse,
   change
@@ -94,7 +68,10 @@ export const Warning: React.FC<Props> = ({
     <div className={classes.root}>
       <div style={{ margin: '5px 0' }}>
         <div style={{ display: 'flex', alignItems: 'flex-start' }}>
-          <div className={classes.title}>{`${id}. ${diffTitle}`}</div>
+          <div
+            className={
+              classes.title
+            }>{`${id}. Warning signs I may be having difficulty`}</div>
           <IconButton onClick={change}>
             <KeyboardArrowUp
               fontSize="large"
@@ -109,38 +86,7 @@ export const Warning: React.FC<Props> = ({
               classes.itemsText
             }>{`${difficulties.length} items`}</span>
         )}
-        {collapse && (
-          <div>
-            <span className={classes.descText}>{diffDescription}</span>
-            <div className={classes.values}>
-              {difficulties.map(value => {
-                return (
-                  <div key={value.id} className={classes.value}>
-                    {value.name}
-                  </div>
-                );
-              })}
-            </div>
-            <div className={classes.action}>
-              <div style={{ width: '91px', marginRight: '20px' }}>
-                <Button type="primarySmall">
-                  <Add style={{ marginRight: '5px' }} />
-                  Add
-                </Button>
-              </div>
-              <div style={{ width: '155px' }}>
-                <Button type="tertiarySmall">
-                  <img
-                    src="/images/safety/suggestion.svg"
-                    alt=""
-                    style={{ marginRight: '5px' }}
-                  />
-                  Suggestions
-                </Button>
-              </div>
-            </div>
-          </div>
-        )}
+        {collapse && <Difficulties difficulties={difficulties} />}
       </div>
       <div style={{ borderTop: '2px dashed #C57D7D', margin: '10px 0' }} />
       <div style={{ margin: '5px 0' }}>
@@ -148,46 +94,17 @@ export const Warning: React.FC<Props> = ({
           <img
             src="/images/safety/warning.svg"
             alt=""
-            style={{ marginTop: '15px', marginRight: '5px' }}
+            style={{ marginTop: '10px', marginRight: '5px' }}
           />
-          <div className={classes.title}>{planTitle}</div>
+          <div className={classes.title}>
+            If I start having difficulties, my plan will be to...
+          </div>
         </div>
         {!collapse && (
           <span
             className={classes.itemsText}>{`${strategies.length} items`}</span>
         )}
-        {collapse && (
-          <div>
-            <span className={classes.descText}>{planDescription}</span>
-            <div className={classes.values}>
-              {strategies.map(value => {
-                return (
-                  <div key={value.id} className={classes.value}>
-                    {value.name}
-                  </div>
-                );
-              })}
-            </div>
-            <div className={classes.action}>
-              <div style={{ width: '91px', marginRight: '20px' }}>
-                <Button type="primarySmall">
-                  <Add style={{ marginRight: '5px' }} />
-                  Add
-                </Button>
-              </div>
-              <div style={{ width: '155px' }}>
-                <Button type="tertiarySmall">
-                  <img
-                    src="/images/safety/suggestion.svg"
-                    alt=""
-                    style={{ marginRight: '5px' }}
-                  />
-                  Suggestions
-                </Button>
-              </div>
-            </div>
-          </div>
-        )}
+        {collapse && <Strategies strategies={strategies} />}
       </div>
     </div>
   );
