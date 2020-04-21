@@ -3,6 +3,10 @@ import axios from 'common/utils/axios';
 import authentication from '@kdpw/msal-b2c-react';
 import { Suggestion, GoalInfo } from 'types/suggestion';
 import { stopLoading, startLoading } from './suggestionSlice';
+import {
+  stopLoading as storyStopLoading,
+  startLoading as storyStartLoading
+} from 'slices/story/storySlice';
 
 //** ASYNC FUNCS */
 export const suggestGoal = (
@@ -37,7 +41,7 @@ export const suggestStrength = (
   strength: string
 ): AppThunk => async dispatch => {
   try {
-    dispatch(startLoading());
+    dispatch(storyStartLoading());
     const suggestion: Suggestion = {
       SuggestionId: '',
       RecoveryPlanId: sessionStorage.getItem('RecoveryPlanId')!,
@@ -52,9 +56,9 @@ export const suggestStrength = (
     // console.log(suggestion);
     await callSuggestionServiceProviderCreate(suggestion);
 
-    dispatch(stopLoading());
+    dispatch(storyStopLoading());
   } catch (err) {
-    dispatch(stopLoading());
+    dispatch(storyStopLoading());
     // dispatch(failed(err.toString()));
   }
 };
