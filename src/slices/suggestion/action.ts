@@ -7,6 +7,7 @@ import {
   stopLoading as storyStopLoading,
   startLoading as storyStartLoading
 } from 'slices/story/storySlice';
+import { FocusArea } from 'types/other';
 
 //** ASYNC FUNCS */
 export const suggestGoal = (
@@ -38,13 +39,10 @@ export const suggestGoal = (
 };
 
 export const suggestStrengthOrFocusArea = (
-  value: string,
-  groupName: 'Strengths' | 'FocusAreas'
+  value: string
 ): AppThunk => async dispatch => {
   try {
-    if (groupName === 'Strengths') {
-      dispatch(storyStartLoading());
-    }
+    dispatch(storyStartLoading());
 
     const suggestion: Suggestion = {
       SuggestionId: '',
@@ -52,7 +50,7 @@ export const suggestStrengthOrFocusArea = (
       SuggestedByUserId: '',
       Name: value,
       ExtraInfo: '',
-      GroupName: groupName,
+      GroupName: 'Strengths',
       GoalInfo: null,
       AcceptedOn: '',
       RejectedOn: ''
@@ -60,13 +58,38 @@ export const suggestStrengthOrFocusArea = (
 
     await callSuggestionServiceProviderCreate(suggestion);
 
-    if (groupName === 'Strengths') {
-      dispatch(storyStopLoading());
-    }
+    dispatch(storyStopLoading());
   } catch (err) {
-    if (groupName === 'Strengths') {
-      dispatch(storyStopLoading());
+    dispatch(storyStopLoading());
+    // dispatch(failed(err.toString()));
+  }
+};
+
+export const suggestFocusAreas = (
+  history: any,
+  suggestedAreas: FocusArea[]
+): AppThunk => async dispatch => {
+  try {
+    dispatch(startLoading());
+
+    for (const area of suggestedAreas) {
+      const suggestion: Suggestion = {
+        SuggestionId: '',
+        RecoveryPlanId: sessionStorage.getItem('RecoveryPlanId')!,
+        SuggestedByUserId: '',
+        Name: area.id,
+        ExtraInfo: '',
+        GroupName: 'FocusAreas',
+        GoalInfo: null,
+        AcceptedOn: '',
+        RejectedOn: ''
+      };
+      await callSuggestionServiceProviderCreate(suggestion);
     }
+    history.push('/story');
+    dispatch(stopLoading());
+  } catch (err) {
+    dispatch(stopLoading());
     // dispatch(failed(err.toString()));
   }
 };

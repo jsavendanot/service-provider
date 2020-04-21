@@ -95,7 +95,7 @@ export const Strengths: React.FC<Props> = ({ strengths }) => {
           name: input
         }
       ]);
-      dispatch(suggestStrengthOrFocusArea(input, 'Strengths'));
+      dispatch(suggestStrengthOrFocusArea(input));
       setInput('');
     }
   };

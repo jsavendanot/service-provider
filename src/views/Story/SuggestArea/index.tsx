@@ -9,8 +9,9 @@ import { KeyboardArrowLeft, Delete } from '@material-ui/icons';
 import { AreaBox, Button, Loading } from 'common/components';
 import { AreaCard } from './components';
 import { StoryRootType } from 'types/story';
-import { useSelector } from 'react-redux';
+import { useSelector, useDispatch } from 'react-redux';
 import { RootState } from 'reducer';
+import { suggestFocusAreas } from 'slices/suggestion/action';
 
 const useStyles = makeStyles(() => ({
   root: {
@@ -58,6 +59,7 @@ type Props = RouteComponentProps<MatchParams>;
 
 export const SuggestArea: React.FC<Props> = ({ history }) => {
   const classes = useStyles();
+  const dispatch = useDispatch();
 
   const loading: boolean = useSelector(
     (state: RootState) => state.suggestion.loading
@@ -91,6 +93,13 @@ export const SuggestArea: React.FC<Props> = ({ history }) => {
   const removeFromSuggestedAreas = (id: string) => {
     const updatedSuggestedAreas = suggestedAreas.filter(item => item.id !== id);
     setSuggestedAreas(updatedSuggestedAreas);
+  };
+
+  const submitSuggestion = () => {
+    if (suggestedAreas.length > 0) {
+      suggestedAreas.length &&
+        dispatch(suggestFocusAreas(history, suggestedAreas));
+    }
   };
 
   return (
@@ -190,7 +199,9 @@ export const SuggestArea: React.FC<Props> = ({ history }) => {
                         marginTop: '30px'
                       }}>
                       <div style={{ width: '162px' }}>
-                        <Button type="primarySmall">Save Areas</Button>
+                        <Button type="primarySmall" click={submitSuggestion}>
+                          Save Areas
+                        </Button>
                       </div>
                     </div>
                   </Grid>
