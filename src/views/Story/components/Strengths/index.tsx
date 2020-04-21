@@ -9,6 +9,7 @@ import { Button } from 'common/components';
 import { Strength } from 'types/story';
 import uuid from 'uuid';
 import { suggestStrengthOrFocusArea } from 'slices/suggestion/action';
+import Confirmation from 'common/components/Confirmation';
 
 const useStyles = makeStyles(() => ({
   root: {
@@ -107,84 +108,110 @@ export const Strengths: React.FC<Props> = ({ strengths }) => {
     setSuggestedStrengths(updatedSuggestedStr);
   };
 
+  /** Dialog */
+  const [open, setOpen] = useState(false);
+
+  function openDialog() {
+    setOpen(true);
+  }
+
+  function closeDialog() {
+    setOpen(false);
+  }
+
   return (
-    <div className={classes.root}>
-      <span className={classes.title}>My strengths</span>
-      <div style={{ width: '85%' }}>
-        {strengths.map(item => {
-          return (
-            <div key={item.id} className={classes.row}>
-              <span className={classes.strengthText}>{item.name}</span>
-            </div>
-          );
-        })}
-      </div>
-      <div>
-        {suggestedStrengths.map(item => {
-          return (
-            <div key={item.id} className={classes.suggestedRowContainer}>
-              <div className={classes.suggestedRow} style={{ width: '85%' }}>
+    <>
+      <div className={classes.root}>
+        <span className={classes.title}>My strengths</span>
+        <div style={{ width: '85%' }}>
+          {strengths.map(item => {
+            return (
+              <div key={item.id} className={classes.row}>
                 <span className={classes.strengthText}>{item.name}</span>
               </div>
-              <div style={{ height: '30px' }}>
-                <IconButton
-                  onClick={() => removeFromSuggestedStr(item.id)}
-                  style={{ padding: '5px', marginLeft: '11px' }}>
-                  <DeleteOutline
-                    style={{
-                      fill: '#C57D7D'
-                    }}
-                    fontSize="large"
-                  />
-                </IconButton>
+            );
+          })}
+        </div>
+        <div>
+          {suggestedStrengths.map(item => {
+            return (
+              <div key={item.id} className={classes.suggestedRowContainer}>
+                <div className={classes.suggestedRow} style={{ width: '85%' }}>
+                  <span className={classes.strengthText}>{item.name}</span>
+                </div>
+                <div style={{ height: '30px' }}>
+                  <IconButton
+                    onClick={() => removeFromSuggestedStr(item.id)}
+                    style={{ padding: '5px', marginLeft: '11px' }}>
+                    <DeleteOutline
+                      style={{
+                        fill: '#C57D7D'
+                      }}
+                      fontSize="large"
+                    />
+                  </IconButton>
+                </div>
               </div>
+            );
+          })}
+        </div>
+        {addClicked && (
+          <div className={classes.textFieldContainer}>
+            <TextField
+              fullWidth
+              label="Type here..."
+              name="input"
+              autoComplete="off"
+              multiline
+              value={input}
+              variant="outlined"
+              className={classes.textField}
+              onChange={handleInputChange}
+              inputProps={{ maxLength: 500 }}
+            />
+            <div style={{ width: '50px' }}>
+              <IconButton onClick={openDialog} style={{ padding: '5px' }}>
+                <AddCircleOutline
+                  style={{ fill: '#C57D7D', cursor: 'pointer' }}
+                  fontSize="large"
+                />
+              </IconButton>
             </div>
-          );
-        })}
-      </div>
-      {addClicked && (
-        <div className={classes.textFieldContainer}>
-          <TextField
-            fullWidth
-            label="Type here..."
-            name="input"
-            autoComplete="off"
-            multiline
-            value={input}
-            variant="outlined"
-            className={classes.textField}
-            onChange={handleInputChange}
-            inputProps={{ maxLength: 500 }}
-          />
-          <div style={{ width: '50px' }}>
-            <IconButton onClick={addToSuggestedStr} style={{ padding: '5px' }}>
-              <AddCircleOutline
-                style={{ fill: '#C57D7D', cursor: 'pointer' }}
-                fontSize="large"
+          </div>
+        )}
+        <div className={classes.action}>
+          <div style={{ width: '91px', marginRight: '20px' }}>
+            <Button type="primarySmall" click={() => setAddClicked(true)}>
+              <Add style={{ marginRight: '5px' }} />
+              Add
+            </Button>
+          </div>
+          <div style={{ width: '155px' }}>
+            <Button type="tertiarySmall">
+              <img
+                src="/images/safety/suggestion.svg"
+                alt=""
+                style={{ marginRight: '5px' }}
               />
-            </IconButton>
+              Suggestions
+            </Button>
           </div>
         </div>
-      )}
-      <div className={classes.action}>
-        <div style={{ width: '91px', marginRight: '20px' }}>
-          <Button type="primarySmall" click={() => setAddClicked(true)}>
-            <Add style={{ marginRight: '5px' }} />
-            Add
-          </Button>
-        </div>
-        <div style={{ width: '155px' }}>
-          <Button type="tertiarySmall">
-            <img
-              src="/images/safety/suggestion.svg"
-              alt=""
-              style={{ marginRight: '5px' }}
-            />
-            Suggestions
-          </Button>
-        </div>
       </div>
-    </div>
+      {open && (
+        <Confirmation
+          open={open}
+          close={closeDialog}
+          action={addToSuggestedStr}
+          donRedirect>
+          <span className={classes.title}>
+            Are you sure you want to
+            <br />
+            suggest this strength?
+          </span>
+        </Confirmation>
+      )}
+    </>
   );
 };
 
