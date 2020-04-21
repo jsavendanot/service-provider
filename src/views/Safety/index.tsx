@@ -6,7 +6,7 @@ import { useDispatch, useSelector } from 'react-redux';
 
 import { fetchSafetyPlanServices } from 'slices/safety/action';
 
-import { SafetyCard, Warning, Unwell, Contact } from './components';
+import { StayWell, Stress, Warning, Unwell, Contact } from './components';
 import { SafetyRootType } from 'types/safety';
 import { RootState } from 'reducer';
 import { Loading } from 'common/components';
@@ -116,7 +116,7 @@ export const Safety: React.FC = () => {
         <Grid item xs={12}>
           <Grid container>
             <Grid item xs={5}>
-              <SafetyCard
+              <StayWell
                 id={1}
                 title="Things I do to stay well"
                 description="These are things that I can do to be and stay well."
@@ -127,7 +127,7 @@ export const Safety: React.FC = () => {
             </Grid>
             <Grid item xs={1} />
             <Grid item xs={5}>
-              <SafetyCard
+              <Stress
                 id={2}
                 title="Things that stress me"
                 description="Things that may stress me or cause me to have difficulties managing my issues."

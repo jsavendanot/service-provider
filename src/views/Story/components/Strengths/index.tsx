@@ -37,7 +37,8 @@ const useStyles = makeStyles(() => ({
     padding: '10px',
     background: '#FFFAE9',
     borderRadius: '4px',
-    marginBottom: '20px'
+    marginBottom: '20px',
+    wordWrap: 'break-word'
   },
   strengthText: {
     fontFamily: 'Scada',
@@ -77,7 +78,6 @@ export const Strengths: React.FC<Props> = ({ strengths }) => {
   const classes = useStyles();
   const dispatch = useDispatch();
 
-  /** Handle Fields */
   const [suggestedStrengths, setSuggestedStrengths] = useState<Strength[]>([]);
   const [addClicked, setAddClicked] = useState(false);
   const [input, setInput] = useState('');
