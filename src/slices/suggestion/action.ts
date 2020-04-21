@@ -63,9 +63,5 @@ export const suggestStrength = (
 const callSuggestionServiceProviderCreate = (suggestion: Suggestion) => {
   axios.defaults.headers.common['Authorization'] =
     'Bearer ' + authentication.getAccessToken();
-  return axios
-    .post('/Suggestion/ServiceProvider/Create', suggestion)
-    .then(resp => {
-      console.log(resp);
-    });
+  return axios.post('/Suggestion/ServiceProvider/Create', suggestion);
 };

@@ -87,15 +87,17 @@ export const Strengths: React.FC<Props> = ({ strengths }) => {
   };
 
   const addToSuggestedStr = () => {
-    setSuggestedStrengths(values => [
-      ...values,
-      {
-        id: uuid(),
-        name: input
-      }
-    ]);
-    dispatch(suggestStrength(input));
-    setInput('');
+    if (input.length > 4) {
+      setSuggestedStrengths(values => [
+        ...values,
+        {
+          id: uuid(),
+          name: input
+        }
+      ]);
+      dispatch(suggestStrength(input));
+      setInput('');
+    }
   };
 
   const removeFromSuggestedStr = (id: string) => {
