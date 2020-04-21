@@ -1,7 +1,7 @@
 import React, { useState, ChangeEvent } from 'react';
 import clsx from 'clsx';
 
-import { TextField } from '@material-ui/core';
+import { TextField, IconButton } from '@material-ui/core';
 import { makeStyles } from '@material-ui/styles';
 import { KeyboardArrowUp, Add } from '@material-ui/icons';
 
@@ -108,12 +108,13 @@ export const SafetyCard: React.FC<Props> = ({
     <div className={classes.root}>
       <div style={{ display: 'flex', alignItems: 'flex-start' }}>
         <div className={classes.title}>{`${id}. ${title}`}</div>
-        <KeyboardArrowUp
-          fontSize="large"
-          style={{ fill: '#C57D7D', cursor: 'pointer' }}
-          className={clsx(collapse && classes.collapseArrow)}
-          onClick={change}
-        />
+        <IconButton onClick={change}>
+          <KeyboardArrowUp
+            fontSize="large"
+            style={{ fill: '#C57D7D' }}
+            className={clsx(collapse && classes.collapseArrow)}
+          />
+        </IconButton>
       </div>
       {!collapse && (
         <span className={classes.itemsText}>{`${values.length} items`}</span>

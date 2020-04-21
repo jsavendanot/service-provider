@@ -6,6 +6,7 @@ import { makeStyles } from '@material-ui/styles';
 import { KeyboardArrowUp, Add } from '@material-ui/icons';
 
 import { Button } from 'common/components';
+import { IconButton } from '@material-ui/core';
 
 const useStyles = makeStyles(() => ({
   root: {
@@ -94,12 +95,13 @@ export const Warning: React.FC<Props> = ({
       <div style={{ margin: '5px 0' }}>
         <div style={{ display: 'flex', alignItems: 'flex-start' }}>
           <div className={classes.title}>{`${id}. ${diffTitle}`}</div>
-          <KeyboardArrowUp
-            fontSize="large"
-            style={{ fill: '#C57D7D', cursor: 'pointer' }}
-            className={clsx(collapse && classes.collapseArrow)}
-            onClick={change}
-          />
+          <IconButton onClick={change}>
+            <KeyboardArrowUp
+              fontSize="large"
+              style={{ fill: '#C57D7D' }}
+              className={clsx(collapse && classes.collapseArrow)}
+            />
+          </IconButton>
         </div>
         {!collapse && (
           <span

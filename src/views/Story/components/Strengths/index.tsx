@@ -112,7 +112,9 @@ export const Strengths: React.FC<Props> = ({ strengths }) => {
   const [open, setOpen] = useState(false);
 
   function openDialog() {
-    setOpen(true);
+    if (input.length > 4) {
+      setOpen(true);
+    }
   }
 
   function closeDialog() {

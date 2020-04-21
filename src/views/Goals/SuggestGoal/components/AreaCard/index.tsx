@@ -6,6 +6,7 @@ import { Add, RemoveCircleOutline, AddCircleOutline } from '@material-ui/icons';
 
 import { Button } from 'common/components';
 import { FocusArea } from 'types/other';
+import { IconButton } from '@material-ui/core';
 
 const useStyles = makeStyles(() => ({
   root: {
@@ -74,30 +75,30 @@ export const AreaCard: React.FC<Props> = ({
   const classes = useStyles();
 
   const removeIcon = (
-    <RemoveCircleOutline
-      fontSize="large"
-      style={{
-        fill: '#C57D7D',
-        marginLeft: '10px',
-        cursor: 'pointer'
-      }}
-    />
+    <IconButton>
+      <RemoveCircleOutline
+        fontSize="large"
+        style={{
+          fill: '#C57D7D'
+        }}
+      />
+    </IconButton>
   );
 
   const addIcon = (
-    <AddCircleOutline
-      fontSize="large"
-      style={{
-        fill: '#C57D7D',
-        marginLeft: '10px',
-        cursor: 'pointer'
-      }}
-    />
+    <IconButton>
+      <AddCircleOutline
+        fontSize="large"
+        style={{
+          fill: '#C57D7D'
+        }}
+      />
+    </IconButton>
   );
 
   return (
     <div className={classes.cardContainer}>
-      <div style={{ flexGrow: 1 }}>
+      <div style={{ width: '90%' }}>
         <div className={classes.root}>
           <div
             className={clsx(
@@ -130,7 +131,7 @@ export const AreaCard: React.FC<Props> = ({
           {actionType === 'remove' && removeIcon}
         </div>
       ) : (
-        <div style={{ width: '35px', marginLeft: '10px' }}></div>
+        <div style={{ width: '45px', marginLeft: '13px' }} />
       )}
     </div>
   );
