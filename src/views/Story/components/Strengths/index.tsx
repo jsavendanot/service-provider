@@ -8,7 +8,7 @@ import { Add, DeleteOutline, AddCircleOutline } from '@material-ui/icons';
 import { Button } from 'common/components';
 import { Strength } from 'types/story';
 import uuid from 'uuid';
-import { suggestStrength } from 'slices/suggestion/action';
+import { suggestStrengthOrFocusArea } from 'slices/suggestion/action';
 
 const useStyles = makeStyles(() => ({
   root: {
@@ -95,7 +95,7 @@ export const Strengths: React.FC<Props> = ({ strengths }) => {
           name: input
         }
       ]);
-      dispatch(suggestStrength(input));
+      dispatch(suggestStrengthOrFocusArea(input, 'Strengths'));
       setInput('');
     }
   };
@@ -132,8 +132,7 @@ export const Strengths: React.FC<Props> = ({ strengths }) => {
                   style={{ padding: '5px', marginLeft: '11px' }}>
                   <DeleteOutline
                     style={{
-                      fill: '#C57D7D',
-                      cursor: 'pointer'
+                      fill: '#C57D7D'
                     }}
                     fontSize="large"
                   />

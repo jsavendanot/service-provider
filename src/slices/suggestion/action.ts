@@ -37,28 +37,36 @@ export const suggestGoal = (
   }
 };
 
-export const suggestStrength = (
-  strength: string
+export const suggestStrengthOrFocusArea = (
+  value: string,
+  groupName: 'Strengths' | 'FocusAreas'
 ): AppThunk => async dispatch => {
   try {
-    dispatch(storyStartLoading());
+    if (groupName === 'Strengths') {
+      dispatch(storyStartLoading());
+    }
+
     const suggestion: Suggestion = {
       SuggestionId: '',
       RecoveryPlanId: sessionStorage.getItem('RecoveryPlanId')!,
       SuggestedByUserId: '',
-      Name: strength,
+      Name: value,
       ExtraInfo: '',
-      GroupName: 'Strengths',
+      GroupName: groupName,
       GoalInfo: null,
       AcceptedOn: '',
       RejectedOn: ''
     };
-    // console.log(suggestion);
+
     await callSuggestionServiceProviderCreate(suggestion);
 
-    dispatch(storyStopLoading());
+    if (groupName === 'Strengths') {
+      dispatch(storyStopLoading());
+    }
   } catch (err) {
-    dispatch(storyStopLoading());
+    if (groupName === 'Strengths') {
+      dispatch(storyStopLoading());
+    }
     // dispatch(failed(err.toString()));
   }
 };

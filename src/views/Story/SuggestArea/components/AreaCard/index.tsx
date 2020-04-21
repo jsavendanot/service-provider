@@ -30,8 +30,9 @@ const useStyles = makeStyles(() => ({
 
 type Props = {
   area: FocusArea;
+  add: (area: FocusArea) => void;
 };
-export const AreaCard: React.FC<Props> = ({ area }) => {
+export const AreaCard: React.FC<Props> = ({ area, add }) => {
   const classes = useStyles();
 
   return (
@@ -49,7 +50,7 @@ export const AreaCard: React.FC<Props> = ({ area }) => {
           <div className={classes.rightSec}>
             <div className={classes.descText}>{area.description}</div>
             <div style={{ width: '91px', marginRight: '20px' }}>
-              <Button type="primarySmall">
+              <Button type="primarySmall" click={() => add(area)}>
                 <Add style={{ marginRight: '5px' }} />
                 Add
               </Button>
