@@ -1,11 +1,10 @@
 import { AppThunk } from 'store';
 import { startLoading, stopLoading } from './dashboardSlice';
-import { fetch as fetchGoalsState } from 'slices/goal/goalSlice';
 import {
   fetchJournalsChart,
   fetch as fetchJournalsStates
 } from 'slices/journey/journeySlice';
-import { callGoalListApi, callGoalDetailApi } from 'slices/goal/action';
+import { fetchGoals } from 'slices/goal/action';
 import { JournalChart } from 'types/journey';
 import {
   callFetchJournalsListApi,
@@ -24,17 +23,6 @@ export const fetchDashboardInfo = (): AppThunk => async dispatch => {
   } catch (err) {
     dispatch(stopLoading());
     // dispatch(failed(err.toString()));
-  }
-};
-
-export const fetchGoals = (): AppThunk => async dispatch => {
-  try {
-    const goalsList = await callGoalListApi();
-    await Promise.all(goalsList.map(callGoalDetailApi)).then(response => {
-      dispatch(fetchGoalsState({ goals: response }));
-    });
-  } catch (err) {
-    // dispatch(fsailed(err.toString()));
   }
 };
 

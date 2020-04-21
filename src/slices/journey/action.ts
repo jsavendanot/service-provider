@@ -5,9 +5,15 @@ import {
   fetch,
   stopLoading,
   startLoading,
-  fetchComments
+  fetchComments,
+  fetchJournalsChart
 } from './journeySlice';
-import { Journal, JournalList, JournalComment } from 'types/journey';
+import {
+  Journal,
+  JournalList,
+  JournalComment,
+  JournalChart
+} from 'types/journey';
 import moment from 'moment';
 import uuid from 'uuid';
 
@@ -24,8 +30,52 @@ export const fetchJournals = (): AppThunk => async dispatch => {
             journals: journalsData
           })
         );
+
+        const converter = (
+          feelingStr: 'VerySad' | 'Sad' | 'Neutral' | 'Happy' | 'VeryHappy' | ''
+        ) => {
+          switch (feelingStr) {
+            case 'VerySad': {
+              return 1;
+            }
+            case 'Sad': {
+              return 2;
+            }
+            case 'Neutral': {
+              return 3;
+            }
+            case 'Happy': {
+              return 4;
+            }
+            case 'VeryHappy': {
+              return 5;
+            }
+            default:
+              return 1;
+          }
+        };
+
+        //create journal chart data
+        const journalsChart: JournalChart[] = [];
+        journalsData.forEach(item => {
+          const journalChart: JournalChart = {
+            Id: item.Id,
+            Message: item.Message,
+            CreatedOnDate: item.CreatedOnDate,
+            HowAreYouFeeling: converter(item.HowAreYouFeeling)
+          };
+          journalsChart.push(journalChart);
+        });
+        const sortedChartData = journalsChart.sort(
+          (a, b) =>
+            new Date(a.CreatedOnDate).getTime() -
+            new Date(b.CreatedOnDate).getTime()
+        );
+
+        dispatch(fetchJournalsChart({ journalsChart: sortedChartData }));
       }
     );
+
     dispatch(stopLoading());
   } catch (err) {
     dispatch(stopLoading());

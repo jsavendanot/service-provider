@@ -2,7 +2,8 @@ import { AppThunk } from 'store';
 import axios from 'common/utils/axios';
 import authentication from '@kdpw/msal-b2c-react';
 import {
-  fetchSteps,
+  fetch,
+  readSteps,
   fetchComments,
   fetchProgress,
   startLoading,
@@ -13,23 +14,27 @@ import uuid from 'uuid';
 import moment from 'moment';
 
 //** ASYNC FUNCS */
-export const fetchGoalsProgress = (): AppThunk => async (
-  dispatch,
-  getState
-) => {
+
+export const fetchGoals = (): AppThunk => async dispatch => {
   try {
     dispatch(startLoading());
-    await dispatch(fetchProgressState());
+
+    const goalsList = await callGoalListApi();
+    await Promise.all(goalsList.map(callGoalDetailApi)).then(response => {
+      dispatch(fetch({ goals: response }));
+    });
+
+    dispatch(fetchProgressState());
+    dispatch(fetchSteps(goalsList));
 
     dispatch(stopLoading());
-    await dispatch(fetchStepsState(getState().goal.goals));
   } catch (err) {
     dispatch(stopLoading());
-    // dispatch(failed(err.toString()));
+    // dispatch(fsailed(err.toString()));
   }
 };
 
-export const fetchStepsState = (goals: Goal[]): AppThunk => async (
+export const fetchSteps = (goals: GoalList[]): AppThunk => async (
   dispatch,
   getState
 ) => {
@@ -37,13 +42,13 @@ export const fetchStepsState = (goals: Goal[]): AppThunk => async (
     let totalSteps: Step[] = [];
     for (const goal of goals) {
       const steps = await callStepListApi(
-        goal.Id,
+        goal.GoalId,
         sessionStorage.getItem('UserId')!,
         getState().goal.progress
       );
       totalSteps = totalSteps.concat(steps);
     }
-    dispatch(fetchSteps({ steps: totalSteps }));
+    dispatch(readSteps({ steps: totalSteps }));
   } catch (err) {
     // dispatch(failed(err.toString()));
   }
@@ -129,16 +134,21 @@ const callStepListApi = (
       const steps: Step[] = JSON.parse(JSON.stringify(response.data));
       const updatedSteps: Step[] = [];
       for (const step of steps) {
-        // const progressCheckIn = await getProgressCheckIn();
         const progressSummary = progress.find(
           item => item.GoalStepId === step.Id
         );
 
+        let IsCompleted = false;
         let visitsLeft = 0;
-        if (progressSummary)
+        if (progressSummary) {
           visitsLeft =
             progressSummary?.TotalRepeats -
             progressSummary?.TotalRepeatCompleted;
+
+          IsCompleted = visitsLeft === 0;
+        } else {
+          visitsLeft = 1;
+        }
 
         const newStep: Step = {
           Id: step.Id,
@@ -152,7 +162,7 @@ const callStepListApi = (
           IsDeadline: step.IsDeadline,
           StartDate: step.StartDate,
           EndDate: step.EndDate,
-          IsCompleted: visitsLeft === 0,
+          IsCompleted: IsCompleted,
           visitsLeft: visitsLeft
         };
 

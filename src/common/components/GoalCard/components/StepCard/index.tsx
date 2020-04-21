@@ -102,13 +102,13 @@ export const StepCard: React.FC<Props> = ({ step, number }) => {
               step.IsCompleted && classes.statusCompleted,
               !step.IsCompleted && classes.statusVisit
             )}>
-            <span
-              className={clsx(
-                step.IsCompleted && classes.statusCompletedText,
-                !step.IsCompleted && classes.statusVisitText
-              )}>
-              Completed
-            </span>
+            {step.IsCompleted ? (
+              <span className={classes.statusCompletedText}>Completed</span>
+            ) : (
+              <span className={classes.statusVisitText}>
+                {`${step.visitsLeft} visits left`}
+              </span>
+            )}
           </div>
         </div>
         <div>

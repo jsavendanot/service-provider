@@ -23,7 +23,7 @@ const goalSlice = createSlice({
       const { goals } = action.payload;
       state.goals = goals;
     },
-    fetchSteps(state, action: PayloadAction<{ steps: Step[] }>) {
+    readSteps(state, action: PayloadAction<{ steps: Step[] }>) {
       const { steps } = action.payload;
       state.steps = steps;
     },
@@ -49,7 +49,7 @@ const goalSlice = createSlice({
 
 export const {
   fetch,
-  fetchSteps,
+  readSteps,
   fetchComments,
   fetchProgress,
   startLoading,

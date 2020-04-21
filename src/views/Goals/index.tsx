@@ -10,7 +10,7 @@ import { Button, TabMenu, Loading } from 'common/components';
 import { Toolbar, Current, Completed } from './components';
 import { Goal } from 'types/goal';
 import { RootState } from 'reducer';
-import { fetchGoalsProgress } from 'slices/goal/action';
+import { fetchGoals } from 'slices/goal/action';
 import { fetchMyAreas } from 'slices/story/action';
 
 const useStyles = makeStyles(() => ({
@@ -57,7 +57,7 @@ const Goals: React.FC<Props> = ({ match, history }) => {
   const goals: Goal[] = useSelector((state: RootState) => state.goal.goals);
 
   useEffect(() => {
-    dispatch(fetchGoalsProgress());
+    dispatch(fetchGoals());
     dispatch(fetchMyAreas());
   }, [dispatch]);
 
