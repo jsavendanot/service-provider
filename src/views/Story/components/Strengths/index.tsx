@@ -1,11 +1,14 @@
 import React, { useState, ChangeEvent } from 'react';
+import { useDispatch } from 'react-redux';
 
-import { TextField } from '@material-ui/core';
+import { TextField, IconButton } from '@material-ui/core';
 import { makeStyles } from '@material-ui/styles';
-import { Add } from '@material-ui/icons';
+import { Add, DeleteOutline, AddCircleOutline } from '@material-ui/icons';
 
 import { Button } from 'common/components';
 import { Strength } from 'types/story';
+import uuid from 'uuid';
+import { suggestStrength } from 'slices/suggestion/action';
 
 const useStyles = makeStyles(() => ({
   root: {
@@ -24,6 +27,12 @@ const useStyles = makeStyles(() => ({
     marginBottom: '20px'
   },
   row: {
+    padding: '10px',
+    background: '#FFFAE9',
+    borderRadius: '4px',
+    marginBottom: '20px'
+  },
+  suggestedRow: {
     padding: '10px',
     background: '#FFFAE9',
     borderRadius: '4px',
@@ -52,6 +61,10 @@ const useStyles = makeStyles(() => ({
     display: 'flex',
     alignItems: 'center',
     justifyContent: 'flex-end'
+  },
+  suggestedRowContainer: {
+    width: '100%',
+    display: 'flex'
   }
 }));
 
@@ -61,14 +74,35 @@ type Props = {
 
 export const Strengths: React.FC<Props> = ({ strengths }) => {
   const classes = useStyles();
+  const dispatch = useDispatch();
 
   /** Handle Fields */
+  const [suggestedStrengths, setSuggestedStrengths] = useState<Strength[]>([]);
   const [addClicked, setAddClicked] = useState(false);
   const [input, setInput] = useState('');
 
-  const handleChange = (event: ChangeEvent<HTMLInputElement>) => {
+  const handleInputChange = (event: ChangeEvent<HTMLInputElement>) => {
     event.persist();
     setInput(event.target.value);
+  };
+
+  const addToSuggestedStr = () => {
+    setSuggestedStrengths(values => [
+      ...values,
+      {
+        id: uuid(),
+        name: input
+      }
+    ]);
+    dispatch(suggestStrength(input));
+    setInput('');
+  };
+
+  const removeFromSuggestedStr = (id: string) => {
+    const updatedSuggestedStr = suggestedStrengths.filter(
+      item => item.id !== id
+    );
+    setSuggestedStrengths(updatedSuggestedStr);
   };
 
   return (
@@ -83,6 +117,30 @@ export const Strengths: React.FC<Props> = ({ strengths }) => {
           );
         })}
       </div>
+      <div>
+        {suggestedStrengths.map(item => {
+          return (
+            <div key={item.id} className={classes.suggestedRowContainer}>
+              <div className={classes.suggestedRow} style={{ width: '85%' }}>
+                <span className={classes.strengthText}>{item.name}</span>
+              </div>
+              <div style={{ height: '30px' }}>
+                <IconButton
+                  onClick={() => removeFromSuggestedStr(item.id)}
+                  style={{ padding: '5px', marginLeft: '11px' }}>
+                  <DeleteOutline
+                    style={{
+                      fill: '#C57D7D',
+                      cursor: 'pointer'
+                    }}
+                    fontSize="large"
+                  />
+                </IconButton>
+              </div>
+            </div>
+          );
+        })}
+      </div>
       {addClicked && (
         <div className={classes.textFieldContainer}>
           <TextField
@@ -90,13 +148,20 @@ export const Strengths: React.FC<Props> = ({ strengths }) => {
             label="Type here..."
             name="input"
             autoComplete="off"
+            multiline
             value={input}
             variant="outlined"
             className={classes.textField}
-            onChange={handleChange}
+            onChange={handleInputChange}
+            inputProps={{ maxLength: 500 }}
           />
           <div style={{ width: '50px' }}>
-            <Button type="primarySmall">Add</Button>
+            <IconButton onClick={addToSuggestedStr} style={{ padding: '5px' }}>
+              <AddCircleOutline
+                style={{ fill: '#C57D7D', cursor: 'pointer' }}
+                fontSize="large"
+              />
+            </IconButton>
           </div>
         </div>
       )}

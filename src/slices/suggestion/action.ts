@@ -33,9 +33,39 @@ export const suggestGoal = (
   }
 };
 
+export const suggestStrength = (
+  strength: string
+): AppThunk => async dispatch => {
+  try {
+    dispatch(startLoading());
+    const suggestion: Suggestion = {
+      SuggestionId: '',
+      RecoveryPlanId: sessionStorage.getItem('RecoveryPlanId')!,
+      SuggestedByUserId: '',
+      Name: strength,
+      ExtraInfo: '',
+      GroupName: 'Strengths',
+      GoalInfo: null,
+      AcceptedOn: '',
+      RejectedOn: ''
+    };
+    // console.log(suggestion);
+    await callSuggestionServiceProviderCreate(suggestion);
+
+    dispatch(stopLoading());
+  } catch (err) {
+    dispatch(stopLoading());
+    // dispatch(failed(err.toString()));
+  }
+};
+
 //** API FUNCS */
 const callSuggestionServiceProviderCreate = (suggestion: Suggestion) => {
   axios.defaults.headers.common['Authorization'] =
     'Bearer ' + authentication.getAccessToken();
-  return axios.post('/Suggestion/ServiceProvider/Create', suggestion);
+  return axios
+    .post('/Suggestion/ServiceProvider/Create', suggestion)
+    .then(resp => {
+      console.log(resp);
+    });
 };

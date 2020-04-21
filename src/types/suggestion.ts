@@ -32,7 +32,7 @@ export interface Suggestion {
   Name: string;
   ExtraInfo: string;
   GroupName: string;
-  GoalInfo: GoalInfo;
+  GoalInfo: GoalInfo | null;
   AcceptedOn: string;
   RejectedOn: string;
 }
