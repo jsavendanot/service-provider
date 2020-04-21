@@ -5,8 +5,10 @@ import { Add, DeleteOutline, AddCircleOutline } from '@material-ui/icons';
 
 import { Button } from 'common/components';
 import uuid from 'uuid';
+import { useDispatch } from 'react-redux';
 import Confirmation from 'common/components/Confirmation';
 import { IconButton, TextField } from '@material-ui/core';
+import { suggestStayWellStressWarning } from 'slices/suggestion/action';
 
 const useStyles = makeStyles(() => ({
   root: {
@@ -101,6 +103,7 @@ type Props = {
 
 export const Difficulties: React.FC<Props> = ({ difficulties }) => {
   const classes = useStyles();
+  const dispatch = useDispatch();
 
   const [suggestedValues, setSuggestedValues] = useState<Value[]>([]);
   const [addClicked, setAddClicked] = useState(false);
@@ -120,7 +123,9 @@ export const Difficulties: React.FC<Props> = ({ difficulties }) => {
           name: input
         }
       ]);
-      // dispatch(suggestStrengthOrFocusArea(input));
+      dispatch(
+        suggestStayWellStressWarning(input, 'WarningSigns', 'Difficulty')
+      );
       setInput('');
     }
   };

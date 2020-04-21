@@ -7,6 +7,10 @@ import {
   stopLoading as storyStopLoading,
   startLoading as storyStartLoading
 } from 'slices/story/storySlice';
+import {
+  stopLoading as safetyStopLoading,
+  startLoading as safetyStartLoading
+} from 'slices/safety/safetySlice';
 import { FocusArea } from 'types/other';
 
 //** ASYNC FUNCS */
@@ -38,9 +42,7 @@ export const suggestGoal = (
   }
 };
 
-export const suggestStrengthOrFocusArea = (
-  value: string
-): AppThunk => async dispatch => {
+export const suggestStrength = (value: string): AppThunk => async dispatch => {
   try {
     dispatch(storyStartLoading());
 
@@ -94,7 +96,37 @@ export const suggestFocusAreas = (
   }
 };
 
+export const suggestStayWellStressWarning = (
+  value: string,
+  groupName: 'StayWell' | 'StressMe' | 'WarningSigns',
+  extraInfo: string
+): AppThunk => async dispatch => {
+  try {
+    dispatch(safetyStartLoading());
+
+    const suggestion: Suggestion = {
+      SuggestionId: '',
+      RecoveryPlanId: sessionStorage.getItem('RecoveryPlanId')!,
+      SuggestedByUserId: '',
+      Name: value,
+      ExtraInfo: extraInfo,
+      GroupName: groupName,
+      GoalInfo: null,
+      AcceptedOn: '',
+      RejectedOn: ''
+    };
+
+    await callSuggestionServiceProviderCreate(suggestion);
+
+    dispatch(safetyStopLoading());
+  } catch (err) {
+    dispatch(safetyStopLoading());
+    // dispatch(failed(err.toString()));
+  }
+};
+
 //** API FUNCS */
+
 const callSuggestionServiceProviderCreate = (suggestion: Suggestion) => {
   axios.defaults.headers.common['Authorization'] =
     'Bearer ' + authentication.getAccessToken();

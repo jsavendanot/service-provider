@@ -9,11 +9,13 @@ import {
   AddCircleOutline,
   DeleteOutline
 } from '@material-ui/icons';
+import { useDispatch } from 'react-redux';
 
 import { Button } from 'common/components';
 import { Value } from 'types/safety';
 import Confirmation from 'common/components/Confirmation';
 import uuid from 'uuid';
+import { suggestStayWellStressWarning } from 'slices/suggestion/action';
 
 const useStyles = makeStyles(() => ({
   root: {
@@ -111,6 +113,7 @@ type Props = {
 
 export const StayWell: React.FC<Props> = ({ id, values, collapse, change }) => {
   const classes = useStyles();
+  const dispatch = useDispatch();
 
   const [suggestedValues, setSuggestedValues] = useState<Value[]>([]);
   const [addClicked, setAddClicked] = useState(false);
@@ -130,7 +133,7 @@ export const StayWell: React.FC<Props> = ({ id, values, collapse, change }) => {
           name: input
         }
       ]);
-      // dispatch(suggestStrengthOrFocusArea(input));
+      dispatch(suggestStayWellStressWarning(input, 'StayWell', ''));
       setInput('');
     }
   };

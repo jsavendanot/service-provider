@@ -8,7 +8,7 @@ import { Add, DeleteOutline, AddCircleOutline } from '@material-ui/icons';
 import { Button } from 'common/components';
 import { Strength } from 'types/story';
 import uuid from 'uuid';
-import { suggestStrengthOrFocusArea } from 'slices/suggestion/action';
+import { suggestStrength } from 'slices/suggestion/action';
 import Confirmation from 'common/components/Confirmation';
 
 const useStyles = makeStyles(() => ({
@@ -96,7 +96,7 @@ export const Strengths: React.FC<Props> = ({ strengths }) => {
           name: input
         }
       ]);
-      dispatch(suggestStrengthOrFocusArea(input));
+      dispatch(suggestStrength(input));
       setInput('');
     }
   };
