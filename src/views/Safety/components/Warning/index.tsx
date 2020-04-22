@@ -8,6 +8,8 @@ import { IconButton } from '@material-ui/core';
 
 import Difficulties from './Difficulties';
 import Strategies from './Strategies';
+import { useSelector } from 'react-redux';
+import { RootState } from 'reducer';
 
 const useStyles = makeStyles(() => ({
   root: {
@@ -49,20 +51,20 @@ const useStyles = makeStyles(() => ({
 
 type Props = {
   id: number;
-  difficulties: Value[];
-  strategies: Value[];
   collapse: boolean;
   change: () => void;
 };
 
-export const Warning: React.FC<Props> = ({
-  id,
-  difficulties,
-  strategies,
-  collapse,
-  change
-}) => {
+export const Warning: React.FC<Props> = ({ id, collapse, change }) => {
   const classes = useStyles();
+
+  const difficulties: Value[] = useSelector(
+    (state: RootState) => state.safety.difficulties
+  );
+
+  const strategies: Value[] = useSelector(
+    (state: RootState) => state.safety.strategies
+  );
 
   return (
     <div className={classes.root}>

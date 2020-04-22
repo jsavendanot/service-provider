@@ -9,13 +9,14 @@ import {
   AddCircleOutline,
   DeleteOutline
 } from '@material-ui/icons';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 
 import { Button } from 'common/components';
 import { Value } from 'types/safety';
 import Confirmation from 'common/components/Confirmation';
 import uuid from 'uuid';
 import { suggestStayWellStressWarning } from 'slices/suggestion/action';
+import { RootState } from 'reducer';
 
 const useStyles = makeStyles(() => ({
   root: {
@@ -106,14 +107,17 @@ const useStyles = makeStyles(() => ({
 
 type Props = {
   id: number;
-  values: Value[];
   collapse: boolean;
   change: () => void;
 };
 
-export const Stress: React.FC<Props> = ({ id, values, collapse, change }) => {
+export const Stress: React.FC<Props> = ({ id, collapse, change }) => {
   const classes = useStyles();
   const dispatch = useDispatch();
+
+  const values: Value[] = useSelector(
+    (state: RootState) => state.safety.stress
+  );
 
   const [suggestedValues, setSuggestedValues] = useState<Value[]>([]);
   const [addClicked, setAddClicked] = useState(false);

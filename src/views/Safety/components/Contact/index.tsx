@@ -7,6 +7,8 @@ import { KeyboardArrowUp, Add, Phone } from '@material-ui/icons';
 import { Button } from 'common/components';
 import { Network } from 'types/network';
 import { IconButton } from '@material-ui/core';
+import { useSelector } from 'react-redux';
+import { RootState } from 'reducer';
 
 const useStyles = makeStyles(() => ({
   root: {
@@ -99,30 +101,29 @@ const useStyles = makeStyles(() => ({
 
 type Props = {
   id: number;
-  title: string;
-  description: string;
-  people: Network[];
-  services: Network[];
   collapse: boolean;
   change: () => void;
 };
 
-export const Contact: React.FC<Props> = ({
-  id,
-  title,
-  description,
-  people,
-  services,
-  collapse,
-  change
-}) => {
+export const Contact: React.FC<Props> = ({ id, collapse, change }) => {
   const classes = useStyles();
+
+  const people: Network[] = useSelector(
+    (state: RootState) => state.safety.people
+  );
+
+  const services: Network[] = useSelector(
+    (state: RootState) => state.safety.organisations
+  );
 
   return (
     <div className={classes.root}>
       <div style={{ margin: '5px 0' }}>
         <div style={{ display: 'flex', alignItems: 'flex-start' }}>
-          <div className={classes.title}>{`${id}. ${title}`}</div>
+          <div
+            className={
+              classes.title
+            }>{`${id}. People or services who I can contact`}</div>
           <IconButton onClick={change}>
             <KeyboardArrowUp
               fontSize="large"
@@ -143,7 +144,10 @@ export const Contact: React.FC<Props> = ({
         )}
         {collapse && (
           <div>
-            <span className={classes.descText}>{description}</span>
+            <span className={classes.descText}>
+              People or services who I can contact for support if I need
+              immediate help.
+            </span>
             <div style={{ margin: '10px 0 5px' }}>
               <span className={classes.subTitle}>People</span>
             </div>

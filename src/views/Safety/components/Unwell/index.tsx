@@ -8,6 +8,8 @@ import { KeyboardArrowUp } from '@material-ui/icons';
 import PleaseDo from './PleaseDo';
 import DontDo from './DontDo';
 import { IconButton } from '@material-ui/core';
+import { useSelector } from 'react-redux';
+import { RootState } from 'reducer';
 
 const useStyles = makeStyles(() => ({
   root: {
@@ -69,20 +71,20 @@ const useStyles = makeStyles(() => ({
 
 type Props = {
   id: number;
-  pleaseDo: UnwellType[];
-  dontDo: UnwellType[];
   collapse: boolean;
   change: () => void;
 };
 
-export const Unwell: React.FC<Props> = ({
-  id,
-  pleaseDo,
-  dontDo,
-  collapse,
-  change
-}) => {
+export const Unwell: React.FC<Props> = ({ id, collapse, change }) => {
   const classes = useStyles();
+
+  const pleaseDo: UnwellType[] = useSelector(
+    (state: RootState) => state.safety.pleaseDo
+  );
+
+  const dontDo: UnwellType[] = useSelector(
+    (state: RootState) => state.safety.doNotDo
+  );
 
   return (
     <div className={classes.root}>

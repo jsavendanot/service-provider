@@ -5,9 +5,7 @@ import { makeStyles } from '@material-ui/styles';
 import { useDispatch, useSelector } from 'react-redux';
 
 import { fetchSafetyPlanServices } from 'slices/safety/action';
-
 import { StayWell, Stress, Warning, Unwell, Contact } from './components';
-import { SafetyRootType } from 'types/safety';
 import { RootState } from 'reducer';
 import { Loading } from 'common/components';
 
@@ -77,8 +75,8 @@ export const Safety: React.FC = () => {
         });
   };
 
-  const safetyStory: SafetyRootType = useSelector(
-    (state: RootState) => state.safety
+  const loading: boolean = useSelector(
+    (state: RootState) => state.safety.loading
   );
 
   useEffect(() => {
@@ -87,7 +85,7 @@ export const Safety: React.FC = () => {
 
   return (
     <>
-      {safetyStory.loading && <Loading />}
+      {loading && <Loading />}
       <Grid container spacing={3} className={classes.root}>
         <Grid item xs={12}>
           <div
@@ -118,7 +116,6 @@ export const Safety: React.FC = () => {
             <Grid item xs={5}>
               <StayWell
                 id={1}
-                values={safetyStory.staywell}
                 collapse={collapses.staywell}
                 change={() => handleCollapse('staywell', !collapses.staywell)}
               />
@@ -127,7 +124,6 @@ export const Safety: React.FC = () => {
             <Grid item xs={5}>
               <Stress
                 id={2}
-                values={safetyStory.stress}
                 collapse={collapses.stress}
                 change={() => handleCollapse('stress', !collapses.stress)}
               />
@@ -139,8 +135,6 @@ export const Safety: React.FC = () => {
             <Grid item xs={5}>
               <Warning
                 id={3}
-                difficulties={safetyStory.difficulties}
-                strategies={safetyStory.strategies}
                 collapse={collapses.warning}
                 change={() => handleCollapse('warning', !collapses.warning)}
               />
@@ -150,18 +144,12 @@ export const Safety: React.FC = () => {
               <div style={{ marginBottom: '20px' }}>
                 <Unwell
                   id={4}
-                  pleaseDo={safetyStory.pleaseDo}
-                  dontDo={safetyStory.doNotDo}
                   collapse={collapses.unwell}
                   change={() => handleCollapse('unwell', !collapses.unwell)}
                 />
               </div>
               <Contact
                 id={5}
-                title="People or services who I can contact"
-                description="People or services who I can contact for support if I need immediate help."
-                people={safetyStory.people}
-                services={safetyStory.organisations}
                 collapse={collapses.contact}
                 change={() => handleCollapse('contact', !collapses.contact)}
               />
