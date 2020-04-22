@@ -11,12 +11,6 @@ export interface Value {
 }
 
 export interface Unwell {
-  id: string;
-  things: Value[];
-  whos: Value[];
-}
-
-export interface UnwellApiType {
   UnwellId: string;
   Name: string;
   Description: string;

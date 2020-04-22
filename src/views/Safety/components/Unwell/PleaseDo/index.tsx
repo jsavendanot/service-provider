@@ -4,6 +4,9 @@ import { CheckCircle, People, Add } from '@material-ui/icons';
 import { makeStyles } from '@material-ui/styles';
 
 import { Button } from 'common/components';
+import { useSelector } from 'react-redux';
+import { RootState } from 'reducer';
+import { Network } from 'types/network';
 
 const useStyles = makeStyles(() => ({
   descText: {
@@ -63,6 +66,10 @@ type Props = {
 export const PleaseDo: React.FC<Props> = ({ pleaseDo }) => {
   const classes = useStyles();
 
+  const networks: Network[] = useSelector(
+    (state: RootState) => state.network.networks
+  );
+
   return (
     <div>
       <span className={classes.descText}>
@@ -80,25 +87,18 @@ export const PleaseDo: React.FC<Props> = ({ pleaseDo }) => {
       {pleaseDo.map((item, index) => {
         return (
           <div key={index} className={classes.values}>
-            {item.things.map(value => {
-              return (
-                <div key={value.id} className={classes.value}>
-                  {value.name}
-                </div>
-              );
-            })}
-            {item.whos && (
-              <div className={classes.support}>
-                <People style={{ fill: '#C57D7D', marginRight: '10px' }} />
-                {item.whos.map(value => {
-                  return (
-                    <span key={value.id} className={classes.supportText}>
-                      {/* {value.name}, */}
-                    </span>
-                  );
-                })}
-              </div>
-            )}
+            <div className={classes.value}>{item.Description}</div>
+            <div className={classes.support}>
+              <People style={{ fill: '#C57D7D', marginRight: '10px' }} />
+              <span className={classes.supportText}>
+                {
+                  networks.find(
+                    network => network.Id === item.NetworkContactIdResponsible
+                  )?.Name
+                }
+                ,
+              </span>
+            </div>
           </div>
         );
       })}

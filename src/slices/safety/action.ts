@@ -13,8 +13,9 @@ import {
   fetchPeople,
   fetchOrganisations
 } from './safetySlice';
-import { Value, UnwellApiType, Unwell } from 'types/safety';
+import { Value, Unwell } from 'types/safety';
 import { Network } from 'types/network';
+import { fetchEmergencyNetworks } from 'slices/network/action';
 
 //** ASYNC FUNCS */
 export const fetchSafetyPlanServices = (): AppThunk => async dispatch => {
@@ -25,6 +26,7 @@ export const fetchSafetyPlanServices = (): AppThunk => async dispatch => {
     await dispatch(fetchStressData());
     await dispatch(fetchWarnDiffData());
     await dispatch(fetchWarnStrData());
+    await dispatch(fetchEmergencyNetworks());
 
     dispatch(fetchUnwell());
     dispatch(fetchUnwellNot());
@@ -101,32 +103,9 @@ export const fetchUnwell = (): AppThunk => async dispatch => {
   try {
     const values = await callUnwellHappenReadApi();
 
-    const unwellList: Unwell[] = [];
-    values.forEach((value, index) => {
-      const things: Value[] = [];
-      const thing: Value = {
-        id: index.toString(),
-        name: value.Description
-      };
-      things.push(thing);
-
-      const whos: Value[] = [];
-      const who: Value = {
-        id: index.toString(),
-        name: value.NetworkContactIdResponsible
-      };
-      whos.push(who);
-
-      unwellList.push({
-        id: value.UnwellId,
-        things,
-        whos
-      });
-    });
-
     dispatch(
       fetchUnwellDo({
-        values: unwellList
+        values
       })
     );
   } catch (err) {
@@ -138,32 +117,9 @@ export const fetchUnwellNot = (): AppThunk => async dispatch => {
   try {
     const values = await callUnwellNotHappenReadApi();
 
-    const unwellList: Unwell[] = [];
-    values.forEach((value, index) => {
-      const things: Value[] = [];
-      const thing: Value = {
-        id: index.toString(),
-        name: value.Description
-      };
-      things.push(thing);
-
-      const whos: Value[] = [];
-      const who: Value = {
-        id: index.toString(),
-        name: value.NetworkContactIdResponsible
-      };
-      whos.push(who);
-
-      unwellList.push({
-        id: value.UnwellId,
-        things,
-        whos
-      });
-    });
-
     dispatch(
       fetchUnwellDoNot({
-        values: unwellList
+        values
       })
     );
   } catch (err) {
@@ -266,9 +222,7 @@ const callUnwellHappenReadApi = () => {
   return axios
     .get(`/UnwellHappen/Read/${sessionStorage.getItem('UserId')!}`)
     .then(response => {
-      const unwellList: UnwellApiType[] = JSON.parse(
-        JSON.stringify(response.data)
-      );
+      const unwellList: Unwell[] = JSON.parse(JSON.stringify(response.data));
       return unwellList;
     });
 };
@@ -280,9 +234,7 @@ const callUnwellNotHappenReadApi = () => {
   return axios
     .get(`/UnwellNotHappen/Read/${sessionStorage.getItem('UserId')!}`)
     .then(response => {
-      const unwellList: UnwellApiType[] = JSON.parse(
-        JSON.stringify(response.data)
-      );
+      const unwellList: Unwell[] = JSON.parse(JSON.stringify(response.data));
       return unwellList;
     });
 };
