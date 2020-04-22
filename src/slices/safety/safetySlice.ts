@@ -21,7 +21,6 @@ const safetySlice = createSlice({
     fetchStaywell(state, action: PayloadAction<{ values: Value[] }>) {
       const { values } = action.payload;
       state.staywell = values;
-      state.loading = false;
     },
     fetchStress(state, action: PayloadAction<{ values: Value[] }>) {
       const { values } = action.payload;

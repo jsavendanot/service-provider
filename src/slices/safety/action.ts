@@ -20,13 +20,16 @@ import { Network } from 'types/network';
 export const fetchSafetyPlanServices = (): AppThunk => async dispatch => {
   try {
     dispatch(startLoading());
+
     await dispatch(fetchStaywellData());
     await dispatch(fetchStressData());
     await dispatch(fetchWarnDiffData());
     await dispatch(fetchWarnStrData());
-    await dispatch(fetchUnwell());
-    await dispatch(fetchUnwellNot());
-    await dispatch(fetchEmergencyContacts());
+
+    dispatch(fetchUnwell());
+    dispatch(fetchUnwellNot());
+    dispatch(fetchEmergencyContacts());
+
     dispatch(stopLoading());
   } catch (err) {
     dispatch(stopLoading());
@@ -36,7 +39,6 @@ export const fetchSafetyPlanServices = (): AppThunk => async dispatch => {
 
 export const fetchStaywellData = (): AppThunk => async dispatch => {
   try {
-    dispatch(startLoading());
     const values = await callStayWellReadApi();
     dispatch(
       fetchStaywell({
@@ -44,7 +46,6 @@ export const fetchStaywellData = (): AppThunk => async dispatch => {
       })
     );
   } catch (err) {
-    dispatch(stopLoading());
     // dispatch(failed(err.toString()));
   }
 };
