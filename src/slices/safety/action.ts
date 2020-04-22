@@ -9,9 +9,12 @@ import {
   startLoading,
   stopLoading,
   fetchUnwellDo,
-  fetchUnwellDoNot
+  fetchUnwellDoNot,
+  fetchPeople,
+  fetchOrganisations
 } from './safetySlice';
 import { Value, UnwellApiType, Unwell } from 'types/safety';
+import { Network } from 'types/network';
 
 //** ASYNC FUNCS */
 export const fetchSafetyPlanServices = (): AppThunk => async dispatch => {
@@ -23,6 +26,7 @@ export const fetchSafetyPlanServices = (): AppThunk => async dispatch => {
     await dispatch(fetchWarnStrData());
     await dispatch(fetchUnwell());
     await dispatch(fetchUnwellNot());
+    await dispatch(fetchEmergencyContacts());
     dispatch(stopLoading());
   } catch (err) {
     dispatch(stopLoading());
@@ -166,6 +170,26 @@ export const fetchUnwellNot = (): AppThunk => async dispatch => {
   }
 };
 
+export const fetchEmergencyContacts = (): AppThunk => async dispatch => {
+  try {
+    const contacts = await callNetworkContactCarerReadApi();
+
+    dispatch(
+      fetchPeople({
+        people: contacts.filter(item => item.Type === 'Person')
+      })
+    );
+
+    dispatch(
+      fetchOrganisations({
+        organisations: contacts.filter(item => item.Type === 'Organisation')
+      })
+    );
+  } catch (err) {
+    // dispatch(failed(err.toString()));
+  }
+};
+
 //** API FUNCS */
 const callStayWellReadApi = () => {
   axios.defaults.headers.common['Authorization'] =
@@ -259,5 +283,21 @@ const callUnwellNotHappenReadApi = () => {
         JSON.stringify(response.data)
       );
       return unwellList;
+    });
+};
+
+const callNetworkContactCarerReadApi = () => {
+  axios.defaults.headers.common['Authorization'] =
+    'Bearer ' + authentication.getAccessToken();
+
+  return axios
+    .get(
+      `/NetworkContact/Carer/Read/?userId=${sessionStorage.getItem('UserId')!}`
+    )
+    .then(response => {
+      const emergencyContacts: Network[] = JSON.parse(
+        JSON.stringify(response.data)
+      );
+      return emergencyContacts;
     });
 };
