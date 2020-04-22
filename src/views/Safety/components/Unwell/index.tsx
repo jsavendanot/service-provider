@@ -3,15 +3,10 @@ import clsx from 'clsx';
 import { Unwell as UnwellType } from 'types/safety';
 
 import { makeStyles } from '@material-ui/styles';
-import {
-  KeyboardArrowUp,
-  Add,
-  CheckCircle,
-  Block,
-  People
-} from '@material-ui/icons';
+import { KeyboardArrowUp } from '@material-ui/icons';
 
-import { Button } from 'common/components';
+import PleaseDo from './PleaseDo';
+import DontDo from './DontDo';
 import { IconButton } from '@material-ui/core';
 
 const useStyles = makeStyles(() => ({
@@ -69,44 +64,11 @@ const useStyles = makeStyles(() => ({
     lineHeight: '23px',
     color: '#B7B7B8',
     marginRight: '5px'
-  },
-  pleaseText: {
-    fontFamily: 'Roboto',
-    fontStyle: 'normal',
-    fontWeight: 700,
-    fontSize: '18px',
-    lineHeight: '21px',
-    color: '#41C04E'
-  },
-  dontDoText: {
-    fontFamily: 'Roboto',
-    fontStyle: 'normal',
-    fontWeight: 700,
-    fontSize: '18px',
-    lineHeight: '21px',
-    color: '#B50000'
-  },
-  support: {
-    paddingLeft: '10px',
-    marginBottom: '10px',
-    display: 'flex',
-    alignItems: 'center'
-  },
-  supportText: {
-    fontFamily: 'Thasadith',
-    fontStyle: 'normal',
-    fontWeight: 700,
-    fontSize: '18px',
-    lineHeight: '23px',
-    color: '#C57D7D',
-    marginRight: '5px'
   }
 }));
 
 type Props = {
   id: number;
-  title: string;
-  description: string;
   pleaseDo: UnwellType[];
   dontDo: UnwellType[];
   collapse: boolean;
@@ -115,8 +77,6 @@ type Props = {
 
 export const Unwell: React.FC<Props> = ({
   id,
-  title,
-  description,
   pleaseDo,
   dontDo,
   collapse,
@@ -128,7 +88,10 @@ export const Unwell: React.FC<Props> = ({
     <div className={classes.root}>
       <div style={{ margin: '5px 0' }}>
         <div style={{ display: 'flex', alignItems: 'flex-start' }}>
-          <div className={classes.title}>{`${id}. ${title}`}</div>
+          <div
+            className={
+              classes.title
+            }>{`${id}. If I become unwell, I would like others to...`}</div>
           <IconButton onClick={change}>
             <KeyboardArrowUp
               fontSize="large"
@@ -149,131 +112,12 @@ export const Unwell: React.FC<Props> = ({
               }>{`${dontDo.length} Don't Dos`}</span>
           </div>
         )}
-        {collapse && (
-          <div>
-            <span className={classes.descText}>{description}</span>
-            <div
-              style={{
-                display: 'flex',
-                alignItems: 'center',
-                margin: '10px 0 5px'
-              }}>
-              <CheckCircle style={{ fill: '#41C04E', marginRight: '5px' }} />
-              <span className={classes.pleaseText}>Please do</span>
-            </div>
-            {pleaseDo.map((item, index) => {
-              return (
-                <div key={index} className={classes.values}>
-                  {item.things.map(value => {
-                    return (
-                      <div key={value.id} className={classes.value}>
-                        {value.name}
-                      </div>
-                    );
-                  })}
-                  {item.whos && (
-                    <div className={classes.support}>
-                      <People
-                        style={{ fill: '#C57D7D', marginRight: '10px' }}
-                      />
-                      {item.whos.map(value => {
-                        return (
-                          <span key={value.id} className={classes.supportText}>
-                            {/* {value.name}, */}
-                          </span>
-                        );
-                      })}
-                    </div>
-                  )}
-                </div>
-              );
-            })}
-            <div className={classes.action}>
-              <div style={{ width: '91px', marginRight: '20px' }}>
-                <Button type="primarySmall">
-                  <Add style={{ marginRight: '5px' }} />
-                  Add
-                </Button>
-              </div>
-              <div style={{ width: '155px' }}>
-                <Button type="tertiarySmall">
-                  <img
-                    src="/images/safety/suggestion.svg"
-                    alt=""
-                    style={{ marginRight: '5px' }}
-                  />
-                  Suggestions
-                </Button>
-              </div>
-            </div>
-          </div>
-        )}
+        {collapse && <PleaseDo pleaseDo={pleaseDo} />}
       </div>
       {collapse && (
         <div style={{ borderTop: '2px dashed #C57D7D', margin: '10px 0' }} />
       )}
-      <div style={{ margin: '5px 0' }}>
-        {collapse && (
-          <div
-            style={{
-              display: 'flex',
-              alignItems: 'center',
-              margin: '5px 0'
-            }}>
-            <Block style={{ fill: '#B50000', marginRight: '5px' }} />
-            <span className={classes.dontDoText}>Don't do</span>
-          </div>
-        )}
-        {collapse && (
-          <div>
-            {dontDo.map((item, index) => {
-              return (
-                <div key={index} className={classes.values}>
-                  {item.things.map(value => {
-                    return (
-                      <div key={value.id} className={classes.value}>
-                        {value.name}
-                      </div>
-                    );
-                  })}
-                  {item.whos && (
-                    <div className={classes.support}>
-                      <People
-                        style={{ fill: '#C57D7D', marginRight: '10px' }}
-                      />
-                      {item.whos.map(value => {
-                        return (
-                          <span key={value.id} className={classes.supportText}>
-                            {/* {value.name}, */}
-                          </span>
-                        );
-                      })}
-                    </div>
-                  )}
-                </div>
-              );
-            })}
-            <div className={classes.action}>
-              <div style={{ width: '91px', marginRight: '20px' }}>
-                <Button type="primarySmall">
-                  <Add style={{ marginRight: '5px' }} />
-                  Add
-                </Button>
-              </div>
-              <div style={{ width: '155px' }}>
-                <Button type="tertiarySmall">
-                  <img
-                    src="/images/safety/suggestion.svg"
-                    alt=""
-                    style={{ marginRight: '5px' }}
-                  />
-                  Suggestions
-                </Button>
-              </div>
-            </div>
-          </div>
-        )}
-      </div>
+      <DontDo dontDo={dontDo} collapse={collapse} />
     </div>
   );
 };

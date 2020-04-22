@@ -150,8 +150,6 @@ export const Safety: React.FC = () => {
               <div style={{ marginBottom: '20px' }}>
                 <Unwell
                   id={4}
-                  title="If I become unwell, I would like others to..."
-                  description="If I become unwell I would like these to happen or not happen."
                   pleaseDo={safetyStory.pleaseDo}
                   dontDo={safetyStory.doNotDo}
                   collapse={collapses.unwell}
