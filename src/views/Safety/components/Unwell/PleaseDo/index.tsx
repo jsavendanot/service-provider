@@ -9,12 +9,17 @@ import {
 } from '@material-ui/icons';
 import { makeStyles } from '@material-ui/styles';
 
-import { Button } from 'common/components';
+import { Button, NetworkList } from 'common/components';
 import { useSelector, useDispatch } from 'react-redux';
 import { RootState } from 'reducer';
 import { Network } from 'types/network';
 import uuid from 'uuid';
-import { IconButton, TextField } from '@material-ui/core';
+import {
+  IconButton,
+  TextField,
+  Dialog,
+  DialogContent
+} from '@material-ui/core';
 import Confirmation from 'common/components/Confirmation';
 import { suggestSafetyPlan } from 'slices/suggestion/action';
 
@@ -64,6 +69,15 @@ const useStyles = makeStyles(() => ({
     fontSize: '18px',
     lineHeight: '23px',
     color: '#C57D7D',
+    marginRight: '5px'
+  },
+  selectedNetworkName: {
+    fontFamily: 'Thasadith',
+    fontStyle: 'normal',
+    fontWeight: 700,
+    fontSize: '18px',
+    lineHeight: '23px',
+    color: '#FCC501',
     marginRight: '5px'
   },
   suggestedRowContainer: {
@@ -137,7 +151,7 @@ export const PleaseDo: React.FC<Props> = ({ pleaseDo }) => {
   };
 
   const addToSuggestedValues = () => {
-    if (input.length > 4) {
+    if (input.length > 4 && selectedNetwork) {
       setSuggestedValues(values => [
         ...values,
         {
@@ -145,8 +159,11 @@ export const PleaseDo: React.FC<Props> = ({ pleaseDo }) => {
           name: input
         }
       ]);
-      dispatch(suggestSafetyPlan(input, 'UnwellHappen', ''));
+      dispatch(
+        suggestSafetyPlan(selectedNetwork.ContactId, 'UnwellHappen', input)
+      );
       setInput('');
+      setSelectedNetwork(undefined);
     }
   };
 
@@ -167,6 +184,49 @@ export const PleaseDo: React.FC<Props> = ({ pleaseDo }) => {
   function closeDialog() {
     setOpen(false);
   }
+
+  //Network List Dialog
+  const [selectedNetwork, setSelectedNetwork] = useState<Network>();
+  const [openNetworkList, setOpenNetworkList] = useState(false);
+
+  const openNetworkListDialog = () => {
+    setOpenNetworkList(true);
+  };
+
+  const closeNetworkListDialog = () => {
+    setOpenNetworkList(false);
+  };
+
+  const handleNetworkCallBack = (networks: Network[]) => {
+    networks.length > 0 && setAddClicked(true);
+    setSelectedNetwork(networks.pop());
+  };
+
+  const networkListDialog = (
+    <Dialog open={openNetworkList} keepMounted onClose={closeNetworkListDialog}>
+      <DialogContent>
+        <NetworkList
+          close={closeNetworkListDialog}
+          callback={networks => handleNetworkCallBack(networks)}
+          title="Select contact"
+        />
+      </DialogContent>
+    </Dialog>
+  );
+
+  const confirmDialog = (
+    <Confirmation
+      open={open}
+      close={closeDialog}
+      action={addToSuggestedValues}
+      donRedirect>
+      <span className={classes.title}>
+        Are you sure you want to
+        <br />
+        suggest this unwell?
+      </span>
+    </Confirmation>
+  );
 
   return (
     <>
@@ -222,32 +282,42 @@ export const PleaseDo: React.FC<Props> = ({ pleaseDo }) => {
         );
       })}
       {addClicked && (
-        <div className={classes.textFieldContainer}>
-          <TextField
-            fullWidth
-            label="Type here..."
-            name="input"
-            autoComplete="off"
-            multiline
-            value={input}
-            variant="outlined"
-            className={classes.textField}
-            onChange={handleInputChange}
-            inputProps={{ maxLength: 500 }}
-          />
-          <div style={{ width: '50px' }}>
-            <IconButton onClick={openDialog} style={{ padding: '5px' }}>
-              <AddCircleOutline
-                style={{ fill: '#C57D7D', cursor: 'pointer' }}
-                fontSize="large"
-              />
-            </IconButton>
+        <div style={{ marginTop: '20px' }}>
+          {selectedNetwork && (
+            <div className={classes.support}>
+              <People style={{ fill: '#FCC501', marginRight: '10px' }} />
+              <span className={classes.selectedNetworkName}>
+                {selectedNetwork.Name}
+              </span>
+            </div>
+          )}
+          <div className={classes.textFieldContainer}>
+            <TextField
+              fullWidth
+              label="Type here..."
+              name="input"
+              autoComplete="off"
+              multiline
+              value={input}
+              variant="outlined"
+              className={classes.textField}
+              onChange={handleInputChange}
+              inputProps={{ maxLength: 500 }}
+            />
+            <div style={{ width: '50px' }}>
+              <IconButton onClick={openDialog} style={{ padding: '5px' }}>
+                <AddCircleOutline
+                  style={{ fill: '#C57D7D', cursor: 'pointer' }}
+                  fontSize="large"
+                />
+              </IconButton>
+            </div>
           </div>
         </div>
       )}
       <div className={classes.action}>
         <div style={{ width: '91px', marginRight: '20px' }}>
-          <Button type="primarySmall" click={() => setAddClicked(true)}>
+          <Button type="primarySmall" click={openNetworkListDialog}>
             <Add style={{ marginRight: '5px' }} />
             Add
           </Button>
@@ -263,19 +333,8 @@ export const PleaseDo: React.FC<Props> = ({ pleaseDo }) => {
           </Button>
         </div>
       </div>
-      {open && (
-        <Confirmation
-          open={open}
-          close={closeDialog}
-          action={addToSuggestedValues}
-          donRedirect>
-          <span className={classes.title}>
-            Are you sure you want to
-            <br />
-            suggest this unwell?
-          </span>
-        </Confirmation>
-      )}
+      {open && confirmDialog}
+      {openNetworkList && networkListDialog}
     </>
   );
 };
