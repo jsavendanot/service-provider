@@ -62,7 +62,11 @@ export const NetworkCard: React.FC<Props> = ({ network }) => {
   return (
     <div className={classes.root}>
       <div style={{ display: 'flex' }}>
-        <Avatar alt="" className={classes.avatar} src={network.Phone} />
+        <Avatar
+          alt=""
+          className={classes.avatar}
+          src={'data:image/png;base64,' + network.Image}
+        />
         <div
           style={{
             display: 'flex',
@@ -80,19 +84,19 @@ export const NetworkCard: React.FC<Props> = ({ network }) => {
           <div className={classes.titleContainer}>
             <span className={classes.title}>Relationship</span>
           </div>
-          <span className={classes.value}>Mother</span>
+          <span className={classes.value}>{network.Relationship}</span>
         </div>
         <div className={classes.group}>
           <div className={classes.titleContainer}>
             <span className={classes.title}>Can access</span>
           </div>
-          <span className={classes.value}>All information</span>
+          <span className={classes.value}>...</span>
         </div>
         <div className={classes.group}>
           <div className={classes.titleContainer}>
             <span className={classes.title}>Sharing purpose</span>
           </div>
-          <span className={classes.value}>Shared care planning</span>
+          <span className={classes.value}>...</span>
         </div>
       </div>
     </div>

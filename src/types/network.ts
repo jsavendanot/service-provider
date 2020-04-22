@@ -47,7 +47,6 @@ export interface ShareNetworkApi {
 }
 
 export interface NetworkRootType {
-  invitations: string[];
   networks: Network[];
   loading: boolean;
 }

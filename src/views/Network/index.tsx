@@ -1,12 +1,16 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { RouteComponentProps } from 'react-router-dom';
 
 import { Grid } from '@material-ui/core';
 import { makeStyles } from '@material-ui/styles';
 import { Add } from '@material-ui/icons';
 
-import { TabMenu, Button } from 'common/components';
+import { Network as NetworkType } from 'types/network';
+import { TabMenu, Button, Loading } from 'common/components';
 import { Toolbar, People, Services } from './components';
+import { useSelector, useDispatch } from 'react-redux';
+import { RootState } from 'reducer';
+import { fetchEmergencyNetworks } from 'slices/network/action';
 
 const useStyles = makeStyles(() => ({
   root: {
@@ -48,63 +52,89 @@ type Props = RouteComponentProps<MatchParams>;
 export const Network: React.FC<Props> = ({ match, history }) => {
   const classes = useStyles();
   const { tab } = match.params;
+  const dispatch = useDispatch();
+
+  const loading: boolean = useSelector(
+    (state: RootState) => state.network.loading
+  );
+
+  const networks: NetworkType[] = useSelector(
+    (state: RootState) => state.network.networks
+  );
+
+  useEffect(() => {
+    dispatch(fetchEmergencyNetworks());
+  }, [dispatch]);
 
   return (
-    <Grid container justify="center" spacing={3} className={classes.root}>
-      <Grid item xs={12}>
-        <Grid container style={{ paddingTop: '20px' }} alignItems="center">
-          <Grid item xs={2}>
-            <span className={classes.menuText}>Network</span>
-          </Grid>
-          <Grid item xs={7}>
-            <div style={{ width: '100%', display: 'flex' }}>
-              <div style={{ width: '350px' }}>
-                <TabMenu menus={['people', 'services']} tab={tab} />
+    <>
+      {loading && <Loading />}
+      <Grid container justify="center" spacing={3} className={classes.root}>
+        <Grid item xs={12}>
+          <Grid container style={{ paddingTop: '20px' }} alignItems="center">
+            <Grid item xs={2}>
+              <span className={classes.menuText}>Network</span>
+            </Grid>
+            <Grid item xs={7}>
+              <div style={{ width: '100%', display: 'flex' }}>
+                <div style={{ width: '350px' }}>
+                  <TabMenu menus={['people', 'services']} tab={tab} />
+                </div>
               </div>
-            </div>
+            </Grid>
+            <Grid item xs={3}>
+              {tab === 'services' && (
+                <div style={{ width: '218px' }}>
+                  <Button
+                    type="primary"
+                    click={() => history.push('/suggest/network')}>
+                    <div
+                      style={{
+                        display: 'flex',
+                        alignItems: 'center',
+                        justifyContent: 'center'
+                      }}>
+                      <Add style={{ fill: '#FFFFFF', marginRight: '10px' }} />
+                      <span className={classes.buttonText}>
+                        Suggest service
+                      </span>
+                    </div>
+                  </Button>
+                </div>
+              )}
+            </Grid>
           </Grid>
-          <Grid item xs={3}>
-            {tab === 'services' && (
-              <div style={{ width: '218px' }}>
-                <Button
-                  type="primary"
-                  click={() => history.push('/suggest/network')}>
-                  <div
-                    style={{
-                      display: 'flex',
-                      alignItems: 'center',
-                      justifyContent: 'center'
-                    }}>
-                    <Add style={{ fill: '#FFFFFF', marginRight: '10px' }} />
-                    <span className={classes.buttonText}>Suggest service</span>
-                  </div>
-                </Button>
-              </div>
-            )}
-          </Grid>
+          <Toolbar />
         </Grid>
-        <Toolbar />
+        <Grid item xs={12}>
+          <div className={classes.content}>
+            {tab === 'people' && (
+              <People
+                networks={networks.filter(item => item.Type === 'Person')}
+              />
+            )}
+            {tab === 'services' && (
+              <Services
+                networks={networks.filter(item => item.Type === 'Organisation')}
+              />
+            )}
+          </div>
+        </Grid>
+        <Grid item xs={12}>
+          <div
+            style={{
+              display: 'flex',
+              justifyContent: 'flex-end'
+            }}>
+            <img
+              src="/images/network/footer_image.svg"
+              alt=""
+              className={classes.footerImage}
+            />
+          </div>
+        </Grid>
       </Grid>
-      <Grid item xs={12}>
-        <div className={classes.content}>
-          {tab === 'people' && <People />}
-          {tab === 'services' && <Services />}
-        </div>
-      </Grid>
-      <Grid item xs={12}>
-        <div
-          style={{
-            display: 'flex',
-            justifyContent: 'flex-end'
-          }}>
-          <img
-            src="/images/network/footer_image.svg"
-            alt=""
-            className={classes.footerImage}
-          />
-        </div>
-      </Grid>
-    </Grid>
+    </>
   );
 };
 

@@ -1,32 +1,13 @@
-import React, { useState, useEffect } from 'react';
-import axios from 'common/utils/axios';
+import React from 'react';
 import { Network } from 'types/network';
-
 import { Grid } from '@material-ui/core';
-
 import { NetworkCard } from '../components';
 
-export const People: React.FC = () => {
-  const [networks, setNetworks] = useState<Network[]>([]);
+type Props = {
+  networks: Network[];
+};
 
-  useEffect(() => {
-    let mounted = true;
-
-    const fetchData = () => {
-      axios.get('/api/networks').then(response => {
-        if (mounted) {
-          setNetworks(response.data.people);
-        }
-      });
-    };
-
-    fetchData();
-
-    return () => {
-      mounted = false;
-    };
-  }, []);
-
+export const People: React.FC<Props> = ({ networks }) => {
   return (
     <Grid container spacing={3}>
       {networks.map(network => {
