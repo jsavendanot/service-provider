@@ -15,7 +15,7 @@ import { Button } from 'common/components';
 import { Value } from 'types/safety';
 import Confirmation from 'common/components/Confirmation';
 import uuid from 'uuid';
-import { suggestStayWellStressWarning } from 'slices/suggestion/action';
+import { suggestSafetyPlan } from 'slices/suggestion/action';
 import { RootState } from 'reducer';
 
 const useStyles = makeStyles(() => ({
@@ -137,7 +137,7 @@ export const Stress: React.FC<Props> = ({ id, collapse, change }) => {
           name: input
         }
       ]);
-      dispatch(suggestStayWellStressWarning(input, 'StressMe', ''));
+      dispatch(suggestSafetyPlan(input, 'StressMe', ''));
       setInput('');
     }
   };

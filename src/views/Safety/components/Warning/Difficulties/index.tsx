@@ -8,7 +8,7 @@ import uuid from 'uuid';
 import { useDispatch } from 'react-redux';
 import Confirmation from 'common/components/Confirmation';
 import { IconButton, TextField } from '@material-ui/core';
-import { suggestStayWellStressWarning } from 'slices/suggestion/action';
+import { suggestSafetyPlan } from 'slices/suggestion/action';
 
 const useStyles = makeStyles(() => ({
   root: {
@@ -123,9 +123,7 @@ export const Difficulties: React.FC<Props> = ({ difficulties }) => {
           name: input
         }
       ]);
-      dispatch(
-        suggestStayWellStressWarning(input, 'WarningSigns', 'Difficulty')
-      );
+      dispatch(suggestSafetyPlan(input, 'WarningSigns', 'Difficulty'));
       setInput('');
     }
   };

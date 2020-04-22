@@ -11,11 +11,12 @@ import { makeStyles } from '@material-ui/styles';
 
 import { Button } from 'common/components';
 import { Network } from 'types/network';
-import { useSelector } from 'react-redux';
+import { useSelector, useDispatch } from 'react-redux';
 import { RootState } from 'reducer';
 import uuid from 'uuid';
 import { IconButton, TextField } from '@material-ui/core';
 import Confirmation from 'common/components/Confirmation';
+import { suggestSafetyPlan } from 'slices/suggestion/action';
 
 const useStyles = makeStyles(() => ({
   values: {
@@ -112,6 +113,7 @@ type Props = {
 
 export const DontDo: React.FC<Props> = ({ dontDo, collapse }) => {
   const classes = useStyles();
+  const dispatch = useDispatch();
 
   const networks: Network[] = useSelector(
     (state: RootState) => state.network.networks
@@ -135,7 +137,7 @@ export const DontDo: React.FC<Props> = ({ dontDo, collapse }) => {
           name: input
         }
       ]);
-      // dispatch(suggestStayWellStressWarning(input, 'StayWell', ''));
+      dispatch(suggestSafetyPlan(input, 'UnwellNotHappen', ''));
       setInput('');
     }
   };

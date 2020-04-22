@@ -96,9 +96,15 @@ export const suggestFocusAreas = (
   }
 };
 
-export const suggestStayWellStressWarning = (
+export const suggestSafetyPlan = (
   value: string,
-  groupName: 'StayWell' | 'StressMe' | 'WarningSigns',
+  groupName:
+    | 'StayWell'
+    | 'StressMe'
+    | 'WarningSigns'
+    | 'UnwellHappen'
+    | 'UnwellNotHappen'
+    | 'Services',
   extraInfo: string
 ): AppThunk => async dispatch => {
   try {
