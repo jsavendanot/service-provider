@@ -221,7 +221,7 @@ export const People: React.FC<Props> = ({ people }) => {
       <span className={classes.title}>
         Are you sure you want to
         <br />
-        suggest this unwell?
+        suggest this contact?
       </span>
     </Confirmation>
   );
