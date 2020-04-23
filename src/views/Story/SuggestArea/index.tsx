@@ -12,6 +12,7 @@ import { StoryRootType } from 'types/story';
 import { useSelector, useDispatch } from 'react-redux';
 import { RootState } from 'reducer';
 import { suggestFocusAreas } from 'slices/suggestion/action';
+import Confirmation from 'common/components/Confirmation';
 
 const useStyles = makeStyles(() => ({
   root: {
@@ -49,6 +50,14 @@ const useStyles = makeStyles(() => ({
     position: 'absolute',
     top: '0',
     right: '0'
+  },
+  confirmTitle: {
+    fontFamily: 'Scada',
+    fontStyle: 'normal',
+    fontWeight: 700,
+    fontSize: '20px',
+    lineHeight: '25px',
+    color: '#692B40'
   }
 }));
 
@@ -101,6 +110,31 @@ export const SuggestArea: React.FC<Props> = ({ history }) => {
         dispatch(suggestFocusAreas(history, suggestedAreas));
     }
   };
+
+  /** Dialog */
+  const [open, setOpen] = useState(false);
+
+  function openDialog() {
+    setOpen(true);
+  }
+
+  function closeDialog() {
+    setOpen(false);
+  }
+
+  const confirmDialog = (
+    <Confirmation
+      open={open}
+      close={closeDialog}
+      action={submitSuggestion}
+      donRedirect>
+      <span className={classes.confirmTitle}>
+        Are you sure you want to
+        <br />
+        suggest this focus area?
+      </span>
+    </Confirmation>
+  );
 
   return (
     <>
@@ -199,7 +233,7 @@ export const SuggestArea: React.FC<Props> = ({ history }) => {
                         marginTop: '30px'
                       }}>
                       <div style={{ width: '162px' }}>
-                        <Button type="primarySmall" click={submitSuggestion}>
+                        <Button type="primarySmall" click={openDialog}>
                           Save Areas
                         </Button>
                       </div>
@@ -211,6 +245,7 @@ export const SuggestArea: React.FC<Props> = ({ history }) => {
           </Grid>
         </Grid>
       </Grid>
+      {open && confirmDialog}
     </>
   );
 };
