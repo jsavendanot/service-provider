@@ -159,7 +159,9 @@ export const People: React.FC<Props> = ({ people }) => {
           name: input
         }
       ]);
-      dispatch(suggestSafetyPlan(selectedNetwork.ContactId, 'Services', input));
+      dispatch(
+        suggestSafetyPlan(selectedNetwork.ContactId, 'WhenUnwellNotice', input)
+      );
       setInput('');
       setSelectedNetwork(undefined);
     }

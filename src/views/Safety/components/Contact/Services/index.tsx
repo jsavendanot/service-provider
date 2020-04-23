@@ -151,7 +151,9 @@ export const Services: React.FC<Props> = ({ services, collapse }) => {
           name: input
         }
       ]);
-      dispatch(suggestSafetyPlan(selectedNetwork.ContactId, 'Services', input));
+      dispatch(
+        suggestSafetyPlan(selectedNetwork.ContactId, 'WhenUnwellNotice', input)
+      );
       setInput('');
       setSelectedNetwork(undefined);
     }
