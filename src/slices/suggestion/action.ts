@@ -104,6 +104,7 @@ export const suggestSafetyPlan = (
     | 'WarningSigns'
     | 'UnwellHappen'
     | 'UnwellNotHappen'
+    | 'WhenUnwellNotice'
     | 'Services',
   extraInfo: string
 ): AppThunk => async dispatch => {

@@ -9,17 +9,12 @@ import {
 } from '@material-ui/icons';
 import { makeStyles } from '@material-ui/styles';
 
-import { Button, NetworkList } from 'common/components';
+import { Button } from 'common/components';
 import { useSelector, useDispatch } from 'react-redux';
 import { RootState } from 'reducer';
 import { Network } from 'types/network';
 import uuid from 'uuid';
-import {
-  IconButton,
-  TextField,
-  Dialog,
-  DialogContent
-} from '@material-ui/core';
+import { IconButton, TextField } from '@material-ui/core';
 import Confirmation from 'common/components/Confirmation';
 import { suggestSafetyPlan } from 'slices/suggestion/action';
 
@@ -151,7 +146,7 @@ export const PleaseDo: React.FC<Props> = ({ pleaseDo }) => {
   };
 
   const addToSuggestedValues = () => {
-    if (input.length > 4 && selectedNetwork) {
+    if (input.length > 4) {
       setSuggestedValues(values => [
         ...values,
         {
@@ -159,11 +154,8 @@ export const PleaseDo: React.FC<Props> = ({ pleaseDo }) => {
           name: input
         }
       ]);
-      dispatch(
-        suggestSafetyPlan(selectedNetwork.ContactId, 'UnwellHappen', input)
-      );
+      dispatch(suggestSafetyPlan(input, 'UnwellHappen', ''));
       setInput('');
-      setSelectedNetwork(undefined);
     }
   };
 
@@ -184,35 +176,6 @@ export const PleaseDo: React.FC<Props> = ({ pleaseDo }) => {
   function closeDialog() {
     setOpen(false);
   }
-
-  //Network List Dialog
-  const [selectedNetwork, setSelectedNetwork] = useState<Network>();
-  const [openNetworkList, setOpenNetworkList] = useState(false);
-
-  const openNetworkListDialog = () => {
-    setOpenNetworkList(true);
-  };
-
-  const closeNetworkListDialog = () => {
-    setOpenNetworkList(false);
-  };
-
-  const handleNetworkCallBack = (networks: Network[]) => {
-    networks.length > 0 && setAddClicked(true);
-    setSelectedNetwork(networks.pop());
-  };
-
-  const networkListDialog = (
-    <Dialog open={openNetworkList} keepMounted onClose={closeNetworkListDialog}>
-      <DialogContent>
-        <NetworkList
-          close={closeNetworkListDialog}
-          callback={networks => handleNetworkCallBack(networks)}
-          title="Select contact"
-        />
-      </DialogContent>
-    </Dialog>
-  );
 
   const confirmDialog = (
     <Confirmation
@@ -282,42 +245,32 @@ export const PleaseDo: React.FC<Props> = ({ pleaseDo }) => {
         );
       })}
       {addClicked && (
-        <div style={{ marginTop: '20px' }}>
-          {selectedNetwork && (
-            <div className={classes.support}>
-              <People style={{ fill: '#FCC501', marginRight: '10px' }} />
-              <span className={classes.selectedNetworkName}>
-                {selectedNetwork.Name}
-              </span>
-            </div>
-          )}
-          <div className={classes.textFieldContainer}>
-            <TextField
-              fullWidth
-              label="Type here..."
-              name="input"
-              autoComplete="off"
-              multiline
-              value={input}
-              variant="outlined"
-              className={classes.textField}
-              onChange={handleInputChange}
-              inputProps={{ maxLength: 500 }}
-            />
-            <div style={{ width: '50px' }}>
-              <IconButton onClick={openDialog} style={{ padding: '5px' }}>
-                <AddCircleOutline
-                  style={{ fill: '#C57D7D', cursor: 'pointer' }}
-                  fontSize="large"
-                />
-              </IconButton>
-            </div>
+        <div className={classes.textFieldContainer}>
+          <TextField
+            fullWidth
+            label="Type here..."
+            name="input"
+            autoComplete="off"
+            multiline
+            value={input}
+            variant="outlined"
+            className={classes.textField}
+            onChange={handleInputChange}
+            inputProps={{ maxLength: 500 }}
+          />
+          <div style={{ width: '50px' }}>
+            <IconButton onClick={openDialog} style={{ padding: '5px' }}>
+              <AddCircleOutline
+                style={{ fill: '#C57D7D', cursor: 'pointer' }}
+                fontSize="large"
+              />
+            </IconButton>
           </div>
         </div>
       )}
       <div className={classes.action}>
         <div style={{ width: '91px', marginRight: '20px' }}>
-          <Button type="primarySmall" click={openNetworkListDialog}>
+          <Button type="primarySmall" click={() => setAddClicked(true)}>
             <Add style={{ marginRight: '5px' }} />
             Add
           </Button>
@@ -334,7 +287,6 @@ export const PleaseDo: React.FC<Props> = ({ pleaseDo }) => {
         </div>
       </div>
       {open && confirmDialog}
-      {openNetworkList && networkListDialog}
     </>
   );
 };
