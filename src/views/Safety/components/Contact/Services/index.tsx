@@ -296,7 +296,8 @@ export const Services: React.FC<Props> = ({ services, collapse }) => {
             </div>
           )}
           <div className={classes.action}>
-            <div style={{ width: '91px', marginRight: '20px' }}>
+            <div
+              style={{ width: '91px', marginRight: '20px', display: 'none' }}>
               <Button type="primarySmall" click={openNetworkListDialog}>
                 <Add style={{ marginRight: '5px' }} />
                 Add

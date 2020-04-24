@@ -67,6 +67,7 @@ export const FocusAreas: React.FC<Props> = ({ myAreas }) => {
               </Grid>
             );
           })}
+          <Grid item xs={5} />
         </Grid>
       </div>
       <div style={{ width: '91px', marginTop: '20px', marginLeft: '50px' }}>

@@ -119,6 +119,15 @@ const NavBar: React.FC<Props> = ({ className }) => {
 
   const classes = useStyles();
 
+  const handleProfileButtonClick = () => {
+    if (
+      sessionStorage.getItem('UserId') !== null &&
+      sessionStorage.getItem('UserId') !== ''
+    ) {
+      history.push('/consumer');
+    }
+  };
+
   const navbarContent = (
     <div className={classes.content}>
       <nav className={classes.navigation}>
@@ -137,7 +146,7 @@ const NavBar: React.FC<Props> = ({ className }) => {
           {/* <span className={classes.profileDate}>11/09/1990</span> */}
           <button
             className={classes.profileButton}
-            onClick={() => history.push('/consumer')}>
+            onClick={handleProfileButtonClick}>
             <div
               style={{
                 display: 'flex',

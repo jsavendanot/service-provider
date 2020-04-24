@@ -304,7 +304,7 @@ export const People: React.FC<Props> = ({ people }) => {
         </div>
       )}
       <div className={classes.action}>
-        <div style={{ width: '91px', marginRight: '20px' }}>
+        <div style={{ width: '91px', marginRight: '20px', display: 'none' }}>
           <Button type="primarySmall" click={openNetworkListDialog}>
             <Add style={{ marginRight: '5px' }} />
             Add
