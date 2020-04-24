@@ -18,7 +18,17 @@ const routes: RouteConfig[] = [
       }
     ]
   },
-
+  {
+    path: '/invitation',
+    component: BaseLayout,
+    routes: [
+      {
+        path: '/invitation',
+        exact: true,
+        component: lazy(() => import('views/Invitation'))
+      }
+    ]
+  },
   {
     path: '/profile',
     component: MainLayout,

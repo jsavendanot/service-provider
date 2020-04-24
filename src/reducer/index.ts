@@ -11,6 +11,7 @@ import dashboardReducer from 'slices/dashboard/dashboardSlice';
 import profileReducer from 'slices/profile/profileSlice';
 import suggestionReducer from 'slices/suggestion/suggestionSlice';
 import networkReducer from 'slices/network/networkSlice';
+import invitationReducer from 'slices/invitation/invitationSlice';
 
 const rootReducer = combineReducers({
   auth: authReducer,
@@ -23,7 +24,8 @@ const rootReducer = combineReducers({
   dashboard: dashboardReducer,
   profile: profileReducer,
   suggestion: suggestionReducer,
-  network: networkReducer
+  network: networkReducer,
+  invitation: invitationReducer
 });
 
 export type RootState = ReturnType<typeof rootReducer>;
