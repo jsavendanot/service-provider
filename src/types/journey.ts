@@ -2,11 +2,13 @@ import { Network } from './network';
 
 export interface Journal {
   Id: string;
+  Title: string;
   Message: string;
   HowAreYouFeeling: 'VerySad' | 'Sad' | 'Neutral' | 'Happy' | 'VeryHappy' | '';
   CreatedOnDate: string;
   VisibleTo: string;
   Image: string;
+  ImageType: string;
 }
 
 export interface JournalChart {

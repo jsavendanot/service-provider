@@ -111,10 +111,11 @@ const Journal: React.FC<Props> = ({ journal }) => {
         <div
           className={classes.content}
           onClick={() => history.push(`${location.pathname}/${journal.Id}`)}>
-          <span className={classes.title}>{journal.Message.split(';')[0]}</span>
-          <span className={classes.text}>{`${journal.Message.split(
-            ';'
-          )[1].substring(0, 160)}...`}</span>
+          <span className={classes.title}>{journal.Title}</span>
+          <span className={classes.text}>{`${journal.Message.substring(
+            0,
+            160
+          )}...`}</span>
         </div>
         <div className={classes.footerContent}>
           <div style={{ flexGrow: 1 }}>

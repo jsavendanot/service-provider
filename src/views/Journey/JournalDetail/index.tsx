@@ -142,9 +142,7 @@ export const JournalDetail: React.FC<Props> = ({ match }) => {
                 flexDirection: 'column',
                 padding: '0 20px'
               }}>
-              <span className={classes.title}>
-                {journal.Message.split(';')[0]}
-              </span>
+              <span className={classes.title}>{journal.Title}</span>
               <div className={classes.dateTime}>
                 <img
                   src="/images/journey/journal/clock_icon.svg"
@@ -153,9 +151,7 @@ export const JournalDetail: React.FC<Props> = ({ match }) => {
                 />
                 {moment(journal.CreatedOnDate).format('LLLL')}
               </div>
-              <div className={classes.descText}>
-                {journal.Message.split(';')[1]}
-              </div>
+              <div className={classes.descText}>{journal.Message}</div>
               <Moods feeling={journal.HowAreYouFeeling} />
               <div style={{ display: 'flex', flexDirection: 'column' }}>
                 <span className={classes.subTitle}>Journal Shared with</span>
