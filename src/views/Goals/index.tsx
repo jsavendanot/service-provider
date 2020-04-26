@@ -1,5 +1,5 @@
 import React, { useEffect } from 'react';
-import { RouteComponentProps } from 'react-router-dom';
+import { RouteComponentProps, Redirect } from 'react-router-dom';
 
 import { Grid } from '@material-ui/core';
 import { makeStyles } from '@material-ui/styles';
@@ -60,6 +60,10 @@ const Goals: React.FC<Props> = ({ match, history }) => {
     dispatch(fetchGoals());
     dispatch(fetchMyAreas());
   }, [dispatch]);
+
+  if (tab !== 'current' && tab !== 'completed') {
+    return <Redirect to="/goals/current" />;
+  }
 
   return (
     <>

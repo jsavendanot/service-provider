@@ -7,7 +7,7 @@ import { KeyboardArrowLeft, Add } from '@material-ui/icons';
 
 import { Button, Loading } from 'common/components';
 import { StepCard, Comments, Progress, About } from './components';
-import { RouteComponentProps } from 'react-router-dom';
+import { RouteComponentProps, Redirect } from 'react-router-dom';
 import { Goal, Step, GoalComment } from 'types/goal';
 import { useSelector, useDispatch } from 'react-redux';
 import { RootState } from 'reducer';
@@ -86,7 +86,7 @@ export const GoalDetail: React.FC<Props> = ({ match }) => {
     dispatch(fetchGoalsCommentState(id));
   }, [dispatch, id]);
 
-  return (
+  return goal ? (
     <>
       {loading && <Loading />}
       <Grid container className={classes.root}>
@@ -161,6 +161,8 @@ export const GoalDetail: React.FC<Props> = ({ match }) => {
         </Grid>
       </Grid>
     </>
+  ) : (
+    <Redirect to="/goals/current" />
   );
 };
 

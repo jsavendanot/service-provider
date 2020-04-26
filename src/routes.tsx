@@ -1,10 +1,11 @@
 /* eslint-disable react/no-multi-comp */
 /* eslint-disable react/display-name */
-import { lazy } from 'react';
+import React, { lazy } from 'react';
 import { RouteConfig } from 'react-router-config';
 import authentication from '@kdpw/msal-b2c-react';
 
 import { BaseLayout, MainLayout } from './layouts';
+import { Redirect } from 'react-router-dom';
 
 const routes: RouteConfig[] = [
   {
@@ -15,6 +16,9 @@ const routes: RouteConfig[] = [
         path: '/home',
         exact: true,
         component: authentication.required(lazy(() => import('views/Home')))
+      },
+      {
+        component: () => <Redirect to="/errors/error-404" />
       }
     ]
   },
@@ -26,6 +30,9 @@ const routes: RouteConfig[] = [
         path: '/invitation',
         exact: true,
         component: lazy(() => import('views/Invitation'))
+      },
+      {
+        component: () => <Redirect to="/errors/error-404" />
       }
     ]
   },
@@ -37,10 +44,26 @@ const routes: RouteConfig[] = [
         path: '/profile',
         exact: true,
         component: authentication.required(lazy(() => import('views/Profile')))
+      },
+      {
+        component: () => <Redirect to="/errors/error-404" />
       }
     ]
   },
-
+  {
+    path: '/errors',
+    component: BaseLayout,
+    routes: [
+      {
+        path: '/errors/error-404',
+        exact: true,
+        component: lazy(() => import('views/Errors/Error404'))
+      },
+      {
+        component: () => <Redirect to="/errors/error-404" />
+      }
+    ]
+  },
   {
     path: '/consumer',
     component: MainLayout,
@@ -58,6 +81,9 @@ const routes: RouteConfig[] = [
         component: authentication.required(
           lazy(() => import('views/ConsumerProfile/AddConsumer'))
         )
+      },
+      {
+        component: () => <Redirect to="/errors/error-404" />
       }
     ]
   },
@@ -72,6 +98,9 @@ const routes: RouteConfig[] = [
         component: authentication.required(
           lazy(() => import('views/Dashboard'))
         )
+      },
+      {
+        component: () => <Redirect to="/errors/error-404" />
       }
     ]
   },
@@ -91,6 +120,9 @@ const routes: RouteConfig[] = [
         component: authentication.required(
           lazy(() => import('views/Goals/GoalDetail'))
         )
+      },
+      {
+        component: () => <Redirect to="/errors/error-404" />
       }
     ]
   },
@@ -119,6 +151,9 @@ const routes: RouteConfig[] = [
         component: authentication.required(
           lazy(() => import('views/Network/SuggestService'))
         )
+      },
+      {
+        component: () => <Redirect to="/errors/error-404" />
       }
     ]
   },
@@ -138,6 +173,9 @@ const routes: RouteConfig[] = [
         component: authentication.required(
           lazy(() => import('views/Journey/JournalDetail'))
         )
+      },
+      {
+        component: () => <Redirect to="/errors/error-404" />
       }
     ]
   },
@@ -150,6 +188,9 @@ const routes: RouteConfig[] = [
         path: '/story',
         exact: true,
         component: authentication.required(lazy(() => import('views/Story')))
+      },
+      {
+        component: () => <Redirect to="/errors/error-404" />
       }
     ]
   },
@@ -162,6 +203,9 @@ const routes: RouteConfig[] = [
         path: '/safety',
         exact: true,
         component: authentication.required(lazy(() => import('views/Safety')))
+      },
+      {
+        component: () => <Redirect to="/errors/error-404" />
       }
     ]
   },
@@ -174,6 +218,9 @@ const routes: RouteConfig[] = [
         path: '/network/:tab',
         exact: true,
         component: authentication.required(lazy(() => import('views/Network')))
+      },
+      {
+        component: () => <Redirect to="/errors/error-404" />
       }
     ]
   },
@@ -186,6 +233,9 @@ const routes: RouteConfig[] = [
         path: '/export',
         exact: true,
         component: authentication.required(lazy(() => import('views/Export')))
+      },
+      {
+        component: () => <Redirect to="/errors/error-404" />
       }
     ]
   },
@@ -199,6 +249,9 @@ const routes: RouteConfig[] = [
         path: '/',
         exact: true,
         component: lazy(() => import('views/Landing'))
+      },
+      {
+        component: () => <Redirect to="/errors/error-404" />
       }
     ]
   }

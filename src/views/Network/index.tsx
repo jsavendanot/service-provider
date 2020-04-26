@@ -1,5 +1,5 @@
 import React, { useEffect } from 'react';
-import { RouteComponentProps } from 'react-router-dom';
+import { RouteComponentProps, Redirect } from 'react-router-dom';
 
 import { Grid } from '@material-ui/core';
 import { makeStyles } from '@material-ui/styles';
@@ -65,6 +65,10 @@ export const Network: React.FC<Props> = ({ match, history }) => {
   useEffect(() => {
     dispatch(fetchEmergencyNetworks());
   }, [dispatch]);
+
+  if (tab !== 'people' && tab !== 'services') {
+    return <Redirect to="/network/people" />;
+  }
 
   return (
     <>

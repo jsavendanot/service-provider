@@ -5,7 +5,7 @@ import { Grid } from '@material-ui/core';
 import { makeStyles } from '@material-ui/styles';
 import { KeyboardArrowLeft } from '@material-ui/icons';
 
-import { RouteComponentProps } from 'react-router-dom';
+import { RouteComponentProps, Redirect } from 'react-router-dom';
 import { Journal, JournalComment } from 'types/journey';
 import { useSelector } from 'react-redux';
 import { RootState } from 'reducer';
@@ -118,7 +118,7 @@ export const JournalDetail: React.FC<Props> = ({ match }) => {
     state.journey.comments.filter(item => item.JournalId === id)
   );
 
-  return (
+  return journal ? (
     <Grid container className={classes.root}>
       <Grid item xs={12}>
         <div
@@ -172,6 +172,8 @@ export const JournalDetail: React.FC<Props> = ({ match }) => {
         </Grid>
       </Grid>
     </Grid>
+  ) : (
+    <Redirect to="/journey/all" />
   );
 };
 

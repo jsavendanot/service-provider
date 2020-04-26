@@ -1,5 +1,5 @@
 import React, { useEffect } from 'react';
-import { RouteComponentProps } from 'react-router-dom';
+import { RouteComponentProps, Redirect } from 'react-router-dom';
 
 import { Grid } from '@material-ui/core';
 import { makeStyles } from '@material-ui/styles';
@@ -58,6 +58,10 @@ const Journey: React.FC<Props> = ({ match }) => {
   useEffect(() => {
     dispatch(fetchJournals());
   }, [dispatch]);
+
+  if (tab !== 'all' && tab !== 'calendar') {
+    return <Redirect to="/journey/all" />;
+  }
 
   return (
     <>
