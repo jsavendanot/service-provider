@@ -240,6 +240,21 @@ const routes: RouteConfig[] = [
     ]
   },
 
+  {
+    path: '/settings',
+    component: MainLayout,
+    routes: [
+      {
+        path: '/settings',
+        exact: true,
+        component: authentication.required(lazy(() => import('views/Settings')))
+      },
+      {
+        component: () => <Redirect to="/errors/error-404" />
+      }
+    ]
+  },
+
   //** BaseLayout */
   {
     path: '/',

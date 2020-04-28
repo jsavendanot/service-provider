@@ -100,6 +100,14 @@ const TopBar: React.FC<Props> = ({ className }) => {
     history.push('/home');
   };
 
+  const handleMenuClick = (menu: string) => {
+    if (menu === 'settings') {
+      history.push('/settings');
+    } else if (menu === 'notifications') {
+      history.push('/notifications');
+    }
+  };
+
   const profileDialog = (
     <Dialog
       open={open}
@@ -161,7 +169,9 @@ const TopBar: React.FC<Props> = ({ className }) => {
                   />
                   <span className={classes.topMenuText}>Invites</span>
                 </div>
-                <div className={classes.topMenu}>
+                <div
+                  className={classes.topMenu}
+                  onClick={() => handleMenuClick('notifications')}>
                   <img
                     src="/images/topbar/notif.svg"
                     alt=""
@@ -169,7 +179,9 @@ const TopBar: React.FC<Props> = ({ className }) => {
                   />
                   <span className={classes.topMenuText}>Notifications</span>
                 </div>
-                <div className={classes.topMenu}>
+                <div
+                  className={classes.topMenu}
+                  onClick={() => handleMenuClick('settings')}>
                   <img
                     src="/images/topbar/settings.svg"
                     alt=""
