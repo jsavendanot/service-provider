@@ -44,6 +44,7 @@ export const callProfileReadApi = () => {
     sessionStorage.setItem('Provider_Avatar', profile.Image);
     sessionStorage.setItem('Provider_Email', profile.PrimaryEmail);
     sessionStorage.setItem('Provider_MobilePhone', profile.MobilePhone);
+    sessionStorage.setItem('Provider_ContactId', profile.ContactId);
     return profile;
   });
 };

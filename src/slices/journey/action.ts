@@ -171,12 +171,14 @@ const callCreateCommentApi = (
 ) => {
   const requestContent = {
     Id: uuid(),
+    ParentCommentId: '',
     JournalId: journalId,
     Message: message,
     PersonName: personName,
     CreatedOnDate: moment()
       .toDate()
-      .toDateString()
+      .toDateString(),
+    NetworkContactId: sessionStorage.getItem('Provider_ContactId')
   };
 
   return axios.post('/JournalComment/Create', requestContent);
