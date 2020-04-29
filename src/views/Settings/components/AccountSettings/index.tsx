@@ -86,7 +86,7 @@ export const AccountSettings: React.FC<Props> = () => {
         </div>
         <div className={classes.navigation}>
           <IconButton onClick={handleLogout}>
-            <img src="/images/settings/logout.svg" alt="" />
+            <img src="/images/topbar/logout_icon.svg" alt="" />
           </IconButton>
         </div>
       </div>
