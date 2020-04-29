@@ -45,6 +45,7 @@ type Props = {
   message: string;
   favorite?: boolean;
   date: string;
+  image: string;
 };
 
 const Comment: React.FC<Props> = ({
@@ -53,7 +54,8 @@ const Comment: React.FC<Props> = ({
   name,
   message,
   date,
-  favorite = true
+  favorite = true,
+  image
 }) => {
   const classes = useStyles();
 
@@ -71,7 +73,7 @@ const Comment: React.FC<Props> = ({
             <Avatar
               alt=""
               className={classes.avatar}
-              src="/images/navbar/carer.png"
+              src={'data:image/png;base64,' + image}
             />
           </div>
         </Grid>

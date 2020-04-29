@@ -1,11 +1,13 @@
 import React, { useState, ChangeEvent } from 'react';
 import { makeStyles } from '@material-ui/styles';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { addNewComment } from 'slices/goal/action';
 import { Grid, Avatar, TextField } from '@material-ui/core';
 
 import { Button, Comment } from 'common/components';
 import { GoalComment } from 'types/goal';
+import { RootState } from 'reducer';
+import { Network } from 'types/network';
 
 const useStyles = makeStyles(() => ({
   label: {
@@ -38,6 +40,10 @@ type Props = {
 export const Comments: React.FC<Props> = ({ goalId, comments }) => {
   const classes = useStyles();
   const dispatch = useDispatch();
+
+  const networks: Network[] = useSelector(
+    (state: RootState) => state.network.networks
+  );
 
   const [message, setMessage] = useState('');
 
@@ -102,9 +108,16 @@ export const Comments: React.FC<Props> = ({ goalId, comments }) => {
               key={comment.Id}
               commentId={comment.Id}
               id={goalId}
-              name={comment.PersonName}
+              name={
+                networks.find(item => item.Id === comment.NetworkContactId)
+                  ?.Name!
+              }
               message={comment.Message}
               date={comment.CreatedOnDate}
+              image={
+                networks.find(item => item.Id === comment.NetworkContactId)
+                  ?.Image!
+              }
             />
           );
         })}

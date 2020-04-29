@@ -51,10 +51,12 @@ export interface ProgressCheckIn {
 
 export interface GoalComment {
   Id: string;
+  ParentCommentId: string;
   GoalId: string;
   Message: string;
   PersonName: string;
   CreatedOnDate: string;
+  NetworkContactId: string;
 }
 
 export interface GoalRootType {

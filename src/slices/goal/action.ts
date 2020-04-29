@@ -12,6 +12,7 @@ import {
 import { Goal, Step, GoalList, ProgressCheckIn, GoalComment } from 'types/goal';
 import uuid from 'uuid';
 import moment from 'moment';
+import { fetchEmergencyNetworks } from 'slices/network/action';
 
 //** ASYNC FUNCS */
 
@@ -62,6 +63,8 @@ export const fetchGoalsCommentState = (
 
     const comments = await callGoalCommentListApi(goalId);
     dispatch(fetchComments({ comments }));
+
+    await dispatch(fetchEmergencyNetworks());
 
     dispatch(stopLoading());
   } catch (err) {

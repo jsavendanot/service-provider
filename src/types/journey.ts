@@ -28,10 +28,12 @@ export interface JournalList {
 
 export interface JournalComment {
   Id: string;
+  ParentCommentId: string;
   JournalId: string;
   Message: string;
   PersonName: string;
   CreatedOnDate: string;
+  NetworkContactId: string;
 }
 
 export interface JourneyRootType {

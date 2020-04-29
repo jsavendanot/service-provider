@@ -1,11 +1,13 @@
 import React, { useState, ChangeEvent } from 'react';
 import { makeStyles } from '@material-ui/styles';
-import { useDispatch } from 'react-redux';
-import { addNewComment } from 'slices/goal/action';
+import { useDispatch, useSelector } from 'react-redux';
+import { addNewComment } from 'slices/journey/action';
 import { Grid, Avatar, TextField } from '@material-ui/core';
 
 import { Button, Comment } from 'common/components';
 import { JournalComment } from 'types/journey';
+import { Network } from 'types/network';
+import { RootState } from 'reducer';
 
 const useStyles = makeStyles(() => ({
   label: {
@@ -31,13 +33,17 @@ const useStyles = makeStyles(() => ({
 }));
 
 type Props = {
-  goalId: string;
+  journalId: string;
   comments: JournalComment[];
 };
 
-export const Comments: React.FC<Props> = ({ goalId, comments }) => {
+export const Comments: React.FC<Props> = ({ journalId, comments }) => {
   const classes = useStyles();
   const dispatch = useDispatch();
+
+  const networks: Network[] = useSelector(
+    (state: RootState) => state.network.networks
+  );
 
   const [message, setMessage] = useState('');
 
@@ -50,7 +56,7 @@ export const Comments: React.FC<Props> = ({ goalId, comments }) => {
   const handleCommentSubmit = () => {
     if (message.length > 1) {
       dispatch(
-        addNewComment(goalId, message, sessionStorage.getItem('FirstName')!)
+        addNewComment(journalId, message, sessionStorage.getItem('FirstName')!)
       );
       setMessage('');
     }
@@ -101,10 +107,17 @@ export const Comments: React.FC<Props> = ({ goalId, comments }) => {
             <Comment
               key={comment.Id}
               commentId={comment.Id}
-              id={goalId}
-              name={comment.PersonName}
+              id={journalId}
+              name={
+                networks.find(item => item.Id === comment.NetworkContactId)
+                  ?.Name!
+              }
               message={comment.Message}
               date={comment.CreatedOnDate}
+              image={
+                networks.find(item => item.Id === comment.NetworkContactId)
+                  ?.Image!
+              }
             />
           );
         })}

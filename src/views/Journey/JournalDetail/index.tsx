@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import useRouter from 'common/utils/useRouter';
 
 import { Grid } from '@material-ui/core';
@@ -7,10 +7,12 @@ import { KeyboardArrowLeft } from '@material-ui/icons';
 
 import { RouteComponentProps, Redirect } from 'react-router-dom';
 import { Journal, JournalComment } from 'types/journey';
-import { useSelector } from 'react-redux';
+import { useSelector, useDispatch } from 'react-redux';
 import { RootState } from 'reducer';
 import moment from 'moment';
 import { Comments, Moods } from './components';
+import { fetchJournalComments } from 'slices/journey/action';
+import { Loading } from 'common/components';
 
 const useStyles = makeStyles(() => ({
   root: {
@@ -107,7 +109,12 @@ type Props = RouteComponentProps<MatchParams>;
 export const JournalDetail: React.FC<Props> = ({ match }) => {
   const classes = useStyles();
   const { history } = useRouter();
+  const dispatch = useDispatch();
   const { id } = match.params;
+
+  const loading: boolean = useSelector(
+    (state: RootState) => state.journey.loading
+  );
 
   const journal: Journal = useSelector(
     (state: RootState) =>
@@ -118,60 +125,67 @@ export const JournalDetail: React.FC<Props> = ({ match }) => {
     state.journey.comments.filter(item => item.JournalId === id)
   );
 
+  useEffect(() => {
+    dispatch(fetchJournalComments(id));
+  }, [dispatch, id]);
+
   return journal ? (
-    <Grid container className={classes.root}>
-      <Grid item xs={12}>
-        <div
-          style={{
-            display: 'flex',
-            alignItems: 'center',
-            marginBottom: '20px',
-            cursor: 'pointer'
-          }}
-          onClick={() => history.push('/journey/all')}>
-          <KeyboardArrowLeft style={{ fill: '#692B40' }} />
-          <span className={classes.navText}>back</span>
-        </div>
-      </Grid>
-      <Grid item xs={12}>
-        <Grid container justify="center">
-          <Grid item xs={6}>
-            <div
-              style={{
-                display: 'flex',
-                flexDirection: 'column',
-                padding: '0 20px'
-              }}>
-              <span className={classes.title}>{journal.Title}</span>
-              <div className={classes.dateTime}>
-                <img
-                  src="/images/journey/journal/clock_icon.svg"
-                  alt=""
-                  style={{ margin: '0 5px 0 0px' }}
-                />
-                {moment(journal.CreatedOnDate).format('LLLL')}
-              </div>
-              <div className={classes.descText}>{journal.Message}</div>
-              <Moods feeling={journal.HowAreYouFeeling} />
-              <div style={{ display: 'flex', flexDirection: 'column' }}>
-                <span className={classes.subTitle}>Journal Shared with</span>
-                <div className={classes.network}></div>
-              </div>
-            </div>
-          </Grid>
-          <Grid item xs={6} container>
-            <Grid item xs={12} container justify="center">
-              <div style={{ marginBottom: '100px' }}>
-                <img src="/images/journey/default_image.svg" alt="" />
+    <>
+      {loading && <Loading />}
+      <Grid container className={classes.root}>
+        <Grid item xs={12}>
+          <div
+            style={{
+              display: 'flex',
+              alignItems: 'center',
+              marginBottom: '20px',
+              cursor: 'pointer'
+            }}
+            onClick={() => history.push('/journey/all')}>
+            <KeyboardArrowLeft style={{ fill: '#692B40' }} />
+            <span className={classes.navText}>back</span>
+          </div>
+        </Grid>
+        <Grid item xs={12}>
+          <Grid container justify="center">
+            <Grid item xs={6}>
+              <div
+                style={{
+                  display: 'flex',
+                  flexDirection: 'column',
+                  padding: '0 20px'
+                }}>
+                <span className={classes.title}>{journal.Title}</span>
+                <div className={classes.dateTime}>
+                  <img
+                    src="/images/journey/journal/clock_icon.svg"
+                    alt=""
+                    style={{ margin: '0 5px 0 0px' }}
+                  />
+                  {moment(journal.CreatedOnDate).format('LLLL')}
+                </div>
+                <div className={classes.descText}>{journal.Message}</div>
+                <Moods feeling={journal.HowAreYouFeeling} />
+                <div style={{ display: 'flex', flexDirection: 'column' }}>
+                  <span className={classes.subTitle}>Journal Shared with</span>
+                  <div className={classes.network}></div>
+                </div>
               </div>
             </Grid>
-            <Grid item xs={12}>
-              <Comments goalId={id} comments={comments} />
+            <Grid item xs={6} container>
+              <Grid item xs={12} container justify="center">
+                <div style={{ marginBottom: '100px' }}>
+                  <img src="/images/journey/default_image.svg" alt="" />
+                </div>
+              </Grid>
+              <Grid item xs={12}>
+                <Comments journalId={id} comments={comments} />
+              </Grid>
             </Grid>
           </Grid>
         </Grid>
       </Grid>
-    </Grid>
+    </>
   ) : (
     <Redirect to="/journey/all" />
   );
