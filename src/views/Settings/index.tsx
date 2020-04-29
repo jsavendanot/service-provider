@@ -1,13 +1,10 @@
 import React, { useState, useEffect } from 'react';
 import { makeStyles } from '@material-ui/styles';
-import { Grid, Switch, Slide, Theme } from '@material-ui/core';
+import { Grid, Slide, Theme } from '@material-ui/core';
 import { NotifSettings, AccountSettings } from './components';
 import { useSelector, useDispatch } from 'react-redux';
 import Detail from './Detail';
-import {
-  fetchNotificationsSettings,
-  updateAccountCompletePrivateSetting
-} from 'slices/settings/action';
+import { fetchNotificationsSettings } from 'slices/settings/action';
 import { RootState } from 'reducer';
 import { Loading } from 'common/components';
 
@@ -78,10 +75,6 @@ const Settings: React.FC = () => {
     (state: RootState) => state.settings.loading
   );
 
-  const completePrivate: boolean = useSelector(
-    (state: RootState) => state.settings.accountSettings.completePrivate
-  );
-
   const [settingName, setSettingName] = useState('');
   const [notificationType, setNotificationType] = useState<
     'Update' | 'Comment' | 'Invitation' | 'Suggestion' | 'AccessRequest' | ''
@@ -111,10 +104,6 @@ const Settings: React.FC = () => {
     // dispatch(fetchAccountSettings());
   }, [dispatch]);
 
-  const updateCompletePrivateSetting = () => {
-    dispatch(updateAccountCompletePrivateSetting(!completePrivate));
-  };
-
   return (
     <>
       {loading && <Loading />}
@@ -127,33 +116,6 @@ const Settings: React.FC = () => {
             unmountOnExit>
             <Grid container spacing={3}>
               <Grid item xs={12} md={6} container className={classes.gridItem1}>
-                <Grid item xs={12} container justify="center">
-                  <div className={classes.section}>
-                    <div className={classes.title}>Privacy</div>
-                    <div className={classes.card}>
-                      <div style={{ flexGrow: 1 }}>
-                        <div className={classes.subTitle}>
-                          Go complete private
-                        </div>
-                        <div className={classes.contentText}>
-                          Nobody, including those who were granted access, can
-                          access your content on Jiemba if you switch this on.
-                          To return to the original sharing settings, switch it
-                          off.
-                        </div>
-                      </div>
-                      <div className={classes.navigation}>
-                        <Switch
-                          checked={completePrivate}
-                          color="primary"
-                          edge="start"
-                          name="private"
-                          onChange={updateCompletePrivateSetting}
-                        />
-                      </div>
-                    </div>
-                  </div>
-                </Grid>
                 <Grid item xs={12} container justify="center">
                   <div className={classes.section}>
                     <div className={classes.title}>Account</div>

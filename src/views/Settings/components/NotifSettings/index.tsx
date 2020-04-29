@@ -61,62 +61,40 @@ export const NotifSettings: React.FC<Props> = ({ click }) => {
     <>
       <div className={classes.card}>
         <div style={{ flexGrow: 1 }}>
-          <div className={classes.subTitle}>Goal reminders</div>
+          <div className={classes.subTitle}>Goal completed</div>
           <div className={classes.contentText}>...</div>
         </div>
         <div className={classes.navigation}>
-          <IconButton onClick={() => click('Goal reminders', '')}>
+          <IconButton onClick={() => click('Goal completed', '')}>
             <NavigateNext style={{ fill: '#692B40' }} fontSize="large" />
           </IconButton>
         </div>
       </div>
       <div className={classes.card}>
         <div style={{ flexGrow: 1 }}>
-          <div className={classes.subTitle}>Comments</div>
-          <div className={classes.contentText}>
-            {notifSettings
-              .filter(
-                notif =>
-                  notif.NotificationType === 'Comment' &&
-                  notif.State === 'Active'
-              )
-              .map(item => {
-                return item.NotificationMethod + ', ';
-              })}
-          </div>
+          <div className={classes.subTitle}>New journal entry</div>
+          <div className={classes.contentText}>...</div>
         </div>
         <div className={classes.navigation}>
-          <IconButton onClick={() => click('Comments', 'Comment')}>
+          <IconButton onClick={() => click('New journal entry', '')}>
             <NavigateNext style={{ fill: '#692B40' }} fontSize="large" />
           </IconButton>
         </div>
       </div>
       <div className={classes.card}>
         <div style={{ flexGrow: 1 }}>
-          <div className={classes.subTitle}>Invitations</div>
-          <div className={classes.contentText}>
-            {notifSettings
-              .filter(
-                notif =>
-                  notif.NotificationType === 'Invitation' &&
-                  notif.State === 'Active'
-              )
-              .map(item => {
-                return item.NotificationMethod + ', ';
-              })}
-          </div>
+          <div className={classes.subTitle}>Certain mood recorded</div>
+          <div className={classes.contentText}>...</div>
         </div>
         <div className={classes.navigation}>
-          <IconButton onClick={() => click('Invitations', 'Invitation')}>
+          <IconButton onClick={() => click('Certain mood recorded', '')}>
             <NavigateNext style={{ fill: '#692B40' }} fontSize="large" />
           </IconButton>
         </div>
       </div>
       <div className={classes.card}>
         <div style={{ flexGrow: 1 }}>
-          <div className={classes.subTitle}>
-            Someone I invited joining Jiemba
-          </div>
+          <div className={classes.subTitle}>Content updates</div>
           <div className={classes.contentText}>
             {notifSettings
               .filter(
@@ -130,20 +108,19 @@ export const NotifSettings: React.FC<Props> = ({ click }) => {
           </div>
         </div>
         <div className={classes.navigation}>
-          <IconButton
-            onClick={() => click('Someone I invited joining Jiemba', 'Update')}>
+          <IconButton onClick={() => click('Content updates', 'Update')}>
             <NavigateNext style={{ fill: '#692B40' }} fontSize="large" />
           </IconButton>
         </div>
       </div>
       <div className={classes.card}>
         <div style={{ flexGrow: 1 }}>
-          <div className={classes.subTitle}>Service provider’s inputs</div>
+          <div className={classes.subTitle}>Response to comment</div>
           <div className={classes.contentText}>
             {notifSettings
               .filter(
                 notif =>
-                  notif.NotificationType === 'Suggestion' &&
+                  notif.NotificationType === 'Comment' &&
                   notif.State === 'Active'
               )
               .map(item => {
@@ -152,29 +129,18 @@ export const NotifSettings: React.FC<Props> = ({ click }) => {
           </div>
         </div>
         <div className={classes.navigation}>
-          <IconButton
-            onClick={() => click('Service provider’s inputs', 'Suggestion')}>
+          <IconButton onClick={() => click('Response to comment', 'Comment')}>
             <NavigateNext style={{ fill: '#692B40' }} fontSize="large" />
           </IconButton>
         </div>
       </div>
       <div className={classes.card}>
         <div style={{ flexGrow: 1 }}>
-          <div className={classes.subTitle}>Access requests</div>
-          <div className={classes.contentText}>
-            {notifSettings
-              .filter(
-                notif =>
-                  notif.NotificationType === 'AccessRequest' &&
-                  notif.State === 'Active'
-              )
-              .map(item => {
-                return item.NotificationMethod + ', ';
-              })}
-          </div>
+          <div className={classes.subTitle}>Help requests</div>
+          <div className={classes.contentText}>...</div>
         </div>
         <div className={classes.navigation}>
-          <IconButton onClick={() => click('Access requests', 'AccessRequest')}>
+          <IconButton onClick={() => click('Help requests', '')}>
             <NavigateNext style={{ fill: '#692B40' }} fontSize="large" />
           </IconButton>
         </div>
