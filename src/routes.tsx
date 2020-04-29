@@ -239,7 +239,22 @@ const routes: RouteConfig[] = [
       }
     ]
   },
-
+  {
+    path: '/notifications',
+    component: MainLayout,
+    routes: [
+      {
+        path: '/notifications',
+        exact: true,
+        component: authentication.required(
+          lazy(() => import('views/Notification'))
+        )
+      },
+      {
+        component: () => <Redirect to="/errors/error-404" />
+      }
+    ]
+  },
   {
     path: '/settings',
     component: MainLayout,

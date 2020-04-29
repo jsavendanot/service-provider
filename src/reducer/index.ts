@@ -13,6 +13,7 @@ import suggestionReducer from 'slices/suggestion/suggestionSlice';
 import networkReducer from 'slices/network/networkSlice';
 import invitationReducer from 'slices/invitation/invitationSlice';
 import settingsReducer from 'slices/settings/settingsSlice';
+import notificationsReducer from 'slices/notifications/notificationsSlice';
 
 const rootReducer = combineReducers({
   auth: authReducer,
@@ -27,7 +28,8 @@ const rootReducer = combineReducers({
   suggestion: suggestionReducer,
   network: networkReducer,
   invitation: invitationReducer,
-  settings: settingsReducer
+  settings: settingsReducer,
+  notifications: notificationsReducer
 });
 
 export type RootState = ReturnType<typeof rootReducer>;
