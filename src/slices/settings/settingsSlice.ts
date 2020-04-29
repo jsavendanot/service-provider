@@ -1,9 +1,14 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
-import { SuggestionRootType, NotificationSetting } from 'types/settings';
+import {
+  SuggestionRootType,
+  NotificationSetting,
+  AccountSetting
+} from 'types/settings';
 
 const initialState: SuggestionRootType = {
   notifSettings: [],
-  loading: false
+  loading: false,
+  accountSettings: {} as AccountSetting
 };
 
 const settingsSlice = createSlice({
@@ -17,6 +22,13 @@ const settingsSlice = createSlice({
       const { notifSettings } = action.payload;
       state.notifSettings = notifSettings;
     },
+    readAccountSettings(
+      state,
+      action: PayloadAction<{ accountSettings: AccountSetting }>
+    ) {
+      const { accountSettings } = action.payload;
+      state.accountSettings = accountSettings;
+    },
     startLoading(state) {
       state.loading = true;
     },
@@ -28,6 +40,7 @@ const settingsSlice = createSlice({
 
 export const {
   readNotifSettings,
+  readAccountSettings,
   startLoading,
   stopLoading
 } = settingsSlice.actions;

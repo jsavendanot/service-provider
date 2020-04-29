@@ -26,7 +26,13 @@ export interface NotificationSetting {
   StateEnum: number;
 }
 
+export interface AccountSetting {
+  autoLogin: boolean;
+  completePrivate: boolean;
+}
+
 export interface SuggestionRootType {
   notifSettings: NotificationSetting[];
+  accountSettings: AccountSetting;
   loading: boolean;
 }

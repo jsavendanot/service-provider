@@ -4,7 +4,10 @@ import { Grid, Switch, Slide, Theme } from '@material-ui/core';
 import { NotifSettings, AccountSettings } from './components';
 import { useSelector, useDispatch } from 'react-redux';
 import Detail from './Detail';
-import { fetchNotificationsSettings } from 'slices/settings/action';
+import {
+  fetchNotificationsSettings,
+  updateAccountCompletePrivateSetting
+} from 'slices/settings/action';
 import { RootState } from 'reducer';
 import { Loading } from 'common/components';
 
@@ -75,6 +78,10 @@ const Settings: React.FC = () => {
     (state: RootState) => state.settings.loading
   );
 
+  const completePrivate: boolean = useSelector(
+    (state: RootState) => state.settings.accountSettings.completePrivate
+  );
+
   const [settingName, setSettingName] = useState('');
   const [notificationType, setNotificationType] = useState<
     'Update' | 'Comment' | 'Invitation' | 'Suggestion' | 'AccessRequest' | ''
@@ -101,7 +108,12 @@ const Settings: React.FC = () => {
 
   useEffect(() => {
     dispatch(fetchNotificationsSettings());
+    // dispatch(fetchAccountSettings());
   }, [dispatch]);
+
+  const updateCompletePrivateSetting = () => {
+    dispatch(updateAccountCompletePrivateSetting(!completePrivate));
+  };
 
   return (
     <>
@@ -132,10 +144,11 @@ const Settings: React.FC = () => {
                       </div>
                       <div className={classes.navigation}>
                         <Switch
-                          checked={false}
+                          checked={completePrivate}
                           color="primary"
                           edge="start"
-                          name="goal"
+                          name="private"
+                          onChange={updateCompletePrivateSetting}
                         />
                       </div>
                     </div>

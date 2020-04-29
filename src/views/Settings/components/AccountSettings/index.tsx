@@ -2,8 +2,10 @@ import React from 'react';
 import { makeStyles } from '@material-ui/styles';
 import { IconButton, Switch } from '@material-ui/core';
 import { NavigateNext } from '@material-ui/icons';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { endSession } from 'slices/auth/action';
+import { RootState } from 'reducer';
+import { updateAccountAutoLoginSetting } from 'slices/settings/action';
 
 const useStyles = makeStyles(() => ({
   subTitle: {
@@ -42,9 +44,18 @@ export const AccountSettings: React.FC<Props> = () => {
   const classes = useStyles();
   const dispatch = useDispatch();
 
+  const autoLogin: boolean = useSelector(
+    (state: RootState) => state.settings.accountSettings.autoLogin
+  );
+
   const handleLogout = () => {
     dispatch(endSession());
   };
+
+  const updateAutoLoginSetting = () => {
+    dispatch(updateAccountAutoLoginSetting(!autoLogin));
+  };
+
   return (
     <>
       <div className={classes.card}>
@@ -55,7 +66,13 @@ export const AccountSettings: React.FC<Props> = () => {
           </div>
         </div>
         <div className={classes.navigation}>
-          <Switch checked={false} color="primary" edge="start" name="goal" />
+          <Switch
+            checked={autoLogin}
+            color="primary"
+            edge="start"
+            name="autoLogin"
+            onChange={updateAutoLoginSetting}
+          />
         </div>
       </div>
       <div className={classes.card}>
