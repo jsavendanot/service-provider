@@ -98,6 +98,15 @@ const useStyles = makeStyles(() => ({
     background: '#FFEAEA',
     borderRadius: '3px',
     margin: '0 10px'
+  },
+  imageContainer: {
+    width: '497px',
+    height: '332px',
+    display: 'flex',
+    justifyContent: 'center',
+    alignItems: 'center',
+    marginBottom: '100px',
+    backgroundColor: '#E5E5E5'
   }
 }));
 
@@ -174,8 +183,19 @@ export const JournalDetail: React.FC<Props> = ({ match }) => {
             </Grid>
             <Grid item xs={6} container>
               <Grid item xs={12} container justify="center">
-                <div style={{ marginBottom: '100px' }}>
-                  <img src="/images/journey/default_image.svg" alt="" />
+                <div className={classes.imageContainer}>
+                  {journal.Image != null ? (
+                    <div>
+                      <img
+                        src={'data:image/png;base64,' + journal.Image}
+                        alt=""
+                      />
+                    </div>
+                  ) : (
+                    <div>
+                      <img src="/images/journey/default_image.svg" alt="" />
+                    </div>
+                  )}
                 </div>
               </Grid>
               <Grid item xs={12}>

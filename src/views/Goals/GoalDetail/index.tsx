@@ -12,6 +12,7 @@ import { Goal, Step, GoalComment } from 'types/goal';
 import { useSelector, useDispatch } from 'react-redux';
 import { RootState } from 'reducer';
 import { fetchGoalsCommentState } from 'slices/goal/action';
+import { FocusArea } from 'types/other';
 
 const useStyles = makeStyles(() => ({
   root: {
@@ -55,6 +56,13 @@ const useStyles = makeStyles(() => ({
     background: '#FFFFFF',
     boxShadow: '0px 6px 18px rgba(0, 0, 0, 0.06)',
     borderRadius: '8px'
+  },
+  imageContainer: {
+    width: '497px',
+    height: '332px',
+    display: 'flex',
+    justifyContent: 'center',
+    alignItems: 'center'
   }
 }));
 
@@ -80,7 +88,13 @@ export const GoalDetail: React.FC<Props> = ({ match }) => {
     state.goal.steps.filter(item => item.GoalId === id)
   );
 
+  const [focusAreas] = useState<FocusArea[]>(
+    JSON.parse(sessionStorage.getItem('focusAreas')!)
+  );
+
   const [goal] = useState(goals.find(goal => goal.Id === id)!);
+
+  const focusArea = goal && focusAreas.find(area => area.id === goal.FocusArea);
 
   useEffect(() => {
     dispatch(fetchGoalsCommentState(id));
@@ -110,11 +124,25 @@ export const GoalDetail: React.FC<Props> = ({ match }) => {
             </Grid>
             <Grid item xs={1} />
             <Grid item xs={5}>
-              <img
-                src="/images/goals/goal_detail.svg"
-                alt=""
-                style={{ width: '497px', height: '332px' }}
-              />
+              {focusArea && (
+                <div
+                  className={classes.imageContainer}
+                  style={{ backgroundColor: focusArea.color }}>
+                  {goal.Image !== null ? (
+                    <img
+                      src={'data:image/png;base64,' + goal.Image}
+                      alt=""
+                      // className={classes.image}
+                    />
+                  ) : (
+                    <img
+                      src={'/images/areas/' + focusArea.image}
+                      alt=""
+                      // className={classes.image}
+                    />
+                  )}
+                </div>
+              )}
             </Grid>
           </Grid>
         </Grid>
