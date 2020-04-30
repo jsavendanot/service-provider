@@ -10,6 +10,7 @@ import { FocusArea } from 'types/other';
 import { useSelector } from 'react-redux';
 import { RootState } from 'reducer';
 import { Loading } from 'common/components';
+import Confirmation from 'common/components/Confirmation';
 
 const useStyles = makeStyles(() => ({
   root: {
@@ -33,6 +34,14 @@ const useStyles = makeStyles(() => ({
     lineHeight: '42px',
     color: '#000000',
     margin: '10px 0'
+  },
+  confirmTitle: {
+    fontFamily: 'Roboto',
+    fontStyle: 'normal',
+    fontWeight: 'normal',
+    fontSize: '18px',
+    lineHeight: '21px',
+    color: '#73BA9B'
   }
 }));
 
@@ -73,6 +82,31 @@ export const SuggestGoal: React.FC<Props> = ({ history }) => {
     setMyAreas(value => [...value].concat(addedArea));
   };
 
+  /** Confirm Dialog */
+  const [openCancelConfirm, setOpenCancelConfirm] = useState(false);
+
+  function openCancelConfirmHandler() {
+    setOpenCancelConfirm(true);
+  }
+
+  function closeCancelConfirmHandler() {
+    setOpenCancelConfirm(false);
+  }
+
+  const confirmCancelDialog = (
+    <Confirmation
+      open={openCancelConfirm}
+      close={closeCancelConfirmHandler}
+      action={() => history.push('/goals/current')}
+      donRedirect>
+      <span className={classes.confirmTitle}>
+        Are you sure you want to
+        <br />
+        leave this page?
+      </span>
+    </Confirmation>
+  );
+
   return (
     <>
       {loading && <Loading />}
@@ -85,7 +119,7 @@ export const SuggestGoal: React.FC<Props> = ({ history }) => {
               marginBottom: '20px',
               cursor: 'pointer'
             }}
-            onClick={() => history.push('/goals/current')}>
+            onClick={openCancelConfirmHandler}>
             <KeyboardArrowLeft style={{ fill: '#692B40' }} />
             <span className={classes.navText}>back</span>
           </div>
@@ -144,6 +178,7 @@ export const SuggestGoal: React.FC<Props> = ({ history }) => {
           </Grid>
         </Grid>
       </Grid>
+      {openCancelConfirm && confirmCancelDialog}
     </>
   );
 };
