@@ -1,15 +1,18 @@
 import { AppThunk } from 'store';
-import { startLoading, stopLoading } from './dashboardSlice';
+import { startLoading, stopLoading, fetchLastUpdate } from './dashboardSlice';
 import {
   fetchJournalsChart,
   fetch as fetchJournalsStates
 } from 'slices/journey/journeySlice';
+import axios from 'common/utils/axios';
+import authentication from '@kdpw/msal-b2c-react';
 import { fetchGoals } from 'slices/goal/action';
 import { JournalChart } from 'types/journey';
 import {
   callFetchJournalsListApi,
   callReadJournalDetailApi
 } from 'slices/journey/action';
+import { LastUpdate } from 'types/other';
 
 //** ASYNC FUNCS */
 export const fetchDashboardInfo = (): AppThunk => async dispatch => {
@@ -18,6 +21,7 @@ export const fetchDashboardInfo = (): AppThunk => async dispatch => {
 
     await dispatch(fetchGoals());
     await dispatch(fetchJournals());
+    await dispatch(readLastUpdate());
 
     dispatch(stopLoading());
   } catch (err) {
@@ -84,4 +88,41 @@ export const fetchJournals = (): AppThunk => async dispatch => {
   } catch (err) {
     // dispatch(failed(err.toString()));
   }
+};
+
+export const readLastUpdate = (): AppThunk => async dispatch => {
+  try {
+    const lastUpdate = await callRecoveryPlanGetRecoveryUpdateApi(
+      sessionStorage.getItem('RecoveryPlanId')!,
+      sessionStorage.getItem('LastRecPlanUpdate')!
+    );
+    dispatch(
+      fetchLastUpdate({
+        lastUpdate
+      })
+    );
+  } catch (err) {
+    // dispatch(failed(err.toString()));
+  }
+};
+
+//** API FUNCS */
+export const callRecoveryPlanGetRecoveryUpdateApi = (
+  recoveryPlanId: string,
+  lastLoginDate: string
+) => {
+  axios.defaults.headers.common['Authorization'] =
+    'Bearer ' + authentication.getAccessToken();
+
+  const requestBody = {
+    RecoveryPlanId: recoveryPlanId,
+    LastLoginDate: lastLoginDate
+  };
+
+  return axios
+    .post('/RecoveryPlan/GetRecoveryUpdate', requestBody)
+    .then(response => {
+      const lastUpdate: LastUpdate = JSON.parse(JSON.stringify(response.data));
+      return lastUpdate;
+    });
 };

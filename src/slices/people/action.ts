@@ -3,15 +3,37 @@ import axios from 'common/utils/axios';
 import authentication from '@kdpw/msal-b2c-react';
 import { fetch, startLoading, stopLoading } from './peopleSlice';
 import { Person } from 'types/people';
+import { callRecoveryPlanGetRecoveryUpdateApi } from 'slices/dashboard/action';
 
 //** ASYNC FUNCS */
 export const fetchPeople = (): AppThunk => async dispatch => {
   try {
     dispatch(startLoading());
     const people = await callRecoveryPlanListApi();
+
+    const updatedPeople: Person[] = [];
+    for (const person of people) {
+      const lastUpdate = await callRecoveryPlanGetRecoveryUpdateApi(
+        person.RecoveryPlanId,
+        person.LastRecPlanUpdate
+      );
+      const hasUpdate =
+        lastUpdate.NewGoalCount > 0 ||
+        lastUpdate.NewGoalStepCount > 0 ||
+        lastUpdate.NewGoalStepCheckinCount > 0 ||
+        lastUpdate.NewJournalEntryCount > 0;
+
+      const updatedPerson: Person = {
+        ...person,
+        HasUpdate: hasUpdate
+      };
+
+      updatedPeople.push(updatedPerson);
+    }
+
     dispatch(
       fetch({
-        people
+        people: updatedPeople
       })
     );
   } catch (err) {

@@ -1,17 +1,24 @@
-import { createSlice } from '@reduxjs/toolkit';
+import { createSlice, PayloadAction } from '@reduxjs/toolkit';
+import { LastUpdate } from 'types/other';
 
 type DashboardRootType = {
   loading: boolean;
+  lastUpdate: LastUpdate;
 };
 
 const initialState: DashboardRootType = {
-  loading: false
+  loading: false,
+  lastUpdate: {} as LastUpdate
 };
 
 const dashboardSlice = createSlice({
   name: 'dashboard',
   initialState: initialState,
   reducers: {
+    fetchLastUpdate(state, action: PayloadAction<{ lastUpdate: LastUpdate }>) {
+      const { lastUpdate } = action.payload;
+      state.lastUpdate = lastUpdate;
+    },
     startLoading(state) {
       state.loading = true;
     },
@@ -21,5 +28,9 @@ const dashboardSlice = createSlice({
   }
 });
 
-export const { startLoading, stopLoading } = dashboardSlice.actions;
+export const {
+  startLoading,
+  stopLoading,
+  fetchLastUpdate
+} = dashboardSlice.actions;
 export default dashboardSlice.reducer;

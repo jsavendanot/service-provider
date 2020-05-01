@@ -13,6 +13,7 @@ import { Loading } from 'common/components';
 import moment from 'moment';
 import { Journal } from 'types/journey';
 import { Goal } from 'types/goal';
+import { LastUpdate } from 'types/other';
 
 const useStyles = makeStyles(() => ({
   menu: {
@@ -87,6 +88,10 @@ export const Dashboard: React.FC<Props> = (props: Props) => {
 
   const journals: Journal[] = useSelector(
     (state: RootState) => state.journey.journals
+  );
+
+  const lastUpdate: LastUpdate = useSelector(
+    (state: RootState) => state.dashboard.lastUpdate
   );
 
   useEffect(() => {

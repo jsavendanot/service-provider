@@ -1,5 +1,4 @@
 import React, { useEffect } from 'react';
-import { Consumer } from 'types/home';
 import { useDispatch, useSelector } from 'react-redux';
 import { startSession } from 'slices/auth/action';
 import { fetchPeople } from 'slices/people/action';
@@ -47,19 +46,7 @@ export const Home: React.FC = () => {
         <Grid item xs={12}>
           <Grid container>
             <Grid item xs={9}>
-              <Consumers
-                consumers={people.map(person => {
-                  const newConsumer: Consumer = {
-                    id: person.UserId,
-                    avatar: person.Photo,
-                    name: person.Name,
-                    dob: person.DateOfBirth,
-                    lastActive: 'Thu, 24 November 2019 ',
-                    lastMood: 'yellow'
-                  };
-                  return newConsumer;
-                })}
-              />
+              <Consumers people={people} />
             </Grid>
             <Grid item xs={3}>
               <div

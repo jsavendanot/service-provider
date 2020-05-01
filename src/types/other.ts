@@ -16,6 +16,14 @@ export interface AreaApiType {
   Description: string;
 }
 
+export interface LastUpdate {
+  RecoveryPlanId: string;
+  NewGoalCount: number;
+  NewGoalStepCount: number;
+  NewGoalStepCheckinCount: number;
+  NewJournalEntryCount: number;
+}
+
 export interface OtherRootType {
   focusAreas: FocusArea[];
 }
