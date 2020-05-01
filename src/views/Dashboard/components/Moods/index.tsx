@@ -7,6 +7,7 @@ import { JournalChart } from 'types/journey';
 import { useSelector } from 'react-redux';
 import { RootState } from 'reducer';
 import moment from 'moment';
+import { LastUpdate } from 'types/other';
 
 const useStyles = makeStyles(() => ({
   goaBoxStepText: {
@@ -36,11 +37,10 @@ const useStyles = makeStyles(() => ({
   }
 }));
 
-export type MoodsProps = {
-  numberOfJournals: number;
-  date: string;
+export type Props = {
+  lastUpdate: LastUpdate;
 };
-export const Moods: React.FC<MoodsProps> = ({ numberOfJournals, date }) => {
+export const Moods: React.FC<Props> = ({ lastUpdate }) => {
   const classes = useStyles();
 
   const journalsChart: JournalChart[] = useSelector(
@@ -71,11 +71,15 @@ export const Moods: React.FC<MoodsProps> = ({ numberOfJournals, date }) => {
             alt=""
             style={{ marginRight: '10px' }}
           />
-          <span className={classes.goaBoxStepText}>
-            {numberOfJournals} journals
-          </span>
+          {lastUpdate.NewJournalEntryCount > 0 && (
+            <span className={classes.goaBoxStepText}>
+              {`+ ${lastUpdate.NewJournalEntryCount} journals`}
+            </span>
+          )}
         </div>
-        <span className={classes.value}>{date}</span>
+        <span className={classes.value}>{`since ${moment(
+          sessionStorage.getItem('LastRecPlanUpdate')!
+        ).format('LLL')}`}</span>
       </div>
       <div style={{ padding: '20px 0' }}>
         <MoodOverTime data={data.data} labels={data.labels} />

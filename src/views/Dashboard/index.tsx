@@ -11,7 +11,7 @@ import { fetchAllFocusAreas } from 'slices/other/action';
 import { RootState } from 'reducer';
 import { Loading } from 'common/components';
 import moment from 'moment';
-import { Journal } from 'types/journey';
+import { JournalChart } from 'types/journey';
 import { Goal } from 'types/goal';
 import { LastUpdate } from 'types/other';
 
@@ -68,6 +68,11 @@ const useStyles = makeStyles(() => ({
     lineHeight: '18px',
     letterSpacing: '0.1px',
     color: '#692B40'
+  },
+  feelingImage: {
+    margin: '0 15px 0 5px',
+    width: '25px',
+    height: '25px'
   }
 }));
 
@@ -85,9 +90,8 @@ export const Dashboard: React.FC<Props> = (props: Props) => {
   );
 
   const goals: Goal[] = useSelector((state: RootState) => state.goal.goals);
-
-  const journals: Journal[] = useSelector(
-    (state: RootState) => state.journey.journals
+  const journalsChart: JournalChart[] = useSelector(
+    (state: RootState) => state.journey.journalsChart
   );
 
   const lastUpdate: LastUpdate = useSelector(
@@ -114,7 +118,11 @@ export const Dashboard: React.FC<Props> = (props: Props) => {
             <div style={{ margin: '10px 0' }}>
               <div style={{ margin: '5px 0' }}>
                 <span className={classes.name}>Last active:</span>
-                <span className={classes.name}>{moment().format('LLL')}</span>
+                <span className={classes.name}>
+                  {moment(sessionStorage.getItem('LastRecPlanUpdate')!).format(
+                    'LLL'
+                  )}
+                </span>
               </div>
               <div
                 style={{
@@ -123,12 +131,59 @@ export const Dashboard: React.FC<Props> = (props: Props) => {
                   margin: '5px 0'
                 }}>
                 <span className={classes.name}>Last mood</span>
-                <img
-                  src="/images/home/mood_yellow.svg"
-                  alt=""
-                  style={{ margin: '0 10px' }}
-                />
-                <span className={classes.value}>{moment().format('LLL')}</span>
+                {journalsChart && journalsChart.length > 0 && (
+                  <div>
+                    {journalsChart[journalsChart.length - 1]
+                      .HowAreYouFeeling === 5 && (
+                      <img
+                        src="/images/journey/feelings/5.svg"
+                        alt=""
+                        className={classes.feelingImage}
+                      />
+                    )}
+                    {journalsChart[journalsChart.length - 1]
+                      .HowAreYouFeeling === 4 && (
+                      <img
+                        src="/images/journey/feelings/4.svg"
+                        alt=""
+                        className={classes.feelingImage}
+                      />
+                    )}
+                    {journalsChart[journalsChart.length - 1]
+                      .HowAreYouFeeling === 3 && (
+                      <img
+                        src="/images/journey/feelings/3.svg"
+                        alt=""
+                        className={classes.feelingImage}
+                      />
+                    )}
+                    {journalsChart[journalsChart.length - 1]
+                      .HowAreYouFeeling === 2 && (
+                      <img
+                        src="/images/journey/feelings/2.svg"
+                        alt=""
+                        className={classes.feelingImage}
+                      />
+                    )}
+                    {journalsChart[journalsChart.length - 1]
+                      .HowAreYouFeeling === 1 && (
+                      <img
+                        src="/images/journey/feelings/1.svg"
+                        alt=""
+                        className={classes.feelingImage}
+                      />
+                    )}
+                  </div>
+                )}
+                <span className={classes.value}>
+                  {journalsChart && journalsChart.length > 0 && (
+                    <div>
+                      {moment(
+                        journalsChart[journalsChart.length - 1].CreatedOnDate
+                      ).format('LLL')}
+                    </div>
+                  )}
+                </span>
               </div>
             </div>
           </div>
@@ -140,20 +195,13 @@ export const Dashboard: React.FC<Props> = (props: Props) => {
                 <Grid item xs={12}>
                   <DashboardBox
                     title={`${sessionStorage.getItem('FirstName')}'s goals`}>
-                    <Goals
-                      numberOfSteps={3}
-                      percent={60}
-                      date={moment().format('LL')}
-                    />
+                    <Goals lastUpdate={lastUpdate} />
                   </DashboardBox>
                 </Grid>
                 <Grid item xs={12}>
                   <DashboardBox
                     title={`${sessionStorage.getItem('FirstName')}'s moods`}>
-                    <Moods
-                      numberOfJournals={journals.length}
-                      date={moment().format('LL')}
-                    />
+                    <Moods lastUpdate={lastUpdate} />
                   </DashboardBox>
                 </Grid>
               </Grid>

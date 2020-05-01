@@ -5,6 +5,8 @@ import { makeStyles, withStyles } from '@material-ui/styles';
 import { Goal } from 'types/goal';
 import { useSelector } from 'react-redux';
 import { RootState } from 'reducer';
+import { LastUpdate } from 'types/other';
+import moment from 'moment';
 
 const useStyles = makeStyles(() => ({
   goaBoxStepText: {
@@ -45,17 +47,11 @@ const BorderLinearProgress = withStyles({
   }
 })(LinearProgress);
 
-type GoalsProps = {
-  numberOfSteps: number;
-  percent: number;
-  date: string;
+type Props = {
+  lastUpdate: LastUpdate;
 };
 
-export const Goals: React.FC<GoalsProps> = ({
-  numberOfSteps,
-  percent,
-  date
-}) => {
+export const Goals: React.FC<Props> = ({ lastUpdate }) => {
   const classes = useStyles();
 
   const goals: Goal[] = useSelector((state: RootState) => state.goal.goals);
@@ -74,9 +70,15 @@ export const Goals: React.FC<GoalsProps> = ({
             alt=""
             style={{ marginRight: '10px' }}
           />
-          <span className={classes.goaBoxStepText}>{goals.length} goals</span>
+          {lastUpdate.NewGoalCount > 0 && (
+            <span className={classes.goaBoxStepText}>
+              {`+ ${lastUpdate.NewGoalCount} goals`}
+            </span>
+          )}
         </div>
-        <span className={classes.value}>{date}</span>
+        <span className={classes.value}>{`since ${moment(
+          sessionStorage.getItem('LastRecPlanUpdate')!
+        ).format('LLL')}`}</span>
       </div>
       <div style={{ padding: '20px 0' }}>
         <BorderLinearProgress
