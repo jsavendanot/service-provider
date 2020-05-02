@@ -41,7 +41,7 @@ export const callProfileReadApi = () => {
     sessionStorage.setItem('Provider_SafetyPlanId', profile.SafetyPlanId);
     sessionStorage.setItem('Provider_FirstName', profile.FirstName);
     sessionStorage.setItem('Provider_LastName', profile.Surname);
-    sessionStorage.setItem('Provider_Avatar', profile.Image);
+    sessionStorage.setItem('Provider_Avatar', profile.ImageUrl);
     sessionStorage.setItem('Provider_Email', profile.PrimaryEmail);
     sessionStorage.setItem('Provider_MobilePhone', profile.MobilePhone);
     sessionStorage.setItem('Provider_ContactId', profile.ContactId);

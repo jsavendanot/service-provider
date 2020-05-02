@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import clsx from 'clsx';
 import useRouter from 'common/utils/useRouter';
 
@@ -16,6 +16,10 @@ import {
 import { Search } from '@material-ui/icons';
 
 import ProfileDialog from '../ProfileDialog';
+import { useSelector, useDispatch } from 'react-redux';
+import { RootState } from 'reducer';
+import { fetchProfile } from 'slices/profile/action';
+import { Profile } from 'types/profile';
 
 const useStyles = makeStyles(() => ({
   root: {
@@ -78,6 +82,7 @@ type Props = {
 
 const TopBar: React.FC<Props> = ({ className }) => {
   const { history } = useRouter();
+  const dispatch = useDispatch();
 
   const classes = useStyles();
 
@@ -107,6 +112,14 @@ const TopBar: React.FC<Props> = ({ className }) => {
       history.push('/notifications');
     }
   };
+
+  const profile: Profile = useSelector(
+    (state: RootState) => state.profile.profile!
+  );
+
+  useEffect(() => {
+    dispatch(fetchProfile());
+  }, [dispatch]);
 
   const profileDialog = (
     <Dialog
@@ -192,10 +205,7 @@ const TopBar: React.FC<Props> = ({ className }) => {
                 <Avatar
                   alt=""
                   className={classes.avatar}
-                  src={
-                    'data:image/png;base64,' +
-                    sessionStorage.getItem('Provider_Avatar')!
-                  }
+                  src={profile.ImageUrl}
                   onClick={handleOpen}
                 />
               </div>

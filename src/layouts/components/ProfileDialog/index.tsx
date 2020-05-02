@@ -63,10 +63,7 @@ export default function ProfileDialog() {
         <Avatar
           alt=""
           className={classes.avatar}
-          src={
-            'data:image/png;base64,' +
-            sessionStorage.getItem('Provider_Avatar')!
-          }
+          src={sessionStorage.getItem('Provider_Avatar')!}
         />
         <div
           style={{
