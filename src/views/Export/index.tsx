@@ -5,11 +5,12 @@ import { makeStyles } from '@material-ui/styles';
 import html2canvas from 'html2canvas';
 import jsPDF from 'jspdf';
 
-import { Button } from 'common/components';
+import { Button, Loading } from 'common/components';
 import { Document, Toolbar, Filter } from './components';
 import { ExportFilterType } from 'types/export';
-import { useSelector } from 'react-redux';
+import { useSelector, useDispatch } from 'react-redux';
 import { RootState } from 'reducer';
+import { downloadGenerateData } from 'slices/export/action';
 
 const useStyles = makeStyles(() => ({
   root: {
@@ -50,6 +51,7 @@ export type ExportKeys = keyof Export;
 
 export const Export: React.FC = () => {
   const classes = useStyles();
+  const dispatch = useDispatch();
 
   const printDivRef = useRef<HTMLDivElement>(null);
   const [preview, setPreview] = useState(false);
@@ -122,49 +124,52 @@ export const Export: React.FC = () => {
 
   const handleGenerateButtonClick = () => {
     setPreview(true);
-    // dispatch(downloadGenerateData(filters));
+    dispatch(downloadGenerateData(filters));
   };
 
   return (
-    <Grid container justify="center" spacing={3} className={classes.root}>
-      <Grid item xs={12}>
-        <div style={{ marginTop: '37px' }}>
-          <span className={classes.menuText}>Export & Share</span>
-        </div>
-      </Grid>
-      <Grid item xs={12}>
-        <Grid container>
-          <Grid item xs={3}>
-            <div>
-              <Filter
-                checks={checks}
-                setChecks={handleSwitchChange}
-                setFilters={setFilters}
-              />
-            </div>
-            <div
-              style={{
-                width: '260px',
-                marginTop: '30px'
-              }}>
-              <Button
-                type="primary"
-                click={handleGenerateButtonClick}
-                disabled={buttonDisable === 0}>
-                <span className={classes.buttonText}>Generate document</span>
-              </Button>
-            </div>
-          </Grid>
-          <Grid item xs={1} />
-          <Grid item xs={7}>
-            <Document />
-          </Grid>
-          <Grid item xs={1}>
-            <Toolbar />
+    <>
+      {loading && <Loading />}
+      <Grid container justify="center" spacing={3} className={classes.root}>
+        <Grid item xs={12}>
+          <div style={{ marginTop: '37px' }}>
+            <span className={classes.menuText}>Export & Share</span>
+          </div>
+        </Grid>
+        <Grid item xs={12}>
+          <Grid container>
+            <Grid item xs={3}>
+              <div>
+                <Filter
+                  checks={checks}
+                  setChecks={handleSwitchChange}
+                  setFilters={setFilters}
+                />
+              </div>
+              <div
+                style={{
+                  width: '260px',
+                  marginTop: '30px'
+                }}>
+                <Button
+                  type="primary"
+                  click={handleGenerateButtonClick}
+                  disabled={buttonDisable === 0}>
+                  <span className={classes.buttonText}>Generate document</span>
+                </Button>
+              </div>
+            </Grid>
+            <Grid item xs={1} />
+            <Grid item xs={7}>
+              <Document preview={preview} ref={printDivRef} filters={filters} />
+            </Grid>
+            <Grid item xs={1}>
+              <Toolbar save={saveDocEvent} email={emailDocEvent} />
+            </Grid>
           </Grid>
         </Grid>
       </Grid>
-    </Grid>
+    </>
   );
 };
 

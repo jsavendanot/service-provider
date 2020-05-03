@@ -22,19 +22,24 @@ const useStyles = makeStyles(() => ({
   }
 }));
 
-export const Toolbar: React.FC = () => {
+type Props = {
+  save: () => void;
+  email: () => void;
+};
+
+export const Toolbar: React.FC<Props> = ({ save, email }) => {
   const classes = useStyles();
   return (
     <div className={classes.root}>
       <div>
-        <IconButton style={{ margin: '20px 0' }}>
+        <IconButton onClick={save} style={{ margin: '20px 0' }}>
           <div className={classes.iconBox}>
             <img src="/images/export/save.svg" alt="" />
           </div>
         </IconButton>
       </div>
       <div>
-        <IconButton style={{ margin: '20px 0' }}>
+        <IconButton onClick={email} style={{ margin: '20px 0' }}>
           <div className={classes.iconBox}>
             <img src="/images/export/email.svg" alt="" />
           </div>

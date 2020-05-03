@@ -85,10 +85,10 @@ export const downloadMyGoalsData = (
     if (filters.goal !== '') {
       const goalsList = await callGoalListApi();
 
+      let filteredGoals: Goal[] = [];
       await Promise.all(goalsList.map(callGoalDetailApi)).then(response => {
         const goals: Goal[] = JSON.parse(JSON.stringify(response));
 
-        let filteredGoals: Goal[] = [];
         if (filters.goal === 'current') {
           filteredGoals = goals.filter(item => item.PercentageComplete < 1);
         } else if (filters.goal === 'completed') {
@@ -98,15 +98,15 @@ export const downloadMyGoalsData = (
         }
 
         dispatch(fetchMyGoals({ goals: filteredGoals }));
-
-        dispatch(
-          fetchSteps(
-            goalsList.filter(item =>
-              filteredGoals.find(goal => goal.Id === item.GoalId)
-            )
-          )
-        );
       });
+
+      await dispatch(
+        fetchSteps(
+          goalsList.filter(item =>
+            filteredGoals.find(goal => goal.Id === item.GoalId)
+          )
+        )
+      );
     }
   } catch (err) {
     // dispatch(failed(err.toString()));
