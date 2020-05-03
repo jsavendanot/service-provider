@@ -1,10 +1,11 @@
-import React from 'react';
+import React, { useState } from 'react';
 
 import { Grid } from '@material-ui/core';
 import { makeStyles } from '@material-ui/styles';
 
 import { Button } from 'common/components';
-import { SharedItem, Document, Toolbar } from './components';
+import { Document, Toolbar, Filter } from './components';
+import { ExportFilterType } from 'types/export';
 
 const useStyles = makeStyles(() => ({
   root: {
@@ -33,8 +34,48 @@ const useStyles = makeStyles(() => ({
   }
 }));
 
+export type Export = {
+  goal: boolean;
+  journey: boolean;
+  story: boolean;
+  safety: boolean;
+  network: boolean;
+};
+
+export type ExportKeys = keyof Export;
+
 export const Export: React.FC = () => {
   const classes = useStyles();
+
+  const [checks, setChecks] = useState<Export>({
+    goal: false,
+    journey: false,
+    story: false,
+    safety: false,
+    network: false
+  });
+
+  const [filters, setFilters] = useState<ExportFilterType>({
+    goal: '',
+    story: false,
+    journey: false,
+    safety: false,
+    network: ''
+  });
+
+  const handleSwitchChange = (name: ExportKeys, value: boolean) => {
+    setChecks(values => ({
+      ...values,
+      [name]: value
+    }));
+
+    // if (value) {
+    //   setButtonDisable(value => value + 1);
+    // } else {
+    //   setButtonDisable(value => value - 1);
+    // }
+  };
+
   return (
     <Grid container justify="center" spacing={3} className={classes.root}>
       <Grid item xs={12}>
@@ -45,38 +86,12 @@ export const Export: React.FC = () => {
       <Grid item xs={12}>
         <Grid container>
           <Grid item xs={3}>
-            <div
-              style={{
-                display: 'flex',
-                flexDirection: 'column',
-                marginTop: '20px',
-                boxSizing: 'border-box',
-                borderBottom: '1px solid #C57D7D',
-                borderBottomRightRadius: '12px',
-                borderBottomLeftRadius: '12px'
-              }}>
-              {[
-                { id: 1, name: 'Goals', text: 'goals', checked: true },
-                { id: 2, name: 'Journey', text: 'journals', checked: true },
-                { id: 3, name: 'Story', text: 'stories', checked: false },
-                {
-                  id: 4,
-                  name: 'Safety plan',
-                  text: 'safety plans',
-                  checked: false
-                },
-                { id: 5, name: 'Network', text: 'networks', checked: false }
-              ].map(element => {
-                return (
-                  <SharedItem
-                    key={element.id}
-                    id={element.id}
-                    name={element.name}
-                    text={element.text}
-                    checked={element.checked}
-                  />
-                );
-              })}
+            <div>
+              <Filter
+                checks={checks}
+                setChecks={handleSwitchChange}
+                setFilters={setFilters}
+              />
             </div>
             <div
               style={{
