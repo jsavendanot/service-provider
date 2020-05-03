@@ -25,7 +25,7 @@ export const fetchGoals = (): AppThunk => async dispatch => {
       dispatch(fetch({ goals: response }));
     });
 
-    dispatch(fetchProgressState());
+    await dispatch(fetchProgressState());
     dispatch(fetchSteps(goalsList));
 
     dispatch(stopLoading());
@@ -150,21 +150,11 @@ const callStepListApi = (
 
           IsCompleted = visitsLeft === 0;
         } else {
-          visitsLeft = 1;
+          visitsLeft = step.RepeatTotalTimes;
         }
 
         const newStep: Step = {
-          Id: step.Id,
-          GoalId: step.GoalId,
-          Name: step.Name,
-          RepeatTimes: step.RepeatTimes,
-          RepeatUnit: step.RepeatUnit,
-          RepeatFrequency: step.RepeatFrequency,
-          RepeatTotalTimes: step.RepeatTotalTimes,
-          VisibleTo: step.VisibleTo,
-          IsDeadline: step.IsDeadline,
-          StartDate: step.StartDate,
-          EndDate: step.EndDate,
+          ...step,
           IsCompleted: IsCompleted,
           visitsLeft: visitsLeft
         };
@@ -181,7 +171,7 @@ const getProgressCheckIn = () => {
 
   return axios
     .get(
-      `/Goal/Carer/GoalStepProgressSummary?recoveryPlanId=${sessionStorage.getItem(
+      `/Goal/Carer/GoalStepProgressSummary/${sessionStorage.getItem(
         'RecoveryPlanId'
       )}`
     )

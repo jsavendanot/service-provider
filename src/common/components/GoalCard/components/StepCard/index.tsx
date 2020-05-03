@@ -100,27 +100,48 @@ export const StepCard: React.FC<Props> = ({ step, number }) => {
           <div
             className={clsx(
               step.IsCompleted && classes.statusCompleted,
-              !step.IsCompleted && classes.statusVisit
+              !step.IsCompleted && !step.IsDeadline && classes.statusVisit
             )}>
             {step.IsCompleted ? (
               <span className={classes.statusCompletedText}>Completed</span>
             ) : (
-              <span className={classes.statusVisitText}>
-                {`${step.visitsLeft} visits left`}
-              </span>
+              <div>
+                {!step.IsDeadline && (
+                  <span className={classes.statusVisitText}>
+                    {`${step.visitsLeft} ${step.RepeatUnit} left`}
+                  </span>
+                )}
+              </div>
             )}
           </div>
         </div>
-        <div>
-          <img
-            src="/images/goals/calendar_icon.svg"
-            alt=""
-            style={{ marginRight: '5px' }}
-          />
-          <span className={classes.dateText}>
-            {step.IsDeadline && moment(step.EndDate).format('LLL')}
-          </span>
-        </div>
+        {step.IsDeadline ? (
+          <div style={{ display: 'flex', alignItems: 'center' }}>
+            <img
+              src="/images/goals/calendar_icon.svg"
+              alt=""
+              style={{ marginRight: '5px' }}
+            />
+            <span className={classes.dateText}>
+              {step.IsDeadline && moment(step.EndDate).format('LLL')}
+            </span>
+          </div>
+        ) : (
+          <div style={{ display: 'flex', alignItems: 'center' }}>
+            <img
+              src="/images/goals/cycle_icon.svg"
+              alt=""
+              style={{ marginRight: '5px' }}
+            />
+            <span className={classes.dateText}>
+              {`${step.RepeatTimes} ${
+                step.RepeatUnit
+              } every ${step.RepeatFrequency.toLocaleLowerCase()} until ${
+                step.RepeatTotalTimes
+              } ${step.RepeatUnit}`}
+            </span>
+          </div>
+        )}
       </div>
     </div>
   );
