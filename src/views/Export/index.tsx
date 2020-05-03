@@ -36,6 +36,10 @@ const useStyles = makeStyles(() => ({
     letterSpacing: '1.25px',
     textTransform: 'uppercase',
     color: '#FFFFFF'
+  },
+  toolbarItem: {
+    position: 'fixed',
+    right: '50px'
   }
 }));
 
@@ -118,7 +122,7 @@ export const Export: React.FC = () => {
 
   const emailDocEvent = () => {
     window.location.href = `mailto:${sessionStorage.getItem(
-      'UserEmail'
+      'Provider_Email'
     )}?subject=Jiemba Report`;
   };
 
@@ -163,7 +167,7 @@ export const Export: React.FC = () => {
             <Grid item xs={7}>
               <Document preview={preview} ref={printDivRef} filters={filters} />
             </Grid>
-            <Grid item xs={1}>
+            <Grid item xs={1} className={classes.toolbarItem}>
               <Toolbar save={saveDocEvent} email={emailDocEvent} />
             </Grid>
           </Grid>
