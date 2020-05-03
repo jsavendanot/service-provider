@@ -112,7 +112,7 @@ export const GoalDetail: React.FC<Props> = ({ match }) => {
               marginBottom: '20px',
               cursor: 'pointer'
             }}
-            onClick={() => history.push('/goals/current')}>
+            onClick={() => history.goBack()}>
             <KeyboardArrowLeft style={{ fill: '#692B40' }} />
             <span className={classes.navText}>back</span>
           </div>
