@@ -55,7 +55,7 @@ export const fetchMyAreas = (): AppThunk => async dispatch => {
 };
 
 //** API FUNCS */
-const callMyStoryReadApi = () => {
+export const callMyStoryReadApi = () => {
   axios.defaults.headers.common['Authorization'] =
     'Bearer ' + authentication.getAccessToken();
   return axios
@@ -66,7 +66,7 @@ const callMyStoryReadApi = () => {
     });
 };
 
-const callStrengthReadApi = () => {
+export const callStrengthReadApi = () => {
   axios.defaults.headers.common['Authorization'] =
     'Bearer ' + authentication.getAccessToken();
   const values: Strength[] = [];

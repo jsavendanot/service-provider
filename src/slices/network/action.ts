@@ -26,7 +26,7 @@ export const fetchEmergencyNetworks = (): AppThunk => async dispatch => {
 
 //** API FUNCS */
 
-const callNetworkContactCarerReadApi = () => {
+export const callNetworkContactCarerReadApi = () => {
   axios.defaults.headers.common['Authorization'] =
     'Bearer ' + authentication.getAccessToken();
 
