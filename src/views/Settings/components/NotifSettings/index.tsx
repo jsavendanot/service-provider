@@ -61,40 +61,9 @@ export const NotifSettings: React.FC<Props> = ({ click }) => {
     <>
       <div className={classes.card}>
         <div style={{ flexGrow: 1 }}>
-          <div className={classes.subTitle}>Goal completed</div>
-          <div className={classes.contentText}>...</div>
-        </div>
-        <div className={classes.navigation}>
-          <IconButton onClick={() => click('Goal completed', '')}>
-            <NavigateNext style={{ fill: '#692B40' }} fontSize="large" />
-          </IconButton>
-        </div>
-      </div>
-      <div className={classes.card}>
-        <div style={{ flexGrow: 1 }}>
-          <div className={classes.subTitle}>New journal entry</div>
-          <div className={classes.contentText}>...</div>
-        </div>
-        <div className={classes.navigation}>
-          <IconButton onClick={() => click('New journal entry', '')}>
-            <NavigateNext style={{ fill: '#692B40' }} fontSize="large" />
-          </IconButton>
-        </div>
-      </div>
-      <div className={classes.card}>
-        <div style={{ flexGrow: 1 }}>
-          <div className={classes.subTitle}>Certain mood recorded</div>
-          <div className={classes.contentText}>...</div>
-        </div>
-        <div className={classes.navigation}>
-          <IconButton onClick={() => click('Certain mood recorded', '')}>
-            <NavigateNext style={{ fill: '#692B40' }} fontSize="large" />
-          </IconButton>
-        </div>
-      </div>
-      <div className={classes.card}>
-        <div style={{ flexGrow: 1 }}>
-          <div className={classes.subTitle}>Content updates</div>
+          <div className={classes.subTitle}>
+            New journal entry, Goal Progress
+          </div>
           <div className={classes.contentText}>
             {notifSettings
               .filter(
@@ -108,7 +77,8 @@ export const NotifSettings: React.FC<Props> = ({ click }) => {
           </div>
         </div>
         <div className={classes.navigation}>
-          <IconButton onClick={() => click('Content updates', 'Update')}>
+          <IconButton
+            onClick={() => click('New journal entry, Goal Progress', 'Update')}>
             <NavigateNext style={{ fill: '#692B40' }} fontSize="large" />
           </IconButton>
         </div>
@@ -136,11 +106,42 @@ export const NotifSettings: React.FC<Props> = ({ click }) => {
       </div>
       <div className={classes.card}>
         <div style={{ flexGrow: 1 }}>
-          <div className={classes.subTitle}>Help requests</div>
-          <div className={classes.contentText}>...</div>
+          <div className={classes.subTitle}>Access granted</div>
+          <div className={classes.contentText}>
+            {notifSettings
+              .filter(
+                notif =>
+                  notif.NotificationType === 'AccessRequest' &&
+                  notif.State === 'Active'
+              )
+              .map(item => {
+                return item.NotificationMethod + ', ';
+              })}
+          </div>
         </div>
         <div className={classes.navigation}>
-          <IconButton onClick={() => click('Help requests', '')}>
+          <IconButton onClick={() => click('Access granted', 'AccessRequest')}>
+            <NavigateNext style={{ fill: '#692B40' }} fontSize="large" />
+          </IconButton>
+        </div>
+      </div>
+      <div className={classes.card}>
+        <div style={{ flexGrow: 1 }}>
+          <div className={classes.subTitle}>Invitations</div>
+          <div className={classes.contentText}>
+            {notifSettings
+              .filter(
+                notif =>
+                  notif.NotificationType === 'Invitation' &&
+                  notif.State === 'Active'
+              )
+              .map(item => {
+                return item.NotificationMethod + ', ';
+              })}
+          </div>
+        </div>
+        <div className={classes.navigation}>
+          <IconButton onClick={() => click('Invitations', 'Invitation')}>
             <NavigateNext style={{ fill: '#692B40' }} fontSize="large" />
           </IconButton>
         </div>

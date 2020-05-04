@@ -1,7 +1,6 @@
 import React from 'react';
 import { makeStyles } from '@material-ui/styles';
 import { IconButton, Switch } from '@material-ui/core';
-import { NavigateNext } from '@material-ui/icons';
 import { useDispatch, useSelector } from 'react-redux';
 import { endSession } from 'slices/auth/action';
 import { RootState } from 'reducer';
@@ -73,28 +72,6 @@ export const AccountSettings: React.FC<Props> = () => {
             name="autoLogin"
             onChange={updateAutoLoginSetting}
           />
-        </div>
-      </div>
-      <div className={classes.card}>
-        <div style={{ flexGrow: 1 }}>
-          <div className={classes.subTitle}>Change Email</div>
-          <div className={classes.contentText}>jiemba@gmail.com</div>
-        </div>
-        <div className={classes.navigation}>
-          <IconButton>
-            <NavigateNext style={{ fill: '#692B40' }} fontSize="large" />
-          </IconButton>
-        </div>
-      </div>
-      <div className={classes.card}>
-        <div style={{ flexGrow: 1 }}>
-          <div className={classes.subTitle}>Change password</div>
-          <div className={classes.contentText}>*********</div>
-        </div>
-        <div className={classes.navigation}>
-          <IconButton>
-            <NavigateNext style={{ fill: '#692B40' }} fontSize="large" />
-          </IconButton>
         </div>
       </div>
       <div className={classes.card}>
