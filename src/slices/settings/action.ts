@@ -8,20 +8,33 @@ import {
   stopLoading
 } from './settingsSlice';
 import { NotificationSetting, AccountSetting } from 'types/settings';
+import { callProfileReadApi } from 'slices/profile/action';
 
 //** ASYNC FUNCS */
-export const fetchNotificationsSettings = (): AppThunk => async dispatch => {
+
+export const fetchSettings = (): AppThunk => async dispatch => {
   try {
     dispatch(startLoading());
+
+    await dispatch(fetchNotificationsSettings());
+    await dispatch(fetchAccountSettings());
+
+    dispatch(stopLoading());
+  } catch (err) {
+    dispatch(stopLoading());
+    // dispatch(failed(err.toString()));
+  }
+};
+
+export const fetchNotificationsSettings = (): AppThunk => async dispatch => {
+  try {
     const notifSettings = await callSettingsNotificationsReadApi();
     dispatch(
       readNotifSettings({
         notifSettings
       })
     );
-    dispatch(stopLoading());
   } catch (err) {
-    dispatch(stopLoading());
     // dispatch(failed(err.toString()));
   }
 };
@@ -49,40 +62,30 @@ export const updateNotificationSetting = (
 
 export const fetchAccountSettings = (): AppThunk => async dispatch => {
   try {
-    dispatch(startLoading());
-    const accountSettings = await callSettingsAccountReadApi();
+    const profile = await callProfileReadApi();
+
+    const accountSettings: AccountSetting = {
+      autoLogin: profile.AutoLogin!,
+      completePrivate: profile.CompletePrivate!
+    };
+
     dispatch(
       readAccountSettings({
         accountSettings
       })
     );
-    dispatch(stopLoading());
   } catch (err) {
-    dispatch(stopLoading());
     // dispatch(failed(err.toString()));
   }
 };
 
 export const updateAccountAutoLoginSetting = (
-  value: boolean
+  accountSetting: AccountSetting
 ): AppThunk => async dispatch => {
   try {
     dispatch(startLoading());
-    await callSettingsAccountAutoLoginUpdateApi(value);
-
-    dispatch(stopLoading());
-  } catch (err) {
-    dispatch(stopLoading());
-    // dispatch(failed(err.toString()));
-  }
-};
-
-export const updateAccountCompletePrivateSetting = (
-  value: boolean
-): AppThunk => async dispatch => {
-  try {
-    dispatch(startLoading());
-    await callSettingsAccountCompletePrivateUpdateApi(value);
+    await callSettingsAccountAutoLoginUpdateApi(accountSetting);
+    await dispatch(fetchAccountSettings());
 
     dispatch(stopLoading());
   } catch (err) {
@@ -119,24 +122,14 @@ export const callSettingsNotificationsUpdateApi = (
   return axios.post('/Settings/Notifications/Update', [requestBody]);
 };
 
-export const callSettingsAccountReadApi = () => {
-  axios.defaults.headers.common['Authorization'] =
-    'Bearer ' + authentication.getAccessToken();
-  //TODO no api for reading account settings, should be fixed
-  return axios.get('/Settings/Account/Read').then(async response => {
-    const accountSettings: AccountSetting = JSON.parse(
-      JSON.stringify(response.data)
-    );
-    return accountSettings;
-  });
-};
-
-export const callSettingsAccountAutoLoginUpdateApi = (value: boolean) => {
+export const callSettingsAccountAutoLoginUpdateApi = (
+  accountSetting: AccountSetting
+) => {
   axios.defaults.headers.common['Authorization'] =
     'Bearer ' + authentication.getAccessToken();
 
   const requestBody = {
-    AutoLogin: value
+    ...accountSetting
   };
 
   return axios.post('/Settings/Account/Update', requestBody);

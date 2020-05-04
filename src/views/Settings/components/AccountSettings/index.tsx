@@ -5,6 +5,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { endSession } from 'slices/auth/action';
 import { RootState } from 'reducer';
 import { updateAccountAutoLoginSetting } from 'slices/settings/action';
+import { AccountSetting } from 'types/settings';
 
 const useStyles = makeStyles(() => ({
   subTitle: {
@@ -43,8 +44,8 @@ export const AccountSettings: React.FC<Props> = () => {
   const classes = useStyles();
   const dispatch = useDispatch();
 
-  const autoLogin: boolean = useSelector(
-    (state: RootState) => state.settings.accountSettings.autoLogin
+  const accountSettings: AccountSetting = useSelector(
+    (state: RootState) => state.settings.accountSettings
   );
 
   const handleLogout = () => {
@@ -52,7 +53,11 @@ export const AccountSettings: React.FC<Props> = () => {
   };
 
   const updateAutoLoginSetting = () => {
-    dispatch(updateAccountAutoLoginSetting(!autoLogin));
+    const updatedSetting: AccountSetting = {
+      completePrivate: accountSettings.completePrivate,
+      autoLogin: !accountSettings.autoLogin
+    };
+    dispatch(updateAccountAutoLoginSetting(updatedSetting));
   };
 
   return (
@@ -66,7 +71,9 @@ export const AccountSettings: React.FC<Props> = () => {
         </div>
         <div className={classes.navigation}>
           <Switch
-            checked={autoLogin}
+            checked={
+              accountSettings.autoLogin ? accountSettings.autoLogin : false
+            }
             color="primary"
             edge="start"
             name="autoLogin"

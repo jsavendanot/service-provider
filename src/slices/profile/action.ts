@@ -72,7 +72,7 @@ const callProfileUpdateApi = (profile: Profile) => {
   return axios.post('/Profile/Update', profile);
 };
 
-const callProfileReadApi = () => {
+export const callProfileReadApi = () => {
   axios.defaults.headers.common['Authorization'] =
     'Bearer ' + authentication.getAccessToken();
 

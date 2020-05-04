@@ -32,6 +32,9 @@ export interface Profile {
   ImageType: string;
   ImageUrl: string;
   FullName: string;
+  AutoLogin?: boolean;
+  CompletePrivate?: boolean;
+  LastLoginDate?: string;
 }
 
 export interface ProfileRootType {
