@@ -1,6 +1,7 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect, ChangeEvent } from 'react';
 import useRouter from 'common/utils/useRouter';
 import clsx from 'clsx';
+import validate from 'validate.js';
 
 import { Grid } from '@material-ui/core';
 import { makeStyles } from '@material-ui/styles';
@@ -14,6 +15,7 @@ import {
   Practitioner,
   HealthCare
 } from './components';
+import { Profile } from 'types/profile';
 
 const useStyles = makeStyles(() => ({
   root: {
@@ -97,6 +99,137 @@ const useStyles = makeStyles(() => ({
   }
 }));
 
+const schema = {
+  FirstName: {
+    presence: { allowEmpty: false, message: 'is required' },
+    length: {
+      maximum: 80
+    }
+  },
+  Surname: {
+    presence: { allowEmpty: false, message: 'is required' },
+    length: {
+      maximum: 80
+    }
+  },
+  PreferredName: {
+    presence: false,
+    length: {
+      maximum: 80
+    }
+  },
+  DateOfBirth: {
+    presence: { allowEmpty: false, message: 'is required' },
+    length: {
+      maximum: 80
+    }
+  },
+  Gender: {
+    presence: { allowEmpty: false, message: 'is required' },
+    length: {
+      maximum: 80
+    }
+  },
+  HomeAddress: {
+    presence: { allowEmpty: false, message: 'is required' },
+    length: {
+      maximum: 200
+    }
+  },
+  HomePostCode: {
+    presence: { allowEmpty: false, message: 'is required' },
+    numericality: {
+      onlyInteger: true
+    },
+    length: {
+      maximum: 10
+    }
+  },
+  PostalAddress: {
+    presence: { allowEmpty: false, message: 'is required' },
+    length: {
+      maximum: 200
+    }
+  },
+  PostalPostCode: {
+    presence: { allowEmpty: false, message: 'is required' },
+    numericality: {
+      onlyInteger: true
+    },
+    length: {
+      maximum: 10
+    }
+  },
+  MobilePhone: {
+    presence: { allowEmpty: false, message: 'is required' },
+    numericality: {
+      onlyInteger: true
+    },
+    length: {
+      maximum: 20
+    }
+  },
+  UserEmail: {
+    presence: { allowEmpty: false, message: 'is required' },
+    email: true,
+    length: {
+      maximum: 50
+    }
+  },
+  PreferredContactMethod: {
+    presence: { allowEmpty: false, message: 'is required' },
+    length: {
+      maximum: 20
+    }
+  }
+};
+
+export type FormStateType = {
+  isValid: boolean;
+  values: {
+    FirstName?: string;
+    Surname?: string;
+    PreferredName?: string;
+    DateOfBirth?: string;
+    Gender?: string;
+    HomeAddress?: string;
+    HomePostCode?: string;
+    PostalAddress?: string;
+    PostalPostCode?: string;
+    MobilePhone?: string;
+    UserEmail?: string;
+    PreferredContactMethod?: string;
+  };
+  touched: {
+    FirstName?: boolean;
+    Surname?: boolean;
+    PreferredName?: boolean;
+    DateOfBirth?: boolean;
+    Gender?: boolean;
+    HomeAddress?: boolean;
+    HomePostCode?: boolean;
+    PostalAddress?: boolean;
+    PostalPostCode?: boolean;
+    MobilePhone?: boolean;
+    UserEmail?: boolean;
+    PreferredContactMethod?: boolean;
+  };
+  errors: {
+    FirstName?: string[];
+    Surname?: string[];
+    PreferredName?: string[];
+    DateOfBirth?: string[];
+    Gender?: string[];
+    HomeAddress?: string[];
+    HomePostCode?: string[];
+    PostalAddress?: string[];
+    PostalPostCode?: string[];
+    MobilePhone?: string[];
+    UserEmail?: string[];
+    PreferredContactMethod?: string[];
+  };
+};
+
 export const AddConsumer: React.FC = () => {
   const classes = useStyles();
   const { history } = useRouter();
@@ -104,12 +237,108 @@ export const AddConsumer: React.FC = () => {
   const [step, setStep] = useState(0);
 
   const next = () => {
-    if (step < 4) setStep(value => value + 1);
+    if (step < 4) {
+      if (step === 0) {
+        setFormState(formState => ({
+          ...formState,
+          values: {
+            ...formState.values,
+            FirstName: profile.FirstName,
+            Surname: profile.Surname,
+            PreferredName: profile.PreferredName,
+            DateOfBirth: profile.DateOfBirth,
+            Gender: profile.Gender,
+            HomeAddress: profile.HomeAddress,
+            HomePostCode: profile.HomePostCode,
+            PostalAddress: profile.PostalAddress,
+            PostalPostCode: profile.PostalPostCode,
+            MobilePhone: profile.MobilePhone,
+            UserEmail: profile.UserEmail,
+            PreferredContactMethod: profile.PreferredContactMethod
+          },
+          touched: {
+            ...formState.touched,
+            FirstName: true,
+            Surname: true,
+            referredName: true,
+            DateOfBirth: true,
+            Gender: true,
+            meAddress: true,
+            HomePostCode: true,
+            PostalAddress: true,
+            PostalPostCode: true,
+            MobilePhone: true,
+            UserEmail: true,
+            PreferredContactMethod: true
+          }
+        }));
+        formState.isValid && setStep(value => value + 1);
+      }
+    }
   };
 
   const back = () => {
     if (step > 0) setStep(value => value - 1);
   };
+
+  const [profile, setProfile] = useState({} as Profile);
+
+  const [formState, setFormState] = useState<FormStateType>({
+    isValid: false,
+    values: {
+      FirstName: profile.FirstName,
+      Surname: profile.Surname,
+      PreferredName: profile.PreferredName,
+      DateOfBirth: profile.DateOfBirth,
+      Gender: profile.Gender,
+      HomeAddress: profile.HomeAddress,
+      HomePostCode: profile.HomePostCode,
+      PostalAddress: profile.PostalAddress,
+      PostalPostCode: profile.PostalPostCode,
+      MobilePhone: profile.MobilePhone,
+      UserEmail: profile.UserEmail,
+      PreferredContactMethod: profile.PreferredContactMethod
+    },
+    touched: {},
+    errors: {}
+  });
+
+  useEffect(() => {
+    const errors = validate(formState.values, schema);
+    setFormState(formState => ({
+      ...formState,
+      isValid: errors ? false : true,
+      errors: errors || {}
+    }));
+  }, [formState.values]);
+
+  const handleChange = (event: ChangeEvent<HTMLInputElement>) => {
+    event.persist();
+
+    setFormState(formState => ({
+      ...formState,
+      values: {
+        ...formState.values,
+        [event.target.name]: event.target.value
+      },
+      touched: {
+        ...formState.touched,
+        [event.target.name]: true
+      }
+    }));
+
+    handleProfileField(event.target.name, event.target.value);
+  };
+
+  const handleProfileField = (name: string, value: string) => {
+    setProfile(values => ({
+      ...values,
+      [name]: value
+    }));
+  };
+
+  const hasError = (field: string): boolean =>
+    field in formState.touched && field in formState.errors ? true : false;
 
   return (
     <div className={classes.root}>
@@ -160,7 +389,13 @@ export const AddConsumer: React.FC = () => {
         </Grid>
         <Grid item xs={6}>
           <div className={classes.formContent}>
-            {step === 0 && <Personal />}
+            {step === 0 && (
+              <Personal
+                formState={formState}
+                handleChange={handleChange}
+                hasError={hasError}
+              />
+            )}
             {step === 1 && <Emergency />}
             {step === 2 && <Background />}
             {step === 3 && <Practitioner />}

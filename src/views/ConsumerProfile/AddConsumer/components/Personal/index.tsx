@@ -1,14 +1,15 @@
-import React, { useState, useEffect, ChangeEvent } from 'react';
-import validate from 'validate.js';
+import React, { ChangeEvent } from 'react';
 
 import {
   Grid,
   TextField,
   Divider,
   FormControlLabel,
-  Checkbox
+  Checkbox,
+  FormGroup
 } from '@material-ui/core';
 import { makeStyles } from '@material-ui/styles';
+import { FormStateType } from '../..';
 
 const useStyles = makeStyles(() => ({
   root: {
@@ -85,175 +86,18 @@ const useStyles = makeStyles(() => ({
   }
 }));
 
-const schema = {
-  firstName: {
-    presence: { allowEmpty: false, message: 'is required' },
-    length: {
-      maximum: 80
-    }
-  },
-  lastName: {
-    presence: { allowEmpty: false, message: 'is required' },
-    length: {
-      maximum: 80
-    }
-  },
-  preferredName: {
-    presence: false,
-    length: {
-      maximum: 80
-    }
-  },
-  dob: {
-    presence: { allowEmpty: false, message: 'is required' },
-    length: {
-      maximum: 80
-    }
-  },
-  gender: {
-    presence: { allowEmpty: false, message: 'is required' },
-    length: {
-      maximum: 80
-    }
-  },
-  homeAddress: {
-    presence: { allowEmpty: false, message: 'is required' },
-    length: {
-      maximum: 200
-    }
-  },
-  postCode: {
-    presence: { allowEmpty: false, message: 'is required' },
-    numericality: {
-      onlyInteger: true
-    },
-    length: {
-      maximum: 10
-    }
-  },
-  postalAddress: {
-    presence: { allowEmpty: false, message: 'is required' },
-    length: {
-      maximum: 200
-    }
-  },
-  postalCode: {
-    presence: { allowEmpty: false, message: 'is required' },
-    numericality: {
-      onlyInteger: true
-    },
-    length: {
-      maximum: 10
-    }
-  },
-  phone: {
-    presence: { allowEmpty: false, message: 'is required' },
-    numericality: {
-      onlyInteger: true
-    },
-    length: {
-      maximum: 20
-    }
-  },
-  email: {
-    presence: { allowEmpty: false, message: 'is required' },
-    email: true,
-    length: {
-      maximum: 50
-    }
-  },
-  preferredMethod: {
-    presence: { allowEmpty: false, message: 'is required' },
-    length: {
-      maximum: 20
-    }
-  }
+type Props = {
+  formState: FormStateType;
+  handleChange: (event: ChangeEvent<HTMLInputElement>) => void;
+  hasError: (field: string) => boolean;
 };
 
-type FormStateType = {
-  isValid: boolean;
-  values: {
-    firstName?: string;
-    lastName?: string;
-    preferredName?: string;
-    dob?: string;
-    gender?: string;
-    homeAddress?: string;
-    postCode?: number;
-    postalAddress?: string;
-    postalCode?: number;
-    phone?: number;
-    email?: string;
-    preferredMethod?: string;
-  };
-  touched: {
-    firstName?: boolean;
-    lastName?: boolean;
-    preferredName?: boolean;
-    dob?: boolean;
-    gender?: boolean;
-    homeAddress?: boolean;
-    postCode?: boolean;
-    postalAddress?: boolean;
-    postalCode?: boolean;
-    phone?: boolean;
-    email?: boolean;
-    preferredMethod?: boolean;
-  };
-  errors: {
-    firstName?: string[];
-    lastName?: string[];
-    preferredName?: string[];
-    dob?: string[];
-    gender?: string[];
-    homeAddress?: string[];
-    postCode?: number[];
-    postalAddress?: string[];
-    postalCode?: number[];
-    phone?: number[];
-    email?: string[];
-    preferredMethod?: string[];
-  };
-};
-
-export const Personal: React.FC = () => {
+export const Personal: React.FC<Props> = ({
+  formState,
+  handleChange,
+  hasError
+}) => {
   const classes = useStyles();
-
-  /** Handle Fields */
-  const [formState, setFormState] = useState<FormStateType>({
-    isValid: false,
-    values: {},
-    touched: {},
-    errors: {}
-  });
-
-  useEffect(() => {
-    const errors = validate(formState.values, schema);
-    setFormState(formState => ({
-      ...formState,
-      isValid: errors ? false : true,
-      errors: errors || {}
-    }));
-  }, [formState.values]);
-
-  const handleChange = (event: ChangeEvent<HTMLInputElement>) => {
-    event.persist();
-
-    setFormState(formState => ({
-      ...formState,
-      values: {
-        ...formState.values,
-        [event.target.name]: event.target.value
-      },
-      touched: {
-        ...formState.touched,
-        [event.target.name]: true
-      }
-    }));
-  };
-
-  const hasError = (field: string): boolean =>
-    field in formState.touched && field in formState.errors ? true : false;
 
   return (
     <Grid container className={classes.root}>
@@ -275,34 +119,24 @@ export const Personal: React.FC = () => {
         <div style={{ display: 'flex' }}>
           <div style={{ width: '30%', padding: '10px 0', marginRight: '50px' }}>
             <TextField
-              error={hasError('firstName')}
-              helperText={
-                hasError('firstName')
-                  ? formState.errors.firstName && formState.errors.firstName[0]
-                  : null
-              }
+              error={hasError('FirstName')}
               fullWidth
               label="First name*"
-              name="firstName"
+              name="FirstName"
               autoComplete="off"
-              value={formState.values.firstName || ''}
+              value={formState.values.FirstName || ''}
               variant="outlined"
               onChange={handleChange}
             />
           </div>
           <div style={{ width: '30%', padding: '10px 0' }}>
             <TextField
-              error={hasError('lastName')}
-              helperText={
-                hasError('lastName')
-                  ? formState.errors.lastName && formState.errors.lastName[0]
-                  : null
-              }
+              error={hasError('Surname')}
               fullWidth
-              label="Last name*"
-              name="lastName"
+              label="Surname*"
+              name="Surname"
               autoComplete="off"
-              value={formState.values.lastName || ''}
+              value={formState.values.Surname || ''}
               variant="outlined"
               onChange={handleChange}
             />
@@ -310,18 +144,12 @@ export const Personal: React.FC = () => {
         </div>
         <div style={{ width: '30%', padding: '10px 0' }}>
           <TextField
-            error={hasError('preferredName')}
-            helperText={
-              hasError('preferredName')
-                ? formState.errors.preferredName &&
-                  formState.errors.preferredName[0]
-                : null
-            }
+            error={hasError('PreferredName')}
             fullWidth
             label="Preferred name"
-            name="preferredName"
+            name="PreferredName"
             autoComplete="off"
-            value={formState.values.preferredName || ''}
+            value={formState.values.PreferredName || ''}
             variant="outlined"
             onChange={handleChange}
           />
@@ -329,39 +157,29 @@ export const Personal: React.FC = () => {
         <div style={{ display: 'flex' }}>
           <div style={{ width: '30%', padding: '10px 0', marginRight: '50px' }}>
             <TextField
-              error={hasError('dob')}
-              helperText={
-                hasError('dob')
-                  ? formState.errors.dob && formState.errors.dob[0]
-                  : null
-              }
+              error={hasError('DateOfBirth')}
               fullWidth
               label="Date of birth*"
               placeholder="DD/MM/YYYY"
-              name="dob"
+              name="DateOfBirth"
               autoComplete="off"
-              value={formState.values.dob || ''}
+              value={formState.values.DateOfBirth || ''}
               variant="outlined"
               onChange={handleChange}
             />
           </div>
           <div style={{ width: '30%', padding: '10px 0' }}>
             <TextField
-              error={hasError('gender')}
-              helperText={
-                hasError('gender')
-                  ? formState.errors.gender && formState.errors.gender[0]
-                  : null
-              }
+              error={hasError('Gender')}
               fullWidth
               label={
                 <span className={classes.selectOptionLabel}>Please select</span>
               }
-              name="gender"
+              name="Gender"
               select
               autoComplete="off"
               SelectProps={{ native: true }}
-              value={formState.values.gender || ''}
+              value={formState.values.Gender || ''}
               variant="outlined"
               onChange={handleChange}>
               {['', 'Male', 'Female'].map(gender => (
@@ -378,35 +196,24 @@ export const Personal: React.FC = () => {
         <div style={{ display: 'flex', justifyContent: 'space-between' }}>
           <div style={{ width: '65%', padding: '10px 0' }}>
             <TextField
-              error={hasError('homeAddress')}
-              helperText={
-                hasError('homeAddress')
-                  ? formState.errors.homeAddress &&
-                    formState.errors.homeAddress[0]
-                  : null
-              }
+              error={hasError('HomeAddress')}
               fullWidth
               label="Home address"
-              name="homeAddress"
+              name="HomeAddress"
               autoComplete="off"
-              value={formState.values.homeAddress || ''}
+              value={formState.values.HomeAddress || ''}
               variant="outlined"
               onChange={handleChange}
             />
           </div>
           <div style={{ width: '20%', padding: '10px 0' }}>
             <TextField
-              error={hasError('postCode')}
-              helperText={
-                hasError('postCode')
-                  ? formState.errors.postCode && formState.errors.postCode[0]
-                  : null
-              }
+              error={hasError('HomePostCode')}
               fullWidth
               label="Post Code"
-              name="postCode"
+              name="HomePostCode"
               autoComplete="off"
-              value={formState.values.postCode || ''}
+              value={formState.values.HomePostCode || ''}
               variant="outlined"
               onChange={handleChange}
             />
@@ -415,36 +222,24 @@ export const Personal: React.FC = () => {
         <div style={{ display: 'flex', justifyContent: 'space-between' }}>
           <div style={{ width: '65%', padding: '10px 0' }}>
             <TextField
-              error={hasError('postalAddress')}
-              helperText={
-                hasError('postalAddress')
-                  ? formState.errors.postalAddress &&
-                    formState.errors.postalAddress[0]
-                  : null
-              }
+              error={hasError('PostalAddress')}
               fullWidth
               label="Postal address"
-              name="postalAddress"
+              name="PostalAddress"
               autoComplete="off"
-              value={formState.values.postalAddress || ''}
+              value={formState.values.PostalAddress || ''}
               variant="outlined"
               onChange={handleChange}
             />
           </div>
           <div style={{ width: '20%', padding: '10px 0' }}>
             <TextField
-              error={hasError('postalCode')}
-              helperText={
-                hasError('postalCode')
-                  ? formState.errors.postalCode &&
-                    formState.errors.postalCode[0]
-                  : null
-              }
+              error={hasError('PostalPostCode')}
               fullWidth
               label="Post Code"
-              name="postalCode"
+              name="PostalPostCode"
               autoComplete="off"
-              value={formState.values.postalCode || ''}
+              value={formState.values.PostalPostCode || ''}
               variant="outlined"
               onChange={handleChange}
             />
@@ -452,34 +247,24 @@ export const Personal: React.FC = () => {
         </div>
         <div className={classes.textFieldContainer}>
           <TextField
-            error={hasError('phone')}
-            helperText={
-              hasError('phone')
-                ? formState.errors.phone && formState.errors.phone[0]
-                : null
-            }
+            error={hasError('MobilePhone')}
             fullWidth
-            label="Phone"
-            name="phone"
+            label="Mobile Phone"
+            name="MobilePhone"
             autoComplete="off"
-            value={formState.values.phone || ''}
+            value={formState.values.MobilePhone || ''}
             variant="outlined"
             onChange={handleChange}
           />
         </div>
         <div style={{ width: '50%', padding: '10px 0' }}>
           <TextField
-            error={hasError('email')}
-            helperText={
-              hasError('email')
-                ? formState.errors.email && formState.errors.email[0]
-                : null
-            }
+            error={hasError('UserEmail')}
             fullWidth
             label="Email*"
-            name="email"
+            name="UserEmail"
             autoComplete="off"
-            value={formState.values.email || ''}
+            value={formState.values.UserEmail || ''}
             variant="outlined"
             onChange={handleChange}
           />
@@ -496,21 +281,44 @@ export const Personal: React.FC = () => {
               display: 'flex',
               alignItems: 'center'
             }}>
-            <FormControlLabel
-              style={{ marginRight: '40px' }}
-              control={<Checkbox checked={false} value="1" color="primary" />}
-              label={<span className={classes.checkText}>Phone</span>}
-            />
-            <FormControlLabel
-              style={{ marginRight: '40px' }}
-              control={<Checkbox checked={false} value="1" color="primary" />}
-              label={<span className={classes.checkText}>Text</span>}
-            />
-            <FormControlLabel
-              style={{ marginRight: '40px' }}
-              control={<Checkbox checked={false} value="1" color="primary" />}
-              label={<span className={classes.checkText}>Email</span>}
-            />
+            <FormGroup>
+              <FormControlLabel
+                style={{ marginRight: '40px' }}
+                control={
+                  <Checkbox
+                    checked={false}
+                    value="Phone"
+                    color="primary"
+                    name="Phone"
+                  />
+                }
+                label={<span className={classes.checkText}>Phone</span>}
+              />
+              <FormControlLabel
+                style={{ marginRight: '40px' }}
+                control={
+                  <Checkbox
+                    checked={false}
+                    value="Text"
+                    color="primary"
+                    name="Text"
+                  />
+                }
+                label={<span className={classes.checkText}>Text</span>}
+              />
+              <FormControlLabel
+                style={{ marginRight: '40px' }}
+                control={
+                  <Checkbox
+                    checked={false}
+                    value="Email"
+                    color="primary"
+                    name="Email"
+                  />
+                }
+                label={<span className={classes.checkText}>Email</span>}
+              />
+            </FormGroup>
           </div>
         </div>
       </Grid>
