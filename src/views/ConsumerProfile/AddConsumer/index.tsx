@@ -16,6 +16,8 @@ import {
   HealthCare
 } from './components';
 import { Profile } from 'types/profile';
+import { FormStateType1, schema1 } from './components/Personal';
+import { FormStateType2, schema2 } from './components/Emergency';
 
 const useStyles = makeStyles(() => ({
   root: {
@@ -99,155 +101,132 @@ const useStyles = makeStyles(() => ({
   }
 }));
 
-const schema = {
-  FirstName: {
-    presence: { allowEmpty: false, message: 'is required' },
-    length: {
-      maximum: 80
-    }
-  },
-  Surname: {
-    presence: { allowEmpty: false, message: 'is required' },
-    length: {
-      maximum: 80
-    }
-  },
-  PreferredName: {
-    presence: false,
-    length: {
-      maximum: 80
-    }
-  },
-  DateOfBirth: {
-    presence: { allowEmpty: false, message: 'is required' },
-    length: {
-      maximum: 80
-    }
-  },
-  Gender: {
-    presence: { allowEmpty: false, message: 'is required' },
-    length: {
-      maximum: 80
-    }
-  },
-  HomeAddress: {
-    presence: false,
-    length: {
-      maximum: 200
-    }
-  },
-  HomePostCode: {
-    presence: false,
-    numericality: {
-      onlyInteger: true
-    },
-    length: {
-      maximum: 10
-    }
-  },
-  PostalAddress: {
-    presence: false,
-    length: {
-      maximum: 200
-    }
-  },
-  PostalPostCode: {
-    presence: false,
-    numericality: {
-      onlyInteger: true
-    },
-    length: {
-      maximum: 10
-    }
-  },
-  MobilePhone: {
-    presence: false,
-    numericality: {
-      onlyInteger: true
-    },
-    length: {
-      maximum: 20
-    }
-  },
-  UserEmail: {
-    presence: { allowEmpty: false, message: 'is required' },
-    email: true,
-    length: {
-      maximum: 50
-    }
-  },
-  PreferredContactMethod: {
-    presence: { allowEmpty: false, message: 'is required' },
-    length: {
-      maximum: 20
-    }
-  }
-};
-
-export type FormStateType = {
-  isValid: boolean;
-  values: {
-    FirstName?: string;
-    Surname?: string;
-    PreferredName?: string;
-    DateOfBirth?: string;
-    Gender?: string;
-    HomeAddress?: string;
-    HomePostCode?: string;
-    PostalAddress?: string;
-    PostalPostCode?: string;
-    MobilePhone?: string;
-    UserEmail?: string;
-    PreferredContactMethod?: string;
-  };
-  touched: {
-    FirstName?: boolean;
-    Surname?: boolean;
-    PreferredName?: boolean;
-    DateOfBirth?: boolean;
-    Gender?: boolean;
-    HomeAddress?: boolean;
-    HomePostCode?: boolean;
-    PostalAddress?: boolean;
-    PostalPostCode?: boolean;
-    MobilePhone?: boolean;
-    UserEmail?: boolean;
-    PreferredContactMethod?: boolean;
-  };
-  errors: {
-    FirstName?: string[];
-    Surname?: string[];
-    PreferredName?: string[];
-    DateOfBirth?: string[];
-    Gender?: string[];
-    HomeAddress?: string[];
-    HomePostCode?: string[];
-    PostalAddress?: string[];
-    PostalPostCode?: string[];
-    MobilePhone?: string[];
-    UserEmail?: string[];
-    PreferredContactMethod?: string[];
-  };
-};
-
 export const AddConsumer: React.FC = () => {
   const classes = useStyles();
   const { history } = useRouter();
 
-  const [step, setStep] = useState(0);
+  const [profile, setProfile] = useState({} as Profile);
 
+  // Personal Form
   const [contactMethods, setContactMethods] = useState({
     Phone: false,
     Text: false,
     Email: false
   });
 
-  const handleCheckBoxChange = (event: ChangeEvent<HTMLInputElement>) => {
+  const handleContactMethodsCheckBoxChange = (
+    event: ChangeEvent<HTMLInputElement>
+  ) => {
     setContactMethods(oldValue => ({
       ...oldValue,
       [event.target.name]: event.target.checked
     }));
   };
+
+  const [formState1, setFormState1] = useState<FormStateType1>({
+    isValid: false,
+    values: {
+      FirstName: profile.FirstName,
+      Surname: profile.Surname,
+      PreferredName: profile.PreferredName,
+      DateOfBirth: profile.DateOfBirth,
+      Gender: profile.Gender,
+      HomeAddress: profile.HomeAddress,
+      HomePostCode: profile.HomePostCode,
+      PostalAddress: profile.PostalAddress,
+      PostalPostCode: profile.PostalPostCode,
+      MobilePhone: profile.MobilePhone,
+      UserEmail: profile.UserEmail,
+      PreferredContactMethod: profile.PreferredContactMethod
+    },
+    touched: {},
+    errors: {}
+  });
+
+  const hasError1 = (field: string): boolean =>
+    field in formState1.touched && field in formState1.errors ? true : false;
+
+  // Emergency
+  const [formState2, setFormState2] = useState<FormStateType2>({
+    isValid: false,
+    values: {
+      ContactName: profile.ContactName,
+      RelationshipToConsumer: profile.RelationshipToConsumer,
+      EmergencyContactPhone: profile.EmergencyContactPhone,
+      EmergencyAddress: profile.EmergencyAddress,
+      EmergencyWhenToContact: profile.EmergencyWhenToContact
+    },
+    touched: {},
+    errors: {}
+  });
+
+  const hasError2 = (field: string): boolean =>
+    field in formState2.touched && field in formState2.errors ? true : false;
+
+  // Common
+  useEffect(() => {
+    const errors = validate(formState1.values, schema1);
+
+    setFormState1(formState => ({
+      ...formState,
+      isValid: errors ? false : true,
+      errors: errors || {}
+    }));
+  }, [formState1.values]);
+
+  useEffect(() => {
+    const errors = validate(formState2.values, schema2);
+
+    setFormState2(formState => ({
+      ...formState,
+      isValid: errors ? false : true,
+      errors: errors || {}
+    }));
+  }, [formState2.values]);
+
+  const handleChange = (event: ChangeEvent<HTMLInputElement>) => {
+    event.persist();
+
+    if (step === 0) {
+      setFormState1(formState => ({
+        ...formState,
+        values: {
+          ...formState.values,
+          [event.target.name]: event.target.value
+        },
+        touched: {
+          ...formState.touched,
+          [event.target.name]: true
+        }
+      }));
+    }
+
+    if (step === 1) {
+      setFormState2(formState => ({
+        ...formState,
+        values: {
+          ...formState.values,
+          [event.target.name]: event.target.value
+        },
+        touched: {
+          ...formState.touched,
+          [event.target.name]: true
+        }
+      }));
+    }
+
+    handleProfileField(event.target.name, event.target.value);
+  };
+
+  const handleProfileField = (name: string, value: string) => {
+    setProfile(values => ({
+      ...values,
+      [name]: value
+    }));
+  };
+
+  // Navigation
+  const [step, setStep] = useState(0);
 
   const next = () => {
     if (step < 4) {
@@ -264,7 +243,7 @@ export const AddConsumer: React.FC = () => {
         }
         handleProfileField('PreferredContactMethod', PreferredContactMethod);
 
-        setFormState(formState => ({
+        setFormState1(formState => ({
           ...formState,
           values: {
             ...formState.values,
@@ -297,8 +276,29 @@ export const AddConsumer: React.FC = () => {
             PreferredContactMethod: true
           }
         }));
-        formState.isValid && setStep(value => value + 1);
-        console.log(profile);
+        formState1.isValid && setStep(value => value + 1);
+      }
+      if (step === 1) {
+        setFormState2(formState => ({
+          ...formState,
+          values: {
+            ...formState.values,
+            ContactName: profile.ContactName,
+            RelationshipToConsumer: profile.RelationshipToConsumer,
+            EmergencyContactPhone: profile.EmergencyContactPhone,
+            EmergencyAddress: profile.EmergencyAddress,
+            EmergencyWhenToContact: profile.EmergencyWhenToContact
+          },
+          touched: {
+            ...formState.touched,
+            ContactName: true,
+            RelationshipToConsumer: true,
+            EmergencyContactPhone: true,
+            EmergencyAddress: true,
+            EmergencyWhenToContact: true
+          }
+        }));
+        formState2.isValid && setStep(value => value + 1);
       }
     }
   };
@@ -306,65 +306,6 @@ export const AddConsumer: React.FC = () => {
   const back = () => {
     if (step > 0) setStep(value => value - 1);
   };
-
-  const [profile, setProfile] = useState({} as Profile);
-
-  const [formState, setFormState] = useState<FormStateType>({
-    isValid: false,
-    values: {
-      FirstName: profile.FirstName,
-      Surname: profile.Surname,
-      PreferredName: profile.PreferredName,
-      DateOfBirth: profile.DateOfBirth,
-      Gender: profile.Gender,
-      HomeAddress: profile.HomeAddress,
-      HomePostCode: profile.HomePostCode,
-      PostalAddress: profile.PostalAddress,
-      PostalPostCode: profile.PostalPostCode,
-      MobilePhone: profile.MobilePhone,
-      UserEmail: profile.UserEmail,
-      PreferredContactMethod: profile.PreferredContactMethod
-    },
-    touched: {},
-    errors: {}
-  });
-
-  useEffect(() => {
-    const errors = validate(formState.values, schema);
-    setFormState(formState => ({
-      ...formState,
-      isValid: errors ? false : true,
-      errors: errors || {}
-    }));
-  }, [formState.values]);
-
-  const handleChange = (event: ChangeEvent<HTMLInputElement>) => {
-    event.persist();
-
-    setFormState(formState => ({
-      ...formState,
-      values: {
-        ...formState.values,
-        [event.target.name]: event.target.value
-      },
-      touched: {
-        ...formState.touched,
-        [event.target.name]: true
-      }
-    }));
-
-    handleProfileField(event.target.name, event.target.value);
-  };
-
-  const handleProfileField = (name: string, value: string) => {
-    setProfile(values => ({
-      ...values,
-      [name]: value
-    }));
-  };
-
-  const hasError = (field: string): boolean =>
-    field in formState.touched && field in formState.errors ? true : false;
 
   return (
     <div className={classes.root}>
@@ -417,14 +358,20 @@ export const AddConsumer: React.FC = () => {
           <div className={classes.formContent}>
             {step === 0 && (
               <Personal
-                formState={formState}
+                formState={formState1}
                 handleChange={handleChange}
-                hasError={hasError}
+                hasError={hasError1}
                 contactMethods={contactMethods}
-                handleCheckBoxChange={handleCheckBoxChange}
+                handleCheckBoxChange={handleContactMethodsCheckBoxChange}
               />
             )}
-            {step === 1 && <Emergency />}
+            {step === 1 && (
+              <Emergency
+                formState={formState2}
+                handleChange={handleChange}
+                hasError={hasError2}
+              />
+            )}
             {step === 2 && <Background />}
             {step === 3 && <Practitioner />}
             {step === 4 && <HealthCare />}

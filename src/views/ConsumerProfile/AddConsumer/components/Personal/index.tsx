@@ -8,7 +8,6 @@ import {
   Checkbox
 } from '@material-ui/core';
 import { makeStyles } from '@material-ui/styles';
-import { FormStateType } from '../..';
 
 const useStyles = makeStyles(() => ({
   root: {
@@ -85,8 +84,139 @@ const useStyles = makeStyles(() => ({
   }
 }));
 
+export const schema1 = {
+  FirstName: {
+    presence: { allowEmpty: false, message: 'is required' },
+    length: {
+      maximum: 80
+    }
+  },
+  Surname: {
+    presence: { allowEmpty: false, message: 'is required' },
+    length: {
+      maximum: 80
+    }
+  },
+  PreferredName: {
+    presence: false,
+    length: {
+      maximum: 80
+    }
+  },
+  DateOfBirth: {
+    presence: { allowEmpty: false, message: 'is required' },
+    length: {
+      maximum: 80
+    }
+  },
+  Gender: {
+    presence: { allowEmpty: false, message: 'is required' },
+    length: {
+      maximum: 80
+    }
+  },
+  HomeAddress: {
+    presence: false,
+    length: {
+      maximum: 200
+    }
+  },
+  HomePostCode: {
+    presence: false,
+    numericality: {
+      onlyInteger: true
+    },
+    length: {
+      maximum: 10
+    }
+  },
+  PostalAddress: {
+    presence: false,
+    length: {
+      maximum: 200
+    }
+  },
+  PostalPostCode: {
+    presence: false,
+    numericality: {
+      onlyInteger: true
+    },
+    length: {
+      maximum: 10
+    }
+  },
+  MobilePhone: {
+    presence: false,
+    numericality: {
+      onlyInteger: true
+    },
+    length: {
+      maximum: 20
+    }
+  },
+  UserEmail: {
+    presence: { allowEmpty: false, message: 'is required' },
+    email: true,
+    length: {
+      maximum: 50
+    }
+  },
+  PreferredContactMethod: {
+    presence: false,
+    length: {
+      maximum: 20
+    }
+  }
+};
+
+export type FormStateType1 = {
+  isValid: boolean;
+  values: {
+    FirstName?: string;
+    Surname?: string;
+    PreferredName?: string;
+    DateOfBirth?: string;
+    Gender?: string;
+    HomeAddress?: string;
+    HomePostCode?: string;
+    PostalAddress?: string;
+    PostalPostCode?: string;
+    MobilePhone?: string;
+    UserEmail?: string;
+    PreferredContactMethod?: string;
+  };
+  touched: {
+    FirstName?: boolean;
+    Surname?: boolean;
+    PreferredName?: boolean;
+    DateOfBirth?: boolean;
+    Gender?: boolean;
+    HomeAddress?: boolean;
+    HomePostCode?: boolean;
+    PostalAddress?: boolean;
+    PostalPostCode?: boolean;
+    MobilePhone?: boolean;
+    UserEmail?: boolean;
+    PreferredContactMethod?: boolean;
+  };
+  errors: {
+    FirstName?: string[];
+    Surname?: string[];
+    PreferredName?: string[];
+    DateOfBirth?: string[];
+    Gender?: string[];
+    HomeAddress?: string[];
+    HomePostCode?: string[];
+    PostalAddress?: string[];
+    PostalPostCode?: string[];
+    MobilePhone?: string[];
+    UserEmail?: string[];
+    PreferredContactMethod?: string[];
+  };
+};
+
 type Props = {
-  formState: FormStateType;
+  formState: FormStateType1;
   handleChange: (event: ChangeEvent<HTMLInputElement>) => void;
   hasError: (field: string) => boolean;
   contactMethods: {

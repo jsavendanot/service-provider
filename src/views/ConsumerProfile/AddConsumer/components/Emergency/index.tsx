@@ -1,5 +1,4 @@
-import React, { useState, useEffect, ChangeEvent } from 'react';
-import validate from 'validate.js';
+import React, { ChangeEvent } from 'react';
 
 import { Grid, TextField } from '@material-ui/core';
 import { makeStyles } from '@material-ui/styles';
@@ -41,20 +40,20 @@ const useStyles = makeStyles(() => ({
   }
 }));
 
-const schema = {
-  contactName: {
+export const schema2 = {
+  ContactName: {
     presence: { allowEmpty: false, message: 'is required' },
     length: {
       maximum: 100
     }
   },
-  relationship: {
-    presence: { allowEmpty: false, message: 'is required' },
+  RelationshipToConsumer: {
+    presence: false,
     length: {
       maximum: 100
     }
   },
-  contactPhone: {
+  EmergencyContactPhone: {
     presence: { allowEmpty: false, message: 'is required' },
     numericality: {
       onlyInteger: true
@@ -63,82 +62,57 @@ const schema = {
       maximum: 20
     }
   },
-  contactAddress: {
-    presence: { allowEmpty: false, message: 'is required' },
+  EmergencyAddress: {
+    presence: false,
     length: {
       maximum: 200
     }
   },
-  whenToContact: {
-    presence: { allowEmpty: false, message: 'is required' },
+  EmergencyWhenToContact: {
+    presence: false,
     length: {
       maximum: 100
     }
   }
 };
 
-type FormStateType = {
+export type FormStateType2 = {
   isValid: boolean;
   values: {
-    contactName?: string;
-    relationship?: string;
-    contactPhone?: number;
-    contactAddress?: string;
-    whenToContact?: string;
+    ContactName?: string;
+    RelationshipToConsumer?: string;
+    EmergencyContactPhone?: string;
+    EmergencyAddress?: string;
+    EmergencyWhenToContact?: string;
   };
   touched: {
-    contactName?: boolean;
-    relationship?: boolean;
-    contactPhone?: boolean;
-    contactAddress?: boolean;
+    ContactName?: boolean;
+    RelationshipToConsumer?: boolean;
+    EmergencyContactPhone?: boolean;
+    EmergencyAddress?: boolean;
+    EmergencyWhenToContact?: boolean;
   };
   errors: {
-    contactName?: string[];
-    relationship?: string[];
-    contactPhone?: number[];
-    contactAddress?: string[];
-    whenToContact?: string[];
+    ContactName?: string[];
+    RelationshipToConsumer?: string[];
+    EmergencyContactPhone?: string[];
+    EmergencyAddress?: string[];
+    EmergencyWhenToContact?: string[];
   };
 };
 
-export const Emergency: React.FC = () => {
+type Props = {
+  formState: FormStateType2;
+  handleChange: (event: ChangeEvent<HTMLInputElement>) => void;
+  hasError: (field: string) => boolean;
+};
+
+export const Emergency: React.FC<Props> = ({
+  formState,
+  handleChange,
+  hasError
+}) => {
   const classes = useStyles();
-
-  /** Handle Fields */
-  const [formState, setFormState] = useState<FormStateType>({
-    isValid: false,
-    values: {},
-    touched: {},
-    errors: {}
-  });
-
-  useEffect(() => {
-    const errors = validate(formState.values, schema);
-    setFormState(formState => ({
-      ...formState,
-      isValid: errors ? false : true,
-      errors: errors || {}
-    }));
-  }, [formState.values]);
-
-  const handleChange = (event: ChangeEvent<HTMLInputElement>) => {
-    event.persist();
-
-    setFormState(formState => ({
-      ...formState,
-      values: {
-        ...formState.values,
-        [event.target.name]: event.target.value
-      },
-      touched: {
-        ...formState.touched,
-        [event.target.name]: true
-      }
-    }));
-  };
-
-  const hasError = (field: string): boolean =>
-    field in formState.touched && field in formState.errors ? true : false;
 
   return (
     <Grid container className={classes.root}>
@@ -156,45 +130,43 @@ export const Emergency: React.FC = () => {
       <Grid item xs={12}>
         <div className={classes.textFieldContainer}>
           <TextField
-            error={hasError('contactName')}
-            helperText={
-              hasError('contactName')
-                ? formState.errors.contactName &&
-                  formState.errors.contactName[0]
-                : null
-            }
+            error={hasError('ContactName')}
             fullWidth
             label="Contact name*"
-            name="contactName"
+            name="ContactName"
             autoComplete="off"
-            value={formState.values.contactName || ''}
+            value={formState.values.ContactName || ''}
             variant="outlined"
             onChange={handleChange}
           />
         </div>
         <div className={classes.textFieldContainer}>
           <TextField
-            error={hasError('relationship')}
-            helperText={
-              hasError('relationship')
-                ? formState.errors.relationship &&
-                  formState.errors.relationship[0]
-                : null
-            }
+            error={hasError('RelationshipToConsumer')}
             fullWidth
             label={
               <span className={classes.selectOptionLabel}>
                 Relationship to consumer
               </span>
             }
-            name="relationship"
+            name="RelationshipToConsumer"
             select
             autoComplete="off"
             SelectProps={{ native: true }}
-            value={formState.values.relationship || ''}
+            value={formState.values.RelationshipToConsumer || ''}
             variant="outlined"
             onChange={handleChange}>
-            {['', 'Uncle'].map(relationship => (
+            {[
+              '',
+              'Parent',
+              'Spouse',
+              'Child',
+              'Partner',
+              'Grandparent',
+              'Sibling',
+              'Friend',
+              'other'
+            ].map(relationship => (
               <option key={relationship} value={relationship}>
                 {relationship}
               </option>
@@ -209,36 +181,24 @@ export const Emergency: React.FC = () => {
           }}>
           <div className={classes.textFieldContainer}>
             <TextField
-              error={hasError('contactPhone')}
-              helperText={
-                hasError('contactPhone')
-                  ? formState.errors.contactPhone &&
-                    formState.errors.contactPhone[0]
-                  : null
-              }
+              error={hasError('EmergencyContactPhone')}
               fullWidth
               label="Phone*"
-              name="contactPhone"
+              name="EmergencyContactPhone"
               autoComplete="off"
-              value={formState.values.contactPhone || ''}
+              value={formState.values.EmergencyContactPhone || ''}
               variant="outlined"
               onChange={handleChange}
             />
           </div>
           <div style={{ width: '50%', padding: '10px 0' }}>
             <TextField
-              error={hasError('contactAddress')}
-              helperText={
-                hasError('contactAddress')
-                  ? formState.errors.contactAddress &&
-                    formState.errors.contactAddress[0]
-                  : null
-              }
+              error={hasError('EmergencyAddress')}
               fullWidth
               label="Address"
-              name="contactAddress"
+              name="EmergencyAddress"
               autoComplete="off"
-              value={formState.values.contactAddress || ''}
+              value={formState.values.EmergencyAddress || ''}
               variant="outlined"
               onChange={handleChange}
             />
@@ -246,18 +206,12 @@ export const Emergency: React.FC = () => {
         </div>
         <div style={{ width: '50%', padding: '10px 0' }}>
           <TextField
-            error={hasError('whenToContact')}
-            helperText={
-              hasError('whenToContact')
-                ? formState.errors.whenToContact &&
-                  formState.errors.whenToContact[0]
-                : null
-            }
+            error={hasError('EmergencyWhenToContact')}
             fullWidth
             label="When to contact"
-            name="whenToContact"
+            name="EmergencyWhenToContact"
             autoComplete="off"
-            value={formState.values.whenToContact || ''}
+            value={formState.values.EmergencyWhenToContact || ''}
             variant="outlined"
             onChange={handleChange}
           />
