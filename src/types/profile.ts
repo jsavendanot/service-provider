@@ -1,5 +1,6 @@
 export interface Profile {
   ContactId: string;
+  RecoveryPlanId: string;
   UserId: string;
   SafetyPlanId: string;
   FirstName: string;

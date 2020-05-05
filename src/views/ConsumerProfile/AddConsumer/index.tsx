@@ -5,6 +5,7 @@ import validate from 'validate.js';
 
 import { Grid } from '@material-ui/core';
 import { makeStyles } from '@material-ui/styles';
+import { useDispatch } from 'react-redux';
 import { KeyboardArrowLeft, ArrowForward, ArrowBack } from '@material-ui/icons';
 
 import {
@@ -19,6 +20,8 @@ import { Profile } from 'types/profile';
 import { FormStateType1, schema1 } from './components/Personal';
 import { FormStateType2, schema2 } from './components/Emergency';
 import { FormStateType3 } from './components/Background';
+import { addConsumer } from 'slices/people/action';
+import uuid from 'uuid';
 
 const useStyles = makeStyles(() => ({
   root: {
@@ -105,8 +108,44 @@ const useStyles = makeStyles(() => ({
 export const AddConsumer: React.FC = () => {
   const classes = useStyles();
   const { history } = useRouter();
+  const dispatch = useDispatch();
 
-  const [profile, setProfile] = useState({} as Profile);
+  const [profile, setProfile] = useState<Profile>({
+    ContactId: uuid(),
+    UserId: '',
+    RecoveryPlanId: '',
+    SafetyPlanId: '',
+    FirstName: '',
+    Surname: '',
+    PreferredName: '',
+    Gender: '',
+    DateOfBirth: '',
+    UserEmail: '',
+    ContactType: '',
+    HomeAddress: '',
+    HomePostCode: '',
+    PostalAddress: '',
+    PostalPostCode: '',
+    HomePhone: '',
+    MobilePhone: '',
+    BusinessPhone: '',
+    PrimaryEmail: '',
+    PreferredContactMethod: '',
+    ContactName: '',
+    RelationshipToConsumer: '',
+    EmergencyContactPhone: '',
+    EmergencyAddress: '',
+    EmergencyWhenToContact: '',
+    CountryOfBirth: '',
+    PreferredLanguage: '',
+    GeneralPractionerId: '',
+    MedicalRecordNumber: '',
+    AdditionalInformation: '',
+    Image: '',
+    ImageType: '',
+    ImageUrl: '',
+    FullName: ''
+  });
 
   // Personal Form
   const [contactMethods, setContactMethods] = useState({
@@ -306,8 +345,7 @@ export const AddConsumer: React.FC = () => {
           }
         }));
         formState1.isValid && setStep(value => value + 1);
-      }
-      if (step === 1) {
+      } else if (step === 1) {
         setFormState2(formState => ({
           ...formState,
           values: {
@@ -328,8 +366,7 @@ export const AddConsumer: React.FC = () => {
           }
         }));
         formState2.isValid && setStep(value => value + 1);
-      }
-      if (step === 2) {
+      } else if (step === 2) {
         setFormState3(formState => ({
           ...formState,
           values: {
@@ -344,12 +381,19 @@ export const AddConsumer: React.FC = () => {
           }
         }));
         setStep(value => value + 1);
+      } else {
+        setStep(value => value + 1);
       }
     }
   };
 
   const back = () => {
     if (step > 0) setStep(value => value - 1);
+  };
+
+  const saveConsumer = () => {
+    dispatch(addConsumer(profile));
+    history.push('/home');
   };
 
   return (
@@ -435,9 +479,7 @@ export const AddConsumer: React.FC = () => {
                 classes.saveButtonContainer,
                 step === 4 && classes.bottomZero
               )}>
-              <button
-                className={classes.navSaveButton}
-                onClick={() => history.push('/consumer')}>
+              <button className={classes.navSaveButton} onClick={saveConsumer}>
                 <span className={classes.buttonText}>Save consumer</span>
               </button>
             </div>

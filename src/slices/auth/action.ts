@@ -45,6 +45,7 @@ export const callProfileReadApi = () => {
     sessionStorage.setItem('Provider_Email', profile.PrimaryEmail);
     sessionStorage.setItem('Provider_MobilePhone', profile.MobilePhone);
     sessionStorage.setItem('Provider_ContactId', profile.ContactId);
+    sessionStorage.setItem('Provider_RecoveryPlanId', profile.RecoveryPlanId);
     return profile;
   });
 };
