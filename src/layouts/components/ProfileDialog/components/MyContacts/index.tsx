@@ -1,7 +1,9 @@
 import React from 'react';
+import { useDispatch } from 'react-redux';
 import { makeStyles } from '@material-ui/styles';
 import { Grid, IconButton, Divider } from '@material-ui/core';
 import { Close, AddCircleOutline, Delete } from '@material-ui/icons';
+import { addNetwork } from 'slices/network/action';
 
 const useStyles = makeStyles(() => ({
   root: {
@@ -68,6 +70,12 @@ type Props = {
 };
 export const MyContacts: React.FC<Props> = ({ close, addContact }) => {
   const classes = useStyles();
+  const dispatch = useDispatch();
+
+  const submitHandler = () => {
+    // dispatch(addNetwork());
+  };
+
   return (
     <div className={classes.root}>
       <Grid container>

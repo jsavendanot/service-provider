@@ -1,9 +1,11 @@
 import React, { useState, useEffect, ChangeEvent } from 'react';
 import { makeStyles } from '@material-ui/styles';
 import { Grid, IconButton, Divider, TextField } from '@material-ui/core';
+import { useDispatch } from 'react-redux';
 import { Close } from '@material-ui/icons';
 import validate from 'validate.js';
 import { Button } from 'common/components';
+import { addNetwork } from 'slices/network/action';
 
 const useStyles = makeStyles(() => ({
   root: {
@@ -37,7 +39,7 @@ const schema = {
   Phone: {
     presence: { allowEmpty: false, message: 'is required' },
     length: {
-      maximum: 80
+      maximum: 20
     }
   }
 };
@@ -63,6 +65,12 @@ type Props = {
 };
 export const AddContact: React.FC<Props> = ({ close }) => {
   const classes = useStyles();
+  const dispatch = useDispatch();
+
+  const [contact, setContact] = useState({
+    Name: '',
+    Phone: ''
+  });
 
   const [formState, setFormState] = useState<FormStateType>({
     isValid: false,
@@ -94,10 +102,36 @@ export const AddContact: React.FC<Props> = ({ close }) => {
         [event.target.name]: true
       }
     }));
+
+    setContact(value => ({
+      ...value,
+      [event.target.name]: event.target.value
+    }));
   };
 
   const hasError = (field: string): boolean =>
     field in formState.touched && field in formState.errors ? true : false;
+
+  const submitHandler = () => {
+    setFormState(formState => ({
+      ...formState,
+      values: {
+        ...formState.values,
+        Name: contact.Name,
+        Phone: contact.Phone
+      },
+      touched: {
+        ...formState.touched,
+        Name: true,
+        Phone: true
+      }
+    }));
+
+    if (formState.isValid) {
+      dispatch(addNetwork(formState.values.Name!, formState.values.Phone!));
+      close();
+    }
+  };
 
   return (
     <div className={classes.root}>
@@ -148,7 +182,9 @@ export const AddContact: React.FC<Props> = ({ close }) => {
           justify="center"
           style={{ marginTop: '30px' }}>
           <div className={classes.buttonContainer}>
-            <Button type="primary">Add to contact list</Button>
+            <Button type="primary" click={submitHandler}>
+              Add to contact list
+            </Button>
           </div>
         </Grid>
         <Grid
@@ -158,7 +194,9 @@ export const AddContact: React.FC<Props> = ({ close }) => {
           justify="center"
           style={{ marginBottom: '30px' }}>
           <div className={classes.buttonContainer}>
-            <Button type="secondary">Cancel</Button>
+            <Button type="secondary" click={close}>
+              Cancel
+            </Button>
           </div>
         </Grid>
       </Grid>

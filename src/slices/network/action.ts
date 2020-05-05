@@ -3,6 +3,7 @@ import axios from 'common/utils/axios';
 import authentication from '@kdpw/msal-b2c-react';
 import { startLoading, stopLoading, fetchNetworks } from './networkSlice';
 import { Network } from 'types/network';
+import uuid from 'uuid';
 
 //** ASYNC FUNCS */
 export const fetchEmergencyNetworks = (): AppThunk => async dispatch => {
@@ -24,6 +25,17 @@ export const fetchEmergencyNetworks = (): AppThunk => async dispatch => {
   }
 };
 
+export const addNetwork = (
+  name: string,
+  phone: string
+): AppThunk => async dispatch => {
+  try {
+    await callNetworkContactCreateApi(name, phone);
+  } catch (err) {
+    // dispatch(failed(err.toString()));
+  }
+};
+
 //** API FUNCS */
 
 export const callNetworkContactCarerReadApi = () => {
@@ -38,4 +50,29 @@ export const callNetworkContactCarerReadApi = () => {
       );
       return emergencyContacts;
     });
+};
+
+const callNetworkContactCreateApi = (name: string, phone: string) => {
+  axios.defaults.headers.common['Authorization'] =
+    'Bearer ' + authentication.getAccessToken();
+
+  const network: Network = {
+    Id: uuid(),
+    UserId: sessionStorage.getItem('Provider_UserId')!,
+    ContactId: uuid(),
+    Name: name,
+    Email: '',
+    Phone: phone,
+    CallForSupport: false,
+    Address: '',
+    Type: '',
+    Relationship: '',
+    Image: '',
+    ImageType: '',
+    ImageUrl: ''
+  };
+
+  return axios.post('/NetworkContact/Create', network).then(resp => {
+    console.log(resp);
+  });
 };

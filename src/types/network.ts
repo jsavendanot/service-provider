@@ -15,6 +15,8 @@ export interface Network {
   Type: 'Person' | 'Organisation' | '';
   Relationship: string;
   Image: string;
+  ImageType: string;
+  ImageUrl: string;
 }
 
 export interface Invitation {
