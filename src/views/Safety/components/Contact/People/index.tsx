@@ -156,11 +156,11 @@ export const People: React.FC<Props> = ({ people }) => {
         ...values,
         {
           id: uuid(),
-          name: input
+          name: selectedNetwork.Name + ', ' + selectedNetwork.Phone
         }
       ]);
       dispatch(
-        suggestSafetyPlan(selectedNetwork.ContactId, 'WhenUnwellNotice', input)
+        suggestSafetyPlan(selectedNetwork.Id, 'WhenUnwellNotice', input)
       );
       setInput('');
       setSelectedNetwork(undefined);
@@ -208,7 +208,7 @@ export const People: React.FC<Props> = ({ people }) => {
         <NetworkList
           close={closeNetworkListDialog}
           callback={networks => handleNetworkCallBack(networks)}
-          title="Select contact"
+          title="Suggest contacts"
         />
       </DialogContent>
     </Dialog>
@@ -304,7 +304,7 @@ export const People: React.FC<Props> = ({ people }) => {
         </div>
       )}
       <div className={classes.action}>
-        <div style={{ width: '91px', marginRight: '20px', display: 'none' }}>
+        <div style={{ width: '91px', marginRight: '20px' }}>
           <Button type="primarySmall" click={openNetworkListDialog}>
             <Add style={{ marginRight: '5px' }} />
             Add

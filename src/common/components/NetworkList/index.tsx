@@ -1,11 +1,8 @@
-import React, { useState } from 'react';
-import { useSelector } from 'react-redux';
-import { RootState } from 'reducer';
+import React, { useState, useEffect } from 'react';
 import { Network } from 'types/network';
 
 import { makeStyles } from '@material-ui/styles';
 import {
-  Avatar,
   Checkbox,
   Table,
   TableBody,
@@ -18,11 +15,13 @@ import {
 import { Search, PersonAdd } from '@material-ui/icons';
 
 import { Button } from 'common/components';
+import { callNetworkContactListApi } from 'slices/network/action';
 
 const useStyles = makeStyles((theme: Theme) => ({
   nameCell: {
     display: 'flex',
-    alignItems: 'center'
+    justifyContent: 'center',
+    flexDirection: 'column'
   },
   avatar: {
     marginRight: theme.spacing(1)
@@ -114,6 +113,22 @@ const useStyles = makeStyles((theme: Theme) => ({
     [theme.breakpoints.up('lg')]: {
       width: '100%'
     }
+  },
+  nameText: {
+    fontFamily: 'Scada',
+    fontStyle: 'normal',
+    fontWeight: 'bold',
+    fontSize: '18px',
+    lineHeight: '22px',
+    color: '#C57D7D'
+  },
+  phoneText: {
+    fontFamily: 'Scada',
+    fontStyle: 'normal',
+    fontWeight: 'bold',
+    fontSize: '30px',
+    lineHeight: '35px',
+    color: '#692B40'
   }
 }));
 
@@ -126,9 +141,7 @@ type Props = {
 const NetworkList: React.FC<Props> = ({ close, callback, title }) => {
   const classes = useStyles();
 
-  const networks: Network[] = useSelector(
-    (state: RootState) => state.network.networks
-  );
+  const [networks, setNetworks] = useState<Network[]>([]);
 
   const [selectedNetwork, setSelectedNetwork] = useState<Network[]>([]);
   const [rowsPerPage] = useState(10);
@@ -146,6 +159,13 @@ const NetworkList: React.FC<Props> = ({ close, callback, title }) => {
     }
     close();
   };
+
+  useEffect(() => {
+    (async function fetchNetworks() {
+      const networks = await callNetworkContactListApi();
+      setNetworks(networks);
+    })();
+  }, []);
 
   return (
     <div
@@ -202,15 +222,8 @@ const NetworkList: React.FC<Props> = ({ close, callback, title }) => {
                     </TableCell>
                     <TableCell>
                       <div className={classes.nameCell}>
-                        <Avatar
-                          className={classes.avatar}
-                          src={'data:image/png;base64,' + network.Image}>
-                          {network.Name}
-                        </Avatar>
-                        <div>
-                          <div>{network.Name}</div>
-                          <div>{network.Email}</div>
-                        </div>
+                        <div className={classes.nameText}>{network.Name}</div>
+                        <div className={classes.phoneText}>{network.Phone}</div>
                       </div>
                     </TableCell>
                   </TableRow>

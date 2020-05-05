@@ -148,11 +148,11 @@ export const Services: React.FC<Props> = ({ services, collapse }) => {
         ...values,
         {
           id: uuid(),
-          name: input
+          name: selectedNetwork.Name + ', ' + selectedNetwork.Phone
         }
       ]);
       dispatch(
-        suggestSafetyPlan(selectedNetwork.ContactId, 'WhenUnwellNotice', input)
+        suggestSafetyPlan(selectedNetwork.Id, 'WhenUnwellNotice', input)
       );
       setInput('');
       setSelectedNetwork(undefined);
@@ -296,8 +296,7 @@ export const Services: React.FC<Props> = ({ services, collapse }) => {
             </div>
           )}
           <div className={classes.action}>
-            <div
-              style={{ width: '91px', marginRight: '20px', display: 'none' }}>
+            <div style={{ width: '91px', marginRight: '20px' }}>
               <Button type="primarySmall" click={openNetworkListDialog}>
                 <Add style={{ marginRight: '5px' }} />
                 Add
