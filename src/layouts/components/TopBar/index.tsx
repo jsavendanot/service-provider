@@ -64,8 +64,7 @@ const useStyles = makeStyles(() => ({
     position: 'fixed',
     background: '#FFFFFF',
     borderRadius: '6px',
-    width: '201px',
-    height: '258px',
+    width: '240px',
     padding: '15px',
     boxShadow:
       '0px 2px 4px rgba(0, 0, 0, 0.24), 0px 2px 8px rgba(0, 0, 0, 0.12)'

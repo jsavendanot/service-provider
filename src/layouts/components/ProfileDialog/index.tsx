@@ -1,10 +1,18 @@
-import React from 'react';
+import React, { useState } from 'react';
 import useRouter from 'common/utils/useRouter';
 import { useDispatch } from 'react-redux';
 import { endSession } from 'slices/auth/action';
 
-import { Avatar, Divider } from '@material-ui/core';
+import {
+  Avatar,
+  Divider,
+  IconButton,
+  Dialog,
+  DialogContent
+} from '@material-ui/core';
 import { makeStyles } from '@material-ui/styles';
+import { Call } from '@material-ui/icons';
+import MyContacts from './MyContacts';
 
 const useStyles = makeStyles(() => ({
   avatar: {
@@ -32,13 +40,19 @@ const useStyles = makeStyles(() => ({
     margin: '20px 0',
     border: '1px solid #B7B7B8'
   },
-  logoutText: {
+  menuText: {
     fontFamily: 'Roboto',
     fontStyle: 'normal',
     fontWeight: 400,
     fontSize: '16px',
     lineHeight: '48px',
     color: 'rgba(0, 0, 0, 0.87)'
+  },
+  menu: {
+    display: 'flex',
+    alignItems: 'center',
+    cursor: 'pointer',
+    margin: '10px 0'
   }
 }));
 
@@ -50,6 +64,25 @@ export default function ProfileDialog() {
   const handleLogout = () => {
     dispatch(endSession());
   };
+
+  /** Dialog */
+  const [open, setOpen] = useState(false);
+
+  function openDialog() {
+    setOpen(true);
+  }
+
+  function closeDialog() {
+    setOpen(false);
+  }
+
+  const myContactsDialog = (
+    <Dialog open={open} onClose={closeDialog}>
+      <DialogContent>
+        <MyContacts close={closeDialog} />
+      </DialogContent>
+    </Dialog>
+  );
 
   return (
     <>
@@ -89,20 +122,21 @@ export default function ProfileDialog() {
         </div>
       </div>
       <Divider className={classes.divider} />
-      <div
-        style={{
-          display: 'flex',
-          alignItems: 'center',
-          cursor: 'pointer'
-        }}
-        onClick={handleLogout}>
-        <img
-          src="/images/topbar/logout_icon.svg"
-          alt=""
-          style={{ margin: '0 20px' }}
-        />
-        <span className={classes.logoutText}>Log out</span>
+      <div>
+        <div className={classes.menu} onClick={openDialog}>
+          <IconButton style={{ marginRight: '10px' }}>
+            <Call style={{ fill: '#000000' }} />
+          </IconButton>
+          <span className={classes.menuText}>My Contacts</span>
+        </div>
+        <div className={classes.menu} onClick={handleLogout}>
+          <IconButton style={{ padding: '15px', marginRight: '11px' }}>
+            <img src="/images/topbar/logout_icon.svg" alt="" />
+          </IconButton>
+          <span className={classes.menuText}>Log out</span>
+        </div>
       </div>
+      {open && myContactsDialog}
     </>
   );
 }
