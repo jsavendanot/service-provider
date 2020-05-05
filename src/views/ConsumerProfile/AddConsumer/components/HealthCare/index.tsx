@@ -94,56 +94,20 @@ const useStyles = makeStyles(() => ({
 }));
 
 const schema = {
-  healthCardHolder: {
-    presence: { allowEmpty: false, message: 'is required' },
-    length: {
-      maximum: 20
-    }
-  },
-  medicareCardHolder: {
-    presence: { allowEmpty: false, message: 'is required' },
-    length: {
-      maximum: 20
-    }
-  },
   cardNumber: {
-    presence: { allowEmpty: false, message: 'is required' },
+    presence: false,
     length: {
       maximum: 20
     }
   },
   cardExpiry: {
-    presence: { allowEmpty: false, message: 'is required' },
-    length: {
-      maximum: 20
-    }
-  },
-  dvaCardHolder: {
-    presence: { allowEmpty: false, message: 'is required' },
-    length: {
-      maximum: 20
-    }
-  },
-  healthInsurance: {
-    presence: { allowEmpty: false, message: 'is required' },
-    length: {
-      maximum: 20
-    }
-  },
-  governmentPension: {
-    presence: { allowEmpty: false, message: 'is required' },
-    length: {
-      maximum: 20
-    }
-  },
-  ndisPackage: {
-    presence: { allowEmpty: false, message: 'is required' },
+    presence: false,
     length: {
       maximum: 20
     }
   },
   additionalInfo: {
-    presence: { allowEmpty: false, message: 'is required' },
+    presence: false,
     length: {
       maximum: 500
     }
@@ -152,36 +116,18 @@ const schema = {
 type FormStateType = {
   isValid: boolean;
   values: {
-    healthCardHolder?: string;
-    medicareCardHolder?: string;
     cardNumber?: string;
     cardExpiry?: string;
-    dvaCardHolder?: string;
-    healthInsurance?: string;
-    governmentPension?: string;
-    ndisPackage?: string;
     additionalInfo?: string;
   };
   touched: {
-    healthCardHolder?: boolean;
-    medicareCardHolder?: boolean;
     cardNumber?: boolean;
     cardExpiry?: boolean;
-    dvaCardHolder?: boolean;
-    healthInsurance?: boolean;
-    governmentPension?: boolean;
-    ndisPackage?: boolean;
     additionalInfo?: boolean;
   };
   errors: {
-    healthCardHolder?: string;
-    medicareCardHolder?: string[];
     cardNumber?: string[];
     cardExpiry?: string[];
-    dvaCardHolder?: string[];
-    healthInsurance?: string[];
-    governmentPension?: string[];
-    ndisPackage?: string[];
     additionalInfo?: string[];
   };
 };
@@ -189,7 +135,6 @@ type FormStateType = {
 export const HealthCare: React.FC = () => {
   const classes = useStyles();
 
-  /** Handle Fields */
   const [formState, setFormState] = useState<FormStateType>({
     isValid: false,
     values: {},
@@ -225,6 +170,25 @@ export const HealthCare: React.FC = () => {
   const hasError = (field: string): boolean =>
     field in formState.touched && field in formState.errors ? true : false;
 
+  const [healthCare, setHealthCare] = useState({
+    healthCareCardHolder: false,
+    mediCareCardHolder: false,
+    dvaCardHolder: false,
+    privateHealthInsurance: false,
+    governmentPension: false,
+    ndisPackageYes: false,
+    ndisPackageNo: false
+  });
+
+  const handleHealthCareCheckBoxChange = (
+    event: ChangeEvent<HTMLInputElement>
+  ) => {
+    setHealthCare(oldValue => ({
+      ...oldValue,
+      [event.target.name]: event.target.checked
+    }));
+  };
+
   return (
     <Grid container className={classes.root}>
       <Grid item xs={12}>
@@ -246,7 +210,15 @@ export const HealthCare: React.FC = () => {
               alignItems: 'center'
             }}>
             <FormControlLabel
-              control={<Checkbox checked={false} value="1" color="primary" />}
+              control={
+                <Checkbox
+                  checked={healthCare.healthCareCardHolder}
+                  value="healthCareCardHolder"
+                  name="healthCareCardHolder"
+                  color="primary"
+                  onChange={handleHealthCareCheckBoxChange}
+                />
+              }
               label={
                 <span className={classes.checkText}>
                   Health Care Card holder
@@ -262,7 +234,15 @@ export const HealthCare: React.FC = () => {
               alignItems: 'center'
             }}>
             <FormControlLabel
-              control={<Checkbox checked={false} value="1" color="primary" />}
+              control={
+                <Checkbox
+                  checked={healthCare.mediCareCardHolder}
+                  value="mediCareCardHolder"
+                  name="mediCareCardHolder"
+                  color="primary"
+                  onChange={handleHealthCareCheckBoxChange}
+                />
+              }
               label={
                 <span className={classes.checkText}>Medicare Card holder</span>
               }
@@ -280,12 +260,6 @@ export const HealthCare: React.FC = () => {
             style={{ marginRight: '50px' }}>
             <TextField
               error={hasError('cardNumber')}
-              helperText={
-                hasError('cardNumber')
-                  ? formState.errors.cardNumber &&
-                    formState.errors.cardNumber[0]
-                  : null
-              }
               fullWidth
               label="Card number"
               name="cardNumber"
@@ -298,12 +272,6 @@ export const HealthCare: React.FC = () => {
           <div style={{ width: '20%', padding: '10px 0' }}>
             <TextField
               error={hasError('cardExpiry')}
-              helperText={
-                hasError('cardExpiry')
-                  ? formState.errors.cardExpiry &&
-                    formState.errors.cardExpiry[0]
-                  : null
-              }
               fullWidth
               label="Expiry"
               name="cardExpiry"
@@ -321,7 +289,15 @@ export const HealthCare: React.FC = () => {
               alignItems: 'center'
             }}>
             <FormControlLabel
-              control={<Checkbox checked={false} value="1" color="primary" />}
+              control={
+                <Checkbox
+                  checked={healthCare.dvaCardHolder}
+                  value="dvaCardHolder"
+                  name="dvaCardHolder"
+                  color="primary"
+                  onChange={handleHealthCareCheckBoxChange}
+                />
+              }
               label={<span className={classes.checkText}>DVA card holder</span>}
             />
           </div>
@@ -333,7 +309,15 @@ export const HealthCare: React.FC = () => {
               alignItems: 'center'
             }}>
             <FormControlLabel
-              control={<Checkbox checked={false} value="1" color="primary" />}
+              control={
+                <Checkbox
+                  checked={healthCare.privateHealthInsurance}
+                  value="privateHealthInsurance"
+                  name="privateHealthInsurance"
+                  color="primary"
+                  onChange={handleHealthCareCheckBoxChange}
+                />
+              }
               label={
                 <span className={classes.checkText}>
                   Private Health Insurance
@@ -349,7 +333,15 @@ export const HealthCare: React.FC = () => {
               alignItems: 'center'
             }}>
             <FormControlLabel
-              control={<Checkbox checked={false} value="1" color="primary" />}
+              control={
+                <Checkbox
+                  checked={healthCare.governmentPension}
+                  value="governmentPension"
+                  name="governmentPension"
+                  color="primary"
+                  onChange={handleHealthCareCheckBoxChange}
+                />
+              }
               label={
                 <span className={classes.checkText}>Government pension</span>
               }
@@ -372,12 +364,28 @@ export const HealthCare: React.FC = () => {
             }}>
             <FormControlLabel
               style={{ marginRight: '40px' }}
-              control={<Checkbox checked={false} value="1" color="primary" />}
+              control={
+                <Checkbox
+                  checked={healthCare.ndisPackageYes}
+                  value="ndisPackageYes"
+                  name="ndisPackageYes"
+                  color="primary"
+                  onChange={handleHealthCareCheckBoxChange}
+                />
+              }
               label={<span className={classes.checkText}>Yes</span>}
             />
             <FormControlLabel
               style={{ marginRight: '40px' }}
-              control={<Checkbox checked={false} value="1" color="primary" />}
+              control={
+                <Checkbox
+                  checked={healthCare.ndisPackageNo}
+                  value="ndisPackageNo"
+                  name="ndisPackageNo"
+                  color="primary"
+                  onChange={handleHealthCareCheckBoxChange}
+                />
+              }
               label={<span className={classes.checkText}>No</span>}
             />
           </div>
@@ -395,11 +403,13 @@ export const HealthCare: React.FC = () => {
               placeholder=""
               fullWidth
               multiline
+              name="additionalInfo"
               value={formState.values.additionalInfo || ''}
               autoComplete="off"
               rows="4"
               style={{ marginTop: '15px' }}
               className={classes.outline}
+              onChange={handleChange}
             />
           </div>
         </div>

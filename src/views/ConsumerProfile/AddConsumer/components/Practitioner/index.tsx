@@ -67,13 +67,13 @@ const useStyles = makeStyles(() => ({
 
 const schema = {
   name: {
-    presence: { allowEmpty: false, message: 'is required' },
+    presence: false,
     length: {
       maximum: 80
     }
   },
   phone: {
-    presence: { allowEmpty: false, message: 'is required' },
+    presence: false,
     numericality: {
       onlyInteger: true
     },
@@ -82,7 +82,7 @@ const schema = {
     }
   },
   address: {
-    presence: { allowEmpty: false, message: 'is required' },
+    presence: false,
     length: {
       maximum: 200
     }
@@ -119,7 +119,6 @@ type FormStateType = {
 export const Practitioner: React.FC = () => {
   const classes = useStyles();
 
-  /** Handle Fields */
   const [formState, setFormState] = useState<FormStateType>({
     isValid: false,
     values: {},
@@ -155,6 +154,20 @@ export const Practitioner: React.FC = () => {
   const hasError = (field: string): boolean =>
     field in formState.touched && field in formState.errors ? true : false;
 
+  const [treatmentPlan, setTreatmentPlan] = useState({
+    Yes: false,
+    No: false
+  });
+
+  const handleTreatmentPlanCheckBoxChange = (
+    event: ChangeEvent<HTMLInputElement>
+  ) => {
+    setTreatmentPlan(oldValue => ({
+      ...oldValue,
+      [event.target.name]: event.target.checked
+    }));
+  };
+
   return (
     <Grid container className={classes.root}>
       <Grid item xs={12}>
@@ -172,11 +185,6 @@ export const Practitioner: React.FC = () => {
         <div className={classes.textFieldContainer}>
           <TextField
             error={hasError('name')}
-            helperText={
-              hasError('name')
-                ? formState.errors.name && formState.errors.name[0]
-                : null
-            }
             fullWidth
             label="Name"
             name="name"
@@ -189,11 +197,6 @@ export const Practitioner: React.FC = () => {
         <div className={classes.textFieldContainer}>
           <TextField
             error={hasError('phone')}
-            helperText={
-              hasError('phone')
-                ? formState.errors.phone && formState.errors.phone[0]
-                : null
-            }
             fullWidth
             label="Phone"
             name="phone"
@@ -206,11 +209,6 @@ export const Practitioner: React.FC = () => {
         <div style={{ width: '60%', padding: '10px 0' }}>
           <TextField
             error={hasError('address')}
-            helperText={
-              hasError('address')
-                ? formState.errors.address && formState.errors.address[0]
-                : null
-            }
             fullWidth
             label="Address"
             name="address"
@@ -236,12 +234,28 @@ export const Practitioner: React.FC = () => {
             }}>
             <FormControlLabel
               style={{ marginRight: '40px' }}
-              control={<Checkbox checked={false} value="1" color="primary" />}
+              control={
+                <Checkbox
+                  checked={treatmentPlan.Yes}
+                  value="Yes"
+                  name="Yes"
+                  color="primary"
+                  onChange={handleTreatmentPlanCheckBoxChange}
+                />
+              }
               label={<span className={classes.checkText}>Yes</span>}
             />
             <FormControlLabel
               style={{ marginRight: '40px' }}
-              control={<Checkbox checked={false} value="1" color="primary" />}
+              control={
+                <Checkbox
+                  checked={treatmentPlan.No}
+                  value="No"
+                  name="No"
+                  color="primary"
+                  onChange={handleTreatmentPlanCheckBoxChange}
+                />
+              }
               label={<span className={classes.checkText}>No</span>}
             />
           </div>
