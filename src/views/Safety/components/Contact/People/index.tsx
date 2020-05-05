@@ -160,7 +160,11 @@ export const People: React.FC<Props> = ({ people }) => {
         }
       ]);
       dispatch(
-        suggestSafetyPlan(selectedNetwork.Id, 'WhenUnwellNotice', input)
+        suggestSafetyPlan(
+          selectedNetwork.Id,
+          'WhenUnwellNotice',
+          selectedNetwork.Name + ',' + selectedNetwork.Phone + ',person'
+        )
       );
       setInput('');
       setSelectedNetwork(undefined);

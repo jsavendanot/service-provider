@@ -152,7 +152,11 @@ export const Services: React.FC<Props> = ({ services, collapse }) => {
         }
       ]);
       dispatch(
-        suggestSafetyPlan(selectedNetwork.Id, 'WhenUnwellNotice', input)
+        suggestSafetyPlan(
+          selectedNetwork.Id,
+          'WhenUnwellNotice',
+          selectedNetwork.Name + ',' + selectedNetwork.Phone + ',service'
+        )
       );
       setInput('');
       setSelectedNetwork(undefined);
