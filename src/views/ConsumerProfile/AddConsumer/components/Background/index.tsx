@@ -1,5 +1,4 @@
-import React, { useState, useEffect, ChangeEvent } from 'react';
-import validate from 'validate.js';
+import React, { ChangeEvent, useState } from 'react';
 
 import { Grid, TextField, FormControlLabel, Checkbox } from '@material-ui/core';
 import { makeStyles } from '@material-ui/styles';
@@ -65,93 +64,95 @@ const useStyles = makeStyles(() => ({
   }
 }));
 
-const schema = {
-  countryOfBirth: {
-    presence: { allowEmpty: false, message: 'is required' },
+export const schema3 = {
+  CountryOfBirth: {
+    presence: false,
     length: {
       maximum: 100
     }
   },
-  preferredLanguage: {
-    presence: { allowEmpty: false, message: 'is required' },
+  PreferredLanguage: {
+    presence: false,
     length: {
       maximum: 100
     }
   },
   aborigianl: {
-    presence: { allowEmpty: false, message: 'is required' },
+    presence: false,
     length: {
       maximum: 10
     }
   },
   torresIslander: {
-    presence: { allowEmpty: false, message: 'is required' },
+    presence: false,
     length: {
       maximum: 10
     }
   }
 };
 
-type FormStateType = {
+export type FormStateType3 = {
   isValid: boolean;
   values: {
-    countryOfBirth?: string;
-    preferredLanguage?: string;
+    CountryOfBirth?: string;
+    PreferredLanguage?: string;
     aborigianl?: string;
     torresIslander?: string;
   };
   touched: {
-    countryOfBirth?: boolean;
-    preferredLanguage?: boolean;
+    CountryOfBirth?: boolean;
+    PreferredLanguage?: boolean;
     aborigianl?: boolean;
     torresIslander?: boolean;
   };
   errors: {
-    countryOfBirth?: string[];
-    preferredLanguage?: string[];
+    CountryOfBirth?: string[];
+    PreferredLanguage?: string[];
     aborigianl?: string[];
     torresIslander?: string[];
   };
 };
 
-export const Background: React.FC = () => {
+type Props = {
+  formState: FormStateType3;
+  handleChange: (event: ChangeEvent<HTMLInputElement>) => void;
+  hasError: (field: string) => boolean;
+};
+
+export const Background: React.FC<Props> = ({
+  formState,
+  handleChange,
+  hasError
+}) => {
   const classes = useStyles();
 
-  /** Handle Fields */
-  const [formState, setFormState] = useState<FormStateType>({
-    isValid: false,
-    values: {},
-    touched: {},
-    errors: {}
+  const [aboriginalChecks, setAboriginalChecks] = useState({
+    Yes: false,
+    No: false,
+    NotToDisclose: false
   });
 
-  useEffect(() => {
-    const errors = validate(formState.values, schema);
-    setFormState(formState => ({
-      ...formState,
-      isValid: errors ? false : true,
-      errors: errors || {}
-    }));
-  }, [formState.values]);
-
-  const handleChange = (event: ChangeEvent<HTMLInputElement>) => {
-    event.persist();
-
-    setFormState(formState => ({
-      ...formState,
-      values: {
-        ...formState.values,
-        [event.target.name]: event.target.value
-      },
-      touched: {
-        ...formState.touched,
-        [event.target.name]: true
-      }
+  const handleAboriginalCheckBoxChange = (
+    event: ChangeEvent<HTMLInputElement>
+  ) => {
+    setAboriginalChecks(oldValue => ({
+      ...oldValue,
+      [event.target.name]: event.target.checked
     }));
   };
 
-  const hasError = (field: string): boolean =>
-    field in formState.touched && field in formState.errors ? true : false;
+  const [torresChecks, setTorresChecks] = useState({
+    Yes: false,
+    No: false,
+    NotToDisclose: false
+  });
+
+  const handleTorresCheckBoxChange = (event: ChangeEvent<HTMLInputElement>) => {
+    setTorresChecks(oldValue => ({
+      ...oldValue,
+      [event.target.name]: event.target.checked
+    }));
+  };
 
   return (
     <Grid container className={classes.root}>
@@ -169,36 +170,24 @@ export const Background: React.FC = () => {
       <Grid item xs={12}>
         <div className={classes.textFieldContainer}>
           <TextField
-            error={hasError('countryOfBirth')}
-            helperText={
-              hasError('countryOfBirth')
-                ? formState.errors.countryOfBirth &&
-                  formState.errors.countryOfBirth[0]
-                : null
-            }
+            error={hasError('CountryOfBirth')}
             fullWidth
             label="Country of birth"
-            name="countryOfBirth"
+            name="CountryOfBirth"
             autoComplete="off"
-            value={formState.values.countryOfBirth || ''}
+            value={formState.values.CountryOfBirth || ''}
             variant="outlined"
             onChange={handleChange}
           />
         </div>
         <div className={classes.textFieldContainer}>
           <TextField
-            error={hasError('preferredLanguage')}
-            helperText={
-              hasError('preferredLanguage')
-                ? formState.errors.preferredLanguage &&
-                  formState.errors.preferredLanguage[0]
-                : null
-            }
+            error={hasError('PreferredLanguage')}
             fullWidth
             label="Preferred language"
-            name="preferredLanguage"
+            name="PreferredLanguage"
             autoComplete="off"
-            value={formState.values.preferredLanguage || ''}
+            value={formState.values.PreferredLanguage || ''}
             variant="outlined"
             onChange={handleChange}
           />
@@ -217,17 +206,41 @@ export const Background: React.FC = () => {
             }}>
             <FormControlLabel
               style={{ marginRight: '40px' }}
-              control={<Checkbox checked={false} value="1" color="primary" />}
+              control={
+                <Checkbox
+                  checked={aboriginalChecks.Yes}
+                  value="Yes"
+                  color="primary"
+                  name="Yes"
+                  onChange={handleAboriginalCheckBoxChange}
+                />
+              }
               label={<span className={classes.checkText}>Yes</span>}
             />
             <FormControlLabel
               style={{ marginRight: '40px' }}
-              control={<Checkbox checked={false} value="1" color="primary" />}
+              control={
+                <Checkbox
+                  checked={aboriginalChecks.No}
+                  value="No"
+                  color="primary"
+                  name="No"
+                  onChange={handleAboriginalCheckBoxChange}
+                />
+              }
               label={<span className={classes.checkText}>No</span>}
             />
             <FormControlLabel
               style={{ marginRight: '40px' }}
-              control={<Checkbox checked={false} value="1" color="primary" />}
+              control={
+                <Checkbox
+                  checked={aboriginalChecks.NotToDisclose}
+                  value="NotToDisclose"
+                  name="NotToDisclose"
+                  color="primary"
+                  onChange={handleAboriginalCheckBoxChange}
+                />
+              }
               label={
                 <span className={classes.checkText}>
                   Prefer not to disclose
@@ -250,17 +263,41 @@ export const Background: React.FC = () => {
             }}>
             <FormControlLabel
               style={{ marginRight: '40px' }}
-              control={<Checkbox checked={false} value="1" color="primary" />}
+              control={
+                <Checkbox
+                  checked={torresChecks.Yes}
+                  value="Yes"
+                  color="primary"
+                  name="Yes"
+                  onChange={handleTorresCheckBoxChange}
+                />
+              }
               label={<span className={classes.checkText}>Yes</span>}
             />
             <FormControlLabel
               style={{ marginRight: '40px' }}
-              control={<Checkbox checked={false} value="1" color="primary" />}
+              control={
+                <Checkbox
+                  checked={torresChecks.No}
+                  value="No"
+                  color="primary"
+                  name="No"
+                  onChange={handleTorresCheckBoxChange}
+                />
+              }
               label={<span className={classes.checkText}>No</span>}
             />
             <FormControlLabel
               style={{ marginRight: '40px' }}
-              control={<Checkbox checked={false} value="1" color="primary" />}
+              control={
+                <Checkbox
+                  checked={torresChecks.NotToDisclose}
+                  value="NotToDisclose"
+                  name="NotToDisclose"
+                  color="primary"
+                  onChange={handleTorresCheckBoxChange}
+                />
+              }
               label={
                 <span className={classes.checkText}>
                   Prefer not to disclose

@@ -18,6 +18,7 @@ import {
 import { Profile } from 'types/profile';
 import { FormStateType1, schema1 } from './components/Personal';
 import { FormStateType2, schema2 } from './components/Emergency';
+import { FormStateType3 } from './components/Background';
 
 const useStyles = makeStyles(() => ({
   root: {
@@ -163,6 +164,20 @@ export const AddConsumer: React.FC = () => {
   const hasError2 = (field: string): boolean =>
     field in formState2.touched && field in formState2.errors ? true : false;
 
+  // Cultural background
+  const [formState3, setFormState3] = useState<FormStateType3>({
+    isValid: false,
+    values: {
+      CountryOfBirth: profile.CountryOfBirth,
+      PreferredLanguage: profile.PreferredLanguage
+    },
+    touched: {},
+    errors: {}
+  });
+
+  const hasError3 = (field: string): boolean =>
+    field in formState3.touched && field in formState3.errors ? true : false;
+
   // Common
   useEffect(() => {
     const errors = validate(formState1.values, schema1);
@@ -203,6 +218,20 @@ export const AddConsumer: React.FC = () => {
 
     if (step === 1) {
       setFormState2(formState => ({
+        ...formState,
+        values: {
+          ...formState.values,
+          [event.target.name]: event.target.value
+        },
+        touched: {
+          ...formState.touched,
+          [event.target.name]: true
+        }
+      }));
+    }
+
+    if (step === 2) {
+      setFormState3(formState => ({
         ...formState,
         values: {
           ...formState.values,
@@ -300,6 +329,22 @@ export const AddConsumer: React.FC = () => {
         }));
         formState2.isValid && setStep(value => value + 1);
       }
+      if (step === 2) {
+        setFormState3(formState => ({
+          ...formState,
+          values: {
+            ...formState.values,
+            CountryOfBirth: profile.CountryOfBirth,
+            PreferredLanguage: profile.PreferredLanguage
+          },
+          touched: {
+            ...formState.touched,
+            CountryOfBirth: true,
+            PreferredLanguage: true
+          }
+        }));
+        setStep(value => value + 1);
+      }
     }
   };
 
@@ -372,7 +417,13 @@ export const AddConsumer: React.FC = () => {
                 hasError={hasError2}
               />
             )}
-            {step === 2 && <Background />}
+            {step === 2 && (
+              <Background
+                formState={formState3}
+                handleChange={handleChange}
+                hasError={hasError3}
+              />
+            )}
             {step === 3 && <Practitioner />}
             {step === 4 && <HealthCare />}
           </div>
