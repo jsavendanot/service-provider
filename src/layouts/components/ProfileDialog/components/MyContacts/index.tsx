@@ -64,8 +64,9 @@ const useStyles = makeStyles(() => ({
 
 type Props = {
   close: () => void;
+  addContact: () => void;
 };
-export const MyContacts: React.FC<Props> = ({ close }) => {
+export const MyContacts: React.FC<Props> = ({ close, addContact }) => {
   const classes = useStyles();
   return (
     <div className={classes.root}>
@@ -101,8 +102,14 @@ export const MyContacts: React.FC<Props> = ({ close }) => {
             </div>
           </div>
         </Grid>
-        <Grid item xs={12} container alignItems="center" justify="center">
-          <IconButton>
+        <Grid
+          item
+          xs={12}
+          container
+          alignItems="center"
+          justify="center"
+          style={{ marginBottom: '20px' }}>
+          <IconButton onClick={addContact}>
             <AddCircleOutline style={{ fill: '#C57D7D' }} />
           </IconButton>
           <span className={classes.addText}>Add</span>

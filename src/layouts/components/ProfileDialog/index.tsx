@@ -12,7 +12,7 @@ import {
 } from '@material-ui/core';
 import { makeStyles } from '@material-ui/styles';
 import { Call } from '@material-ui/icons';
-import MyContacts from './MyContacts';
+import { MyContacts, AddContact } from './components';
 
 const useStyles = makeStyles(() => ({
   avatar: {
@@ -65,7 +65,7 @@ export default function ProfileDialog() {
     dispatch(endSession());
   };
 
-  /** Dialog */
+  /** My contacts dialog */
   const [open, setOpen] = useState(false);
 
   function openDialog() {
@@ -79,7 +79,27 @@ export default function ProfileDialog() {
   const myContactsDialog = (
     <Dialog open={open} onClose={closeDialog}>
       <DialogContent>
-        <MyContacts close={closeDialog} />
+        <MyContacts close={closeDialog} addContact={openAddContactDialog} />
+      </DialogContent>
+    </Dialog>
+  );
+
+  /** Add contact dialog */
+  const [openAddContact, setOpenAddContact] = useState(false);
+
+  function openAddContactDialog() {
+    setOpenAddContact(true);
+    closeDialog();
+  }
+
+  function closeAddContactDialog() {
+    setOpenAddContact(false);
+  }
+
+  const addContactsDialog = (
+    <Dialog open={openAddContact} onClose={closeAddContactDialog}>
+      <DialogContent>
+        <AddContact close={closeAddContactDialog} />
       </DialogContent>
     </Dialog>
   );
@@ -137,6 +157,7 @@ export default function ProfileDialog() {
         </div>
       </div>
       {open && myContactsDialog}
+      {openAddContact && addContactsDialog}
     </>
   );
 }
