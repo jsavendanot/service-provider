@@ -1,9 +1,13 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { useDispatch } from 'react-redux';
 import { makeStyles } from '@material-ui/styles';
 import { Grid, IconButton, Divider } from '@material-ui/core';
 import { Close, AddCircleOutline, Delete } from '@material-ui/icons';
-import { addNetwork } from 'slices/network/action';
+import {
+  callNetworkContactListApi,
+  deleteNetwork
+} from 'slices/network/action';
+import { Network } from 'types/network';
 
 const useStyles = makeStyles(() => ({
   root: {
@@ -72,9 +76,19 @@ export const MyContacts: React.FC<Props> = ({ close, addContact }) => {
   const classes = useStyles();
   const dispatch = useDispatch();
 
-  const submitHandler = () => {
-    // dispatch(addNetwork());
+  const deleteHandler = (id: string) => {
+    dispatch(deleteNetwork(id));
+    close();
   };
+
+  const [networks, setNetworks] = useState<Network[]>([]);
+
+  useEffect(() => {
+    (async function fetchNetworks() {
+      const networks = await callNetworkContactListApi();
+      setNetworks(networks);
+    })();
+  }, []);
 
   return (
     <div className={classes.root}>
@@ -98,17 +112,21 @@ export const MyContacts: React.FC<Props> = ({ close, addContact }) => {
           </div>
         </Grid>
         <Grid item xs={12}>
-          <div className={classes.contact}>
-            <div className={classes.nameText}>Dr Marlee</div>
-            <div className={classes.phoneContainer}>
-              <div className={classes.phoneText} style={{ flexGrow: 1 }}>
-                9090909090
+          {networks.map(network => {
+            return (
+              <div className={classes.contact} key={network.Id}>
+                <div className={classes.nameText}>{network.Name}</div>
+                <div className={classes.phoneContainer}>
+                  <div className={classes.phoneText} style={{ flexGrow: 1 }}>
+                    {network.Phone}
+                  </div>
+                  <IconButton onClick={() => deleteHandler(network.Id)}>
+                    <Delete style={{ fill: '#C57D7D' }} />
+                  </IconButton>
+                </div>
               </div>
-              <IconButton>
-                <Delete style={{ fill: '#C57D7D' }} />
-              </IconButton>
-            </div>
-          </div>
+            );
+          })}
         </Grid>
         <Grid
           item

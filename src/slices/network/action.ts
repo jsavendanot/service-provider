@@ -36,6 +36,14 @@ export const addNetwork = (
   }
 };
 
+export const deleteNetwork = (id: string): AppThunk => async dispatch => {
+  try {
+    await callNetworkContactDeleteApi(id);
+  } catch (err) {
+    // dispatch(failed(err.toString()));
+  }
+};
+
 //** API FUNCS */
 
 export const callNetworkContactCarerReadApi = () => {
@@ -75,4 +83,18 @@ const callNetworkContactCreateApi = (name: string, phone: string) => {
   return axios.post('/NetworkContact/Create', network).then(resp => {
     console.log(resp);
   });
+};
+
+export const callNetworkContactListApi = () => {
+  axios.defaults.headers.common['Authorization'] =
+    'Bearer ' + authentication.getAccessToken();
+
+  return axios.get('/NetworkContact/List').then(response => {
+    const networks: Network[] = JSON.parse(JSON.stringify(response.data));
+    return networks;
+  });
+};
+
+const callNetworkContactDeleteApi = (id: string) => {
+  return axios.delete(`/NetworkContact/Delete/${id}`);
 };
