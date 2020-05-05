@@ -131,13 +131,13 @@ const schema = {
     }
   },
   HomeAddress: {
-    presence: { allowEmpty: false, message: 'is required' },
+    presence: false,
     length: {
       maximum: 200
     }
   },
   HomePostCode: {
-    presence: { allowEmpty: false, message: 'is required' },
+    presence: false,
     numericality: {
       onlyInteger: true
     },
@@ -146,13 +146,13 @@ const schema = {
     }
   },
   PostalAddress: {
-    presence: { allowEmpty: false, message: 'is required' },
+    presence: false,
     length: {
       maximum: 200
     }
   },
   PostalPostCode: {
-    presence: { allowEmpty: false, message: 'is required' },
+    presence: false,
     numericality: {
       onlyInteger: true
     },
@@ -161,7 +161,7 @@ const schema = {
     }
   },
   MobilePhone: {
-    presence: { allowEmpty: false, message: 'is required' },
+    presence: false,
     numericality: {
       onlyInteger: true
     },
@@ -236,9 +236,34 @@ export const AddConsumer: React.FC = () => {
 
   const [step, setStep] = useState(0);
 
+  const [contactMethods, setContactMethods] = useState({
+    Phone: false,
+    Text: false,
+    Email: false
+  });
+
+  const handleCheckBoxChange = (event: ChangeEvent<HTMLInputElement>) => {
+    setContactMethods(oldValue => ({
+      ...oldValue,
+      [event.target.name]: event.target.checked
+    }));
+  };
+
   const next = () => {
     if (step < 4) {
       if (step === 0) {
+        let PreferredContactMethod = '';
+        if (contactMethods.Email) {
+          PreferredContactMethod = PreferredContactMethod + 'Email,';
+        }
+        if (contactMethods.Phone) {
+          PreferredContactMethod = PreferredContactMethod + 'Phone,';
+        }
+        if (contactMethods.Text) {
+          PreferredContactMethod = PreferredContactMethod + 'Text';
+        }
+        handleProfileField('PreferredContactMethod', PreferredContactMethod);
+
         setFormState(formState => ({
           ...formState,
           values: {
@@ -254,7 +279,7 @@ export const AddConsumer: React.FC = () => {
             PostalPostCode: profile.PostalPostCode,
             MobilePhone: profile.MobilePhone,
             UserEmail: profile.UserEmail,
-            PreferredContactMethod: profile.PreferredContactMethod
+            PreferredContactMethod: PreferredContactMethod
           },
           touched: {
             ...formState.touched,
@@ -273,6 +298,7 @@ export const AddConsumer: React.FC = () => {
           }
         }));
         formState.isValid && setStep(value => value + 1);
+        console.log(profile);
       }
     }
   };
@@ -394,6 +420,8 @@ export const AddConsumer: React.FC = () => {
                 formState={formState}
                 handleChange={handleChange}
                 hasError={hasError}
+                contactMethods={contactMethods}
+                handleCheckBoxChange={handleCheckBoxChange}
               />
             )}
             {step === 1 && <Emergency />}

@@ -5,8 +5,7 @@ import {
   TextField,
   Divider,
   FormControlLabel,
-  Checkbox,
-  FormGroup
+  Checkbox
 } from '@material-ui/core';
 import { makeStyles } from '@material-ui/styles';
 import { FormStateType } from '../..';
@@ -90,12 +89,20 @@ type Props = {
   formState: FormStateType;
   handleChange: (event: ChangeEvent<HTMLInputElement>) => void;
   hasError: (field: string) => boolean;
+  contactMethods: {
+    Phone: boolean;
+    Text: boolean;
+    Email: boolean;
+  };
+  handleCheckBoxChange: (event: ChangeEvent<HTMLInputElement>) => void;
 };
 
 export const Personal: React.FC<Props> = ({
   formState,
   handleChange,
-  hasError
+  hasError,
+  contactMethods,
+  handleCheckBoxChange
 }) => {
   const classes = useStyles();
 
@@ -173,7 +180,9 @@ export const Personal: React.FC<Props> = ({
               error={hasError('Gender')}
               fullWidth
               label={
-                <span className={classes.selectOptionLabel}>Please select</span>
+                <span className={classes.selectOptionLabel}>
+                  Please select*
+                </span>
               }
               name="Gender"
               select
@@ -281,44 +290,45 @@ export const Personal: React.FC<Props> = ({
               display: 'flex',
               alignItems: 'center'
             }}>
-            <FormGroup>
-              <FormControlLabel
-                style={{ marginRight: '40px' }}
-                control={
-                  <Checkbox
-                    checked={false}
-                    value="Phone"
-                    color="primary"
-                    name="Phone"
-                  />
-                }
-                label={<span className={classes.checkText}>Phone</span>}
-              />
-              <FormControlLabel
-                style={{ marginRight: '40px' }}
-                control={
-                  <Checkbox
-                    checked={false}
-                    value="Text"
-                    color="primary"
-                    name="Text"
-                  />
-                }
-                label={<span className={classes.checkText}>Text</span>}
-              />
-              <FormControlLabel
-                style={{ marginRight: '40px' }}
-                control={
-                  <Checkbox
-                    checked={false}
-                    value="Email"
-                    color="primary"
-                    name="Email"
-                  />
-                }
-                label={<span className={classes.checkText}>Email</span>}
-              />
-            </FormGroup>
+            <FormControlLabel
+              style={{ marginRight: '40px' }}
+              control={
+                <Checkbox
+                  checked={contactMethods.Phone}
+                  value="Phone"
+                  color="primary"
+                  name="Phone"
+                  onChange={handleCheckBoxChange}
+                />
+              }
+              label={<span className={classes.checkText}>Phone</span>}
+            />
+            <FormControlLabel
+              style={{ marginRight: '40px' }}
+              control={
+                <Checkbox
+                  checked={contactMethods.Text}
+                  value="Text"
+                  color="primary"
+                  name="Text"
+                  onChange={handleCheckBoxChange}
+                />
+              }
+              label={<span className={classes.checkText}>Text</span>}
+            />
+            <FormControlLabel
+              style={{ marginRight: '40px' }}
+              control={
+                <Checkbox
+                  checked={contactMethods.Email}
+                  value="Email"
+                  color="primary"
+                  name="Email"
+                  onChange={handleCheckBoxChange}
+                />
+              }
+              label={<span className={classes.checkText}>Email</span>}
+            />
           </div>
         </div>
       </Grid>
