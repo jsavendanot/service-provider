@@ -1,15 +1,16 @@
 import React, { useEffect, useState, ChangeEvent } from 'react';
 
 import useRouter from 'common/utils/useRouter';
-import { Grid, Avatar, TextField } from '@material-ui/core';
+import { Grid, Avatar, TextField, Button } from '@material-ui/core';
 import { makeStyles } from '@material-ui/styles';
 import { KeyboardArrowLeft, Save } from '@material-ui/icons';
 import validate from 'validate.js';
+import produce from 'immer';
 
 import { Profile } from 'types/profile';
 import { useSelector, useDispatch } from 'react-redux';
 import { RootState } from 'reducer';
-import { fetchProfile } from 'slices/profile/action';
+import { fetchProfile, editProfile } from 'slices/profile/action';
 import { Loading } from 'common/components';
 
 const useStyles = makeStyles(() => ({
@@ -29,22 +30,16 @@ const useStyles = makeStyles(() => ({
   uploadButton: {
     width: '84px',
     height: '30px',
+    display: 'flex',
+    justifyContent: 'center',
+    alignItems: 'center',
     background: '#692B40',
     boxShadow:
       '0px 2px 4px rgba(0, 0, 0, 0.14), 0px 4px 5px rgba(0, 0, 0, 0.12), 0px 1px 10px rgba(0, 0, 0, 0.2)',
     borderRadius: '28px',
     color: '#FFFFFF',
     cursor: 'pointer',
-    margin: '20px 0',
-    '&:focus': {
-      outline: 'none'
-    },
-    '&:hover': {
-      backgroundColor: '#692B40'
-    },
-    '&:active': {
-      backgroundColor: '#692B40'
-    }
+    margin: '20px 0'
   },
   uploadButtonText: {
     fontFamily: 'Roboto',
@@ -237,6 +232,28 @@ const EditProfile = () => {
   const hasError = (field: string): boolean =>
     field in formState.touched && field in formState.errors ? true : false;
 
+  const handleFileInputChange = (event: ChangeEvent<HTMLInputElement>) => {
+    const fileReader = new FileReader();
+    if (event.target.files && event.target.files.length > 0) {
+      const imageType = event.target.files[0].type.replace('image/', '');
+      fileReader.readAsDataURL(event.target.files[0]);
+      fileReader.onload = e => {
+        setProfile(
+          produce((draft: Profile) => {
+            draft.Image = e.target?.result!.toString().split('base64,')[1];
+            draft.ImageType = imageType;
+          })
+        );
+      };
+    }
+  };
+
+  const saveHandler = () => {
+    if (formState.isValid) {
+      dispatch(editProfile(history, profile));
+    }
+  };
+
   useEffect(() => {
     dispatch(fetchProfile());
   }, [dispatch]);
@@ -278,22 +295,33 @@ const EditProfile = () => {
                   <Avatar
                     alt=""
                     className={classes.avatar}
-                    src={profile.ImageUrl}
+                    src={'data:image/png;base64,' + profile.Image}
                   />
                   <span
                     className={
                       classes.providerName
                     }>{`Dr ${profile.FirstName}`}</span>
                 </div>
-                <div
-                  style={{
-                    display: 'flex',
-                    alignItems: 'center',
-                    marginBottom: '30px'
-                  }}>
-                  <button className={classes.uploadButton}>
-                    <span className={classes.uploadButtonText}>upload</span>
-                  </button>
+                <div>
+                  <input
+                    accept="image/*"
+                    type="file"
+                    onChange={handleFileInputChange}
+                    id="icon-button-file"
+                    style={{ display: 'none' }}
+                  />
+                  <div
+                    style={{
+                      display: 'flex',
+                      alignItems: 'center',
+                      marginBottom: '30px'
+                    }}>
+                    <label htmlFor="icon-button-file">
+                      <div className={classes.uploadButton}>
+                        <span className={classes.uploadButtonText}>upload</span>
+                      </div>
+                    </label>
+                  </div>
                 </div>
               </div>
             </Grid>
@@ -309,7 +337,7 @@ const EditProfile = () => {
                     justifyContent: 'flex-end',
                     marginRight: '20px'
                   }}>
-                  <button className={classes.button}>
+                  <Button className={classes.button} onClick={saveHandler}>
                     <div
                       style={{
                         display: 'flex',
@@ -319,7 +347,7 @@ const EditProfile = () => {
                       <Save style={{ fill: '#692B40', marginRight: '8px' }} />
                       <span className={classes.buttonText}>Save</span>
                     </div>
-                  </button>
+                  </Button>
                 </div>
                 <div className={classes.elementGroup}>
                   <span className={classes.subTitle}>Name</span>
@@ -331,8 +359,8 @@ const EditProfile = () => {
                     <div style={{ marginRight: '10px' }}>
                       <span className={classes.name}>Full name</span>
                       <span className={classes.value}>
-                        {`${profile.FirstName!}
-                      ${profile.Surname}`}
+                        {`${profile.FirstName && profile.FirstName!}
+                      ${profile.Surname && profile.Surname}`}
                       </span>
                     </div>
                   </div>

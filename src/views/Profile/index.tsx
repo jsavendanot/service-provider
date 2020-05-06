@@ -264,7 +264,7 @@ const Profile = () => {
                 <div style={{ display: 'flex', margin: '10px 0' }}>
                   <div style={{ marginRight: '50px' }}>
                     <span className={classes.name}>Work</span>
-                    <span className={classes.value}>...</span>
+                    <span className={classes.value}>{profile.HomeAddress}</span>
                   </div>
                   <div style={{ marginRight: '50px' }}>
                     <span className={classes.name}>Mobile</span>
