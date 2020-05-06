@@ -1,11 +1,12 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState, ChangeEvent } from 'react';
 
 import useRouter from 'common/utils/useRouter';
-import { Grid, Avatar } from '@material-ui/core';
+import { Grid, Avatar, TextField } from '@material-ui/core';
 import { makeStyles } from '@material-ui/styles';
 import { KeyboardArrowLeft, Save } from '@material-ui/icons';
+import validate from 'validate.js';
 
-import { Profile as ProfileType } from 'types/profile';
+import { Profile } from 'types/profile';
 import { useSelector, useDispatch } from 'react-redux';
 import { RootState } from 'reducer';
 import { fetchProfile } from 'slices/profile/action';
@@ -149,6 +150,38 @@ const useStyles = makeStyles(() => ({
   }
 }));
 
+const schema = {
+  HomeAddress: {
+    length: {
+      maximum: 364
+    }
+  },
+  MobilePhone: {
+    numericality: {
+      onlyInteger: true
+    },
+    length: {
+      maximum: 15
+    }
+  }
+};
+
+type FormStateType = {
+  isValid: boolean;
+  values: {
+    HomeAddress?: string;
+    MobilePhone?: string;
+  };
+  touched: {
+    HomeAddress?: boolean;
+    MobilePhone?: boolean;
+  };
+  errors: {
+    HomeAddress?: string[];
+    MobilePhone?: string[];
+  };
+};
+
 const EditProfile = () => {
   const classes = useStyles();
   const dispatch = useDispatch();
@@ -158,9 +191,51 @@ const EditProfile = () => {
     (state: RootState) => state.profile.loading
   );
 
-  const profile: ProfileType = useSelector(
+  const profileState: Profile = useSelector(
     (state: RootState) => state.profile.profile!
   );
+
+  const [profile, setProfile] = useState(profileState);
+
+  const [formState, setFormState] = useState<FormStateType>({
+    isValid: false,
+    values: {},
+    touched: {},
+    errors: {}
+  });
+
+  useEffect(() => {
+    const errors = validate(formState.values, schema);
+    setFormState(formState => ({
+      ...formState,
+      isValid: errors ? false : true,
+      errors: errors || {}
+    }));
+  }, [formState.values]);
+
+  const handleChange = (event: ChangeEvent<HTMLInputElement>) => {
+    event.persist();
+
+    setFormState(formState => ({
+      ...formState,
+      values: {
+        ...formState.values,
+        [event.target.name]: event.target.value
+      },
+      touched: {
+        ...formState.touched,
+        [event.target.name]: true
+      }
+    }));
+
+    setProfile(values => ({
+      ...values,
+      [event.target.name]: event.target.value
+    }));
+  };
+
+  const hasError = (field: string): boolean =>
+    field in formState.touched && field in formState.errors ? true : false;
 
   useEffect(() => {
     dispatch(fetchProfile());
@@ -292,17 +367,57 @@ const EditProfile = () => {
               </div>
               <div className={classes.elementGroup}>
                 <span className={classes.subTitle}>Contact Details</span>
-                <div style={{ display: 'flex', margin: '10px 0' }}>
-                  <div style={{ marginRight: '50px' }}>
-                    <span className={classes.name}>Work</span>
-                    <span className={classes.value}>...</span>
+                <div style={{ margin: '10px 0' }}>
+                  <div
+                    style={{
+                      display: 'flex',
+                      alignItems: 'center',
+                      margin: '15px 0'
+                    }}>
+                    <div className={classes.name}>Work</div>
+                    <div style={{ width: '50%' }}>
+                      <TextField
+                        error={hasError('HomeAddress')}
+                        label=""
+                        name="HomeAddress"
+                        type="text"
+                        autoComplete="off"
+                        fullWidth
+                        value={profile.HomeAddress ? profile.HomeAddress : ''}
+                        placeholder="type here"
+                        onChange={handleChange}
+                      />
+                    </div>
                   </div>
-                  <div style={{ marginRight: '50px' }}>
-                    <span className={classes.name}>Mobile</span>
-                    <span className={classes.value}>{profile.MobilePhone}</span>
+                  <div
+                    style={{
+                      display: 'flex',
+                      alignItems: 'center',
+                      margin: '15px 0'
+                    }}>
+                    <div className={classes.name}>Mobile</div>
+                    <div style={{ width: '50%' }}>
+                      <TextField
+                        error={hasError('MobilePhone')}
+                        label=""
+                        name="MobilePhone"
+                        type="text"
+                        fullWidth
+                        autoComplete="off"
+                        value={profile.MobilePhone ? profile.MobilePhone : ''}
+                        placeholder="type here"
+                        onChange={handleChange}
+                        inputProps={{ maxLength: 20 }}
+                      />
+                    </div>
                   </div>
-                  <div style={{ marginRight: '50px' }}>
-                    <span className={classes.name}>Email</span>
+                  <div
+                    style={{
+                      display: 'flex',
+                      alignItems: 'center',
+                      margin: '15px 0'
+                    }}>
+                    <div className={classes.name}>Email</div>
                     <span className={classes.value}>{profile.UserEmail}</span>
                   </div>
                 </div>
