@@ -46,6 +46,13 @@ const routes: RouteConfig[] = [
         component: authentication.required(lazy(() => import('views/Profile')))
       },
       {
+        path: '/profile/edit',
+        exact: true,
+        component: authentication.required(
+          lazy(() => import('views/Profile/EditProfile'))
+        )
+      },
+      {
         component: () => <Redirect to="/errors/error-404" />
       }
     ]

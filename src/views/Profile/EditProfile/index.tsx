@@ -1,9 +1,9 @@
 import React, { useEffect } from 'react';
 
-import { Grid, Avatar, Button } from '@material-ui/core';
-import { makeStyles } from '@material-ui/styles';
-import { Edit } from '@material-ui/icons';
 import useRouter from 'common/utils/useRouter';
+import { Grid, Avatar } from '@material-ui/core';
+import { makeStyles } from '@material-ui/styles';
+import { KeyboardArrowLeft, Save } from '@material-ui/icons';
 
 import { Profile as ProfileType } from 'types/profile';
 import { useSelector, useDispatch } from 'react-redux';
@@ -136,10 +136,20 @@ const useStyles = makeStyles(() => ({
   avatar: {
     width: '100px',
     height: '100px'
+  },
+  navText: {
+    fontFamily: 'Roboto',
+    fontStyle: 'normal',
+    fontWeight: 500,
+    fontSize: '12px',
+    lineHeight: '16px',
+    letterSpacing: '1.25px',
+    color: '#692B40',
+    textTransform: 'uppercase'
   }
 }));
 
-const Profile = () => {
+const EditProfile = () => {
   const classes = useStyles();
   const dispatch = useDispatch();
   const { history } = useRouter();
@@ -162,7 +172,20 @@ const Profile = () => {
       <Grid container>
         <Grid item xs={12} className={classes.gridItem}>
           <Grid container justify="center">
-            <Grid item xs={7}>
+            <Grid item xs={1}>
+              <div
+                style={{
+                  display: 'flex',
+                  alignItems: 'center',
+                  marginTop: '10px',
+                  cursor: 'pointer'
+                }}
+                onClick={() => history.goBack()}>
+                <KeyboardArrowLeft style={{ fill: '#692B40' }} />
+                <span className={classes.navText}>back</span>
+              </div>
+            </Grid>
+            <Grid item xs={8}>
               <span className={classes.title}>Profile</span>
               <div
                 style={{
@@ -185,7 +208,17 @@ const Profile = () => {
                   <span
                     className={
                       classes.providerName
-                    }>{`Dr ${profile.FirstName} ${profile.Surname}`}</span>
+                    }>{`Dr ${profile.FirstName}`}</span>
+                </div>
+                <div
+                  style={{
+                    display: 'flex',
+                    alignItems: 'center',
+                    marginBottom: '30px'
+                  }}>
+                  <button className={classes.uploadButton}>
+                    <span className={classes.uploadButtonText}>upload</span>
+                  </button>
                 </div>
               </div>
             </Grid>
@@ -201,19 +234,17 @@ const Profile = () => {
                     justifyContent: 'flex-end',
                     marginRight: '20px'
                   }}>
-                  <Button
-                    className={classes.button}
-                    onClick={() => history.push('/profile/edit')}>
+                  <button className={classes.button}>
                     <div
                       style={{
                         display: 'flex',
                         justifyContent: 'center',
                         alignItems: 'center'
                       }}>
-                      <Edit style={{ fill: '#692B40', marginRight: '8px' }} />
-                      <span className={classes.buttonText}>Edit</span>
+                      <Save style={{ fill: '#692B40', marginRight: '8px' }} />
+                      <span className={classes.buttonText}>Save</span>
                     </div>
-                  </Button>
+                  </button>
                 </div>
                 <div className={classes.elementGroup}>
                   <span className={classes.subTitle}>Name</span>
@@ -276,107 +307,6 @@ const Profile = () => {
                   </div>
                 </div>
               </div>
-              <div className={classes.elementGroup}>
-                <span className={classes.subTitle}>Office Hours</span>
-                <div style={{ display: 'flex', flexDirection: 'column' }}>
-                  <div
-                    style={{
-                      display: 'flex',
-                      alignItems: 'center',
-                      margin: '10px 0'
-                    }}>
-                    <div className={classes.name}>Monday</div>
-                    <span className={classes.value}>Off</span>
-                  </div>
-                  <div
-                    style={{
-                      display: 'flex',
-                      alignItems: 'center',
-                      margin: '10px 0'
-                    }}>
-                    <div className={classes.name}>Tuesday</div>
-                    <div
-                      style={{
-                        display: 'flex'
-                      }}>
-                      <span
-                        className={classes.value}
-                        style={{ marginRight: '50px' }}>
-                        9:00 am - noon
-                      </span>
-                      <span
-                        className={classes.value}
-                        style={{ marginRight: '50px' }}>
-                        1:00 pm - 5:00 pm
-                      </span>
-                      <span
-                        className={classes.value}
-                        style={{ marginRight: '50px' }}>
-                        6:00 pm - 8:30 pm
-                      </span>
-                    </div>
-                  </div>
-                  <div
-                    style={{
-                      display: 'flex',
-                      alignItems: 'center',
-                      margin: '10px 0'
-                    }}>
-                    <div className={classes.name}>Wednesday</div>
-                    <div
-                      style={{
-                        display: 'flex'
-                      }}>
-                      <span
-                        className={classes.value}
-                        style={{ marginRight: '50px' }}>
-                        9:00 am - noon
-                      </span>
-                      <span
-                        className={classes.value}
-                        style={{ marginRight: '50px' }}>
-                        6:00 pm - 8:30 pm
-                      </span>
-                    </div>
-                  </div>
-                  <div
-                    style={{
-                      display: 'flex',
-                      alignItems: 'center',
-                      margin: '10px 0'
-                    }}>
-                    <div className={classes.name}>Thursday</div>
-                    <div
-                      style={{
-                        display: 'flex'
-                      }}>
-                      <span
-                        className={classes.value}
-                        style={{ marginRight: '50px' }}>
-                        6:00 pm - 8:30 pm
-                      </span>
-                    </div>
-                  </div>
-                  <div
-                    style={{
-                      display: 'flex',
-                      alignItems: 'center',
-                      margin: '10px 0 30px'
-                    }}>
-                    <div className={classes.name}>Friday</div>
-                    <div
-                      style={{
-                        display: 'flex'
-                      }}>
-                      <span
-                        className={classes.value}
-                        style={{ marginRight: '50px' }}>
-                        9:00 pm - noon
-                      </span>
-                    </div>
-                  </div>
-                </div>
-              </div>
             </Grid>
           </Grid>
         </Grid>
@@ -385,4 +315,4 @@ const Profile = () => {
   );
 };
 
-export default Profile;
+export default EditProfile;
