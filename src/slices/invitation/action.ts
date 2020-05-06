@@ -67,7 +67,7 @@ export const callInvitationAcceptCodeApi = (code: string) => {
   axios.defaults.headers.common['Authorization'] =
     'Bearer ' + authentication.getAccessToken();
 
-  return axios.post(`/Invitation/AcceptCode/?code=${code}`);
+  return axios.post(`/Invitation/AcceptCode/${code}`);
 };
 
 export const callInvitationAccept = (id: string) => {
