@@ -111,7 +111,7 @@ export const MyContacts: React.FC<Props> = ({ close, addContact }) => {
             Add contacts here and suggest them to your consumer’s Safety Plan.
           </div>
         </Grid>
-        <Grid item xs={12}>
+        <Grid item xs={12} style={{ height: '340px', overflowY: 'auto' }}>
           {networks.map(network => {
             return (
               <div className={classes.contact} key={network.Id}>
