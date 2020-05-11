@@ -154,7 +154,7 @@ export const schema1 = {
       maximum: 20
     }
   },
-  UserEmail: {
+  PrimaryEmail: {
     presence: { allowEmpty: false, message: 'is required' },
     email: true,
     length: {
@@ -182,7 +182,7 @@ export type FormStateType1 = {
     PostalAddress?: string;
     PostalPostCode?: string;
     MobilePhone?: string;
-    UserEmail?: string;
+    PrimaryEmail?: string;
     PreferredContactMethod?: string;
   };
   touched: {
@@ -196,7 +196,7 @@ export type FormStateType1 = {
     PostalAddress?: boolean;
     PostalPostCode?: boolean;
     MobilePhone?: boolean;
-    UserEmail?: boolean;
+    PrimaryEmail?: boolean;
     PreferredContactMethod?: boolean;
   };
   errors: {
@@ -210,7 +210,7 @@ export type FormStateType1 = {
     PostalAddress?: string[];
     PostalPostCode?: string[];
     MobilePhone?: string[];
-    UserEmail?: string[];
+    PrimaryEmail?: string[];
     PreferredContactMethod?: string[];
   };
 };
@@ -398,12 +398,12 @@ export const Personal: React.FC<Props> = ({
         </div>
         <div style={{ width: '50%', padding: '10px 0' }}>
           <TextField
-            error={hasError('UserEmail')}
+            error={hasError('PrimaryEmail')}
             fullWidth
             label="Email*"
-            name="UserEmail"
+            name="PrimaryEmail"
             autoComplete="off"
-            value={formState.values.UserEmail || ''}
+            value={formState.values.PrimaryEmail || ''}
             variant="outlined"
             onChange={handleChange}
           />

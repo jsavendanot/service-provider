@@ -21,7 +21,6 @@ import { FormStateType1, schema1 } from './components/Personal';
 import { FormStateType2, schema2 } from './components/Emergency';
 import { FormStateType3 } from './components/Background';
 import { addConsumer } from 'slices/people/action';
-import uuid from 'uuid';
 
 const useStyles = makeStyles(() => ({
   root: {
@@ -111,10 +110,10 @@ export const AddConsumer: React.FC = () => {
   const dispatch = useDispatch();
 
   const [profile, setProfile] = useState<Profile>({
-    ContactId: uuid(),
-    UserId: '',
-    RecoveryPlanId: '',
-    SafetyPlanId: '',
+    ContactId: sessionStorage.getItem('Provider_ContactId')!,
+    UserId: sessionStorage.getItem('Provider_UserId')!,
+    RecoveryPlanId: sessionStorage.getItem('Provider_RecoveryPlanId')!,
+    SafetyPlanId: sessionStorage.getItem('Provider_SafetyPlanId')!,
     FirstName: '',
     Surname: '',
     PreferredName: '',
@@ -144,7 +143,10 @@ export const AddConsumer: React.FC = () => {
     Image: '',
     ImageType: '',
     ImageUrl: '',
-    FullName: ''
+    FullName: '',
+    AutoLogin: false,
+    CompletePrivate: false,
+    LastLoginDate: ''
   });
 
   // Personal Form
@@ -176,7 +178,7 @@ export const AddConsumer: React.FC = () => {
       PostalAddress: profile.PostalAddress,
       PostalPostCode: profile.PostalPostCode,
       MobilePhone: profile.MobilePhone,
-      UserEmail: profile.UserEmail,
+      PrimaryEmail: profile.PrimaryEmail,
       PreferredContactMethod: profile.PreferredContactMethod
     },
     touched: {},
@@ -317,6 +319,7 @@ export const AddConsumer: React.FC = () => {
             ...formState.values,
             FirstName: profile.FirstName,
             Surname: profile.Surname,
+            FullName: profile.FirstName + profile.Surname,
             PreferredName: profile.PreferredName,
             DateOfBirth: profile.DateOfBirth,
             Gender: profile.Gender,
@@ -325,7 +328,7 @@ export const AddConsumer: React.FC = () => {
             PostalAddress: profile.PostalAddress,
             PostalPostCode: profile.PostalPostCode,
             MobilePhone: profile.MobilePhone,
-            UserEmail: profile.UserEmail,
+            PrimaryEmail: profile.UserEmail,
             PreferredContactMethod: PreferredContactMethod
           },
           touched: {
@@ -340,7 +343,7 @@ export const AddConsumer: React.FC = () => {
             PostalAddress: true,
             PostalPostCode: true,
             MobilePhone: true,
-            UserEmail: true,
+            PrimaryEmail: true,
             PreferredContactMethod: true
           }
         }));
