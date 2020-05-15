@@ -63,6 +63,15 @@ const useStyles = makeStyles(() => ({
     display: 'flex',
     justifyContent: 'center',
     alignItems: 'center'
+  },
+  image: {
+    objectFit: 'cover',
+    width: '100%',
+    height: '100%'
+  },
+  image2: {
+    height: '186px',
+    maxHeight: '186px'
   }
 }));
 
@@ -132,13 +141,13 @@ export const GoalDetail: React.FC<Props> = ({ match }) => {
                     <img
                       src={'data:image/png;base64,' + goal.Image}
                       alt=""
-                      // className={classes.image}
+                      className={classes.image}
                     />
                   ) : (
                     <img
                       src={'/images/areas/' + focusArea.image}
                       alt=""
-                      // className={classes.image}
+                      className={classes.image2}
                     />
                   )}
                 </div>
