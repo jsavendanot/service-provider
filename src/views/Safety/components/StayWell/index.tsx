@@ -13,7 +13,7 @@ import { useDispatch, useSelector } from 'react-redux';
 
 import { Button } from 'common/components';
 import { Value } from 'types/safety';
-import Confirmation from 'common/components/Confirmation';
+import { SubmitConfirmation } from 'common/components';
 import uuid from 'uuid';
 import { suggestSafetyPlan } from 'slices/suggestion/action';
 import { RootState } from 'reducer';
@@ -258,7 +258,7 @@ export const StayWell: React.FC<Props> = ({ id, collapse, change }) => {
         )}
       </div>
       {open && (
-        <Confirmation
+        <SubmitConfirmation
           open={open}
           close={closeDialog}
           action={addToSuggestedValues}
@@ -268,7 +268,7 @@ export const StayWell: React.FC<Props> = ({ id, collapse, change }) => {
             <br />
             suggest this stay well?
           </span>
-        </Confirmation>
+        </SubmitConfirmation>
       )}
     </>
   );

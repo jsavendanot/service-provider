@@ -18,7 +18,7 @@ import {
   Dialog,
   DialogContent
 } from '@material-ui/core';
-import Confirmation from 'common/components/Confirmation';
+import { SubmitConfirmation } from 'common/components';
 import { suggestSafetyPlan } from 'slices/suggestion/action';
 
 const useStyles = makeStyles(() => ({
@@ -219,7 +219,7 @@ export const People: React.FC<Props> = ({ people }) => {
   );
 
   const confirmDialog = (
-    <Confirmation
+    <SubmitConfirmation
       open={open}
       close={closeDialog}
       action={addToSuggestedValues}
@@ -229,7 +229,7 @@ export const People: React.FC<Props> = ({ people }) => {
         <br />
         suggest this contact?
       </span>
-    </Confirmation>
+    </SubmitConfirmation>
   );
 
   return (

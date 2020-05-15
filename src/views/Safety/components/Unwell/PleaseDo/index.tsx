@@ -15,7 +15,7 @@ import { RootState } from 'reducer';
 import { Network } from 'types/network';
 import uuid from 'uuid';
 import { IconButton, TextField } from '@material-ui/core';
-import Confirmation from 'common/components/Confirmation';
+import { SubmitConfirmation } from 'common/components';
 import { suggestSafetyPlan } from 'slices/suggestion/action';
 
 const useStyles = makeStyles(() => ({
@@ -178,7 +178,7 @@ export const PleaseDo: React.FC<Props> = ({ pleaseDo }) => {
   }
 
   const confirmDialog = (
-    <Confirmation
+    <SubmitConfirmation
       open={open}
       close={closeDialog}
       action={addToSuggestedValues}
@@ -188,7 +188,7 @@ export const PleaseDo: React.FC<Props> = ({ pleaseDo }) => {
         <br />
         suggest this unwell?
       </span>
-    </Confirmation>
+    </SubmitConfirmation>
   );
 
   return (

@@ -10,7 +10,7 @@ import { FocusArea } from 'types/other';
 import { useSelector } from 'react-redux';
 import { RootState } from 'reducer';
 import { Loading } from 'common/components';
-import Confirmation from 'common/components/Confirmation';
+import { YesNoConfirmation } from 'common/components';
 
 const useStyles = makeStyles(() => ({
   root: {
@@ -94,7 +94,7 @@ export const SuggestGoal: React.FC<Props> = ({ history }) => {
   }
 
   const confirmCancelDialog = (
-    <Confirmation
+    <YesNoConfirmation
       open={openCancelConfirm}
       close={closeCancelConfirmHandler}
       action={() => history.push('/goals/current')}
@@ -104,7 +104,7 @@ export const SuggestGoal: React.FC<Props> = ({ history }) => {
         <br />
         leave this page?
       </span>
-    </Confirmation>
+    </YesNoConfirmation>
   );
 
   return (

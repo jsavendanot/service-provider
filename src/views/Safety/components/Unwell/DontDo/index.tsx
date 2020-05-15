@@ -15,7 +15,7 @@ import { useSelector, useDispatch } from 'react-redux';
 import { RootState } from 'reducer';
 import uuid from 'uuid';
 import { IconButton, TextField } from '@material-ui/core';
-import Confirmation from 'common/components/Confirmation';
+import { SubmitConfirmation } from 'common/components';
 import { suggestSafetyPlan } from 'slices/suggestion/action';
 
 const useStyles = makeStyles(() => ({
@@ -259,7 +259,7 @@ export const DontDo: React.FC<Props> = ({ dontDo, collapse }) => {
         </div>
       )}
       {open && (
-        <Confirmation
+        <SubmitConfirmation
           open={open}
           close={closeDialog}
           action={addToSuggestedValues}
@@ -269,7 +269,7 @@ export const DontDo: React.FC<Props> = ({ dontDo, collapse }) => {
             <br />
             suggest this unwell?
           </span>
-        </Confirmation>
+        </SubmitConfirmation>
       )}
     </div>
   );

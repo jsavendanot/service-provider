@@ -6,7 +6,7 @@ import { Add, DeleteOutline, AddCircleOutline } from '@material-ui/icons';
 import { Button } from 'common/components';
 import uuid from 'uuid';
 import { useDispatch } from 'react-redux';
-import Confirmation from 'common/components/Confirmation';
+import { SubmitConfirmation } from 'common/components';
 import { IconButton, TextField } from '@material-ui/core';
 import { suggestSafetyPlan } from 'slices/suggestion/action';
 
@@ -224,7 +224,7 @@ export const Strategies: React.FC<Props> = ({ strategies }) => {
         </div>
       </div>
       {open && (
-        <Confirmation
+        <SubmitConfirmation
           open={open}
           close={closeDialog}
           action={addToSuggestedValues}
@@ -234,7 +234,7 @@ export const Strategies: React.FC<Props> = ({ strategies }) => {
             <br />
             suggest this strategy?
           </span>
-        </Confirmation>
+        </SubmitConfirmation>
       )}
     </>
   );

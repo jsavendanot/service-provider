@@ -9,7 +9,7 @@ import { Button } from 'common/components';
 import { Strength } from 'types/story';
 import uuid from 'uuid';
 import { suggestStrength } from 'slices/suggestion/action';
-import Confirmation from 'common/components/Confirmation';
+import { SubmitConfirmation } from 'common/components';
 
 const useStyles = makeStyles(() => ({
   root: {
@@ -201,7 +201,7 @@ export const Strengths: React.FC<Props> = ({ strengths }) => {
         </div>
       </div>
       {open && (
-        <Confirmation
+        <SubmitConfirmation
           open={open}
           close={closeDialog}
           action={addToSuggestedStr}
@@ -211,7 +211,7 @@ export const Strengths: React.FC<Props> = ({ strengths }) => {
             <br />
             suggest this strength?
           </span>
-        </Confirmation>
+        </SubmitConfirmation>
       )}
     </>
   );

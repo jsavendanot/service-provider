@@ -13,7 +13,7 @@ import { GoalInfo, StepInfo } from 'types/suggestion';
 import moment from 'moment';
 import produce from 'immer';
 import { suggestGoal } from 'slices/suggestion/action';
-import Confirmation from 'common/components/Confirmation';
+import { SubmitConfirmation } from 'common/components';
 
 const useStyles = makeStyles(() => ({
   root: {
@@ -323,7 +323,7 @@ export const GoalForm: React.FC<Props> = ({ areaId }) => {
         </Grid>
       </div>
       {open && (
-        <Confirmation
+        <SubmitConfirmation
           open={open}
           close={closeDialog}
           action={handleSubmitButtonClick}
@@ -333,7 +333,7 @@ export const GoalForm: React.FC<Props> = ({ areaId }) => {
             <br />
             suggest this goal?
           </span>
-        </Confirmation>
+        </SubmitConfirmation>
       )}
     </>
   );

@@ -12,7 +12,7 @@ import { StoryRootType } from 'types/story';
 import { useSelector, useDispatch } from 'react-redux';
 import { RootState } from 'reducer';
 import { suggestFocusAreas } from 'slices/suggestion/action';
-import Confirmation from 'common/components/Confirmation';
+import { SubmitConfirmation } from 'common/components';
 
 const useStyles = makeStyles(() => ({
   root: {
@@ -123,7 +123,7 @@ export const SuggestArea: React.FC<Props> = ({ history }) => {
   }
 
   const confirmDialog = (
-    <Confirmation
+    <SubmitConfirmation
       open={open}
       close={closeDialog}
       action={submitSuggestion}
@@ -133,7 +133,7 @@ export const SuggestArea: React.FC<Props> = ({ history }) => {
         <br />
         suggest this focus area?
       </span>
-    </Confirmation>
+    </SubmitConfirmation>
   );
 
   return (

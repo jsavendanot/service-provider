@@ -19,7 +19,7 @@ import {
   Dialog,
   DialogContent
 } from '@material-ui/core';
-import Confirmation from 'common/components/Confirmation';
+import { SubmitConfirmation } from 'common/components';
 
 const useStyles = makeStyles(() => ({
   values: {
@@ -211,7 +211,7 @@ export const Services: React.FC<Props> = ({ services, collapse }) => {
   );
 
   const confirmDialog = (
-    <Confirmation
+    <SubmitConfirmation
       open={open}
       close={closeDialog}
       action={addToSuggestedValues}
@@ -221,7 +221,7 @@ export const Services: React.FC<Props> = ({ services, collapse }) => {
         <br />
         suggest this contact?
       </span>
-    </Confirmation>
+    </SubmitConfirmation>
   );
 
   return (

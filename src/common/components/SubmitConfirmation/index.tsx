@@ -26,7 +26,8 @@ const useStyles = makeStyles(() => ({
     fontWeight: 700,
     fontSize: '18px',
     lineHeight: '21px',
-    color: '#003E1F'
+    color: '#003E1F',
+    cursor: 'pointer'
   },
   submitText: {
     fontFamily: 'Roboto',
@@ -49,7 +50,7 @@ type Props = {
   donRedirect?: boolean;
 };
 
-const Confirmation: React.FC<Props> = ({
+const SubmitConfirmation: React.FC<Props> = ({
   open,
   close,
   action,
@@ -83,4 +84,4 @@ const Confirmation: React.FC<Props> = ({
   );
 };
 
-export default Confirmation;
+export default SubmitConfirmation;

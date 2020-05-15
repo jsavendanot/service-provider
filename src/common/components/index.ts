@@ -6,3 +6,5 @@ export { default as GoalCard } from './GoalCard';
 export { default as AreaBox } from './AreaBox';
 export { default as Loading } from './Loading';
 export { default as NetworkList } from './NetworkList';
+export { default as SubmitConfirmation } from './SubmitConfirmation';
+export { default as YesNoConfirmation } from './YesNoConfirmation';
