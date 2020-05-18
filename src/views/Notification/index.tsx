@@ -24,10 +24,8 @@ const Notifications: React.FC = () => {
     (state: RootState) => state.notifications.loading
   );
 
-  const notifications: NotificationItem[] = useSelector((state: RootState) =>
-    state.notifications.notifications.filter(
-      item => item.State === 'Active' && !item.IsRead
-    )
+  const notifications: NotificationItem[] = useSelector(
+    (state: RootState) => state.notifications.notifications
   );
 
   useEffect(() => {

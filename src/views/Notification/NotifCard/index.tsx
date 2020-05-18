@@ -4,6 +4,12 @@ import { IconButton, Theme } from '@material-ui/core';
 import { DeleteOutline, KeyboardArrowRight } from '@material-ui/icons';
 import { NotificationItem } from 'types/notification';
 import useRouter from 'common/utils/useRouter';
+import { useDispatch } from 'react-redux';
+import {
+  deleteNotification,
+  markAsReadNotification,
+  PinNotification
+} from 'slices/notifications/action';
 
 const useStyles = makeStyles((theme: Theme) => ({
   notifBox: {
@@ -33,12 +39,15 @@ type Props = {
 export const NotifCard: React.FC<Props> = ({ notification }) => {
   const classes = useStyles();
   const { history } = useRouter();
+  const dipatch = useDispatch();
 
-  const goToDetail = (
+  const goToDetail = async (
     notificationType: string,
     referenceId: string,
     referenceName: string
   ) => {
+    await dipatch(markAsReadNotification(notification.Id));
+
     if (notificationType === 'Comment' && referenceName === 'Goal') {
       history.push(`/goals/current/${referenceId}`);
     } else if (notificationType === 'Comment' && referenceName === 'Journal') {
@@ -46,18 +55,39 @@ export const NotifCard: React.FC<Props> = ({ notification }) => {
     }
   };
 
+  const deletehandler = () => {
+    dipatch(deleteNotification(notification.Id));
+  };
+
+  const pinhandler = () => {
+    dipatch(PinNotification(notification.Id, !notification.IsPinned));
+  };
+
   return (
     <div className={classes.notifBox}>
       <div style={{ flexGrow: 1 }}>
         <span className={classes.title}>{notification.Message}</span>
         <div style={{ marginTop: '15px' }}>
-          <IconButton style={{ padding: '16px 20px', marginRight: '20px' }}>
-            <img
-              src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAsAAAASCAYAAACNdSR1AAAACXBIWXMAAAsTAAALEwEAmpwYAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAADKSURBVHgBvZFBDsFQFEXv++yDVQhGltAFNNKO1IwViBUwksakohizAsPWjB2wAjVF+vxWKmnzS016Jj//5r77kncJEn/VmwA0QA4hsGvrtiaiDzPd8AVBxNFLieAtLYMEHEXusKnPp/FQIrW69kKVyg+x/WzAH5Rg9teWozJQFaOUOb4zw1DGEQzffQdR/snSMGMs5GQdBZCF1IRcfy5ilhVeKCt6rtUhwp5DmNmiSiyl8hRB9FKFrz/NDXN2ZOaA73RCEQ6bvqbSX+9ZPSvZwGtZAAAAAElFTkSuQmCC"
-              alt=""
-            />
-          </IconButton>
-          <IconButton>
+          {notification.IsPinned ? (
+            <IconButton
+              style={{ padding: '16px 20px', marginRight: '20px' }}
+              onClick={pinhandler}>
+              <img
+                src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAsAAAASCAYAAACNdSR1AAAACXBIWXMAAAsTAAALEwEAmpwYAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAADKSURBVHgBvZFBDsFQFEXv++yDVQhGltAFNNKO1IwViBUwksakohizAsPWjB2wAjVF+vxWKmnzS016Jj//5r77kncJEn/VmwA0QA4hsGvrtiaiDzPd8AVBxNFLieAtLYMEHEXusKnPp/FQIrW69kKVyg+x/WzAH5Rg9teWozJQFaOUOb4zw1DGEQzffQdR/snSMGMs5GQdBZCF1IRcfy5ilhVeKCt6rtUhwp5DmNmiSiyl8hRB9FKFrz/NDXN2ZOaA73RCEQ6bvqbSX+9ZPSvZwGtZAAAAAElFTkSuQmCC"
+                alt=""
+              />
+            </IconButton>
+          ) : (
+            <IconButton
+              style={{ padding: '16px 20px', marginRight: '20px' }}
+              onClick={pinhandler}>
+              <img
+                src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAsAAAASCAYAAACNdSR1AAAACXBIWXMAAAsTAAALEwEAmpwYAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAADKSURBVHgBvZFBDsFQFEXv++yDVQhGltAFNNKO1IwViBUwksakohizAsPWjB2wAjVF+vxWKmnzS016Jj//5r77kncJEn/VmwA0QA4hsGvrtiaiDzPd8AVBxNFLieAtLYMEHEXusKnPp/FQIrW69kKVyg+x/WzAH5Rg9teWozJQFaOUOb4zw1DGEQzffQdR/snSMGMs5GQdBZCF1IRcfy5ilhVeKCt6rtUhwp5DmNmiSiyl8hRB9FKFrz/NDXN2ZOaA73RCEQ6bvqbSX+9ZPSvZwGtZAAAAAElFTkSuQmCC"
+                alt=""
+              />
+            </IconButton>
+          )}
+          <IconButton onClick={deletehandler}>
             <DeleteOutline style={{ fill: '#C57D7D' }} />
           </IconButton>
         </div>
