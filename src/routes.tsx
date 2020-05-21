@@ -37,8 +37,22 @@ const routes: RouteConfig[] = [
     ]
   },
   {
+    path: '/errors',
+    component: BaseLayout,
+    routes: [
+      {
+        path: '/errors/error-404',
+        exact: true,
+        component: lazy(() => import('views/Errors/Error404'))
+      },
+      {
+        component: () => <Redirect to="/errors/error-404" />
+      }
+    ]
+  },
+  {
     path: '/profile',
-    component: MainLayout,
+    component: authentication.required(MainLayout),
     routes: [
       {
         path: '/profile',
@@ -58,22 +72,8 @@ const routes: RouteConfig[] = [
     ]
   },
   {
-    path: '/errors',
-    component: BaseLayout,
-    routes: [
-      {
-        path: '/errors/error-404',
-        exact: true,
-        component: lazy(() => import('views/Errors/Error404'))
-      },
-      {
-        component: () => <Redirect to="/errors/error-404" />
-      }
-    ]
-  },
-  {
     path: '/consumer',
-    component: MainLayout,
+    component: authentication.required(MainLayout),
     routes: [
       {
         path: '/consumer',
@@ -97,7 +97,7 @@ const routes: RouteConfig[] = [
 
   {
     path: '/dashboard',
-    component: MainLayout,
+    component: authentication.required(MainLayout),
     routes: [
       {
         path: '/dashboard',
@@ -114,7 +114,7 @@ const routes: RouteConfig[] = [
 
   {
     path: '/goals',
-    component: MainLayout,
+    component: authentication.required(MainLayout),
     routes: [
       {
         path: '/goals/:tab',
@@ -136,7 +136,7 @@ const routes: RouteConfig[] = [
 
   {
     path: '/suggest',
-    component: MainLayout,
+    component: authentication.required(MainLayout),
     routes: [
       {
         path: '/suggest/goal',
@@ -167,7 +167,7 @@ const routes: RouteConfig[] = [
 
   {
     path: '/journey',
-    component: MainLayout,
+    component: authentication.required(MainLayout),
     routes: [
       {
         path: '/journey/:tab',
@@ -189,7 +189,7 @@ const routes: RouteConfig[] = [
 
   {
     path: '/story',
-    component: MainLayout,
+    component: authentication.required(MainLayout),
     routes: [
       {
         path: '/story',
@@ -204,7 +204,7 @@ const routes: RouteConfig[] = [
 
   {
     path: '/safety',
-    component: MainLayout,
+    component: authentication.required(MainLayout),
     routes: [
       {
         path: '/safety',
@@ -219,7 +219,7 @@ const routes: RouteConfig[] = [
 
   {
     path: '/network',
-    component: MainLayout,
+    component: authentication.required(MainLayout),
     routes: [
       {
         path: '/network/:tab',
@@ -234,7 +234,7 @@ const routes: RouteConfig[] = [
 
   {
     path: '/export',
-    component: MainLayout,
+    component: authentication.required(MainLayout),
     routes: [
       {
         path: '/export',
@@ -248,7 +248,7 @@ const routes: RouteConfig[] = [
   },
   {
     path: '/notifications',
-    component: MainLayout,
+    component: authentication.required(MainLayout),
     routes: [
       {
         path: '/notifications',
@@ -264,7 +264,7 @@ const routes: RouteConfig[] = [
   },
   {
     path: '/settings',
-    component: MainLayout,
+    component: authentication.required(MainLayout),
     routes: [
       {
         path: '/settings',

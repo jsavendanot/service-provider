@@ -5,6 +5,7 @@ import { makeStyles } from '@material-ui/styles';
 import { LinearProgress } from '@material-ui/core';
 
 import { NavBar, TopBar } from '../components';
+import { LogoutPopup } from 'common/components';
 
 const useStyles = makeStyles(() => ({
   root: {
@@ -49,19 +50,22 @@ const MainLayout: React.FC<RouteConfigComponentProps> = ({ route }) => {
   const classes = useStyles();
 
   return (
-    <div className={classes.root}>
-      <TopBar className={classes.topBar} />
-      <div className={classes.mainContainer}>
-        <NavBar className={classes.navBar} />
-        <div className={classes.container}>
-          <main className={classes.content}>
-            <Suspense fallback={<LinearProgress />}>
-              {route && renderRoutes(route.routes)}
-            </Suspense>
-          </main>
+    <>
+      <div className={classes.root}>
+        <TopBar className={classes.topBar} />
+        <div className={classes.mainContainer}>
+          <NavBar className={classes.navBar} />
+          <div className={classes.container}>
+            <main className={classes.content}>
+              <Suspense fallback={<LinearProgress />}>
+                {route && renderRoutes(route.routes)}
+              </Suspense>
+            </main>
+          </div>
         </div>
       </div>
-    </div>
+      <LogoutPopup />
+    </>
   );
 };
 
