@@ -56,6 +56,10 @@ export const editProfile = (
     );
 
     sessionStorage.setItem('Provider_Avatar', profile.Image);
+    sessionStorage.setItem(
+      'Provider_MobilePhone',
+      profile.MobilePhone ? profile.MobilePhone : ''
+    );
 
     dispatch(stopLoading());
     history.goBack();
