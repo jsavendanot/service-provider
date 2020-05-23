@@ -7,10 +7,12 @@ import { Grid } from '@material-ui/core';
 import { makeStyles } from '@material-ui/styles';
 
 import { Loading } from 'common/components';
-import { Consumers, Toolbar } from './components';
+import { Consumers, Toolbar, PendingContacts } from './components';
 import { Person } from 'types/people';
 import { RootState } from 'reducer';
 import { fetchAllFocusAreas } from 'slices/other/action';
+import { fetchPendingContactFromInvitation } from 'slices/invitation/action';
+import { Invitation } from 'types/network';
 
 const useStyles = makeStyles(() => ({
   root: {
@@ -30,10 +32,15 @@ export const Home: React.FC = () => {
     (state: RootState) => state.people.people
   );
 
+  const pendingContacts: Invitation[] = useSelector(
+    (state: RootState) => state.invitation.pendingContacts
+  );
+
   useEffect(() => {
     dispatch(startSession());
     dispatch(fetchPeople());
     dispatch(fetchAllFocusAreas());
+    dispatch(fetchPendingContactFromInvitation());
   }, [dispatch]);
 
   return (
@@ -47,6 +54,9 @@ export const Home: React.FC = () => {
           <Grid container>
             <Grid item xs={9}>
               <Consumers people={people} />
+            </Grid>
+            <Grid item xs={9}>
+              <PendingContacts invitations={pendingContacts} />
             </Grid>
             <Grid item xs={3}>
               <div

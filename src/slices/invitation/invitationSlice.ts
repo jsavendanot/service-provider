@@ -2,23 +2,26 @@ import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 import { Invitation } from 'types/network';
 
 export interface NetworkInvitationRootType {
-  list: Invitation[];
+  pendingContacts: Invitation[];
 }
 
 const initialState: NetworkInvitationRootType = {
-  list: []
+  pendingContacts: []
 };
 
 const invitationSlice = createSlice({
   name: 'invitation',
   initialState: initialState,
   reducers: {
-    read(state, action: PayloadAction<{ invitations: Invitation[] }>) {
-      const { invitations } = action.payload;
-      state.list = invitations;
+    fetchPendingContacts(
+      state,
+      action: PayloadAction<{ pendingContacts: Invitation[] }>
+    ) {
+      const { pendingContacts } = action.payload;
+      state.pendingContacts = pendingContacts;
     }
   }
 });
 
-export const { read } = invitationSlice.actions;
+export const { fetchPendingContacts } = invitationSlice.actions;
 export default invitationSlice.reducer;

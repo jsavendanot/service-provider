@@ -7,7 +7,9 @@ import { Consumer } from './components';
 import { Person } from 'types/people';
 
 const useStyles = makeStyles(() => ({
-  root: {}
+  root: {
+    marginBottom: '20px'
+  }
 }));
 
 type Props = {
