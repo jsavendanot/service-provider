@@ -19,8 +19,8 @@ const LogoutPopup = () => {
   const classes = useStyles();
   const dispatch = useDispatch();
 
-  const signoutTime = useRef<number>(2 * 60000);
-  const warningTime = useRef<number>(1 * 60000); // 20 minutes
+  const signoutTime = useRef<number>(21 * 60000);
+  const warningTime = useRef<number>(20 * 60000); // 20 minutes
 
   const warnTimeout = useRef<any>();
   const logoutTimeout = useRef<any>();
