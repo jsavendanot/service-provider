@@ -8,7 +8,7 @@ import {
 } from '@material-ui/core';
 import { makeStyles } from '@material-ui/styles';
 import { Invitation } from 'types/network';
-import { KeyboardArrowDown, DeleteOutline, Send } from '@material-ui/icons';
+import { KeyboardArrowDown, Send } from '@material-ui/icons';
 import clsx from 'clsx';
 import moment from 'moment';
 import { useDispatch } from 'react-redux';
@@ -172,14 +172,14 @@ export const PendingCard: React.FC<Props> = ({ invitation }) => {
           </div>
           {more && (
             <div className={classes.buttonContainer}>
-              <div style={{ flexGrow: 1, padding: '2px 15px' }}>
+              {/* <div style={{ flexGrow: 1, padding: '2px 15px' }}>
                 <Button className={classes.buttonDelete}>
                   <DeleteOutline
                     style={{ fill: '#C57D7D', marginRight: '5px' }}
                   />
                   Delete
                 </Button>
-              </div>
+              </div> */}
               <div style={{ flexGrow: 1, padding: '2px 15px' }}>
                 <Button
                   className={classes.buttonResend}
