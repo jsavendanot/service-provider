@@ -1,62 +1,171 @@
-import React from 'react';
+import React, { useState } from 'react';
 
-import { GridList, GridListTile, Theme } from '@material-ui/core';
 import { makeStyles } from '@material-ui/styles';
+import { Grid, IconButton, Theme } from '@material-ui/core';
+import { ArrowBackIos, CameraEnhance } from '@material-ui/icons';
+import { Image } from 'types/gallery';
+import { Story } from 'types/story';
+import { useSelector } from 'react-redux';
+import { RootState } from 'reducer';
+import clsx from 'clsx';
 
 const useStyles = makeStyles((theme: Theme) => ({
-  root: {
+  imageEmptyContainer: {
+    position: 'relative',
+    height: '279px',
+    width: '100%',
+    backgroundColor: '#EEEEEE',
     display: 'flex',
-    flexWrap: 'wrap',
-    justifyContent: 'space-around',
-    overflow: 'hidden',
-    backgroundColor:
-      'linear-gradient(to top, rgba(0,0,0,0.7) 0%, rgba(0,0,0,0.3) 70%, rgba(0,0,0,0) 100%)'
+    alignItems: 'center',
+    justifyContent: 'center'
   },
-  gridList: {
-    flexWrap: 'nowrap',
-    transform: 'translateZ(0)'
+  flexItem: {
+    display: 'flex',
+    alignItems: 'center',
+    justifyContent: 'center',
+    marginTop: '0'
+  },
+  backBigArrow: {
+    fontSize: '32px',
+    [theme.breakpoints.up('sm')]: {
+      fontSize: '42px'
+    }
+  },
+  backBigArrowInactive: {
+    fontSize: '32px',
+    [theme.breakpoints.up('sm')]: {
+      fontSize: '42px'
+    },
+    fill: 'rgba(255, 255, 255, 0.4)'
+  },
+  nextBigArrow: {
+    fontSize: '32px',
+    transform: 'rotate(180deg)',
+    [theme.breakpoints.up('sm')]: {
+      fontSize: '42px'
+    }
+  },
+  nextBigArrowInactive: {
+    fontSize: '32px',
+    transform: 'rotate(180deg)',
+    [theme.breakpoints.up('sm')]: {
+      fontSize: '42px'
+    },
+    fill: 'rgba(255, 255, 255, 0.4)'
+  },
+  backArrowActive: {
+    fontSize: '32px',
+    [theme.breakpoints.up('sm')]: {
+      fontSize: '42px'
+    },
+    fill: '#FFFFFF'
+  },
+  backArrowInActive: {
+    fontSize: '32px',
+    [theme.breakpoints.up('sm')]: {
+      fontSize: '42px'
+    },
+    fill: 'rgba(255, 255, 255, 0.4)'
+  },
+  nextArrowActive: {
+    fontSize: '32px',
+    transform: 'rotate(180deg)',
+    [theme.breakpoints.up('sm')]: {
+      fontSize: '42px'
+    },
+    fill: '#FFFFFF'
+  },
+  nextArrowInActive: {
+    fontSize: '32px',
+    transform: 'rotate(180deg)',
+    [theme.breakpoints.up('sm')]: {
+      fontSize: '42px'
+    },
+    fill: 'rgba(255, 255, 255, 0.4)'
+  },
+  imageContainer: {
+    position: 'relative',
+    display: 'flex',
+    justifyContent: 'center',
+    alignItems: 'center'
+  },
+  image: {
+    height: '258px',
+    width: '100%',
+    objectFit: 'cover'
   }
 }));
 
-export const Gallery: React.FC = () => {
+type Props = {
+  story: Story;
+};
+
+export const Images: React.FC<Props> = () => {
   const classes = useStyles();
-  const images = [
-    {
-      id: 1,
-      url: 'images/story/gallery/picture_1.png'
-    },
-    {
-      id: 2,
-      url: 'images/story/gallery/picture_2.png'
-    },
-    {
-      id: 3,
-      url: 'images/story/gallery/picture_3.png'
-    },
-    {
-      id: 4,
-      url: 'images/story/gallery/picture_1.png'
-    },
-    {
-      id: 5,
-      url: 'images/story/gallery/picture_2.png'
-    },
-    {
-      id: 6,
-      url: 'images/story/gallery/picture_3.png'
-    }
-  ];
+
+  const images: Image[] = useSelector(
+    (state: RootState) => state.gallery.images
+  );
+
+  const [index, setIndex] = useState(0);
+
+  const next = () => {
+    const nextIndex = index < images.length - 1 ? index + 1 : index;
+    setIndex(nextIndex);
+  };
+
+  const back = () => {
+    const nextIndex = index > 0 ? index - 1 : 0;
+    setIndex(nextIndex);
+  };
+
   return (
-    <div className={classes.root}>
-      <GridList className={classes.gridList} cols={3}>
-        {images.map(image => (
-          <GridListTile key={image.id}>
-            <img src={image.url} alt="" />
-          </GridListTile>
-        ))}
-      </GridList>
-    </div>
+    <>
+      <Grid container spacing={2} justify="center">
+        {images.length > 0 ? (
+          <Grid item xs={12} sm={8} md={7} className={classes.flexItem}>
+            <IconButton
+              style={{ padding: '0', marginRight: '20px' }}
+              onClick={back}>
+              <ArrowBackIos
+                fontSize="large"
+                className={clsx(
+                  index > 0 && classes.backBigArrow,
+                  index === 0 && classes.backBigArrowInactive
+                )}
+              />
+            </IconButton>
+            <img
+              src={'data:image/png;base64,' + images[index].Data}
+              alt=""
+              className={classes.image}
+            />
+            <IconButton
+              style={{ padding: '0', marginLeft: '20px' }}
+              onClick={next}>
+              <ArrowBackIos
+                fontSize="large"
+                className={clsx(
+                  index < images.length && classes.nextBigArrow,
+                  index === images.length - 1 && classes.nextBigArrowInactive
+                )}
+              />
+            </IconButton>
+          </Grid>
+        ) : (
+          <Grid item xs={12} sm={8} md={7} className={classes.flexItem}>
+            <div className={classes.imageEmptyContainer}>
+              <div>
+                <IconButton>
+                  <CameraEnhance fontSize="large" />
+                </IconButton>
+              </div>
+            </div>
+          </Grid>
+        )}
+      </Grid>
+    </>
   );
 };
 
-export default Gallery;
+export default Images;

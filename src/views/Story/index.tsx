@@ -14,6 +14,7 @@ import { Gallery, MyStory, Strenghts, FocusAreas } from './components';
 import { StoryRootType } from 'types/story';
 import { RootState } from 'reducer';
 import { Loading } from 'common/components';
+import { fetchGalleryImages } from 'slices/gallery/action';
 
 const useStyles = makeStyles(() => ({
   root: {
@@ -44,6 +45,7 @@ export const Story: React.FC = () => {
   }, [dispatch]);
 
   useEffect(() => {
+    dispatch(fetchGalleryImages());
     dispatch(fetchStoryData());
     dispatch(fetchStrenghtsData());
     dispatch(fetchMyAreas());
@@ -64,7 +66,7 @@ export const Story: React.FC = () => {
           </div>
         </Grid>
         <Grid item xs={12}>
-          <Gallery />
+          <Gallery story={storyStore.story} />
         </Grid>
         <Grid item xs={12}>
           <MyStory storyText={storyStore.story.Story} />

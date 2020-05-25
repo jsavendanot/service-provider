@@ -15,6 +15,7 @@ import invitationReducer from 'slices/invitation/invitationSlice';
 import settingsReducer from 'slices/settings/settingsSlice';
 import notificationsReducer from 'slices/notifications/notificationsSlice';
 import exportReducer from 'slices/export/exportSlice';
+import galleryReducer from 'slices/gallery/gallerySlice';
 
 const rootReducer = combineReducers({
   auth: authReducer,
@@ -31,7 +32,8 @@ const rootReducer = combineReducers({
   invitation: invitationReducer,
   settings: settingsReducer,
   notifications: notificationsReducer,
-  export: exportReducer
+  export: exportReducer,
+  gallery: galleryReducer
 });
 
 export type RootState = ReturnType<typeof rootReducer>;
