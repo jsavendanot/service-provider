@@ -6,6 +6,7 @@ import { endSession } from 'slices/auth/action';
 import { RootState } from 'reducer';
 import { updateAccountAutoLoginSetting } from 'slices/settings/action';
 import { AccountSetting } from 'types/settings';
+import { NavigateNext } from '@material-ui/icons';
 
 const useStyles = makeStyles(() => ({
   subTitle: {
@@ -39,8 +40,21 @@ const useStyles = makeStyles(() => ({
   }
 }));
 
-type Props = {};
-export const AccountSettings: React.FC<Props> = () => {
+type Props = {
+  click: (
+    settingName: string,
+    notifType:
+      | 'Update'
+      | 'Comment'
+      | 'Invitation'
+      | 'Suggestion'
+      | 'AccessRequest'
+      | 'AccountReset'
+      | ''
+  ) => void;
+};
+
+export const AccountSettings: React.FC<Props> = ({ click }) => {
   const classes = useStyles();
   const dispatch = useDispatch();
 
@@ -79,6 +93,19 @@ export const AccountSettings: React.FC<Props> = () => {
             name="autoLogin"
             onChange={updateAutoLoginSetting}
           />
+        </div>
+      </div>
+      <div className={classes.card}>
+        <div style={{ flexGrow: 1 }}>
+          <div className={classes.subTitle}>Reset my account</div>
+          <div className={classes.contentText}>
+            Clear all stored data from your device and Jiemba’s server
+          </div>
+        </div>
+        <div className={classes.navigation}>
+          <IconButton onClick={() => click('Reset account', 'AccountReset')}>
+            <NavigateNext style={{ fill: '#692B40' }} fontSize="large" />
+          </IconButton>
         </div>
       </div>
       <div className={classes.card}>

@@ -67,7 +67,7 @@ type Props = {
   settingName: string;
   back: () => void;
 };
-export const Detail: React.FC<Props> = ({
+export const NotifSettingDetail: React.FC<Props> = ({
   notificationType,
   settingName,
   back
@@ -190,4 +190,4 @@ export const Detail: React.FC<Props> = ({
   );
 };
 
-export default Detail;
+export default NotifSettingDetail;

@@ -38,7 +38,7 @@ const useStyles = makeStyles(() => ({
     color: '#FFFFFF'
   },
   submitButton: {
-    background: '#F79221',
+    background: '#692B40',
     borderRadius: '25px'
   }
 }));

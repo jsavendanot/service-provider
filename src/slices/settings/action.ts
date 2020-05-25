@@ -9,6 +9,7 @@ import {
 } from './settingsSlice';
 import { NotificationSetting, AccountSetting } from 'types/settings';
 import { callProfileReadApi } from 'slices/profile/action';
+import { endSession } from 'slices/auth/action';
 
 //** ASYNC FUNCS */
 
@@ -94,6 +95,18 @@ export const updateAccountAutoLoginSetting = (
   }
 };
 
+export const deleteAccountData = (): AppThunk => async dispatch => {
+  try {
+    dispatch(startLoading());
+    await callAccountDeleteApi();
+    dispatch(endSession());
+    dispatch(stopLoading());
+  } catch (err) {
+    dispatch(stopLoading());
+    // dispatch(failed(err.toString()));
+  }
+};
+
 //** API FUNCS */
 
 export const callSettingsNotificationsReadApi = () => {
@@ -144,4 +157,13 @@ export const callSettingsAccountCompletePrivateUpdateApi = (value: boolean) => {
   };
 
   return axios.post('/Settings/Account/Update', requestBody);
+};
+
+export const callAccountDeleteApi = () => {
+  axios.defaults.headers.common['Authorization'] =
+    'Bearer ' + authentication.getAccessToken();
+
+  return axios.delete(
+    `/Account/Delete/?contactId=${sessionStorage.getItem('Provider_ContactId')}`
+  );
 };

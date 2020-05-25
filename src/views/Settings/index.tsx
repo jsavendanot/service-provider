@@ -3,10 +3,11 @@ import { makeStyles } from '@material-ui/styles';
 import { Grid, Slide, Theme } from '@material-ui/core';
 import { NotifSettings, AccountSettings } from './components';
 import { useSelector, useDispatch } from 'react-redux';
-import Detail from './Detail';
+import NotifSettingDetail from './NotifSettingDetail';
 import { fetchSettings } from 'slices/settings/action';
 import { RootState } from 'reducer';
 import { Loading } from 'common/components';
+import AccountSettingDetail from './AccountSettingDetail';
 
 const useStyles = makeStyles((theme: Theme) => ({
   root: {
@@ -77,7 +78,13 @@ const Settings: React.FC = () => {
 
   const [settingName, setSettingName] = useState('');
   const [notificationType, setNotificationType] = useState<
-    'Update' | 'Comment' | 'Invitation' | 'Suggestion' | 'AccessRequest' | ''
+    | 'Update'
+    | 'Comment'
+    | 'Invitation'
+    | 'Suggestion'
+    | 'AccessRequest'
+    | 'AccountReset'
+    | ''
   >('');
 
   const back = () => {
@@ -93,6 +100,7 @@ const Settings: React.FC = () => {
       | 'Invitation'
       | 'Suggestion'
       | 'AccessRequest'
+      | 'AccountReset'
       | ''
   ) => {
     setSettingName(settingName);
@@ -107,7 +115,7 @@ const Settings: React.FC = () => {
     <>
       {loading && <Loading />}
       <div className={classes.root}>
-        {notificationType === '' ? (
+        {notificationType === '' && (
           <Slide
             direction="right"
             in={notificationType === ''}
@@ -118,7 +126,7 @@ const Settings: React.FC = () => {
                 <Grid item xs={12} container justify="center">
                   <div className={classes.section}>
                     <div className={classes.title}>Account</div>
-                    <AccountSettings />
+                    <AccountSettings click={setDetail} />
                   </div>
                 </Grid>
               </Grid>
@@ -136,8 +144,16 @@ const Settings: React.FC = () => {
               </Grid>
             </Grid>
           </Slide>
-        ) : (
-          <Detail
+        )}
+        {notificationType !== 'AccountReset' && (
+          <NotifSettingDetail
+            notificationType={notificationType}
+            settingName={settingName}
+            back={back}
+          />
+        )}
+        {notificationType === 'AccountReset' && (
+          <AccountSettingDetail
             notificationType={notificationType}
             settingName={settingName}
             back={back}
