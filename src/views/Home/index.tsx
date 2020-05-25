@@ -55,9 +55,11 @@ export const Home: React.FC = () => {
             <Grid item xs={9}>
               <Consumers people={people} />
             </Grid>
-            <Grid item xs={9}>
-              <PendingContacts invitations={pendingContacts} />
-            </Grid>
+            {pendingContacts.length > 0 && (
+              <Grid item xs={9}>
+                <PendingContacts invitations={pendingContacts} />
+              </Grid>
+            )}
             <Grid item xs={3}>
               <div
                 style={{
