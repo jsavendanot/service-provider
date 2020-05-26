@@ -96,6 +96,23 @@ const routes: RouteConfig[] = [
   },
 
   {
+    path: '/register',
+    component: authentication.required(MainLayout),
+    routes: [
+      {
+        path: '/register',
+        exact: true,
+        component: authentication.required(
+          lazy(() => import('views/Registration'))
+        )
+      },
+      {
+        component: () => <Redirect to="/errors/error-404" />
+      }
+    ]
+  },
+
+  {
     path: '/dashboard',
     component: authentication.required(MainLayout),
     routes: [

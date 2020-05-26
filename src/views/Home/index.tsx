@@ -13,6 +13,7 @@ import { RootState } from 'reducer';
 import { fetchAllFocusAreas } from 'slices/other/action';
 import { fetchPendingContactFromInvitation } from 'slices/invitation/action';
 import { Invitation } from 'types/network';
+import { Redirect } from 'react-router-dom';
 
 const useStyles = makeStyles(() => ({
   root: {
@@ -42,6 +43,10 @@ export const Home: React.FC = () => {
     dispatch(fetchAllFocusAreas());
     dispatch(fetchPendingContactFromInvitation());
   }, [dispatch]);
+
+  if (sessionStorage.getItem('Provider_ContactNumber') === 'null') {
+    return <Redirect to="/register" />;
+  }
 
   return (
     <>
