@@ -1,19 +1,10 @@
-import React, { useState } from 'react';
+import React from 'react';
 import { RouteComponentProps } from 'react-router-dom';
 import clsx from 'clsx';
 
-import { Grid, IconButton } from '@material-ui/core';
+import { Grid } from '@material-ui/core';
 import { makeStyles } from '@material-ui/styles';
-import { ArrowBackIos } from '@material-ui/icons';
-
-import { NavProps } from './types';
-import {
-  Login,
-  Register,
-  Organisation,
-  Individual,
-  ConfirmPage
-} from './components';
+import { Login } from './components';
 
 const useStyles = makeStyles(() => ({
   /** Header */
@@ -83,13 +74,8 @@ interface MatchParams {
 }
 type Props = RouteComponentProps<MatchParams>;
 
-const Landing: React.FC<Props> = (props: Props) => {
+const Landing: React.FC<Props> = ({ history }) => {
   const classes = useStyles();
-  const [state, setState] = useState<NavProps>('Login');
-
-  const back = () => {
-    state === 'Register' ? setState('Login') : setState('Register');
-  };
 
   return (
     <Grid container justify="center">
@@ -102,56 +88,18 @@ const Landing: React.FC<Props> = (props: Props) => {
               style={{ marginRight: '20px' }}>
               Help
             </span>
-            {state === 'Login' && (
-              <button
-                className={clsx(classes.headerButton, classes.headerMenuText)}
-                onClick={() => setState('Register')}>
-                Register
-              </button>
-            )}
-            {(state === 'Register' ||
-              state === 'Confirm' ||
-              state === 'Individual' ||
-              state === 'Organisation') && (
-              <button
-                className={clsx(classes.headerButton, classes.headerMenuText)}
-                onClick={() => setState('Login')}>
-                Sign in
-              </button>
-            )}
+            <button
+              className={clsx(classes.headerButton, classes.headerMenuText)}
+              onClick={() => history.push('/home')}>
+              Sign in
+            </button>
           </div>
         </div>
       </Grid>
       <Grid item xs={12} style={{ height: '162px' }} />
-      {(state === 'Login' || state === 'Confirm') && (
-        <Grid item xs={12}>
-          {state === 'Login' && <Login register={() => setState('Register')} />}
-          {state === 'Confirm' && <ConfirmPage />}
-        </Grid>
-      )}
-      {(state === 'Register' ||
-        state === 'Organisation' ||
-        state === 'Individual') && (
-        <Grid item xs={12}>
-          <Grid container>
-            <Grid item xs={3}>
-              <div className={classes.navigation} onClick={back}>
-                <div style={{ marginRight: '50px' }}>
-                  <IconButton style={{ padding: '0' }}>
-                    <ArrowBackIos style={{ fill: '#692B40' }} />
-                  </IconButton>
-                  <span className={classes.navText}>BACK</span>
-                </div>
-              </div>
-            </Grid>
-            <Grid item xs={9}>
-              {state === 'Register' && <Register setState={setState} />}
-              {state === 'Organisation' && <Organisation setState={setState} />}
-              {state === 'Individual' && <Individual setState={setState} />}
-            </Grid>
-          </Grid>
-        </Grid>
-      )}
+      <Grid item xs={12}>
+        <Login />
+      </Grid>
     </Grid>
   );
 };

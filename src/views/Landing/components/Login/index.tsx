@@ -92,11 +92,7 @@ type FormStateType = {
   };
 };
 
-type Props = {
-  register: () => void;
-};
-
-const Login: React.FC<Props> = ({ register }) => {
+const Login: React.FC = () => {
   const classes = useStyles();
   const { history } = useRouter();
 
@@ -117,34 +113,15 @@ const Login: React.FC<Props> = ({ register }) => {
     }));
   }, [formState.values]);
 
-  const handleSubmit = () => {
-    history.push('/home');
-  };
-
   return (
     <Grid container justify="center">
       <Grid item xs={4}>
         <div className={classes.form}>
           <span className={classes.formTitle}>Service Provider</span>
           <div style={{ marginTop: '10px' }}>
-            <Button type="primary" click={handleSubmit}>
+            <Button type="primary" click={() => history.push('/home')}>
               Sign in
             </Button>
-          </div>
-          <div className={classes.formFooter}>
-            <span className={classes.formFooterText}>
-              Don't have an account?
-            </span>
-            <span
-              className={classes.formFooterText}
-              style={{
-                textDecoration: 'underline',
-                color: '#692B40',
-                cursor: 'pointer'
-              }}
-              onClick={register}>
-              Register
-            </span>
           </div>
         </div>
       </Grid>
