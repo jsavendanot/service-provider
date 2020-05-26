@@ -2,7 +2,6 @@ import React, { Dispatch, SetStateAction } from 'react';
 
 import { Grid } from '@material-ui/core';
 import { makeStyles } from '@material-ui/styles';
-
 import { NavProps } from '../../types';
 
 const useStyles = makeStyles(() => ({

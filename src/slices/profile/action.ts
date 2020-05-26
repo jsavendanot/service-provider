@@ -22,17 +22,21 @@ export const fetchProfile = (): AppThunk => async dispatch => {
 };
 
 export const createProfile = (
+  history: any,
   updatedProfile: Profile
 ): AppThunk => async dispatch => {
   try {
     dispatch(startLoading());
     await callProfileUpdateApi(updatedProfile);
+
     const profile = await callProfileReadApi();
     dispatch(
       fetch({
         profile
       })
     );
+    history.push('/home');
+
     dispatch(stopLoading());
   } catch (err) {
     dispatch(stopLoading());

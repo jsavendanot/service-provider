@@ -6,14 +6,24 @@ import React, {
   SetStateAction
 } from 'react';
 import validate from 'validate.js';
+import useRouter from 'common/utils/useRouter';
 
-import { Grid, TextField, FormControlLabel, Checkbox } from '@material-ui/core';
+import {
+  Grid,
+  TextField,
+  FormControlLabel,
+  Checkbox,
+  Avatar
+} from '@material-ui/core';
 import { makeStyles } from '@material-ui/styles';
+import { useDispatch, useSelector } from 'react-redux';
 
 import { NavProps } from '../../types';
-import { Button } from 'common/components';
+import { Button, Loading } from 'common/components';
 import { Profile } from 'types/profile';
 import uuid from 'uuid';
+import { createProfile } from 'slices/profile/action';
+import { RootState } from 'reducer';
 
 const useStyles = makeStyles(() => ({
   /** Title */
@@ -117,6 +127,9 @@ const useStyles = makeStyles(() => ({
   },
   /** Profile Image */
   uploadButton: {
+    display: 'flex',
+    alignItems: 'center',
+    justifyContent: 'center',
     width: '84px',
     height: '30px',
     background: '#692B40',
@@ -125,16 +138,7 @@ const useStyles = makeStyles(() => ({
     borderRadius: '28px',
     color: '#FFFFFF',
     cursor: 'pointer',
-    margin: '20px 0',
-    '&:focus': {
-      outline: 'none'
-    },
-    '&:hover': {
-      backgroundColor: '#692B40'
-    },
-    '&:active': {
-      backgroundColor: '#692B40'
-    }
+    margin: '20px 0'
   },
   uploadButtonText: {
     fontFamily: 'Roboto',
@@ -152,6 +156,10 @@ const useStyles = makeStyles(() => ({
     fontSize: '14px',
     lineHeight: '16px',
     color: '#FFFFFF'
+  },
+  avatar: {
+    width: '80px',
+    height: '80px'
   }
 }));
 
@@ -291,6 +299,16 @@ type Props = {
 
 const Individual: React.FC<Props> = ({ setState }) => {
   const classes = useStyles();
+  const dispatch = useDispatch();
+  const { history } = useRouter();
+
+  const loading: boolean = useSelector(
+    (state: RootState) => state.profile.loading
+  );
+
+  const profile: Profile = useSelector(
+    (state: RootState) => state.profile.profile
+  );
 
   /** Handle Fields */
   const [formState, setFormState] = useState<FormStateType>({
@@ -300,47 +318,10 @@ const Individual: React.FC<Props> = ({ setState }) => {
     errors: {}
   });
 
-  const [profile, setProfile] = useState<Profile>({
-    ContactId: uuid(),
-    RecoveryPlanId: sessionStorage.getItem('Provider_RecoveryPlanId')!,
-    UserId: sessionStorage.getItem('Provider_UserId')!,
-    SafetyPlanId: sessionStorage.getItem('Provider_SafetyPlanId')!,
-    FirstName: sessionStorage.getItem('Provider_FirstName')!,
-    Surname: sessionStorage.getItem('Provider_LastName')!,
-    PreferredName: '',
-    Gender: '',
-    DateOfBirth: '',
-    UserEmail: sessionStorage.getItem('Provider_Email')!,
-    ContactType: '',
-    HomeAddress: '',
-    HomePostCode: '',
-    PostalAddress: '',
-    PostalPostCode: '',
-    HomePhone: '',
-    MobilePhone: '',
-    BusinessPhone: '',
-    PrimaryEmail: '',
-    PreferredContactMethod: '',
-    ContactName: '',
-    RelationshipToConsumer: '',
-    EmergencyContactPhone: '',
-    EmergencyAddress: '',
-    EmergencyWhenToContact: '',
-    CountryOfBirth: '',
-    PreferredLanguage: '',
-    GeneralPractionerId: '',
-    MedicalRecordNumber: '',
-    AdditionalInformation: '',
-    Image: '',
-    ImageType: '',
-    ImageUrl: '',
-    FullName: ''
-  });
-
   const [registrationForm, setRegistrationForm] = useState({
     title: '',
-    firstName: '',
-    lastName: '',
+    firstName: profile.FirstName,
+    lastName: profile.Surname,
     middleName: '',
     practice: '',
     organisation: '',
@@ -350,7 +331,9 @@ const Individual: React.FC<Props> = ({ setState }) => {
     state: '',
     zipCode: '',
     workPhone: '',
-    mobilePhone: ''
+    mobilePhone: '',
+    image: '',
+    imageType: ''
   });
 
   const [titles] = useState([
@@ -526,12 +509,28 @@ const Individual: React.FC<Props> = ({ setState }) => {
       }
     }));
 
-    if (formState.isValid) {
-      setProfile(value => ({
-        ...value,
+    if (formState.isValid && termCheckBox) {
+      const profile: Profile = {
+        ContactId: uuid(),
+        RecoveryPlanId: sessionStorage.getItem('Provider_RecoveryPlanId')!,
+        UserId: sessionStorage.getItem('Provider_UserId')!,
+        SafetyPlanId: sessionStorage.getItem('Provider_SafetyPlanId')!,
         FirstName: registrationForm.title + '.' + registrationForm.firstName,
         Surname: registrationForm.lastName,
         PreferredName: registrationForm.middleName,
+        Gender: '',
+        DateOfBirth: '',
+        UserEmail: sessionStorage.getItem('Provider_Email')!,
+        ContactType: '',
+        HomeAddress: '',
+        HomePostCode: '',
+        PostalAddress: '',
+        PostalPostCode: registrationForm.zipCode,
+        HomePhone: '',
+        MobilePhone: registrationForm.mobilePhone,
+        BusinessPhone: '',
+        PrimaryEmail: '',
+        PreferredContactMethod: '',
         ContactName: registrationForm.organisation,
         RelationshipToConsumer: registrationForm.practice,
         EmergencyContactPhone: registrationForm.workPhone,
@@ -543,365 +542,415 @@ const Individual: React.FC<Props> = ({ setState }) => {
           registrationForm.city +
           ', ' +
           registrationForm.state,
-        PostalPostCode: registrationForm.zipCode,
-        MobilePhone: registrationForm.mobilePhone
-      }));
+        EmergencyWhenToContact: '',
+        CountryOfBirth: '',
+        PreferredLanguage: '',
+        GeneralPractionerId: '',
+        MedicalRecordNumber: '',
+        AdditionalInformation: '',
+        Image: registrationForm.image,
+        ImageType: registrationForm.imageType,
+        ImageUrl: '',
+        FullName: ''
+      };
 
-      console.log(profile);
+      dispatch(createProfile(history, profile));
+    }
+  };
+
+  const handleFileInputChange = (event: ChangeEvent<HTMLInputElement>) => {
+    const fileReader = new FileReader();
+    if (event.target.files && event.target.files.length > 0) {
+      const imageType = event.target.files[0].type.replace('image/', '');
+      fileReader.readAsDataURL(event.target.files[0]);
+      fileReader.onload = e => {
+        setRegistrationForm(value => ({
+          ...value,
+          image: e.target?.result!.toString().split('base64,')[1],
+          imageType: imageType
+        }));
+      };
     }
   };
 
   return (
-    <Grid container justify="flex-start">
-      <Grid item xs={9}>
-        <span className={classes.title}>
-          Service Provider Registration - Individual
-        </span>
-      </Grid>
-      <Grid item xs={9}>
-        <div className={classes.notes}>
-          <div style={{ marginTop: '20px' }}>
-            <span className={classes.noteText}>
-              Registering with Jiemba will populate you in the ‘Find service
-              providers near...’ feature of the consumer site.
-            </span>
-          </div>
-          <div style={{ margin: '20px 0' }}>
-            <span className={classes.noteText}>
-              Please fill out this form which will complete the short
-              registration process.
-            </span>
-          </div>
-        </div>
-      </Grid>
-      <Grid item xs={9}>
-        <div className={classes.form}>
-          <div className={classes.formNote}>
-            Fields marked with ”*” are required.
-          </div>
-          <div className={classes.formGroup}>
-            <span className={classes.formGroupTitle}>Name</span>
-            <div style={{ width: '30%', padding: '10px 0' }}>
-              <TextField
-                error={hasError('title')}
-                fullWidth
-                label={
-                  <span className={classes.selectOptionLabel}>
-                    Select title
-                  </span>
-                }
-                name="title"
-                select
-                autoComplete="off"
-                SelectProps={{ native: true }}
-                value={registrationForm.title}
-                variant="outlined"
-                onChange={handleChange}>
-                {titles.map(title => (
-                  <option key={title} value={title}>
-                    {title}
-                  </option>
-                ))}
-              </TextField>
+    <>
+      {loading && <Loading />}
+      <Grid container justify="flex-start">
+        <Grid item xs={9}>
+          <span className={classes.title}>
+            Service Provider Registration - Individual
+          </span>
+        </Grid>
+        <Grid item xs={9}>
+          <div className={classes.notes}>
+            <div style={{ marginTop: '20px' }}>
+              <span className={classes.noteText}>
+                Registering with Jiemba will populate you in the ‘Find service
+                providers near...’ feature of the consumer site.
+              </span>
             </div>
-            <div style={{ display: 'flex', justifyContent: 'space-between' }}>
+            <div style={{ margin: '20px 0' }}>
+              <span className={classes.noteText}>
+                Please fill out this form which will complete the short
+                registration process.
+              </span>
+            </div>
+          </div>
+        </Grid>
+        <Grid item xs={9}>
+          <div className={classes.form}>
+            <div className={classes.formNote}>
+              Fields marked with ”*” are required.
+            </div>
+            <div className={classes.formGroup}>
+              <span className={classes.formGroupTitle}>Name</span>
               <div style={{ width: '30%', padding: '10px 0' }}>
                 <TextField
-                  error={hasError('firstName')}
-                  fullWidth
-                  label="First*"
-                  name="firstName"
-                  autoComplete="off"
-                  value={registrationForm.firstName}
-                  variant="outlined"
-                  onChange={handleChange}
-                />
-              </div>
-              <div style={{ width: '30%', padding: '10px 0' }}>
-                <TextField
-                  error={hasError('middleName')}
-                  fullWidth
-                  label="Middle"
-                  name="middleName"
-                  autoComplete="off"
-                  value={registrationForm.middleName}
-                  variant="outlined"
-                  onChange={handleChange}
-                />
-              </div>
-              <div style={{ width: '30%', padding: '10px 0' }}>
-                <TextField
-                  error={hasError('lastName')}
-                  fullWidth
-                  label="Last*"
-                  name="lastName"
-                  autoComplete="off"
-                  value={registrationForm.lastName}
-                  variant="outlined"
-                  onChange={handleChange}
-                />
-              </div>
-            </div>
-          </div>
-          <div className={classes.formGroup}>
-            <span className={classes.formGroupTitle}>
-              Practice or Service Name
-            </span>
-            <div style={{ display: 'flex' }}>
-              <div
-                style={{
-                  width: '30%',
-                  padding: '10px 0',
-                  marginRight: '34px'
-                }}>
-                <TextField
-                  error={hasError('practice')}
-                  fullWidth
-                  label="Practice"
-                  name="practice"
-                  autoComplete="off"
-                  value={registrationForm.practice}
-                  variant="outlined"
-                  onChange={handleChange}
-                />
-              </div>
-            </div>
-          </div>
-          <div className={classes.formGroup}>
-            <span className={classes.formGroupTitle}>Organisation*</span>
-            <div
-              className={classes.formGroupNote}
-              style={{ textAlign: 'justify' }}>
-              To register with Jiemba as a service provider, your organisation
-              has to be registered. Please contact your organisation if you
-              can’t find it from the list below, or register for your
-              organisation later.
-            </div>
-            <div style={{ width: '65%', marginTop: '15px' }}>
-              <TextField
-                error={hasError('organisation')}
-                fullWidth
-                label={
-                  <span className={classes.selectOptionLabel}>
-                    Select organisation
-                  </span>
-                }
-                name="organisation"
-                select
-                autoComplete="off"
-                SelectProps={{ native: true }}
-                value={registrationForm.organisation}
-                variant="outlined"
-                onChange={handleChange}>
-                {organisationList.map(org => (
-                  <option key={org.value} value={org.value}>
-                    {org.name}
-                  </option>
-                ))}
-              </TextField>
-            </div>
-          </div>
-          <div className={classes.formGroup}>
-            <span className={classes.formGroupTitle}>Work Address*</span>
-            <div style={{ display: 'flex' }}>
-              <div
-                style={{
-                  width: '50%',
-                  padding: '10px 0',
-                  marginRight: '34px'
-                }}>
-                <TextField
-                  error={hasError('streetAddress')}
-                  fullWidth
-                  label="Street Address*"
-                  name="streetAddress"
-                  autoComplete="off"
-                  value={registrationForm.streetAddress}
-                  variant="outlined"
-                  onChange={handleChange}
-                />
-              </div>
-              <div style={{ width: '50%', padding: '10px 0' }}>
-                <TextField
-                  error={hasError('addressLine2')}
-                  fullWidth
-                  label="Address Line 2"
-                  name="addressLine2"
-                  autoComplete="off"
-                  value={registrationForm.addressLine2}
-                  variant="outlined"
-                  onChange={handleChange}
-                />
-              </div>
-            </div>
-            <div style={{ display: 'flex', justifyContent: 'space-between' }}>
-              <div
-                style={{
-                  width: '30%',
-                  padding: '10px 0'
-                }}>
-                <TextField
-                  error={hasError('city')}
-                  fullWidth
-                  label="City*"
-                  name="city"
-                  autoComplete="off"
-                  value={registrationForm.city}
-                  variant="outlined"
-                  onChange={handleChange}
-                />
-              </div>
-              <div style={{ width: '30%', padding: '10px 0' }}>
-                <TextField
-                  error={hasError('state')}
+                  error={hasError('title')}
                   fullWidth
                   label={
                     <span className={classes.selectOptionLabel}>
-                      Select state
+                      Select title
                     </span>
                   }
-                  name="state"
+                  name="title"
                   select
                   autoComplete="off"
                   SelectProps={{ native: true }}
-                  value={registrationForm.state}
+                  value={registrationForm.title}
                   variant="outlined"
                   onChange={handleChange}>
-                  {states.map(state => (
-                    <option key={state.value} value={state.value}>
-                      {state.name}
+                  {titles.map(title => (
+                    <option key={title} value={title}>
+                      {title}
                     </option>
                   ))}
                 </TextField>
               </div>
-              <div
-                style={{
-                  width: '30%',
-                  padding: '10px 0'
-                }}>
-                <TextField
-                  error={hasError('zipCode')}
-                  fullWidth
-                  label="ZIP Code*"
-                  name="zipCode"
-                  autoComplete="off"
-                  value={registrationForm.zipCode}
-                  variant="outlined"
-                  onChange={handleChange}
-                />
+              <div style={{ display: 'flex', justifyContent: 'space-between' }}>
+                <div style={{ width: '30%', padding: '10px 0' }}>
+                  <TextField
+                    error={hasError('firstName')}
+                    fullWidth
+                    label="First*"
+                    name="firstName"
+                    autoComplete="off"
+                    value={registrationForm.firstName}
+                    variant="outlined"
+                    onChange={handleChange}
+                  />
+                </div>
+                <div style={{ width: '30%', padding: '10px 0' }}>
+                  <TextField
+                    error={hasError('middleName')}
+                    fullWidth
+                    label="Middle"
+                    name="middleName"
+                    autoComplete="off"
+                    value={registrationForm.middleName}
+                    variant="outlined"
+                    onChange={handleChange}
+                  />
+                </div>
+                <div style={{ width: '30%', padding: '10px 0' }}>
+                  <TextField
+                    error={hasError('lastName')}
+                    fullWidth
+                    label="Last*"
+                    name="lastName"
+                    autoComplete="off"
+                    value={registrationForm.lastName}
+                    variant="outlined"
+                    onChange={handleChange}
+                  />
+                </div>
               </div>
             </div>
-          </div>
-          <div className={classes.formGroup}>
-            <span className={classes.formGroupTitle}>Contact Numbers</span>
-            <div style={{ display: 'flex' }}>
-              <div
-                style={{
-                  width: '30%',
-                  padding: '10px 0',
-                  marginRight: '34px'
-                }}>
-                <TextField
-                  error={hasError('workPhone')}
-                  fullWidth
-                  label="Work*"
-                  name="workPhone"
-                  autoComplete="off"
-                  value={registrationForm.workPhone}
-                  variant="outlined"
-                  onChange={handleChange}
-                />
-              </div>
-              <div style={{ width: '30%', padding: '10px 0' }}>
-                <TextField
-                  error={hasError('mobilePhone')}
-                  fullWidth
-                  label="Mobile*"
-                  name="mobilePhone"
-                  autoComplete="off"
-                  value={registrationForm.mobilePhone}
-                  variant="outlined"
-                  onChange={handleChange}
-                />
+            <div className={classes.formGroup}>
+              <span className={classes.formGroupTitle}>
+                Practice or Service Name
+              </span>
+              <div style={{ display: 'flex' }}>
+                <div
+                  style={{
+                    width: '30%',
+                    padding: '10px 0',
+                    marginRight: '34px'
+                  }}>
+                  <TextField
+                    error={hasError('practice')}
+                    fullWidth
+                    label="Practice"
+                    name="practice"
+                    autoComplete="off"
+                    value={registrationForm.practice}
+                    variant="outlined"
+                    onChange={handleChange}
+                  />
+                </div>
               </div>
             </div>
-          </div>
-          <div className={classes.formGroup}>
-            <span className={classes.formGroupTitle}>Terms of Service</span>
-            <div style={{ width: '100%' }}>
-              <TextField
-                id="outlined-basic"
-                label=""
-                variant="outlined"
-                placeholder=""
-                fullWidth
-                multiline
-                value="We are still building our Terms of Service. 
+            <div className={classes.formGroup}>
+              <span className={classes.formGroupTitle}>Organisation*</span>
+              <div
+                className={classes.formGroupNote}
+                style={{ textAlign: 'justify' }}>
+                To register with Jiemba as a service provider, your organisation
+                has to be registered. Please contact your organisation if you
+                can’t find it from the list below, or register for your
+                organisation later.
+              </div>
+              <div style={{ width: '65%', marginTop: '15px' }}>
+                <TextField
+                  error={hasError('organisation')}
+                  fullWidth
+                  label={
+                    <span className={classes.selectOptionLabel}>
+                      Select organisation
+                    </span>
+                  }
+                  name="organisation"
+                  select
+                  autoComplete="off"
+                  SelectProps={{ native: true }}
+                  value={registrationForm.organisation}
+                  variant="outlined"
+                  onChange={handleChange}>
+                  {organisationList.map(org => (
+                    <option key={org.value} value={org.value}>
+                      {org.name}
+                    </option>
+                  ))}
+                </TextField>
+              </div>
+            </div>
+            <div className={classes.formGroup}>
+              <span className={classes.formGroupTitle}>Work Address*</span>
+              <div style={{ display: 'flex' }}>
+                <div
+                  style={{
+                    width: '50%',
+                    padding: '10px 0',
+                    marginRight: '34px'
+                  }}>
+                  <TextField
+                    error={hasError('streetAddress')}
+                    fullWidth
+                    label="Street Address*"
+                    name="streetAddress"
+                    autoComplete="off"
+                    value={registrationForm.streetAddress}
+                    variant="outlined"
+                    onChange={handleChange}
+                  />
+                </div>
+                <div style={{ width: '50%', padding: '10px 0' }}>
+                  <TextField
+                    error={hasError('addressLine2')}
+                    fullWidth
+                    label="Address Line 2"
+                    name="addressLine2"
+                    autoComplete="off"
+                    value={registrationForm.addressLine2}
+                    variant="outlined"
+                    onChange={handleChange}
+                  />
+                </div>
+              </div>
+              <div style={{ display: 'flex', justifyContent: 'space-between' }}>
+                <div
+                  style={{
+                    width: '30%',
+                    padding: '10px 0'
+                  }}>
+                  <TextField
+                    error={hasError('city')}
+                    fullWidth
+                    label="City*"
+                    name="city"
+                    autoComplete="off"
+                    value={registrationForm.city}
+                    variant="outlined"
+                    onChange={handleChange}
+                  />
+                </div>
+                <div style={{ width: '30%', padding: '10px 0' }}>
+                  <TextField
+                    error={hasError('state')}
+                    fullWidth
+                    label={
+                      <span className={classes.selectOptionLabel}>
+                        Select state
+                      </span>
+                    }
+                    name="state"
+                    select
+                    autoComplete="off"
+                    SelectProps={{ native: true }}
+                    value={registrationForm.state}
+                    variant="outlined"
+                    onChange={handleChange}>
+                    {states.map(state => (
+                      <option key={state.value} value={state.value}>
+                        {state.name}
+                      </option>
+                    ))}
+                  </TextField>
+                </div>
+                <div
+                  style={{
+                    width: '30%',
+                    padding: '10px 0'
+                  }}>
+                  <TextField
+                    error={hasError('zipCode')}
+                    fullWidth
+                    label="ZIP Code*"
+                    name="zipCode"
+                    autoComplete="off"
+                    value={registrationForm.zipCode}
+                    variant="outlined"
+                    onChange={handleChange}
+                  />
+                </div>
+              </div>
+            </div>
+            <div className={classes.formGroup}>
+              <span className={classes.formGroupTitle}>Contact Numbers</span>
+              <div style={{ display: 'flex' }}>
+                <div
+                  style={{
+                    width: '30%',
+                    padding: '10px 0',
+                    marginRight: '34px'
+                  }}>
+                  <TextField
+                    error={hasError('workPhone')}
+                    fullWidth
+                    label="Work*"
+                    name="workPhone"
+                    autoComplete="off"
+                    value={registrationForm.workPhone}
+                    variant="outlined"
+                    onChange={handleChange}
+                  />
+                </div>
+                <div style={{ width: '30%', padding: '10px 0' }}>
+                  <TextField
+                    error={hasError('mobilePhone')}
+                    fullWidth
+                    label="Mobile*"
+                    name="mobilePhone"
+                    autoComplete="off"
+                    value={registrationForm.mobilePhone}
+                    variant="outlined"
+                    onChange={handleChange}
+                  />
+                </div>
+              </div>
+            </div>
+            <div className={classes.formGroup}>
+              <span className={classes.formGroupTitle}>Terms of Service</span>
+              <div style={{ width: '100%' }}>
+                <TextField
+                  id="outlined-basic"
+                  label=""
+                  variant="outlined"
+                  placeholder=""
+                  fullWidth
+                  multiline
+                  value="We are still building our Terms of Service. 
                 For now, checking the box below will not make you agree to anything. But for testing, please still pretend to agree to this (by checking the box) in order to proceed."
-                autoComplete="off"
-                rows="6"
-                style={{ marginTop: '15px' }}
-                className={classes.termsOfService}
-                inputProps={{ readOnly: true }}
+                  autoComplete="off"
+                  rows="6"
+                  style={{ marginTop: '15px' }}
+                  className={classes.termsOfService}
+                  inputProps={{ readOnly: true }}
+                />
+              </div>
+              <FormControlLabel
+                control={
+                  <Checkbox
+                    checked={termCheckBox}
+                    value={termCheckBox}
+                    className={classes.termsCheckBox}
+                    onChange={() => setTermCheckBox(value => !value)}
+                  />
+                }
+                label={
+                  <span className={classes.termsText}>
+                    I agree to the Terms of Service*
+                  </span>
+                }
               />
             </div>
-            <FormControlLabel
-              control={
-                <Checkbox
-                  checked={termCheckBox}
-                  value={termCheckBox}
-                  className={classes.termsCheckBox}
-                  onChange={() => setTermCheckBox(value => !value)}
-                />
-              }
-              label={
-                <span className={classes.termsText}>
-                  I agree to the Terms of Service*
-                </span>
-              }
-            />
-          </div>
-          <div className={classes.formGroup}>
-            <span className={classes.formGroupTitle}>Profile Image </span>
-            <div style={{ display: 'flex', alignItems: 'center' }}>
-              <div
+            <div className={classes.formGroup}>
+              <span className={classes.formGroupTitle}>Profile Image </span>
+              <div style={{ display: 'flex', alignItems: 'center' }}>
+                {/* <div
                 style={{
                   height: '141.1px',
                   width: '117px',
                   marginTop: '15px'
                 }}>
                 <img src="/images/landing/consumer_image.svg" alt="" />
-              </div>
-              <div
-                style={{
-                  display: 'flex',
-                  alignItems: 'center',
-                  marginLeft: '20px'
-                }}>
-                <button className={classes.uploadButton}>
-                  <span className={classes.uploadButtonText}>UPLOAD</span>
-                </button>
-                <span style={{ marginLeft: '5px' }}>No image chosen</span>
+              </div> */}
+                <Avatar
+                  alt=""
+                  className={classes.avatar}
+                  src={'data:image/png;base64,' + registrationForm.image}
+                />
+                <div
+                  style={{
+                    display: 'flex',
+                    alignItems: 'center',
+                    marginLeft: '20px'
+                  }}>
+                  <div>
+                    <input
+                      accept="image/*"
+                      type="file"
+                      onChange={handleFileInputChange}
+                      id="icon-button-file"
+                      style={{ display: 'none' }}
+                    />
+                    <div
+                      style={{
+                        display: 'flex',
+                        alignItems: 'center',
+                        marginBottom: '30px'
+                      }}>
+                      <label htmlFor="icon-button-file">
+                        <div className={classes.uploadButton}>
+                          <span className={classes.uploadButtonText}>
+                            UPLOAD
+                          </span>
+                        </div>
+                      </label>
+                    </div>
+                  </div>
+                </div>
               </div>
             </div>
           </div>
-        </div>
-      </Grid>
-      <Grid item xs={9}>
-        <div
-          style={{
-            display: 'flex',
-            justifyContent: 'flex-end',
-            margin: '30px 0 50px'
-          }}>
-          <div style={{ width: '20%' }}>
-            <Button type="primary" click={handleSubmit}>
-              <span className={classes.submitButtonText}>SUBMIT</span>
-            </Button>
+        </Grid>
+        <Grid item xs={9}>
+          <div
+            style={{
+              display: 'flex',
+              justifyContent: 'flex-end',
+              margin: '30px 0 50px'
+            }}>
+            <div style={{ width: '20%' }}>
+              <Button type="primary" click={handleSubmit}>
+                <span className={classes.submitButtonText}>SUBMIT</span>
+              </Button>
+            </div>
           </div>
-        </div>
+        </Grid>
       </Grid>
-    </Grid>
+    </>
   );
 };
 

@@ -56,7 +56,7 @@ export const Home: React.FC = () => {
         <Grid item xs={12}>
           <Toolbar />
         </Grid>
-        {profile.MobilePhone ? (
+        {profile.EmergencyContactPhone ? (
           <Grid item xs={12}>
             <Grid container>
               <Grid item xs={9}>
