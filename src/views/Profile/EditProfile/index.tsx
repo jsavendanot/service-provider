@@ -362,13 +362,12 @@ const EditProfile = () => {
   const handleFileInputChange = (event: ChangeEvent<HTMLInputElement>) => {
     const fileReader = new FileReader();
     if (event.target.files && event.target.files.length > 0) {
-      const imageType = event.target.files[0].type.replace('image/', '');
+      // const imageType = event.target.files[0].type.replace('image/', '');
       fileReader.readAsDataURL(event.target.files[0]);
       fileReader.onload = e => {
         setProfile(
           produce((draft: Profile) => {
             draft.Image = e.target?.result!.toString().split('base64,')[1];
-            draft.ImageType = imageType;
           })
         );
       };

@@ -549,7 +549,7 @@ const Individual: React.FC<Props> = ({ setState }) => {
         MedicalRecordNumber: '',
         AdditionalInformation: registrationForm.title,
         Image: registrationForm.image,
-        ImageType: registrationForm.imageType,
+        ImageType: '',
         ImageUrl: '',
         FullName: ''
       };
