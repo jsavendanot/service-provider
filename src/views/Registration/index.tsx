@@ -6,7 +6,7 @@ import { makeStyles } from '@material-ui/styles';
 import { ArrowBackIos } from '@material-ui/icons';
 
 import { NavProps } from './types';
-import { Register, Organisation, Individual, ConfirmPage } from './components';
+import { Register, Organisation, Individual } from './components';
 
 const useStyles = makeStyles(() => ({
   /** Root */
@@ -43,7 +43,7 @@ const Registration: React.FC<Props> = () => {
   const [state, setState] = useState<NavProps>('Register');
 
   const back = () => {
-    state === 'Register' ? setState('Login') : setState('Register');
+    setState('Register');
   };
 
   return (

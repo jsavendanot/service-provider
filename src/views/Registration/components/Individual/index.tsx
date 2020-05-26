@@ -12,6 +12,8 @@ import { makeStyles } from '@material-ui/styles';
 
 import { NavProps } from '../../types';
 import { Button } from 'common/components';
+import { Profile } from 'types/profile';
+import uuid from 'uuid';
 
 const useStyles = makeStyles(() => ({
   /** Title */
@@ -155,7 +157,7 @@ const useStyles = makeStyles(() => ({
 
 const schema = {
   title: {
-    presence: false,
+    presence: { allowEmpty: false, message: 'is required' },
     length: {
       maximum: 32
     }
@@ -167,7 +169,7 @@ const schema = {
     }
   },
   middleName: {
-    presence: { allowEmpty: false, message: 'is required' },
+    presence: false,
     length: {
       maximum: 80
     }
@@ -184,77 +186,52 @@ const schema = {
       maximum: 80
     }
   },
-  service: {
-    presence: false,
-    length: {
-      maximum: 80
-    }
-  },
   organisation: {
     presence: { allowEmpty: false, message: 'is required' },
     length: {
-      maximum: 80
+      maximum: 100
     }
   },
   streetAddress: {
     presence: { allowEmpty: false, message: 'is required' },
     length: {
-      maximum: 200
+      maximum: 100
     }
   },
   addressLine2: {
     presence: false,
     length: {
-      maximum: 200
+      maximum: 100
     }
   },
   city: {
     presence: { allowEmpty: false, message: 'is required' },
     length: {
-      maximum: 200
+      maximum: 80
     }
   },
   state: {
     presence: { allowEmpty: false, message: 'is required' },
     length: {
-      maximum: 200
+      maximum: 10
     }
   },
   zipCode: {
     presence: { allowEmpty: false, message: 'is required' },
     length: {
-      maximum: 200
+      maximum: 5
     }
   },
-  work: {
-    presence: { allowEmpty: false, message: 'is required' },
-    length: {
-      maximum: 200
-    }
-  },
-  mobile: {
+  workPhone: {
     presence: { allowEmpty: false, message: 'is required' },
     length: {
       maximum: 15
     }
   },
-  email: {
+  mobilePhone: {
     presence: { allowEmpty: false, message: 'is required' },
-    email: true,
     length: {
       maximum: 15
-    }
-  },
-  password: {
-    presence: { allowEmpty: false, message: 'is required' },
-    length: {
-      maximum: 128
-    }
-  },
-  retypedPassword: {
-    presence: { allowEmpty: false, message: 'is required' },
-    length: {
-      maximum: 128
     }
   }
 };
@@ -267,18 +244,14 @@ type FormStateType = {
     middleName?: string;
     lastName?: string;
     practice?: string;
-    service?: string;
     organisation?: string;
     streetAddress?: string;
     addressLine2?: string;
     city?: string;
     state?: string;
     zipCode?: string;
-    work?: string;
-    mobile?: string;
-    email?: string;
-    password?: string;
-    retypedPassword?: string;
+    workPhone?: string;
+    mobilePhone?: string;
   };
   touched: {
     title?: boolean;
@@ -286,18 +259,14 @@ type FormStateType = {
     middleName?: boolean;
     lastName?: boolean;
     practice?: boolean;
-    service?: boolean;
     organisation?: boolean;
     streetAddress?: boolean;
     addressLine2?: boolean;
     city?: boolean;
     state?: boolean;
     zipCode?: boolean;
-    work?: boolean;
-    mobile?: boolean;
-    email?: boolean;
-    password?: boolean;
-    retypedPassword?: boolean;
+    workPhone?: boolean;
+    mobilePhone?: boolean;
   };
   errors: {
     title?: string[];
@@ -305,18 +274,14 @@ type FormStateType = {
     middleName?: string[];
     lastName?: string[];
     practice?: string[];
-    service?: string[];
     organisation?: string[];
     streetAddress?: string[];
     addressLine2?: string[];
     city?: string[];
     state?: string[];
     zipCode?: string[];
-    work?: string[];
-    mobile?: string[];
-    email?: string[];
-    password?: string[];
-    retypedPassword?: string[];
+    workPhone?: string[];
+    mobilePhone?: string[];
   };
 };
 
@@ -334,6 +299,166 @@ const Individual: React.FC<Props> = ({ setState }) => {
     touched: {},
     errors: {}
   });
+
+  const [profile, setProfile] = useState<Profile>({
+    ContactId: uuid(),
+    RecoveryPlanId: sessionStorage.getItem('Provider_RecoveryPlanId')!,
+    UserId: sessionStorage.getItem('Provider_UserId')!,
+    SafetyPlanId: sessionStorage.getItem('Provider_SafetyPlanId')!,
+    FirstName: sessionStorage.getItem('Provider_FirstName')!,
+    Surname: sessionStorage.getItem('Provider_LastName')!,
+    PreferredName: '',
+    Gender: '',
+    DateOfBirth: '',
+    UserEmail: sessionStorage.getItem('Provider_Email')!,
+    ContactType: '',
+    HomeAddress: '',
+    HomePostCode: '',
+    PostalAddress: '',
+    PostalPostCode: '',
+    HomePhone: '',
+    MobilePhone: '',
+    BusinessPhone: '',
+    PrimaryEmail: '',
+    PreferredContactMethod: '',
+    ContactName: '',
+    RelationshipToConsumer: '',
+    EmergencyContactPhone: '',
+    EmergencyAddress: '',
+    EmergencyWhenToContact: '',
+    CountryOfBirth: '',
+    PreferredLanguage: '',
+    GeneralPractionerId: '',
+    MedicalRecordNumber: '',
+    AdditionalInformation: '',
+    Image: '',
+    ImageType: '',
+    ImageUrl: '',
+    FullName: ''
+  });
+
+  const [registrationForm, setRegistrationForm] = useState({
+    title: '',
+    firstName: '',
+    lastName: '',
+    middleName: '',
+    practice: '',
+    organisation: '',
+    streetAddress: '',
+    addressLine2: '',
+    city: '',
+    state: '',
+    zipCode: '',
+    workPhone: '',
+    mobilePhone: ''
+  });
+
+  const [titles] = useState([
+    '',
+    'Mr',
+    'Mrs',
+    'Mx',
+    'Ms',
+    'Miss',
+    'Master',
+    'Maid',
+    'Madam'
+  ]);
+
+  const [organisationList] = useState([
+    {
+      name: '',
+      value: ''
+    },
+    {
+      name: 'Calvary Health Care Riverina',
+      value: 'Calvary Health Care Riverina'
+    },
+    {
+      name: 'Centacare',
+      value: 'Centacare'
+    },
+    {
+      name: 'Directions Health',
+      value: 'Directions Health'
+    },
+    {
+      name: 'Family & Community Services',
+      value: 'Family & Community Services'
+    },
+    {
+      name: 'Flourish Australia',
+      value: 'Flourish Australia'
+    },
+    {
+      name: 'Headspace',
+      value: 'Headspace'
+    },
+    {
+      name: 'Intereach',
+      value: 'Intereach'
+    },
+    {
+      name: 'Karralika Programs',
+      value: 'Karralika Programs'
+    },
+    {
+      name: 'Lambing Flat Enterprises',
+      value: 'Lambing Flat Enterprises'
+    },
+    {
+      name: 'Likemind',
+      value: 'Likemind'
+    },
+    {
+      name: 'Marathon Health',
+      value: 'Marathon Health'
+    },
+    {
+      name: 'Murrumbidgee Local Health District',
+      value: 'Murrumbidgee Local Health District'
+    },
+    {
+      name: 'Murrumbidgee Primary Health Network',
+      value: 'Murrumbidgee Primary Health Network'
+    },
+    {
+      name: 'One Door Mental Health',
+      value: 'One Door Mental Health'
+    },
+    {
+      name: 'Relationships Australia',
+      value: 'Relationships Australia'
+    },
+    {
+      name: 'Riverina Medical & Dental Aboriginal Corporation',
+      value: 'Riverina Medical & Dental Aboriginal Corporation'
+    },
+    {
+      name: 'St Vincent de Paul Society',
+      value: 'St Vincent de Paul Society'
+    },
+    {
+      name: 'Sunflower House',
+      value: 'Sunflower House'
+    },
+    {
+      name: 'Wellways',
+      value: 'Wellways'
+    }
+  ]);
+
+  const [states] = useState([
+    { name: '', value: '' },
+    { name: 'New South Wales', value: 'New South Wales' },
+    { name: 'Victoria', value: 'Victoria' },
+    { name: 'Queensland', value: 'Queensland' },
+    { name: 'Western Australia', value: 'Western Australia' },
+    { name: 'South Australia', value: 'South Australia' },
+    { name: 'Tasmania', value: 'Tasmania' }
+  ]);
+
+  const [termCheckBox, setTermCheckBox] = useState(false);
 
   useEffect(() => {
     const errors = validate(formState.values, schema);
@@ -358,6 +483,11 @@ const Individual: React.FC<Props> = ({ setState }) => {
         [event.target.name]: true
       }
     }));
+
+    setRegistrationForm(values => ({
+      ...values,
+      [event.target.name]: event.target.value
+    }));
   };
 
   const hasError = (field: string): boolean =>
@@ -366,7 +496,59 @@ const Individual: React.FC<Props> = ({ setState }) => {
   /** Handle Submit */
 
   const handleSubmit = () => {
-    setState('Confirm');
+    setFormState(formState => ({
+      ...formState,
+      values: {
+        ...formState.values,
+        title: registrationForm.title,
+        firstName: registrationForm.firstName,
+        lastName: registrationForm.lastName,
+        organisation: registrationForm.organisation,
+        streetAddress: registrationForm.streetAddress,
+        city: registrationForm.city,
+        state: registrationForm.state,
+        zipCode: registrationForm.zipCode,
+        workPhone: registrationForm.workPhone,
+        mobilePhone: registrationForm.mobilePhone
+      },
+      touched: {
+        ...formState.touched,
+        title: true,
+        firstName: true,
+        lastName: true,
+        organisation: true,
+        streetAddress: true,
+        city: true,
+        state: true,
+        zipCode: true,
+        workPhone: true,
+        mobilePhone: true
+      }
+    }));
+
+    if (formState.isValid) {
+      setProfile(value => ({
+        ...value,
+        FirstName: registrationForm.title + '.' + registrationForm.firstName,
+        Surname: registrationForm.lastName,
+        PreferredName: registrationForm.middleName,
+        ContactName: registrationForm.organisation,
+        RelationshipToConsumer: registrationForm.practice,
+        EmergencyContactPhone: registrationForm.workPhone,
+        EmergencyAddress:
+          registrationForm.streetAddress +
+          ', ' +
+          registrationForm.addressLine2 +
+          ', ' +
+          registrationForm.city +
+          ', ' +
+          registrationForm.state,
+        PostalPostCode: registrationForm.zipCode,
+        MobilePhone: registrationForm.mobilePhone
+      }));
+
+      console.log(profile);
+    }
   };
 
   return (
@@ -402,35 +584,35 @@ const Individual: React.FC<Props> = ({ setState }) => {
             <div style={{ width: '30%', padding: '10px 0' }}>
               <TextField
                 error={hasError('title')}
-                helperText={
-                  hasError('title')
-                    ? formState.errors.title && formState.errors.title[0]
-                    : null
-                }
                 fullWidth
-                label="Title"
+                label={
+                  <span className={classes.selectOptionLabel}>
+                    Select title
+                  </span>
+                }
                 name="title"
+                select
                 autoComplete="off"
-                value={formState.values.title || ''}
+                SelectProps={{ native: true }}
+                value={registrationForm.title}
                 variant="outlined"
-                onChange={handleChange}
-              />
+                onChange={handleChange}>
+                {titles.map(title => (
+                  <option key={title} value={title}>
+                    {title}
+                  </option>
+                ))}
+              </TextField>
             </div>
             <div style={{ display: 'flex', justifyContent: 'space-between' }}>
               <div style={{ width: '30%', padding: '10px 0' }}>
                 <TextField
                   error={hasError('firstName')}
-                  helperText={
-                    hasError('firstName')
-                      ? formState.errors.firstName &&
-                        formState.errors.firstName[0]
-                      : null
-                  }
                   fullWidth
                   label="First*"
                   name="firstName"
                   autoComplete="off"
-                  value={formState.values.firstName || ''}
+                  value={registrationForm.firstName}
                   variant="outlined"
                   onChange={handleChange}
                 />
@@ -438,17 +620,11 @@ const Individual: React.FC<Props> = ({ setState }) => {
               <div style={{ width: '30%', padding: '10px 0' }}>
                 <TextField
                   error={hasError('middleName')}
-                  helperText={
-                    hasError('middleName')
-                      ? formState.errors.middleName &&
-                        formState.errors.middleName[0]
-                      : null
-                  }
                   fullWidth
                   label="Middle"
                   name="middleName"
                   autoComplete="off"
-                  value={formState.values.middleName || ''}
+                  value={registrationForm.middleName}
                   variant="outlined"
                   onChange={handleChange}
                 />
@@ -456,17 +632,11 @@ const Individual: React.FC<Props> = ({ setState }) => {
               <div style={{ width: '30%', padding: '10px 0' }}>
                 <TextField
                   error={hasError('lastName')}
-                  helperText={
-                    hasError('lastName')
-                      ? formState.errors.lastName &&
-                        formState.errors.lastName[0]
-                      : null
-                  }
                   fullWidth
                   label="Last*"
                   name="lastName"
                   autoComplete="off"
-                  value={formState.values.lastName || ''}
+                  value={registrationForm.lastName}
                   variant="outlined"
                   onChange={handleChange}
                 />
@@ -475,7 +645,7 @@ const Individual: React.FC<Props> = ({ setState }) => {
           </div>
           <div className={classes.formGroup}>
             <span className={classes.formGroupTitle}>
-              Practice and/or Service Name
+              Practice or Service Name
             </span>
             <div style={{ display: 'flex' }}>
               <div
@@ -486,34 +656,11 @@ const Individual: React.FC<Props> = ({ setState }) => {
                 }}>
                 <TextField
                   error={hasError('practice')}
-                  helperText={
-                    hasError('practice')
-                      ? formState.errors.practice &&
-                        formState.errors.practice[0]
-                      : null
-                  }
                   fullWidth
                   label="Practice"
                   name="practice"
                   autoComplete="off"
-                  value={formState.values.practice || ''}
-                  variant="outlined"
-                  onChange={handleChange}
-                />
-              </div>
-              <div style={{ width: '30%', padding: '10px 0' }}>
-                <TextField
-                  error={hasError('service')}
-                  helperText={
-                    hasError('service')
-                      ? formState.errors.service && formState.errors.service[0]
-                      : null
-                  }
-                  fullWidth
-                  label="Service"
-                  name="service"
-                  autoComplete="off"
-                  value={formState.values.service || ''}
+                  value={registrationForm.practice}
                   variant="outlined"
                   onChange={handleChange}
                 />
@@ -530,31 +677,25 @@ const Individual: React.FC<Props> = ({ setState }) => {
               can’t find it from the list below, or register for your
               organisation later.
             </div>
-            <div style={{ width: '65%' }}>
+            <div style={{ width: '65%', marginTop: '15px' }}>
               <TextField
                 error={hasError('organisation')}
-                helperText={
-                  hasError('organisation')
-                    ? formState.errors.organisation &&
-                      formState.errors.organisation[0]
-                    : null
-                }
                 fullWidth
                 label={
                   <span className={classes.selectOptionLabel}>
-                    Please select
+                    Select organisation
                   </span>
                 }
                 name="organisation"
                 select
                 autoComplete="off"
                 SelectProps={{ native: true }}
-                value={formState.values.organisation || ''}
+                value={registrationForm.organisation}
                 variant="outlined"
                 onChange={handleChange}>
-                {[''].map(org => (
-                  <option key={org} value={org}>
-                    {org}
+                {organisationList.map(org => (
+                  <option key={org.value} value={org.value}>
+                    {org.name}
                   </option>
                 ))}
               </TextField>
@@ -571,17 +712,11 @@ const Individual: React.FC<Props> = ({ setState }) => {
                 }}>
                 <TextField
                   error={hasError('streetAddress')}
-                  helperText={
-                    hasError('streetAddress')
-                      ? formState.errors.streetAddress &&
-                        formState.errors.streetAddress[0]
-                      : null
-                  }
                   fullWidth
                   label="Street Address*"
                   name="streetAddress"
                   autoComplete="off"
-                  value={formState.values.streetAddress || ''}
+                  value={registrationForm.streetAddress}
                   variant="outlined"
                   onChange={handleChange}
                 />
@@ -589,17 +724,11 @@ const Individual: React.FC<Props> = ({ setState }) => {
               <div style={{ width: '50%', padding: '10px 0' }}>
                 <TextField
                   error={hasError('addressLine2')}
-                  helperText={
-                    hasError('addressLine2')
-                      ? formState.errors.addressLine2 &&
-                        formState.errors.addressLine2[0]
-                      : null
-                  }
                   fullWidth
                   label="Address Line 2"
                   name="addressLine2"
                   autoComplete="off"
-                  value={formState.values.addressLine2 || ''}
+                  value={registrationForm.addressLine2}
                   variant="outlined"
                   onChange={handleChange}
                 />
@@ -613,16 +742,11 @@ const Individual: React.FC<Props> = ({ setState }) => {
                 }}>
                 <TextField
                   error={hasError('city')}
-                  helperText={
-                    hasError('city')
-                      ? formState.errors.city && formState.errors.city[0]
-                      : null
-                  }
                   fullWidth
                   label="City*"
                   name="city"
                   autoComplete="off"
-                  value={formState.values.city || ''}
+                  value={registrationForm.city}
                   variant="outlined"
                   onChange={handleChange}
                 />
@@ -630,27 +754,22 @@ const Individual: React.FC<Props> = ({ setState }) => {
               <div style={{ width: '30%', padding: '10px 0' }}>
                 <TextField
                   error={hasError('state')}
-                  helperText={
-                    hasError('state')
-                      ? formState.errors.state && formState.errors.state[0]
-                      : null
-                  }
                   fullWidth
                   label={
                     <span className={classes.selectOptionLabel}>
-                      Please select
+                      Select state
                     </span>
                   }
                   name="state"
                   select
                   autoComplete="off"
                   SelectProps={{ native: true }}
-                  value={formState.values.state || ''}
+                  value={registrationForm.state}
                   variant="outlined"
                   onChange={handleChange}>
-                  {[''].map(state => (
-                    <option key={state} value={state}>
-                      {state}
+                  {states.map(state => (
+                    <option key={state.value} value={state.value}>
+                      {state.name}
                     </option>
                   ))}
                 </TextField>
@@ -662,16 +781,11 @@ const Individual: React.FC<Props> = ({ setState }) => {
                 }}>
                 <TextField
                   error={hasError('zipCode')}
-                  helperText={
-                    hasError('zipCode')
-                      ? formState.errors.zipCode && formState.errors.zipCode[0]
-                      : null
-                  }
                   fullWidth
                   label="ZIP Code*"
                   name="zipCode"
                   autoComplete="off"
-                  value={formState.values.zipCode || ''}
+                  value={registrationForm.zipCode}
                   variant="outlined"
                   onChange={handleChange}
                 />
@@ -688,107 +802,24 @@ const Individual: React.FC<Props> = ({ setState }) => {
                   marginRight: '34px'
                 }}>
                 <TextField
-                  error={hasError('work')}
-                  helperText={
-                    hasError('work')
-                      ? formState.errors.work && formState.errors.work[0]
-                      : null
-                  }
+                  error={hasError('workPhone')}
                   fullWidth
                   label="Work*"
-                  name="work"
+                  name="workPhone"
                   autoComplete="off"
-                  value={formState.values.work || ''}
+                  value={registrationForm.workPhone}
                   variant="outlined"
                   onChange={handleChange}
                 />
               </div>
               <div style={{ width: '30%', padding: '10px 0' }}>
                 <TextField
-                  error={hasError('mobile')}
-                  helperText={
-                    hasError('mobile')
-                      ? formState.errors.mobile && formState.errors.mobile[0]
-                      : null
-                  }
+                  error={hasError('mobilePhone')}
                   fullWidth
                   label="Mobile*"
-                  name="mobile"
+                  name="mobilePhone"
                   autoComplete="off"
-                  value={formState.values.mobile || ''}
-                  variant="outlined"
-                  onChange={handleChange}
-                />
-              </div>
-            </div>
-          </div>
-          <div className={classes.formGroup}>
-            <span className={classes.formGroupTitle}>Email Address*</span>
-            <div
-              className={classes.formGroupNote}
-              style={{ textAlign: 'left' }}>
-              You will use this email to log in and receive notifications.
-            </div>
-            <div style={{ width: '50%', padding: '10px 0' }}>
-              <TextField
-                error={hasError('email')}
-                helperText={
-                  hasError('email')
-                    ? formState.errors.email && formState.errors.email[0]
-                    : null
-                }
-                fullWidth
-                label="Email"
-                name="email"
-                autoComplete="off"
-                value={formState.values.email || ''}
-                variant="outlined"
-                onChange={handleChange}
-              />
-            </div>
-          </div>
-          <div className={classes.formGroup}>
-            <span className={classes.formGroupTitle}>Password*</span>
-            <div style={{ display: 'flex' }}>
-              <div
-                style={{
-                  width: '30%',
-                  padding: '10px 0',
-                  marginRight: '34px'
-                }}>
-                <TextField
-                  error={hasError('password')}
-                  helperText={
-                    hasError('password')
-                      ? formState.errors.password &&
-                        formState.errors.password[0]
-                      : null
-                  }
-                  fullWidth
-                  label="Password*"
-                  name="password"
-                  autoComplete="off"
-                  type="password"
-                  value={formState.values.password || ''}
-                  variant="outlined"
-                  onChange={handleChange}
-                />
-              </div>
-              <div style={{ width: '30%', padding: '10px 0' }}>
-                <TextField
-                  error={hasError('retypedPassword')}
-                  helperText={
-                    hasError('retypedPassword')
-                      ? formState.errors.retypedPassword &&
-                        formState.errors.retypedPassword[0]
-                      : null
-                  }
-                  fullWidth
-                  label="Retyped Password"
-                  name="retypedPassword"
-                  autoComplete="off"
-                  type="password"
-                  value={formState.values.retypedPassword || ''}
+                  value={registrationForm.mobilePhone}
                   variant="outlined"
                   onChange={handleChange}
                 />
@@ -805,19 +836,22 @@ const Individual: React.FC<Props> = ({ setState }) => {
                 placeholder=""
                 fullWidth
                 multiline
-                value=""
+                value="We are still building our Terms of Service. 
+                For now, checking the box below will not make you agree to anything. But for testing, please still pretend to agree to this (by checking the box) in order to proceed."
                 autoComplete="off"
                 rows="6"
                 style={{ marginTop: '15px' }}
                 className={classes.termsOfService}
+                inputProps={{ readOnly: true }}
               />
             </div>
             <FormControlLabel
               control={
                 <Checkbox
-                  checked={false}
-                  value="1"
+                  checked={termCheckBox}
+                  value={termCheckBox}
                   className={classes.termsCheckBox}
+                  onChange={() => setTermCheckBox(value => !value)}
                 />
               }
               label={

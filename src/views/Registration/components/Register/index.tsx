@@ -36,7 +36,7 @@ const useStyles = makeStyles(() => ({
       outline: 'none'
     },
     '&:hover': {
-      backgroundColor: '#FFFFFF'
+      backgroundColor: '#FFFAEA'
     },
     '&:active': {
       backgroundColor: '#FFFFFF'
@@ -82,7 +82,7 @@ const Register: React.FC<Props> = ({ setState }) => {
               <span className={classes.buttonText}>Register as Individual</span>
             </div>
           </button>
-          <button
+          {/* <button
             className={classes.button}
             onClick={() => setState('Organisation')}>
             <div
@@ -97,7 +97,7 @@ const Register: React.FC<Props> = ({ setState }) => {
                 Register as Organisation
               </span>
             </div>
-          </button>
+          </button> */}
         </div>
       </Grid>
     </Grid>

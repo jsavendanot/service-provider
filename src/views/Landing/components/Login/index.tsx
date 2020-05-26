@@ -123,6 +123,11 @@ const Login: React.FC = () => {
               Sign in
             </Button>
           </div>
+          <div style={{ marginTop: '20px' }}>
+            <Button type="primary" click={() => history.push('/home')}>
+              Sign up
+            </Button>
+          </div>
         </div>
       </Grid>
       <Grid item xs={12}>
