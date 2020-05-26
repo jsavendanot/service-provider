@@ -4,17 +4,21 @@ import authentication from '@kdpw/msal-b2c-react';
 import { Profile } from 'types/profile';
 
 //** ASYNC FUNCS */
-export const startSession = (): AppThunk => async dispatch => {
+export const startSession = (history: any): AppThunk => async dispatch => {
   try {
     await callProfileCheckApi()
       .then(async response => {
         // console.log(response);
         await callProfileReadApi();
+
+        history.push('/home');
       })
       .catch(async error => {
         // console.log(error);
         await callProfileSetUpApi();
         await callProfileReadApi();
+
+        history.push('/home');
       });
   } catch (err) {
     // dispatch(failed(err.toString()));

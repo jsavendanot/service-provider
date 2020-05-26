@@ -119,12 +119,12 @@ const Login: React.FC = () => {
         <div className={classes.form}>
           <span className={classes.formTitle}>Service Provider</span>
           <div style={{ marginTop: '10px' }}>
-            <Button type="primary" click={() => history.push('/home')}>
+            <Button type="primary" click={() => history.push('/auth')}>
               Sign in
             </Button>
           </div>
           <div style={{ marginTop: '20px' }}>
-            <Button type="primary" click={() => history.push('/home')}>
+            <Button type="primary" click={() => history.push('/auth')}>
               Sign up
             </Button>
           </div>

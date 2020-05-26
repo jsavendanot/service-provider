@@ -1,6 +1,5 @@
 import React, { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { startSession } from 'slices/auth/action';
 import { fetchPeople } from 'slices/people/action';
 
 import { Grid } from '@material-ui/core';
@@ -43,11 +42,12 @@ export const Home: React.FC = () => {
   );
 
   useEffect(() => {
-    dispatch(startSession());
     dispatch(fetchPeople());
     dispatch(fetchAllFocusAreas());
     dispatch(fetchPendingContactFromInvitation());
   }, [dispatch]);
+
+  if (!profile.EmergencyContactPhone) return <Redirect to="/register" />;
 
   return (
     <>
@@ -56,32 +56,28 @@ export const Home: React.FC = () => {
         <Grid item xs={12}>
           <Toolbar />
         </Grid>
-        {profile.EmergencyContactPhone ? (
-          <Grid item xs={12}>
-            <Grid container>
+        <Grid item xs={12}>
+          <Grid container>
+            <Grid item xs={9}>
+              <Consumers people={people} />
+            </Grid>
+            {pendingContacts.length > 0 && (
               <Grid item xs={9}>
-                <Consumers people={people} />
+                <PendingContacts invitations={pendingContacts} />
               </Grid>
-              {pendingContacts.length > 0 && (
-                <Grid item xs={9}>
-                  <PendingContacts invitations={pendingContacts} />
-                </Grid>
-              )}
-              <Grid item xs={3}>
-                <div
-                  style={{
-                    height: '100%',
-                    display: 'flex',
-                    alignItems: 'center'
-                  }}>
-                  <img src="/images/home/gary.svg" alt="" />
-                </div>
-              </Grid>
+            )}
+            <Grid item xs={3}>
+              <div
+                style={{
+                  height: '100%',
+                  display: 'flex',
+                  alignItems: 'center'
+                }}>
+                <img src="/images/home/gary.svg" alt="" />
+              </div>
             </Grid>
           </Grid>
-        ) : (
-          <Redirect to="/register" />
-        )}
+        </Grid>
       </Grid>
     </>
   );

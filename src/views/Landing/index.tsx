@@ -90,7 +90,7 @@ const Landing: React.FC<Props> = ({ history }) => {
             </span>
             <button
               className={clsx(classes.headerButton, classes.headerMenuText)}
-              onClick={() => history.push('/home')}>
+              onClick={() => history.push('/auth')}>
               Sign in
             </button>
           </div>
