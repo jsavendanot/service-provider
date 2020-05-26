@@ -48,7 +48,6 @@ export const callProfileReadApi = () => {
       profile.MobilePhone ? profile.MobilePhone : ''
     );
     sessionStorage.setItem('Provider_ContactId', profile.ContactId);
-    sessionStorage.setItem('Provider_ContactNumber', profile.MobilePhone);
     sessionStorage.setItem('Provider_RecoveryPlanId', profile.RecoveryPlanId);
     return profile;
   });

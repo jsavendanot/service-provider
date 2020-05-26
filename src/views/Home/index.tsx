@@ -14,6 +14,7 @@ import { fetchAllFocusAreas } from 'slices/other/action';
 import { fetchPendingContactFromInvitation } from 'slices/invitation/action';
 import { Invitation } from 'types/network';
 import { Redirect } from 'react-router-dom';
+import { Profile } from 'types/profile';
 
 const useStyles = makeStyles(() => ({
   root: {
@@ -37,16 +38,16 @@ export const Home: React.FC = () => {
     (state: RootState) => state.invitation.pendingContacts
   );
 
+  const profile: Profile = useSelector(
+    (state: RootState) => state.profile.profile!
+  );
+
   useEffect(() => {
     dispatch(startSession());
     dispatch(fetchPeople());
     dispatch(fetchAllFocusAreas());
     dispatch(fetchPendingContactFromInvitation());
   }, [dispatch]);
-
-  if (sessionStorage.getItem('Provider_ContactNumber') === 'null') {
-    return <Redirect to="/register" />;
-  }
 
   return (
     <>
@@ -55,28 +56,32 @@ export const Home: React.FC = () => {
         <Grid item xs={12}>
           <Toolbar />
         </Grid>
-        <Grid item xs={12}>
-          <Grid container>
-            <Grid item xs={9}>
-              <Consumers people={people} />
-            </Grid>
-            {pendingContacts.length > 0 && (
+        {profile.MobilePhone ? (
+          <Grid item xs={12}>
+            <Grid container>
               <Grid item xs={9}>
-                <PendingContacts invitations={pendingContacts} />
+                <Consumers people={people} />
               </Grid>
-            )}
-            <Grid item xs={3}>
-              <div
-                style={{
-                  height: '100%',
-                  display: 'flex',
-                  alignItems: 'center'
-                }}>
-                <img src="/images/home/gary.svg" alt="" />
-              </div>
+              {pendingContacts.length > 0 && (
+                <Grid item xs={9}>
+                  <PendingContacts invitations={pendingContacts} />
+                </Grid>
+              )}
+              <Grid item xs={3}>
+                <div
+                  style={{
+                    height: '100%',
+                    display: 'flex',
+                    alignItems: 'center'
+                  }}>
+                  <img src="/images/home/gary.svg" alt="" />
+                </div>
+              </Grid>
             </Grid>
           </Grid>
-        </Grid>
+        ) : (
+          <Redirect to="/register" />
+        )}
       </Grid>
     </>
   );
