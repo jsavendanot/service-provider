@@ -142,16 +142,45 @@ const useStyles = makeStyles(() => ({
     letterSpacing: '1.25px',
     color: '#692B40',
     textTransform: 'uppercase'
+  },
+  selectOptionLabel: {
+    fontFamily: 'Roboto',
+    fontStyle: 'normal',
+    fontWeight: 400,
+    fontSize: '16px',
+    color: '#692B40'
   }
 }));
 
 const schema = {
-  HomeAddress: {
+  RelationshipToConsumer: {
+    length: {
+      maximum: 80
+    }
+  },
+  ContactName: {
+    presence: { allowEmpty: false, message: 'is required' },
+    length: {
+      maximum: 80
+    }
+  },
+  EmergencyAddress: {
+    presence: { allowEmpty: false, message: 'is required' },
     length: {
       maximum: 364
     }
   },
+  EmergencyContactPhone: {
+    presence: { allowEmpty: false, message: 'is required' },
+    numericality: {
+      onlyInteger: true
+    },
+    length: {
+      maximum: 15
+    }
+  },
   MobilePhone: {
+    presence: { allowEmpty: false, message: 'is required' },
     numericality: {
       onlyInteger: true
     },
@@ -164,15 +193,24 @@ const schema = {
 type FormStateType = {
   isValid: boolean;
   values: {
-    HomeAddress?: string;
+    RelationshipToConsumer?: string;
+    ContactName?: string;
+    EmergencyAddress?: string;
+    EmergencyContactPhone?: string;
     MobilePhone?: string;
   };
   touched: {
-    HomeAddress?: boolean;
+    RelationshipToConsumer?: boolean;
+    ContactName?: boolean;
+    EmergencyAddress?: boolean;
+    EmergencyContactPhone?: boolean;
     MobilePhone?: boolean;
   };
   errors: {
-    HomeAddress?: string[];
+    RelationshipToConsumer?: string[];
+    ContactName?: string[];
+    EmergencyAddress?: string[];
+    EmergencyContactPhone?: string[];
     MobilePhone?: string[];
   };
 };
@@ -194,10 +232,99 @@ const EditProfile = () => {
 
   const [formState, setFormState] = useState<FormStateType>({
     isValid: false,
-    values: {},
+    values: {
+      RelationshipToConsumer: profile.RelationshipToConsumer,
+      ContactName: profile.ContactName,
+      EmergencyAddress: profile.EmergencyAddress,
+      EmergencyContactPhone: profile.EmergencyContactPhone,
+      MobilePhone: profile.MobilePhone
+    },
     touched: {},
     errors: {}
   });
+
+  const [organisationList] = useState([
+    {
+      name: '',
+      value: ''
+    },
+    {
+      name: 'Calvary Health Care Riverina',
+      value: 'Calvary Health Care Riverina'
+    },
+    {
+      name: 'Centacare',
+      value: 'Centacare'
+    },
+    {
+      name: 'Directions Health',
+      value: 'Directions Health'
+    },
+    {
+      name: 'Family & Community Services',
+      value: 'Family & Community Services'
+    },
+    {
+      name: 'Flourish Australia',
+      value: 'Flourish Australia'
+    },
+    {
+      name: 'Headspace',
+      value: 'Headspace'
+    },
+    {
+      name: 'Intereach',
+      value: 'Intereach'
+    },
+    {
+      name: 'Karralika Programs',
+      value: 'Karralika Programs'
+    },
+    {
+      name: 'Lambing Flat Enterprises',
+      value: 'Lambing Flat Enterprises'
+    },
+    {
+      name: 'Likemind',
+      value: 'Likemind'
+    },
+    {
+      name: 'Marathon Health',
+      value: 'Marathon Health'
+    },
+    {
+      name: 'Murrumbidgee Local Health District',
+      value: 'Murrumbidgee Local Health District'
+    },
+    {
+      name: 'Murrumbidgee Primary Health Network',
+      value: 'Murrumbidgee Primary Health Network'
+    },
+    {
+      name: 'One Door Mental Health',
+      value: 'One Door Mental Health'
+    },
+    {
+      name: 'Relationships Australia',
+      value: 'Relationships Australia'
+    },
+    {
+      name: 'Riverina Medical & Dental Aboriginal Corporation',
+      value: 'Riverina Medical & Dental Aboriginal Corporation'
+    },
+    {
+      name: 'St Vincent de Paul Society',
+      value: 'St Vincent de Paul Society'
+    },
+    {
+      name: 'Sunflower House',
+      value: 'Sunflower House'
+    },
+    {
+      name: 'Wellways',
+      value: 'Wellways'
+    }
+  ]);
 
   useEffect(() => {
     const errors = validate(formState.values, schema);
@@ -249,6 +376,26 @@ const EditProfile = () => {
   };
 
   const saveHandler = () => {
+    setFormState(formState => ({
+      ...formState,
+      values: {
+        ...formState.values,
+        RelationshipToConsumer: profile.RelationshipToConsumer,
+        ContactName: profile.ContactName,
+        EmergencyAddress: profile.EmergencyAddress,
+        EmergencyContactPhone: profile.EmergencyContactPhone,
+        MobilePhone: profile.MobilePhone
+      },
+      touched: {
+        ...formState.touched,
+        RelationshipToConsumer: true,
+        ContactName: true,
+        EmergencyAddress: true,
+        EmergencyContactPhone: true,
+        MobilePhone: true
+      }
+    }));
+
     if (formState.isValid) {
       dispatch(editProfile(history, profile));
     }
@@ -354,43 +501,96 @@ const EditProfile = () => {
                   <div style={{ display: 'flex', margin: '10px 0' }}>
                     <div style={{ marginRight: '40px' }}>
                       <span className={classes.name}>Title</span>
-                      <span className={classes.value}>Dr</span>
+                      <span className={classes.value}>
+                        {profile.AdditionalInformation}
+                      </span>
                     </div>
                     <div style={{ marginRight: '10px' }}>
                       <span className={classes.name}>Full name</span>
                       <span className={classes.value}>
-                        {`${profile.FirstName && profile.FirstName!}
-                      ${profile.Surname && profile.Surname}`}
+                        {`${profile.FirstName}
+                      ${profile.Surname}`}
                       </span>
                     </div>
                   </div>
                 </div>
                 <div className={classes.elementGroup}>
-                  <div
-                    style={{
-                      display: 'flex',
-                      alignItems: 'center',
-                      justifyContent: 'space-between'
-                    }}>
-                    <div className={classes.element}>
-                      <span className={classes.subTitle}>Practice</span>
-                      <span className={classes.value}>...</span>
-                    </div>
-                    <div className={classes.element}>
-                      <span className={classes.subTitle}>Service</span>
-                      <span className={classes.value}>...</span>
-                    </div>
-                    <div className={classes.element}>
-                      <span className={classes.subTitle}>Organisation</span>
-                      <span className={classes.value}>...</span>
-                    </div>
+                  <div className={classes.element}>
+                    <span className={classes.subTitle}>Practice</span>
+                    <span className={classes.value}>
+                      <div style={{ width: '40%' }}>
+                        <TextField
+                          error={hasError('RelationshipToConsumer')}
+                          label=""
+                          name="RelationshipToConsumer"
+                          type="text"
+                          autoComplete="off"
+                          fullWidth
+                          value={
+                            profile.RelationshipToConsumer
+                              ? profile.RelationshipToConsumer
+                              : ''
+                          }
+                          placeholder="type here"
+                          onChange={handleChange}
+                        />
+                      </div>
+                    </span>
                   </div>
                 </div>
               </div>
               <div className={classes.elementGroup}>
                 <div className={classes.element}>
+                  <span className={classes.subTitle}>Organisation</span>
+                  <span className={classes.value}>
+                    <div style={{ width: '65%', marginTop: '15px' }}>
+                      <TextField
+                        error={hasError('ContactName')}
+                        fullWidth
+                        label={
+                          <span className={classes.selectOptionLabel}>
+                            Select organisation
+                          </span>
+                        }
+                        name="ContactName"
+                        select
+                        autoComplete="off"
+                        SelectProps={{ native: true }}
+                        value={profile.ContactName}
+                        variant="outlined"
+                        onChange={handleChange}>
+                        {organisationList.map(org => (
+                          <option key={org.value} value={org.value}>
+                            {org.name}
+                          </option>
+                        ))}
+                      </TextField>
+                    </div>
+                  </span>
+                </div>
+              </div>
+              <div className={classes.elementGroup}>
+                <div className={classes.element}>
                   <span className={classes.subTitle}>Work Address</span>
-                  <span className={classes.value}>...</span>
+                  <span className={classes.value}>
+                    <div style={{ width: '65%' }}>
+                      <TextField
+                        error={hasError('EmergencyAddress')}
+                        label=""
+                        name="EmergencyAddress"
+                        type="text"
+                        autoComplete="off"
+                        fullWidth
+                        value={
+                          profile.EmergencyAddress
+                            ? profile.EmergencyAddress
+                            : ''
+                        }
+                        placeholder="type here"
+                        onChange={handleChange}
+                      />
+                    </div>
+                  </span>
                 </div>
               </div>
               <div className={classes.elementGroup}>
@@ -405,13 +605,17 @@ const EditProfile = () => {
                     <div className={classes.name}>Work</div>
                     <div style={{ width: '50%' }}>
                       <TextField
-                        error={hasError('HomeAddress')}
+                        error={hasError('EmergencyContactPhone')}
                         label=""
-                        name="HomeAddress"
+                        name="EmergencyContactPhone"
                         type="text"
                         autoComplete="off"
                         fullWidth
-                        value={profile.HomeAddress ? profile.HomeAddress : ''}
+                        value={
+                          profile.EmergencyContactPhone
+                            ? profile.EmergencyContactPhone
+                            : ''
+                        }
                         placeholder="type here"
                         onChange={handleChange}
                       />

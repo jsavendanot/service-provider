@@ -185,7 +185,7 @@ const Profile = () => {
                   <span
                     className={
                       classes.providerName
-                    }>{`Dr ${profile.FirstName} ${profile.Surname}`}</span>
+                    }>{`${profile.FirstName} ${profile.Surname}`}</span>
                 </div>
               </div>
             </Grid>
@@ -220,12 +220,14 @@ const Profile = () => {
                   <div style={{ display: 'flex', margin: '10px 0' }}>
                     <div style={{ marginRight: '40px' }}>
                       <span className={classes.name}>Title</span>
-                      <span className={classes.value}>Dr</span>
+                      <span className={classes.value}>
+                        {profile.AdditionalInformation}
+                      </span>
                     </div>
                     <div style={{ marginRight: '10px' }}>
                       <span className={classes.name}>Full name</span>
                       <span className={classes.value}>
-                        {`${profile.FirstName!}
+                        {`${profile.FirstName}
                       ${profile.Surname}`}
                       </span>
                     </div>
@@ -240,7 +242,9 @@ const Profile = () => {
                     }}>
                     <div className={classes.element}>
                       <span className={classes.subTitle}>Practice</span>
-                      <span className={classes.value}>...</span>
+                      <span className={classes.value}>
+                        {profile.RelationshipToConsumer}
+                      </span>
                     </div>
                     <div className={classes.element}>
                       <span className={classes.subTitle}>Service</span>
@@ -248,7 +252,9 @@ const Profile = () => {
                     </div>
                     <div className={classes.element}>
                       <span className={classes.subTitle}>Organisation</span>
-                      <span className={classes.value}>...</span>
+                      <span className={classes.value}>
+                        {profile.ContactName}
+                      </span>
                     </div>
                   </div>
                 </div>
@@ -256,7 +262,9 @@ const Profile = () => {
               <div className={classes.elementGroup}>
                 <div className={classes.element}>
                   <span className={classes.subTitle}>Work Address</span>
-                  <span className={classes.value}>...</span>
+                  <span className={classes.value}>
+                    {profile.EmergencyAddress}
+                  </span>
                 </div>
               </div>
               <div className={classes.elementGroup}>
@@ -264,7 +272,9 @@ const Profile = () => {
                 <div style={{ display: 'flex', margin: '10px 0' }}>
                   <div style={{ marginRight: '50px' }}>
                     <span className={classes.name}>Work</span>
-                    <span className={classes.value}>{profile.HomeAddress}</span>
+                    <span className={classes.value}>
+                      {profile.EmergencyContactPhone}
+                    </span>
                   </div>
                   <div style={{ marginRight: '50px' }}>
                     <span className={classes.name}>Mobile</span>
