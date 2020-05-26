@@ -19,10 +19,8 @@ import {
 import { Search } from '@material-ui/icons';
 
 import ProfileDialog from '../ProfileDialog';
-import { useSelector, useDispatch } from 'react-redux';
-import { RootState } from 'reducer';
+import { useDispatch } from 'react-redux';
 import { fetchProfile } from 'slices/profile/action';
-import { Profile } from 'types/profile';
 import { TransitionProps } from '@material-ui/core/transitions/transition';
 import { EnterCode, InvitePeople, AddPeople } from 'common/components';
 
@@ -184,10 +182,6 @@ const TopBar: React.FC<Props> = ({ className }) => {
     }
   };
 
-  const profile: Profile = useSelector(
-    (state: RootState) => state.profile.profile!
-  );
-
   useEffect(() => {
     dispatch(fetchProfile());
   }, [dispatch]);
@@ -325,7 +319,7 @@ const TopBar: React.FC<Props> = ({ className }) => {
                 <Avatar
                   alt=""
                   className={classes.avatar}
-                  src={profile.ImageUrl}
+                  src={sessionStorage.getItem('Provider_Avatar')!}
                   onClick={() => setOpen(true)}
                 />
               </div>

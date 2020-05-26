@@ -561,7 +561,10 @@ const Individual: React.FC<Props> = ({ setState }) => {
   const handleFileInputChange = (event: ChangeEvent<HTMLInputElement>) => {
     const fileReader = new FileReader();
     if (event.target.files && event.target.files.length > 0) {
-      const imageType = event.target.files[0].type.replace('image/', '');
+      let imageType = event.target.files[0].type.replace('image/', '');
+      if (imageType === 'jpeg') {
+        imageType = 'jpg';
+      }
       fileReader.readAsDataURL(event.target.files[0]);
       fileReader.onload = e => {
         setRegistrationForm(value => ({

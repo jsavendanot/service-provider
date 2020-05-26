@@ -35,6 +35,18 @@ export const createProfile = (
         profile
       })
     );
+
+    sessionStorage.setItem(
+      'Provider_Avatar',
+      profile.Image
+        ? 'data:image/png;base64,' + profile.Image
+        : '/images/avatar/provider_avatar.svg'
+    );
+    sessionStorage.setItem(
+      'Provider_MobilePhone',
+      profile.MobilePhone ? profile.MobilePhone : ''
+    );
+
     history.push('/home');
 
     dispatch(stopLoading());
@@ -59,7 +71,12 @@ export const editProfile = (
       })
     );
 
-    sessionStorage.setItem('Provider_Avatar', profile.Image);
+    sessionStorage.setItem(
+      'Provider_Avatar',
+      profile.Image
+        ? 'data:image/png;base64,' + profile.Image
+        : '/images/avatar/provider_avatar.svg'
+    );
     sessionStorage.setItem(
       'Provider_MobilePhone',
       profile.MobilePhone ? profile.MobilePhone : ''

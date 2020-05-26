@@ -180,7 +180,7 @@ const Profile = () => {
                   <Avatar
                     alt=""
                     className={classes.avatar}
-                    src={profile.ImageUrl}
+                    src={sessionStorage.getItem('Provider_Avatar')!}
                   />
                   <span
                     className={
