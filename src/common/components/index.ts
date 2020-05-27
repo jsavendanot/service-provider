@@ -8,6 +8,7 @@ export { default as Loading } from './Loading';
 export { default as NetworkList } from './NetworkList';
 export { default as SubmitConfirmation } from './SubmitConfirmation';
 export { default as YesNoConfirmation } from './YesNoConfirmation';
+export { default as NotReadyPopup } from './NotReadyPopup';
 export { default as LogoutPopup } from './LogoutPopup';
 export { default as EnterCode } from './EnterCode';
 export { default as InvitePeople } from './InvitePeople';

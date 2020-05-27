@@ -212,7 +212,7 @@ export const Difficulties: React.FC<Props> = ({ difficulties }) => {
             Add
           </Button>
         </div>
-        <div style={{ width: '155px' }}>
+        {/* <div style={{ width: '155px' }}>
           <Button type="tertiarySmall">
             <img
               src="/images/safety/suggestion.svg"
@@ -221,7 +221,7 @@ export const Difficulties: React.FC<Props> = ({ difficulties }) => {
             />
             Suggestions
           </Button>
-        </div>
+        </div> */}
       </div>
       {open && (
         <SubmitConfirmation

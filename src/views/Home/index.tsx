@@ -17,6 +17,10 @@ import { Redirect } from 'react-router-dom';
 const useStyles = makeStyles(() => ({
   root: {
     padding: '20px'
+  },
+  image: {
+    position: 'absolute',
+    bottom: '20px'
   }
 }));
 
@@ -70,7 +74,11 @@ export const Home: React.FC = () => {
                   display: 'flex',
                   alignItems: 'center'
                 }}>
-                <img src="/images/home/gary.svg" alt="" />
+                <img
+                  src="/images/home/gary.svg"
+                  alt=""
+                  className={classes.image}
+                />
               </div>
             </Grid>
           </Grid>

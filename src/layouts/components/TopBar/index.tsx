@@ -7,8 +7,6 @@ import {
   AppBar,
   Toolbar,
   Grid,
-  InputBase,
-  IconButton,
   Dialog,
   DialogContent,
   Avatar,
@@ -16,7 +14,6 @@ import {
   Theme,
   useMediaQuery
 } from '@material-ui/core';
-import { Search } from '@material-ui/icons';
 
 import ProfileDialog from '../ProfileDialog';
 import { useDispatch } from 'react-redux';
@@ -48,7 +45,7 @@ const useStyles = makeStyles((theme: Theme) => ({
     cursor: 'pointer'
   },
   topMenuText: {
-    fontFamily: 'Montserrat',
+    fontFamily: 'Scada',
     fontStyle: 'normal',
     fontWeight: 600,
     fontSize: '15px',
@@ -259,7 +256,7 @@ const TopBar: React.FC<Props> = ({ className }) => {
             />
           </Grid>
           <Grid item xs={5}>
-            <InputBase
+            {/* <InputBase
               className={classes.input}
               placeholder="Search consumer"
             />
@@ -268,7 +265,7 @@ const TopBar: React.FC<Props> = ({ className }) => {
               className={classes.iconButton}
               aria-label="search">
               <Search style={{ fill: '#FFEAEA' }} />
-            </IconButton>
+            </IconButton> */}
           </Grid>
           <Grid item xs={5}>
             <div style={{ display: 'flex', justifyContent: 'flex-end' }}>

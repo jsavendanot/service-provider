@@ -1,11 +1,10 @@
-import React from 'react';
+import React, { useState } from 'react';
 import clsx from 'clsx';
-import useRouter from 'common/utils/useRouter';
 
 import { makeStyles } from '@material-ui/styles';
 import { Paper, Theme, Divider, Avatar } from '@material-ui/core';
 
-import { Navigation } from 'common/components';
+import { Navigation, NotReadyPopup } from 'common/components';
 import navigationConfig from '../../navigationConfig';
 
 const useStyles = makeStyles((theme: Theme) => ({
@@ -34,7 +33,7 @@ const useStyles = makeStyles((theme: Theme) => ({
     height: 40
   },
   profileName: {
-    fontFamily: 'Poppins',
+    fontFamily: 'Scada',
     fontStyle: 'normal',
     fontWeight: 500,
     fontSize: '20px',
@@ -115,18 +114,19 @@ type Props = {
 };
 
 const NavBar: React.FC<Props> = ({ className }) => {
-  const { history } = useRouter();
-
   const classes = useStyles();
 
-  const handleProfileButtonClick = () => {
-    if (
-      sessionStorage.getItem('UserId') !== null &&
-      sessionStorage.getItem('UserId') !== ''
-    ) {
-      history.push('/consumer');
-    }
-  };
+  // const handleProfileButtonClick = () => {
+  //   if (
+  //     sessionStorage.getItem('UserId') !== null &&
+  //     sessionStorage.getItem('UserId') !== ''
+  //   ) {
+  //     history.push('/consumer');
+  //   }
+  // };
+
+  /** Dialog */
+  const [notReady, setNotReady] = useState(false);
 
   const navbarContent = (
     <div className={classes.content}>
@@ -146,7 +146,7 @@ const NavBar: React.FC<Props> = ({ className }) => {
           {/* <span className={classes.profileDate}>11/09/1990</span> */}
           <button
             className={classes.profileButton}
-            onClick={handleProfileButtonClick}>
+            onClick={() => setNotReady(true)}>
             <div
               style={{
                 display: 'flex',
@@ -197,6 +197,9 @@ const NavBar: React.FC<Props> = ({ className }) => {
       <Paper className={clsx(classes.root, className)} elevation={1} square>
         {navbarContent}
       </Paper>
+      {notReady && (
+        <NotReadyPopup open={notReady} close={() => setNotReady(false)} />
+      )}
     </>
   );
 };

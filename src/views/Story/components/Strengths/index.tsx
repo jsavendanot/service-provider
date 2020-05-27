@@ -188,7 +188,7 @@ export const Strengths: React.FC<Props> = ({ strengths }) => {
               Add
             </Button>
           </div>
-          <div style={{ width: '155px' }}>
+          {/* <div style={{ width: '155px' }}>
             <Button type="tertiarySmall">
               <img
                 src="/images/safety/suggestion.svg"
@@ -197,7 +197,7 @@ export const Strengths: React.FC<Props> = ({ strengths }) => {
               />
               Suggestions
             </Button>
-          </div>
+          </div> */}
         </div>
       </div>
       {open && (

@@ -243,7 +243,7 @@ export const Stress: React.FC<Props> = ({ id, collapse, change }) => {
                   Add
                 </Button>
               </div>
-              <div style={{ width: '155px' }}>
+              {/* <div style={{ width: '155px' }}>
                 <Button type="tertiarySmall">
                   <img
                     src="/images/safety/suggestion.svg"
@@ -252,7 +252,7 @@ export const Stress: React.FC<Props> = ({ id, collapse, change }) => {
                   />
                   Suggestions
                 </Button>
-              </div>
+              </div> */}
             </div>
           </div>
         )}

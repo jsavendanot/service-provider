@@ -275,7 +275,7 @@ export const PleaseDo: React.FC<Props> = ({ pleaseDo }) => {
             Add
           </Button>
         </div>
-        <div style={{ width: '155px' }}>
+        {/* <div style={{ width: '155px' }}>
           <Button type="tertiarySmall">
             <img
               src="/images/safety/suggestion.svg"
@@ -284,7 +284,7 @@ export const PleaseDo: React.FC<Props> = ({ pleaseDo }) => {
             />
             Suggestions
           </Button>
-        </div>
+        </div> */}
       </div>
       {open && confirmDialog}
     </>

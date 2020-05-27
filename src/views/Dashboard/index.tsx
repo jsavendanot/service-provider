@@ -5,13 +5,14 @@ import { Grid } from '@material-ui/core';
 import { makeStyles } from '@material-ui/styles';
 import { useDispatch, useSelector } from 'react-redux';
 
-import { DashboardBox, Goals, Moods } from './components';
+import { DashboardBox, Activity, Goals, Moods } from './components';
 import { fetchDashboardInfo } from 'slices/dashboard/action';
 import { fetchAllFocusAreas } from 'slices/other/action';
 import { RootState } from 'reducer';
 import { Loading } from 'common/components';
 import moment from 'moment';
 import { JournalChart } from 'types/journey';
+import { Goal } from 'types/goal';
 import { LastUpdate } from 'types/other';
 
 const useStyles = makeStyles(() => ({
@@ -88,7 +89,7 @@ export const Dashboard: React.FC<Props> = (props: Props) => {
     (state: RootState) => state.dashboard.loading
   );
 
-  // const goals: Goal[] = useSelector((state: RootState) => state.goal.goals);
+  const goals: Goal[] = useSelector((state: RootState) => state.goal.goals);
   const journalsChart: JournalChart[] = useSelector(
     (state: RootState) => state.journey.journalsChart
   );
@@ -205,71 +206,22 @@ export const Dashboard: React.FC<Props> = (props: Props) => {
                 </Grid>
               </Grid>
             </Grid>
-            {/* <Grid item xs={6}>
+            <Grid item xs={6}>
               <DashboardBox
-                header={
-                  <div
-                    style={{
-                      display: 'flex',
-                      alignItems: 'center'
-                    }}>
-                    <FormControlLabel
-                      control={
-                        <Checkbox
-                          checked={false}
-                          value="1"
-                          className={classes.updateCheckBox}
-                        />
-                      }
-                      label={
-                        <span
-                          className={classes.activityText}
-                          style={{ color: '#75B7FF' }}>
-                          Updates
-                        </span>
-                      }
-                      style={{ marginRight: '40px' }}
-                    />
-                    <FormControlLabel
-                      control={
-                        <Checkbox
-                          checked={true}
-                          value="1"
-                          className={classes.reviewCheckBox}
-                        />
-                      }
-                      label={
-                        <span
-                          className={classes.activityText}
-                          style={{ color: '#C8A468' }}>
-                          Reviews
-                        </span>
-                      }
-                      style={{ marginRight: '40px' }}
-                    />
-                    <FormControlLabel
-                      control={
-                        <Checkbox
-                          checked={false}
-                          value="1"
-                          className={classes.messageCheckBox}
-                        />
-                      }
-                      label={
-                        <span
-                          className={classes.activityText}
-                          style={{ color: '#C57D7D' }}>
-                          Messages
-                        </span>
-                      }
-                      style={{ marginRight: '40px' }}
-                    />
-                  </div>
-                }
                 title={`${sessionStorage.getItem('FirstName')}'s activity`}>
-                
+                {goals.map(item => {
+                  return (
+                    <Activity
+                      key={item.Id}
+                      activity="Review"
+                      description={item.Name}
+                      date={item.CompletedDate}
+                      color="#C8A468"
+                    />
+                  );
+                })}
               </DashboardBox>
-            </Grid> */}
+            </Grid>
           </Grid>
         </Grid>
       </Grid>

@@ -314,7 +314,7 @@ export const People: React.FC<Props> = ({ people }) => {
             Add
           </Button>
         </div>
-        <div style={{ width: '155px' }}>
+        {/* <div style={{ width: '155px' }}>
           <Button type="tertiarySmall">
             <img
               src="/images/safety/suggestion.svg"
@@ -323,7 +323,7 @@ export const People: React.FC<Props> = ({ people }) => {
             />
             Suggestions
           </Button>
-        </div>
+        </div> */}
       </div>
       {open && confirmDialog}
       {openNetworkList && networkListDialog}

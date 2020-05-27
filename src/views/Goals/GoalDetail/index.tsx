@@ -3,9 +3,9 @@ import useRouter from 'common/utils/useRouter';
 
 import { Grid } from '@material-ui/core';
 import { makeStyles } from '@material-ui/styles';
-import { KeyboardArrowLeft, Add } from '@material-ui/icons';
+import { KeyboardArrowLeft } from '@material-ui/icons';
 
-import { Button, Loading } from 'common/components';
+import { Loading } from 'common/components';
 import { StepCard, Comments, Progress, About } from './components';
 import { RouteComponentProps, Redirect } from 'react-router-dom';
 import { Goal, Step, GoalComment } from 'types/goal';
@@ -173,7 +173,7 @@ export const GoalDetail: React.FC<Props> = ({ match }) => {
                         />
                       );
                     })}
-                    <div
+                    {/* <div
                       style={{
                         display: 'flex',
                         justifyContent: 'center',
@@ -185,7 +185,7 @@ export const GoalDetail: React.FC<Props> = ({ match }) => {
                           Add step
                         </Button>
                       </div>
-                    </div>
+                    </div> */}
                   </div>
                 </div>
               </div>

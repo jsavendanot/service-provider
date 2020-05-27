@@ -84,13 +84,13 @@ export const Activity: React.FC<ActivityProps> = ({
           alignItems: 'center',
           justifyContent: 'space-between'
         }}>
-        <button
+        {/* <button
           className={classes.activityButton}
           style={{ border: `1px solid ${color}` }}>
           <span className={classes.activityButtonText} style={{ color: color }}>
             {activity}
           </span>
-        </button>
+        </button> */}
         <span className={classes.activityButtonDesc}>{description}</span>
       </div>
       <div style={{ display: 'flex', justifyContent: 'flex-end' }}>

@@ -306,7 +306,7 @@ export const Services: React.FC<Props> = ({ services, collapse }) => {
                 Add
               </Button>
             </div>
-            <div style={{ width: '155px' }}>
+            {/* <div style={{ width: '155px' }}>
               <Button type="tertiarySmall">
                 <img
                   src="/images/safety/suggestion.svg"
@@ -315,7 +315,7 @@ export const Services: React.FC<Props> = ({ services, collapse }) => {
                 />
                 Suggestions
               </Button>
-            </div>
+            </div> */}
           </div>
         </div>
       )}
