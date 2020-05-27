@@ -46,6 +46,10 @@ export const createProfile = (
       'Provider_MobilePhone',
       profile.MobilePhone ? profile.MobilePhone : ''
     );
+    sessionStorage.setItem(
+      'Provider_EmergencyContactPhone',
+      profile.EmergencyContactPhone
+    );
 
     history.push('/home');
 

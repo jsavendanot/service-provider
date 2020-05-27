@@ -136,7 +136,7 @@ export const Images: React.FC<Props> = () => {
               />
             </IconButton>
             <img
-              src={'data:image/png;base64,' + images[index].Data}
+              src={images[index].ImageUrl}
               alt=""
               className={classes.image}
             />
