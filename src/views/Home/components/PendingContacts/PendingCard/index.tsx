@@ -8,12 +8,12 @@ import {
 } from '@material-ui/core';
 import { makeStyles } from '@material-ui/styles';
 import { Invitation } from 'types/network';
-import { KeyboardArrowDown, Send } from '@material-ui/icons';
+import { KeyboardArrowDown, Send, DeleteOutline } from '@material-ui/icons';
 import clsx from 'clsx';
 import moment from 'moment';
 import { useDispatch } from 'react-redux';
 import { SubmitConfirmation } from 'common/components';
-import { sendInvitation } from 'slices/invitation/action';
+import { sendInvitation, deleteInvitation } from 'slices/invitation/action';
 
 const useStyles = makeStyles((theme: Theme) => ({
   card: {
@@ -24,11 +24,11 @@ const useStyles = makeStyles((theme: Theme) => ({
       height: '100%'
     },
     [theme.breakpoints.up('sm')]: {
-      width: '600px',
+      width: '500px',
       minHeight: '70px'
     },
     [theme.breakpoints.up('lg')]: {
-      width: '450px',
+      width: '500px',
       minHeight: '70px'
     }
   },
@@ -118,12 +118,14 @@ export const PendingCard: React.FC<Props> = ({ invitation }) => {
   const dispatch = useDispatch();
 
   const [more, setMore] = useState(false);
+  const [action, setAction] = useState('');
 
   /** Dialog */
   const [openConfirm, setOpenConfirm] = useState(false);
 
-  function handleClickOpen() {
+  function handleClickOpen(action: string) {
     setOpenConfirm(true);
+    setAction(action);
   }
 
   function handleClose() {
@@ -134,17 +136,29 @@ export const PendingCard: React.FC<Props> = ({ invitation }) => {
     dispatch(sendInvitation(invitation));
   };
 
+  const deleteHandler = () => {
+    dispatch(deleteInvitation(invitation.InvitationId));
+  };
+
   const confirmDialog = (
     <SubmitConfirmation
       open={openConfirm}
       close={handleClose}
-      action={resendEmailHandler}
+      action={action === 'delete' ? deleteHandler : resendEmailHandler}
       donRedirect>
-      <span className={classes.confirmTitle}>
-        Are you sure you want to
-        <br />
-        resend email invitation?
-      </span>
+      {action === 'delete' ? (
+        <span className={classes.confirmTitle}>
+          Are you sure you want to
+          <br />
+          delete this invitation?
+        </span>
+      ) : (
+        <span className={classes.confirmTitle}>
+          Are you sure you want to
+          <br />
+          resend email invitation?
+        </span>
+      )}
     </SubmitConfirmation>
   );
 
@@ -172,18 +186,20 @@ export const PendingCard: React.FC<Props> = ({ invitation }) => {
           </div>
           {more && (
             <div className={classes.buttonContainer}>
-              {/* <div style={{ flexGrow: 1, padding: '2px 15px' }}>
-                <Button className={classes.buttonDelete}>
+              <div style={{ flexGrow: 1, padding: '2px 15px' }}>
+                <Button
+                  className={classes.buttonDelete}
+                  onClick={() => handleClickOpen('delete')}>
                   <DeleteOutline
                     style={{ fill: '#C57D7D', marginRight: '5px' }}
                   />
                   Delete
                 </Button>
-              </div> */}
+              </div>
               <div style={{ flexGrow: 1, padding: '2px 15px' }}>
                 <Button
                   className={classes.buttonResend}
-                  onClick={handleClickOpen}>
+                  onClick={() => handleClickOpen('resend')}>
                   <Send style={{ fill: '#C57D7D', marginRight: '10px' }} />
                   Resend
                 </Button>

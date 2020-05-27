@@ -48,7 +48,6 @@ export const PendingContacts: React.FC<Props> = ({ invitations }) => {
             <Grid
               item
               xs={12}
-              lg={5}
               container
               justify="center"
               style={{ alignSelf: 'flex-start' }}
@@ -57,7 +56,6 @@ export const PendingContacts: React.FC<Props> = ({ invitations }) => {
             </Grid>
           );
         })}
-        <Grid item lg={5} />
       </Grid>
     </div>
   );

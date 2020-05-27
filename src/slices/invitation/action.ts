@@ -12,25 +12,12 @@ export const fetchPendingContactFromInvitation = (): AppThunk => async dispatch 
     const invitations = await callInvitationListApi();
     const pendingContacts = invitations.filter(item => !item.AcceptedOn);
 
-    const contactsUnique = Array.from(
-      new Set(pendingContacts.map(item => item.EmailAddress))
+    const sortedContacts = pendingContacts.sort(
+      (a, b) =>
+        new Date(b.CreatedOn).getTime() - new Date(a.CreatedOn).getTime()
     );
 
-    const latestPendingInvitations: Invitation[] = [];
-    contactsUnique.forEach(email => {
-      const sortedContacts = pendingContacts
-        .filter(contact => contact.EmailAddress === email)
-        .sort(
-          (a, b) =>
-            new Date(b.CreatedOn).getTime() - new Date(a.CreatedOn).getTime()
-        );
-
-      latestPendingInvitations.push(sortedContacts[0]);
-    });
-
-    dispatch(
-      fetchPendingContacts({ pendingContacts: latestPendingInvitations })
-    );
+    dispatch(fetchPendingContacts({ pendingContacts: sortedContacts }));
   } catch (err) {
     // dispatch(failed(err.toString()));
   }
@@ -79,6 +66,19 @@ export const acceptInvitation = (id: string): AppThunk => async dispatch => {
   }
 };
 
+export const deleteInvitation = (id: string): AppThunk => async dispatch => {
+  try {
+    dispatch(startLoading());
+    await callInvitationDelete(id);
+    await dispatch(fetchPendingContactFromInvitation());
+
+    dispatch(stopLoading());
+  } catch (err) {
+    dispatch(stopLoading());
+    // dispatch(failed(err.toString()));
+  }
+};
+
 //** API FUNCS */
 export const callInvitationListApi = () => {
   axios.defaults.headers.common['Authorization'] =
@@ -109,4 +109,11 @@ export const callInvitationAccept = (id: string) => {
     'Bearer ' + authentication.getAccessToken();
 
   return axios.post(`/Invitation/Accept/?id=${id}`);
+};
+
+const callInvitationDelete = (id: string) => {
+  axios.defaults.headers.common['Authorization'] =
+    'Bearer ' + authentication.getAccessToken();
+
+  return axios.delete(`/Invitation/Delete/${id}`);
 };
