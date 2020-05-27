@@ -288,14 +288,14 @@ const TopBar: React.FC<Props> = ({ className }) => {
                   />
                   <span className={classes.topMenuText}>Consumers</span>
                 </div>
-                <div className={classes.topMenu} onClick={() => setOpen4(true)}>
+                {/* <div className={classes.topMenu}>
                   <img
                     src="/images/topbar/invites.svg"
                     alt=""
                     className={classes.menuIcon}
                   />
                   <span className={classes.topMenuText}>Invites</span>
-                </div>
+                </div> */}
                 <div
                   className={classes.topMenu}
                   onClick={() => handleMenuClick('notifications')}>
