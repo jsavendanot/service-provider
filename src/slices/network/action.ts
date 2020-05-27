@@ -51,7 +51,7 @@ export const callNetworkContactCarerReadApi = () => {
     'Bearer ' + authentication.getAccessToken();
 
   return axios
-    .get(`/NetworkContact/Carer/Read${sessionStorage.getItem('UserId')!}`)
+    .get(`/NetworkContact/Carer/Read/${sessionStorage.getItem('UserId')!}`)
     .then(response => {
       const emergencyContacts: Network[] = JSON.parse(
         JSON.stringify(response.data)
