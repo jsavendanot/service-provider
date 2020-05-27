@@ -180,7 +180,7 @@ const schema = {
     }
   },
   MobilePhone: {
-    presence: { allowEmpty: false, message: 'is required' },
+    presence: false,
     numericality: {
       onlyInteger: true
     },

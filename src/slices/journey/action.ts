@@ -25,9 +25,15 @@ export const fetchJournals = (): AppThunk => async dispatch => {
 
     await Promise.all(journalsList.map(callReadJournalDetailApi)).then(
       journalsData => {
+        const sortedJournalsData = journalsData.sort(
+          (b, a) =>
+            new Date(a.CreatedOnDate).getTime() -
+            new Date(b.CreatedOnDate).getTime()
+        );
+
         dispatch(
           fetch({
-            journals: journalsData
+            journals: sortedJournalsData
           })
         );
 

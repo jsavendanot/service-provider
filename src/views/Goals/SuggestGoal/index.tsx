@@ -41,7 +41,7 @@ const useStyles = makeStyles(() => ({
     fontWeight: 'normal',
     fontSize: '18px',
     lineHeight: '21px',
-    color: '#73BA9B'
+    color: '#C57D7D'
   }
 }));
 

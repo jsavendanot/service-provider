@@ -4,9 +4,7 @@ import { Journal as JournalType } from 'types/journey';
 import moment from 'moment';
 
 import { makeStyles } from '@material-ui/styles';
-import { Divider, IconButton, Paper } from '@material-ui/core';
-
-import { Comment } from '@material-ui/icons';
+import { Divider, Paper } from '@material-ui/core';
 
 const useStyles = makeStyles(() => ({
   root: {
@@ -98,14 +96,14 @@ const Journal: React.FC<Props> = ({ journal }) => {
       </span>
       <Divider className={classes.divider} />
       <div className={classes.stepsContainer}>
-        <div className={classes.stepContainer}>
+        {/* <div className={classes.stepContainer}>
           <img src="/images/journey/journal/flag_icon.svg" alt="" />
           <span className={classes.stepText}>+1</span>
         </div>
         <div className={classes.stepContainer}>
           <img src="/images/journey/journal/flag_icon.svg" alt="" />
           <span className={classes.stepText}>+2</span>
-        </div>
+        </div> */}
       </div>
       <Paper style={{ borderRadius: '14px', padding: '10px' }} elevation={2}>
         <div
@@ -155,9 +153,9 @@ const Journal: React.FC<Props> = ({ journal }) => {
               />
             )}
           </div>
-          <IconButton style={{ padding: '0', marginRight: '25px' }}>
+          {/* <IconButton style={{ padding: '0', marginRight: '25px' }}>
             <Comment />
-          </IconButton>
+          </IconButton> */}
           {/* <span className={classes.dayText}>{journal.CreatedOnDate}</span> */}
         </div>
       </Paper>

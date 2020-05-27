@@ -1,8 +1,6 @@
 import React from 'react';
 
-import { TextField, InputAdornment } from '@material-ui/core';
 import { makeStyles } from '@material-ui/styles';
-import { KeyboardArrowDown, Search } from '@material-ui/icons';
 
 const useStyles = makeStyles(() => ({
   root: {
@@ -54,7 +52,7 @@ export const Toolbar: React.FC = () => {
 
   return (
     <div className={classes.root}>
-      <div style={{ display: 'flex', flexDirection: 'column' }}>
+      {/* <div style={{ display: 'flex', flexDirection: 'column' }}>
         <div style={{ display: 'flex', marginBottom: '20px' }}>
           <TextField
             id="input-with-icon-textfield"
@@ -85,7 +83,7 @@ export const Toolbar: React.FC = () => {
             />
           </div>
         </div>
-      </div>
+      </div> */}
     </div>
   );
 };

@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 
 import { makeStyles, useTheme } from '@material-ui/styles';
-import { KeyboardArrowDown, Add } from '@material-ui/icons';
+import { Add } from '@material-ui/icons';
 
 import { Button, EnterCode, InvitePeople, AddPeople } from 'common/components';
 import { TransitionProps } from '@material-ui/core/transitions/transition';
@@ -188,7 +188,7 @@ export const Toolbar: React.FC = () => {
     <>
       <div className={classes.root}>
         <div style={{ display: 'flex', flexDirection: 'column' }}>
-          <span className={classes.sortText}>Sort by</span>
+          {/* <span className={classes.sortText}>Sort by</span>
           <div style={{ display: 'flex' }}>
             <div className={classes.navPanel}>
               <span className={classes.navText}>Last active date</span>
@@ -210,7 +210,7 @@ export const Toolbar: React.FC = () => {
                 }}
               />
             </div>
-          </div>
+          </div> */}
         </div>
         <div style={{ width: '186px' }}>
           <Button type="primary" click={() => setOpen4(true)}>

@@ -237,7 +237,7 @@ const schema = {
     }
   },
   mobilePhone: {
-    presence: { allowEmpty: false, message: 'is required' },
+    presence: false,
     length: {
       maximum: 15
     }

@@ -1,18 +1,17 @@
 import React, { useEffect } from 'react';
 import { RouteComponentProps } from 'react-router-dom';
 
-import { Grid, FormControlLabel, Checkbox } from '@material-ui/core';
+import { Grid } from '@material-ui/core';
 import { makeStyles } from '@material-ui/styles';
 import { useDispatch, useSelector } from 'react-redux';
 
-import { DashboardBox, Activity, Goals, Moods } from './components';
+import { DashboardBox, Goals, Moods } from './components';
 import { fetchDashboardInfo } from 'slices/dashboard/action';
 import { fetchAllFocusAreas } from 'slices/other/action';
 import { RootState } from 'reducer';
 import { Loading } from 'common/components';
 import moment from 'moment';
 import { JournalChart } from 'types/journey';
-import { Goal } from 'types/goal';
 import { LastUpdate } from 'types/other';
 
 const useStyles = makeStyles(() => ({
@@ -89,7 +88,7 @@ export const Dashboard: React.FC<Props> = (props: Props) => {
     (state: RootState) => state.dashboard.loading
   );
 
-  const goals: Goal[] = useSelector((state: RootState) => state.goal.goals);
+  // const goals: Goal[] = useSelector((state: RootState) => state.goal.goals);
   const journalsChart: JournalChart[] = useSelector(
     (state: RootState) => state.journey.journalsChart
   );
@@ -206,7 +205,7 @@ export const Dashboard: React.FC<Props> = (props: Props) => {
                 </Grid>
               </Grid>
             </Grid>
-            <Grid item xs={6}>
+            {/* <Grid item xs={6}>
               <DashboardBox
                 header={
                   <div
@@ -268,19 +267,9 @@ export const Dashboard: React.FC<Props> = (props: Props) => {
                   </div>
                 }
                 title={`${sessionStorage.getItem('FirstName')}'s activity`}>
-                {goals.map(item => {
-                  return (
-                    <Activity
-                      key={item.Id}
-                      activity="Review"
-                      description={item.Name}
-                      date={item.CompletedDate}
-                      color="#C8A468"
-                    />
-                  );
-                })}
+                
               </DashboardBox>
-            </Grid>
+            </Grid> */}
           </Grid>
         </Grid>
       </Grid>

@@ -1,7 +1,6 @@
 import React from 'react';
 
 import { makeStyles } from '@material-ui/styles';
-import { KeyboardArrowDown } from '@material-ui/icons';
 
 const useStyles = makeStyles(() => ({
   root: {
@@ -51,7 +50,7 @@ export const Toolbar: React.FC = () => {
 
   return (
     <div className={classes.root}>
-      <div style={{ display: 'flex', flexDirection: 'column' }}>
+      {/* <div style={{ display: 'flex', flexDirection: 'column' }}>
         <span className={classes.sortText}>Sort by</span>
         <div style={{ display: 'flex' }}>
           <div className={classes.navPanel}>
@@ -67,7 +66,7 @@ export const Toolbar: React.FC = () => {
             />
           </div>
         </div>
-      </div>
+      </div> */}
     </div>
   );
 };

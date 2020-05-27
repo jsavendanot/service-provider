@@ -3,10 +3,9 @@ import { RouteComponentProps, Redirect } from 'react-router-dom';
 
 import { Grid } from '@material-ui/core';
 import { makeStyles } from '@material-ui/styles';
-import { Add } from '@material-ui/icons';
 
 import { Network as NetworkType } from 'types/network';
-import { TabMenu, Button, Loading } from 'common/components';
+import { TabMenu, Loading } from 'common/components';
 import { Toolbar, People, Services } from './components';
 import { useSelector, useDispatch } from 'react-redux';
 import { RootState } from 'reducer';
@@ -14,7 +13,8 @@ import { fetchEmergencyNetworks } from 'slices/network/action';
 
 const useStyles = makeStyles(() => ({
   root: {
-    padding: '20px 100px'
+    height: '100%',
+    padding: '20px 100px 0 100px'
   },
   menuText: {
     fontFamily: 'Roboto',
@@ -28,9 +28,9 @@ const useStyles = makeStyles(() => ({
     marginTop: '20px'
   },
   footerImage: {
-    position: 'relative',
+    position: 'absolute',
     bottom: '0',
-    right: '-101px'
+    right: '0'
   },
   buttonText: {
     fontFamily: 'Roboto',
@@ -86,7 +86,7 @@ export const Network: React.FC<Props> = ({ match, history }) => {
                 </div>
               </div>
             </Grid>
-            <Grid item xs={3}>
+            {/* <Grid item xs={3}>
               {tab === 'services' && (
                 <div style={{ width: '218px' }}>
                   <Button
@@ -106,7 +106,7 @@ export const Network: React.FC<Props> = ({ match, history }) => {
                   </Button>
                 </div>
               )}
-            </Grid>
+            </Grid> */}
           </Grid>
           <Toolbar />
         </Grid>

@@ -286,7 +286,7 @@ const Profile = () => {
                   </div>
                 </div>
               </div>
-              <div className={classes.elementGroup}>
+              {/* <div className={classes.elementGroup}>
                 <span className={classes.subTitle}>Office Hours</span>
                 <div style={{ display: 'flex', flexDirection: 'column' }}>
                   <div
@@ -386,7 +386,7 @@ const Profile = () => {
                     </div>
                   </div>
                 </div>
-              </div>
+              </div> */}
             </Grid>
           </Grid>
         </Grid>

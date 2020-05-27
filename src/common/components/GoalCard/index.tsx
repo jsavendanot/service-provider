@@ -4,7 +4,6 @@ import useRouter from 'common/utils/useRouter';
 
 import { Grid, LinearProgress, Divider } from '@material-ui/core';
 import { makeStyles, withStyles } from '@material-ui/styles';
-import { Add } from '@material-ui/icons';
 
 import { Button } from 'common/components';
 import { StepCard } from './components';
@@ -162,11 +161,9 @@ export const GoalCard: React.FC<Props> = ({ goal }) => {
       </Grid>
       <Grid item xs={12}>
         <div className={classes.footer}>
+          <div>{/* <Button type="secondarySmall">Delete</Button> */}</div>
           <div>
-            <Button type="secondarySmall">Delete</Button>
-          </div>
-          <div>
-            <Button type="primarySmall">
+            {/* <Button type="primarySmall">
               <div style={{ display: 'flex', alignItems: 'center' }}>
                 <Add
                   style={{
@@ -175,7 +172,7 @@ export const GoalCard: React.FC<Props> = ({ goal }) => {
                 />
                 Add step
               </div>
-            </Button>
+            </Button> */}
           </div>
           <div>
             <Button

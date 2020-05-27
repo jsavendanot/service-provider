@@ -38,13 +38,6 @@ export const Toolbar: React.FC<Props> = ({ save, email }) => {
           </div>
         </IconButton>
       </div>
-      <div>
-        <IconButton onClick={email} style={{ margin: '20px 0' }}>
-          <div className={classes.iconBox}>
-            <img src="/images/export/email.svg" alt="" />
-          </div>
-        </IconButton>
-      </div>
     </div>
   );
 };
