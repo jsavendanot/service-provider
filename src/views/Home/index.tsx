@@ -13,7 +13,6 @@ import { fetchAllFocusAreas } from 'slices/other/action';
 import { fetchPendingContactFromInvitation } from 'slices/invitation/action';
 import { Invitation } from 'types/network';
 import { Redirect } from 'react-router-dom';
-import { Profile } from 'types/profile';
 
 const useStyles = makeStyles(() => ({
   root: {
@@ -37,17 +36,15 @@ export const Home: React.FC = () => {
     (state: RootState) => state.invitation.pendingContacts
   );
 
-  const profile: Profile = useSelector(
-    (state: RootState) => state.profile.profile!
-  );
-
   useEffect(() => {
     dispatch(fetchPeople());
     dispatch(fetchAllFocusAreas());
     dispatch(fetchPendingContactFromInvitation());
   }, [dispatch]);
 
-  if (!profile.EmergencyContactPhone) return <Redirect to="/register" />;
+  if (sessionStorage.getItem('Provider_EmergencyContactPhone') === 'null') {
+    return <Redirect to="/register" />;
+  }
 
   return (
     <>

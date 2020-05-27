@@ -58,6 +58,10 @@ export const callProfileReadApi = () => {
     );
     sessionStorage.setItem('Provider_ContactId', profile.ContactId);
     sessionStorage.setItem('Provider_RecoveryPlanId', profile.RecoveryPlanId);
+    sessionStorage.setItem(
+      'Provider_EmergencyContactPhone',
+      profile.EmergencyContactPhone
+    );
     return profile;
   });
 };
