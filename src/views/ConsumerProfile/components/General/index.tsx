@@ -1,8 +1,14 @@
 import React, { useState, useEffect, ChangeEvent } from 'react';
 import validate from 'validate.js';
+import { useDispatch, useSelector } from 'react-redux';
 
 import { Grid, TextField, Divider } from '@material-ui/core';
 import { makeStyles } from '@material-ui/styles';
+import { fetchPeople } from 'slices/people/action';
+import { RootState } from 'reducer';
+import { Person } from 'types/people';
+import { Loading } from 'common/components';
+import moment from 'moment';
 
 const useStyles = makeStyles(() => ({
   formGroup: {
@@ -283,6 +289,27 @@ type FormStateType = {
 
 export const General: React.FC = () => {
   const classes = useStyles();
+  const dispatch = useDispatch();
+
+  const peopleLoading: boolean = useSelector(
+    (state: RootState) => state.people.loading
+  );
+
+  const people: Person[] = useSelector(
+    (state: RootState) => state.people.people
+  );
+
+  const [person] = useState(
+    people.find(person => person.UserId === sessionStorage.getItem('UserId'))
+  );
+
+  const genders = [
+    { name: '', value: '' },
+    { name: 'Male', value: 'Male' },
+    { name: 'Female', value: 'Female' },
+    { name: 'Non-binary', value: 'Other' },
+    { name: 'Prefer not to say', value: 'Unknown' }
+  ];
 
   /** Handle Fields */
   const [formState, setFormState] = useState<FormStateType>({
@@ -320,33 +347,154 @@ export const General: React.FC = () => {
   const hasError = (field: string): boolean =>
     field in formState.touched && field in formState.errors ? true : false;
 
+  useEffect(() => {
+    dispatch(fetchPeople());
+  }, [dispatch]);
+
   return (
-    <Grid container>
-      <Grid item xs={12}>
-        <div className={classes.formGroup}>
-          <div style={{ display: 'flex', flexDirection: 'column' }}>
-            <div style={{ display: 'flex', justifyContent: 'space-between' }}>
+    <>
+      {peopleLoading && <Loading />}
+      <Grid container>
+        <Grid item xs={12}>
+          <div className={classes.formGroup}>
+            <div style={{ display: 'flex', flexDirection: 'column' }}>
+              <div style={{ display: 'flex', justifyContent: 'space-between' }}>
+                <div className={classes.textFieldContainer}>
+                  <TextField
+                    error={hasError('firstName')}
+                    fullWidth
+                    label="First name"
+                    name="firstName"
+                    autoComplete="off"
+                    value={person ? person.FirstName : ''}
+                    variant="outlined"
+                    onChange={handleChange}
+                    inputProps={{ readOnly: true }}
+                  />
+                </div>
+                <div className={classes.textFieldContainer}>
+                  <TextField
+                    error={hasError('lastName')}
+                    fullWidth
+                    label="Last name"
+                    name="lastName"
+                    autoComplete="off"
+                    value={person ? person.Surname : ''}
+                    variant="outlined"
+                    onChange={handleChange}
+                    inputProps={{ readOnly: true }}
+                  />
+                </div>
+              </div>
               <div className={classes.textFieldContainer}>
                 <TextField
-                  error={hasError('firstName')}
+                  error={hasError('preferredName')}
                   fullWidth
-                  label="First name"
-                  name="firstName"
+                  label="Preferred name"
+                  name="preferredName"
                   autoComplete="off"
-                  value={formState.values.firstName || ''}
+                  value={person ? person.PreferredName : ''}
                   variant="outlined"
                   onChange={handleChange}
                   inputProps={{ readOnly: true }}
                 />
               </div>
-              <div className={classes.textFieldContainer}>
+              <div style={{ display: 'flex', justifyContent: 'space-between' }}>
+                <div className={classes.textFieldContainer}>
+                  <TextField
+                    error={hasError('dob')}
+                    fullWidth
+                    label="Date of birth"
+                    name="dob"
+                    autoComplete="off"
+                    value={
+                      person
+                        ? moment(person.DateOfBirth).format('DD/MM/YYYY')
+                        : ''
+                    }
+                    variant="outlined"
+                    onChange={handleChange}
+                    inputProps={{ readOnly: true }}
+                  />
+                </div>
+                <div className={classes.textFieldContainer}>
+                  <TextField
+                    error={hasError('gender')}
+                    fullWidth
+                    label="Gender"
+                    name="gender"
+                    select
+                    autoComplete="off"
+                    SelectProps={{ native: true }}
+                    value={person ? person.Gender : ''}
+                    inputProps={{ readOnly: true }}
+                    variant="outlined"
+                    onChange={handleChange}>
+                    {genders.map(gender => (
+                      <option key={gender.value} value={gender.value}>
+                        {gender.name}
+                      </option>
+                    ))}
+                  </TextField>
+                </div>
+              </div>
+            </div>
+          </div>
+          <Divider className={classes.divider} />
+        </Grid>
+        <Grid item xs={12}>
+          <div className={classes.formGroup}>
+            <span className={classes.formGroupTitle}>Contact details</span>
+            <div style={{ display: 'flex', justifyContent: 'space-between' }}>
+              <div style={{ width: '65%', padding: '10px 0' }}>
                 <TextField
-                  error={hasError('lastName')}
+                  error={hasError('homeAddress')}
                   fullWidth
-                  label="Last name"
-                  name="lastName"
+                  label="Home address"
+                  name="homeAddress"
                   autoComplete="off"
-                  value={formState.values.lastName || ''}
+                  value={formState.values.homeAddress || ''}
+                  variant="outlined"
+                  onChange={handleChange}
+                  inputProps={{ readOnly: true }}
+                />
+              </div>
+              <div style={{ width: '20%', padding: '10px 0' }}>
+                <TextField
+                  error={hasError('postCode')}
+                  fullWidth
+                  label="Post Code"
+                  name="postCode"
+                  autoComplete="off"
+                  value={formState.values.postCode || ''}
+                  variant="outlined"
+                  onChange={handleChange}
+                  inputProps={{ readOnly: true }}
+                />
+              </div>
+            </div>
+            <div style={{ display: 'flex', justifyContent: 'space-between' }}>
+              <div style={{ width: '65%', padding: '10px 0' }}>
+                <TextField
+                  error={hasError('postalAddress')}
+                  fullWidth
+                  label="Postal address"
+                  name="postalAddress"
+                  autoComplete="off"
+                  value={formState.values.postalAddress || ''}
+                  variant="outlined"
+                  onChange={handleChange}
+                  inputProps={{ readOnly: true }}
+                />
+              </div>
+              <div style={{ width: '20%', padding: '10px 0' }}>
+                <TextField
+                  error={hasError('postalCode')}
+                  fullWidth
+                  label="Post Code"
+                  name="postalCode"
+                  autoComplete="off"
+                  value={formState.values.postalCode || ''}
                   variant="outlined"
                   onChange={handleChange}
                   inputProps={{ readOnly: true }}
@@ -355,146 +503,31 @@ export const General: React.FC = () => {
             </div>
             <div className={classes.textFieldContainer}>
               <TextField
-                error={hasError('preferredName')}
+                error={hasError('phone')}
                 fullWidth
-                label="Preferred name"
-                name="preferredName"
+                label="Phone"
+                name="phone"
                 autoComplete="off"
-                value={formState.values.preferredName || ''}
+                value={formState.values.phone || ''}
                 variant="outlined"
                 onChange={handleChange}
                 inputProps={{ readOnly: true }}
               />
             </div>
-            <div style={{ display: 'flex', justifyContent: 'space-between' }}>
-              <div className={classes.textFieldContainer}>
-                <TextField
-                  error={hasError('dob')}
-                  fullWidth
-                  label="Date of birth"
-                  name="dob"
-                  autoComplete="off"
-                  value={formState.values.dob || ''}
-                  variant="outlined"
-                  onChange={handleChange}
-                  inputProps={{ readOnly: true }}
-                />
-              </div>
-              <div className={classes.textFieldContainer}>
-                <TextField
-                  error={hasError('gender')}
-                  fullWidth
-                  label={
-                    <span className={classes.selectOptionLabel}>
-                      Please select
-                    </span>
-                  }
-                  name="gender"
-                  select
-                  autoComplete="off"
-                  SelectProps={{ native: true }}
-                  value={formState.values.gender || ''}
-                  inputProps={{ readOnly: true }}
-                  variant="outlined"
-                  onChange={handleChange}>
-                  {['', 'Male', 'Female'].map(gender => (
-                    <option key={gender} value={gender}>
-                      {gender}
-                    </option>
-                  ))}
-                </TextField>
-              </div>
-            </div>
-          </div>
-        </div>
-        <Divider className={classes.divider} />
-      </Grid>
-      <Grid item xs={12}>
-        <div className={classes.formGroup}>
-          <span className={classes.formGroupTitle}>Contact details</span>
-          <div style={{ display: 'flex', justifyContent: 'space-between' }}>
-            <div style={{ width: '65%', padding: '10px 0' }}>
+            <div style={{ width: '50%', padding: '10px 0' }}>
               <TextField
-                error={hasError('homeAddress')}
+                error={hasError('email')}
                 fullWidth
-                label="Home address"
-                name="homeAddress"
+                label="Email"
+                name="email"
                 autoComplete="off"
-                value={formState.values.homeAddress || ''}
+                value={formState.values.email || ''}
                 variant="outlined"
                 onChange={handleChange}
                 inputProps={{ readOnly: true }}
               />
             </div>
-            <div style={{ width: '20%', padding: '10px 0' }}>
-              <TextField
-                error={hasError('postCode')}
-                fullWidth
-                label="Post Code"
-                name="postCode"
-                autoComplete="off"
-                value={formState.values.postCode || ''}
-                variant="outlined"
-                onChange={handleChange}
-                inputProps={{ readOnly: true }}
-              />
-            </div>
-          </div>
-          <div style={{ display: 'flex', justifyContent: 'space-between' }}>
-            <div style={{ width: '65%', padding: '10px 0' }}>
-              <TextField
-                error={hasError('postalAddress')}
-                fullWidth
-                label="Postal address"
-                name="postalAddress"
-                autoComplete="off"
-                value={formState.values.postalAddress || ''}
-                variant="outlined"
-                onChange={handleChange}
-                inputProps={{ readOnly: true }}
-              />
-            </div>
-            <div style={{ width: '20%', padding: '10px 0' }}>
-              <TextField
-                error={hasError('postalCode')}
-                fullWidth
-                label="Post Code"
-                name="postalCode"
-                autoComplete="off"
-                value={formState.values.postalCode || ''}
-                variant="outlined"
-                onChange={handleChange}
-                inputProps={{ readOnly: true }}
-              />
-            </div>
-          </div>
-          <div className={classes.textFieldContainer}>
-            <TextField
-              error={hasError('phone')}
-              fullWidth
-              label="Phone"
-              name="phone"
-              autoComplete="off"
-              value={formState.values.phone || ''}
-              variant="outlined"
-              onChange={handleChange}
-              inputProps={{ readOnly: true }}
-            />
-          </div>
-          <div style={{ width: '50%', padding: '10px 0' }}>
-            <TextField
-              error={hasError('email')}
-              fullWidth
-              label="Email"
-              name="email"
-              autoComplete="off"
-              value={formState.values.email || ''}
-              variant="outlined"
-              onChange={handleChange}
-              inputProps={{ readOnly: true }}
-            />
-          </div>
-          {/* <div
+            {/* <div
             style={{
               display: 'flex',
               alignItems: 'center',
@@ -525,102 +558,107 @@ export const General: React.FC = () => {
               />
             </div>
           </div> */}
-        </div>
-        <Divider className={classes.divider} />
-      </Grid>
-      <Grid item xs={12}>
-        <div className={classes.formGroup}>
-          <span className={classes.formGroupTitle}>Emergency Contact</span>
-          <div className={classes.textFieldContainer}>
-            <TextField
-              error={hasError('contactName')}
-              fullWidth
-              label="Contact name"
-              name="contactName"
-              autoComplete="off"
-              value={formState.values.contactName || ''}
-              variant="outlined"
-              onChange={handleChange}
-              inputProps={{ readOnly: true }}
-            />
           </div>
-          <div className={classes.textFieldContainer}>
-            <TextField
-              error={hasError('relationship')}
-              fullWidth
-              label={
-                <span className={classes.selectOptionLabel}>
-                  Relationship to consumer
-                </span>
-              }
-              name="relationship"
-              select
-              autoComplete="off"
-              SelectProps={{ native: true }}
-              value={formState.values.relationship || ''}
-              inputProps={{ readOnly: true }}
-              variant="outlined"
-              onChange={handleChange}>
-              {['', 'Uncle'].map(relationship => (
-                <option key={relationship} value={relationship}>
-                  {relationship}
-                </option>
-              ))}
-            </TextField>
-          </div>
-          <div
-            style={{
-              display: 'flex',
-              alignItems: 'center',
-              justifyContent: 'space-between'
-            }}>
+          <Divider className={classes.divider} />
+        </Grid>
+        <Grid item xs={12}>
+          <div className={classes.formGroup}>
+            <span className={classes.formGroupTitle}>Emergency Contact</span>
             <div className={classes.textFieldContainer}>
               <TextField
-                error={hasError('contactPhone')}
+                error={hasError('contactName')}
                 fullWidth
-                label="Phone"
-                name="contactPhone"
+                label="Contact name"
+                name="contactName"
                 autoComplete="off"
-                value={formState.values.contactPhone || ''}
+                value={formState.values.contactName || ''}
                 variant="outlined"
                 onChange={handleChange}
                 inputProps={{ readOnly: true }}
               />
+            </div>
+            <div className={classes.textFieldContainer}>
+              <TextField
+                error={hasError('relationship')}
+                fullWidth
+                label="Relationship to consumer"
+                name="relationship"
+                select
+                autoComplete="off"
+                SelectProps={{ native: true }}
+                value={formState.values.relationship || ''}
+                inputProps={{ readOnly: true }}
+                variant="outlined">
+                {[
+                  '',
+                  'Parent',
+                  'Spouse',
+                  'Child',
+                  'Partner',
+                  'Grandparent',
+                  'Sibling',
+                  'Friend',
+                  'other'
+                ].map(relationship => (
+                  <option key={relationship} value={relationship}>
+                    {relationship}
+                  </option>
+                ))}
+              </TextField>
+            </div>
+            <div
+              style={{
+                display: 'flex',
+                alignItems: 'center',
+                justifyContent: 'space-between'
+              }}>
+              <div className={classes.textFieldContainer}>
+                <TextField
+                  error={hasError('contactPhone')}
+                  fullWidth
+                  label="Phone"
+                  name="contactPhone"
+                  autoComplete="off"
+                  value={formState.values.contactPhone || ''}
+                  variant="outlined"
+                  onChange={handleChange}
+                  inputProps={{ readOnly: true }}
+                />
+              </div>
+              <div style={{ width: '50%', padding: '10px 0' }}>
+                <TextField
+                  error={hasError('contactAddress')}
+                  fullWidth
+                  label="Address"
+                  name="contactAddress"
+                  autoComplete="off"
+                  value={formState.values.contactAddress || ''}
+                  variant="outlined"
+                  onChange={handleChange}
+                  inputProps={{ readOnly: true }}
+                />
+              </div>
             </div>
             <div style={{ width: '50%', padding: '10px 0' }}>
               <TextField
-                error={hasError('contactAddress')}
+                error={hasError('whenToContact')}
                 fullWidth
-                label="Address"
-                name="contactAddress"
+                label="When to contact"
+                name="whenToContact"
                 autoComplete="off"
-                value={formState.values.contactAddress || ''}
+                value={formState.values.whenToContact || ''}
                 variant="outlined"
                 onChange={handleChange}
                 inputProps={{ readOnly: true }}
               />
             </div>
           </div>
-          <div style={{ width: '50%', padding: '10px 0' }}>
-            <TextField
-              error={hasError('whenToContact')}
-              fullWidth
-              label="When to contact"
-              name="whenToContact"
-              autoComplete="off"
-              value={formState.values.whenToContact || ''}
-              variant="outlined"
-              onChange={handleChange}
-              inputProps={{ readOnly: true }}
-            />
-          </div>
-        </div>
-        <Divider className={classes.divider} />
-      </Grid>
-      <Grid item xs={12}>
-        <div className={classes.formGroup}>
-          {/* <span className={classes.formGroupTitle}>Cultural background</span> */}
-          {/* <div className={classes.textFieldContainer}>
+          <Divider className={classes.divider} />
+        </Grid>
+        <Grid item xs={12}>
+          <div className={classes.formGroup}>
+            {/* <span className={classes.formGroupTitle}>Cultural background</span> */}
+            {/* <div className={classes.textFieldContainer}>
             <TextField
               error={hasError('countryOfBirth')}
               helperText={
@@ -656,7 +694,7 @@ export const General: React.FC = () => {
               onChange={handleChange}
             />
           </div> */}
-          {/* <div
+            {/* <div
             style={{
               display: 'flex',
               alignItems: 'center',
@@ -689,7 +727,7 @@ export const General: React.FC = () => {
               />
             </div>
           </div> */}
-          {/* <div
+            {/* <div
             style={{
               display: 'flex',
               alignItems: 'center',
@@ -722,9 +760,10 @@ export const General: React.FC = () => {
               />
             </div>
           </div> */}
-        </div>
+          </div>
+        </Grid>
       </Grid>
-    </Grid>
+    </>
   );
 };
 
