@@ -1,10 +1,11 @@
-import React, { useState } from 'react';
+import React from 'react';
 import clsx from 'clsx';
+import useRouter from 'common/utils/useRouter';
 
 import { makeStyles } from '@material-ui/styles';
 import { Paper, Theme, Divider, Avatar } from '@material-ui/core';
 
-import { Navigation, NotReadyPopup } from 'common/components';
+import { Navigation } from 'common/components';
 import navigationConfig from '../../navigationConfig';
 
 const useStyles = makeStyles((theme: Theme) => ({
@@ -115,18 +116,16 @@ type Props = {
 
 const NavBar: React.FC<Props> = ({ className }) => {
   const classes = useStyles();
+  const { history } = useRouter();
 
-  // const handleProfileButtonClick = () => {
-  //   if (
-  //     sessionStorage.getItem('UserId') !== null &&
-  //     sessionStorage.getItem('UserId') !== ''
-  //   ) {
-  //     history.push('/consumer');
-  //   }
-  // };
-
-  /** Dialog */
-  const [notReady, setNotReady] = useState(false);
+  const handleProfileButtonClick = () => {
+    if (
+      sessionStorage.getItem('UserId') !== null &&
+      sessionStorage.getItem('UserId') !== ''
+    ) {
+      history.push('/consumer');
+    }
+  };
 
   const navbarContent = (
     <div className={classes.content}>
@@ -146,7 +145,7 @@ const NavBar: React.FC<Props> = ({ className }) => {
           {/* <span className={classes.profileDate}>11/09/1990</span> */}
           <button
             className={classes.profileButton}
-            onClick={() => setNotReady(true)}>
+            onClick={handleProfileButtonClick}>
             <div
               style={{
                 display: 'flex',
@@ -197,9 +196,6 @@ const NavBar: React.FC<Props> = ({ className }) => {
       <Paper className={clsx(classes.root, className)} elevation={1} square>
         {navbarContent}
       </Paper>
-      {notReady && (
-        <NotReadyPopup open={notReady} close={() => setNotReady(false)} />
-      )}
     </>
   );
 };

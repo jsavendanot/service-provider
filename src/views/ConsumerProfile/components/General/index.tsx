@@ -1,13 +1,7 @@
 import React, { useState, useEffect, ChangeEvent } from 'react';
 import validate from 'validate.js';
 
-import {
-  Grid,
-  TextField,
-  Divider,
-  FormControlLabel,
-  Checkbox
-} from '@material-ui/core';
+import { Grid, TextField, Divider } from '@material-ui/core';
 import { makeStyles } from '@material-ui/styles';
 
 const useStyles = makeStyles(() => ({
@@ -335,12 +329,6 @@ export const General: React.FC = () => {
               <div className={classes.textFieldContainer}>
                 <TextField
                   error={hasError('firstName')}
-                  helperText={
-                    hasError('firstName')
-                      ? formState.errors.firstName &&
-                        formState.errors.firstName[0]
-                      : null
-                  }
                   fullWidth
                   label="First name"
                   name="firstName"
@@ -348,17 +336,12 @@ export const General: React.FC = () => {
                   value={formState.values.firstName || ''}
                   variant="outlined"
                   onChange={handleChange}
+                  inputProps={{ readOnly: true }}
                 />
               </div>
               <div className={classes.textFieldContainer}>
                 <TextField
                   error={hasError('lastName')}
-                  helperText={
-                    hasError('lastName')
-                      ? formState.errors.lastName &&
-                        formState.errors.lastName[0]
-                      : null
-                  }
                   fullWidth
                   label="Last name"
                   name="lastName"
@@ -366,18 +349,13 @@ export const General: React.FC = () => {
                   value={formState.values.lastName || ''}
                   variant="outlined"
                   onChange={handleChange}
+                  inputProps={{ readOnly: true }}
                 />
               </div>
             </div>
             <div className={classes.textFieldContainer}>
               <TextField
                 error={hasError('preferredName')}
-                helperText={
-                  hasError('preferredName')
-                    ? formState.errors.preferredName &&
-                      formState.errors.preferredName[0]
-                    : null
-                }
                 fullWidth
                 label="Preferred name"
                 name="preferredName"
@@ -385,17 +363,13 @@ export const General: React.FC = () => {
                 value={formState.values.preferredName || ''}
                 variant="outlined"
                 onChange={handleChange}
+                inputProps={{ readOnly: true }}
               />
             </div>
             <div style={{ display: 'flex', justifyContent: 'space-between' }}>
               <div className={classes.textFieldContainer}>
                 <TextField
                   error={hasError('dob')}
-                  helperText={
-                    hasError('dob')
-                      ? formState.errors.dob && formState.errors.dob[0]
-                      : null
-                  }
                   fullWidth
                   label="Date of birth"
                   name="dob"
@@ -403,16 +377,12 @@ export const General: React.FC = () => {
                   value={formState.values.dob || ''}
                   variant="outlined"
                   onChange={handleChange}
+                  inputProps={{ readOnly: true }}
                 />
               </div>
               <div className={classes.textFieldContainer}>
                 <TextField
                   error={hasError('gender')}
-                  helperText={
-                    hasError('gender')
-                      ? formState.errors.gender && formState.errors.gender[0]
-                      : null
-                  }
                   fullWidth
                   label={
                     <span className={classes.selectOptionLabel}>
@@ -424,6 +394,7 @@ export const General: React.FC = () => {
                   autoComplete="off"
                   SelectProps={{ native: true }}
                   value={formState.values.gender || ''}
+                  inputProps={{ readOnly: true }}
                   variant="outlined"
                   onChange={handleChange}>
                   {['', 'Male', 'Female'].map(gender => (
@@ -445,12 +416,6 @@ export const General: React.FC = () => {
             <div style={{ width: '65%', padding: '10px 0' }}>
               <TextField
                 error={hasError('homeAddress')}
-                helperText={
-                  hasError('homeAddress')
-                    ? formState.errors.homeAddress &&
-                      formState.errors.homeAddress[0]
-                    : null
-                }
                 fullWidth
                 label="Home address"
                 name="homeAddress"
@@ -458,16 +423,12 @@ export const General: React.FC = () => {
                 value={formState.values.homeAddress || ''}
                 variant="outlined"
                 onChange={handleChange}
+                inputProps={{ readOnly: true }}
               />
             </div>
             <div style={{ width: '20%', padding: '10px 0' }}>
               <TextField
                 error={hasError('postCode')}
-                helperText={
-                  hasError('postCode')
-                    ? formState.errors.postCode && formState.errors.postCode[0]
-                    : null
-                }
                 fullWidth
                 label="Post Code"
                 name="postCode"
@@ -475,6 +436,7 @@ export const General: React.FC = () => {
                 value={formState.values.postCode || ''}
                 variant="outlined"
                 onChange={handleChange}
+                inputProps={{ readOnly: true }}
               />
             </div>
           </div>
@@ -482,12 +444,6 @@ export const General: React.FC = () => {
             <div style={{ width: '65%', padding: '10px 0' }}>
               <TextField
                 error={hasError('postalAddress')}
-                helperText={
-                  hasError('postalAddress')
-                    ? formState.errors.postalAddress &&
-                      formState.errors.postalAddress[0]
-                    : null
-                }
                 fullWidth
                 label="Postal address"
                 name="postalAddress"
@@ -495,17 +451,12 @@ export const General: React.FC = () => {
                 value={formState.values.postalAddress || ''}
                 variant="outlined"
                 onChange={handleChange}
+                inputProps={{ readOnly: true }}
               />
             </div>
             <div style={{ width: '20%', padding: '10px 0' }}>
               <TextField
                 error={hasError('postalCode')}
-                helperText={
-                  hasError('postalCode')
-                    ? formState.errors.postalCode &&
-                      formState.errors.postalCode[0]
-                    : null
-                }
                 fullWidth
                 label="Post Code"
                 name="postalCode"
@@ -513,17 +464,13 @@ export const General: React.FC = () => {
                 value={formState.values.postalCode || ''}
                 variant="outlined"
                 onChange={handleChange}
+                inputProps={{ readOnly: true }}
               />
             </div>
           </div>
           <div className={classes.textFieldContainer}>
             <TextField
               error={hasError('phone')}
-              helperText={
-                hasError('phone')
-                  ? formState.errors.phone && formState.errors.phone[0]
-                  : null
-              }
               fullWidth
               label="Phone"
               name="phone"
@@ -531,16 +478,12 @@ export const General: React.FC = () => {
               value={formState.values.phone || ''}
               variant="outlined"
               onChange={handleChange}
+              inputProps={{ readOnly: true }}
             />
           </div>
           <div style={{ width: '50%', padding: '10px 0' }}>
             <TextField
               error={hasError('email')}
-              helperText={
-                hasError('email')
-                  ? formState.errors.email && formState.errors.email[0]
-                  : null
-              }
               fullWidth
               label="Email"
               name="email"
@@ -548,9 +491,10 @@ export const General: React.FC = () => {
               value={formState.values.email || ''}
               variant="outlined"
               onChange={handleChange}
+              inputProps={{ readOnly: true }}
             />
           </div>
-          <div
+          {/* <div
             style={{
               display: 'flex',
               alignItems: 'center',
@@ -580,7 +524,7 @@ export const General: React.FC = () => {
                 label={<span className={classes.checkText}>Email</span>}
               />
             </div>
-          </div>
+          </div> */}
         </div>
         <Divider className={classes.divider} />
       </Grid>
@@ -590,12 +534,6 @@ export const General: React.FC = () => {
           <div className={classes.textFieldContainer}>
             <TextField
               error={hasError('contactName')}
-              helperText={
-                hasError('contactName')
-                  ? formState.errors.contactName &&
-                    formState.errors.contactName[0]
-                  : null
-              }
               fullWidth
               label="Contact name"
               name="contactName"
@@ -603,17 +541,12 @@ export const General: React.FC = () => {
               value={formState.values.contactName || ''}
               variant="outlined"
               onChange={handleChange}
+              inputProps={{ readOnly: true }}
             />
           </div>
           <div className={classes.textFieldContainer}>
             <TextField
               error={hasError('relationship')}
-              helperText={
-                hasError('relationship')
-                  ? formState.errors.relationship &&
-                    formState.errors.relationship[0]
-                  : null
-              }
               fullWidth
               label={
                 <span className={classes.selectOptionLabel}>
@@ -625,6 +558,7 @@ export const General: React.FC = () => {
               autoComplete="off"
               SelectProps={{ native: true }}
               value={formState.values.relationship || ''}
+              inputProps={{ readOnly: true }}
               variant="outlined"
               onChange={handleChange}>
               {['', 'Uncle'].map(relationship => (
@@ -643,12 +577,6 @@ export const General: React.FC = () => {
             <div className={classes.textFieldContainer}>
               <TextField
                 error={hasError('contactPhone')}
-                helperText={
-                  hasError('contactPhone')
-                    ? formState.errors.contactPhone &&
-                      formState.errors.contactPhone[0]
-                    : null
-                }
                 fullWidth
                 label="Phone"
                 name="contactPhone"
@@ -656,17 +584,12 @@ export const General: React.FC = () => {
                 value={formState.values.contactPhone || ''}
                 variant="outlined"
                 onChange={handleChange}
+                inputProps={{ readOnly: true }}
               />
             </div>
             <div style={{ width: '50%', padding: '10px 0' }}>
               <TextField
                 error={hasError('contactAddress')}
-                helperText={
-                  hasError('contactAddress')
-                    ? formState.errors.contactAddress &&
-                      formState.errors.contactAddress[0]
-                    : null
-                }
                 fullWidth
                 label="Address"
                 name="contactAddress"
@@ -674,18 +597,13 @@ export const General: React.FC = () => {
                 value={formState.values.contactAddress || ''}
                 variant="outlined"
                 onChange={handleChange}
+                inputProps={{ readOnly: true }}
               />
             </div>
           </div>
           <div style={{ width: '50%', padding: '10px 0' }}>
             <TextField
               error={hasError('whenToContact')}
-              helperText={
-                hasError('whenToContact')
-                  ? formState.errors.whenToContact &&
-                    formState.errors.whenToContact[0]
-                  : null
-              }
               fullWidth
               label="When to contact"
               name="whenToContact"
@@ -693,6 +611,7 @@ export const General: React.FC = () => {
               value={formState.values.whenToContact || ''}
               variant="outlined"
               onChange={handleChange}
+              inputProps={{ readOnly: true }}
             />
           </div>
         </div>
@@ -700,8 +619,8 @@ export const General: React.FC = () => {
       </Grid>
       <Grid item xs={12}>
         <div className={classes.formGroup}>
-          <span className={classes.formGroupTitle}>Cultural background</span>
-          <div className={classes.textFieldContainer}>
+          {/* <span className={classes.formGroupTitle}>Cultural background</span> */}
+          {/* <div className={classes.textFieldContainer}>
             <TextField
               error={hasError('countryOfBirth')}
               helperText={
@@ -736,8 +655,8 @@ export const General: React.FC = () => {
               variant="outlined"
               onChange={handleChange}
             />
-          </div>
-          <div
+          </div> */}
+          {/* <div
             style={{
               display: 'flex',
               alignItems: 'center',
@@ -769,8 +688,8 @@ export const General: React.FC = () => {
                 }
               />
             </div>
-          </div>
-          <div
+          </div> */}
+          {/* <div
             style={{
               display: 'flex',
               alignItems: 'center',
@@ -802,7 +721,7 @@ export const General: React.FC = () => {
                 }
               />
             </div>
-          </div>
+          </div> */}
         </div>
       </Grid>
     </Grid>
