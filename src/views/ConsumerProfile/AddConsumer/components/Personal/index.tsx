@@ -1,6 +1,12 @@
 import React, { ChangeEvent } from 'react';
 
-import { Grid, TextField, Divider } from '@material-ui/core';
+import {
+  Grid,
+  TextField,
+  Divider,
+  FormControlLabel,
+  Checkbox
+} from '@material-ui/core';
 import { makeStyles } from '@material-ui/styles';
 
 const useStyles = makeStyles(() => ({
@@ -106,20 +112,17 @@ export const schema1 = {
   Gender: {
     presence: { allowEmpty: false, message: 'is required' },
     length: {
-      maximum: 80
+      maximum: 20
     }
   },
   HomeAddress: {
     presence: false,
     length: {
-      maximum: 200
+      maximum: 300
     }
   },
   HomePostCode: {
     presence: false,
-    numericality: {
-      onlyInteger: true
-    },
     length: {
       maximum: 10
     }
@@ -127,14 +130,11 @@ export const schema1 = {
   PostalAddress: {
     presence: false,
     length: {
-      maximum: 200
+      maximum: 300
     }
   },
   PostalPostCode: {
     presence: false,
-    numericality: {
-      onlyInteger: true
-    },
     length: {
       maximum: 10
     }
@@ -142,14 +142,14 @@ export const schema1 = {
   MobilePhone: {
     presence: false,
     length: {
-      maximum: 15
+      maximum: 10
     }
   },
   PrimaryEmail: {
     presence: { allowEmpty: false, message: 'is required' },
     email: true,
     length: {
-      maximum: 50
+      maximum: 80
     }
   },
   PreferredContactMethod: {
@@ -308,7 +308,7 @@ export const Personal: React.FC<Props> = ({
             <TextField
               error={hasError('Gender')}
               fullWidth
-              label="Please select*"
+              label="Select gender*"
               name="Gender"
               select
               autoComplete="off"
@@ -403,7 +403,7 @@ export const Personal: React.FC<Props> = ({
             onChange={handleChange}
           />
         </div>
-        {/* <div
+        <div
           style={{
             display: 'flex',
             alignItems: 'center',
@@ -455,7 +455,7 @@ export const Personal: React.FC<Props> = ({
               label={<span className={classes.checkText}>Email</span>}
             />
           </div>
-        </div> */}
+        </div>
       </Grid>
     </Grid>
   );

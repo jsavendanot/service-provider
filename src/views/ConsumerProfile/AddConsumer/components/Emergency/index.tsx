@@ -44,7 +44,7 @@ export const schema2 = {
   ContactName: {
     presence: { allowEmpty: false, message: 'is required' },
     length: {
-      maximum: 100
+      maximum: 80
     }
   },
   RelationshipToConsumer: {
@@ -59,7 +59,7 @@ export const schema2 = {
       onlyInteger: true
     },
     length: {
-      maximum: 20
+      maximum: 10
     }
   },
   EmergencyAddress: {
@@ -206,11 +206,18 @@ export const Emergency: React.FC<Props> = ({
             fullWidth
             label="When to contact"
             name="EmergencyWhenToContact"
-            autoComplete="off"
-            value={formState.values.EmergencyWhenToContact || ''}
             variant="outlined"
-            onChange={handleChange}
-          />
+            select
+            autoComplete="off"
+            SelectProps={{ native: true }}
+            value={formState.values.EmergencyWhenToContact || ''}
+            onChange={handleChange}>
+            {['', 'Anytime', 'Morning', 'Afternoon', 'Night'].map(relation => (
+              <option key={relation} value={relation}>
+                {relation}
+              </option>
+            ))}
+          </TextField>
         </div>
       </Grid>
     </Grid>

@@ -1,4 +1,4 @@
-import React, { Dispatch, SetStateAction } from 'react';
+import React from 'react';
 import clsx from 'clsx';
 
 import { makeStyles } from '@material-ui/styles';
@@ -44,9 +44,9 @@ const useStyles = makeStyles(() => ({
 
 type StepsProps = {
   currentStep: number;
-  setStep: Dispatch<SetStateAction<number>>;
+  next: () => void;
 };
-export const Steps: React.FC<StepsProps> = ({ currentStep, setStep }) => {
+export const Steps: React.FC<StepsProps> = ({ currentStep, next }) => {
   const classes = useStyles();
   return (
     <div className={classes.root}>
@@ -56,7 +56,7 @@ export const Steps: React.FC<StepsProps> = ({ currentStep, setStep }) => {
             classes.stepText,
             currentStep === 0 && classes.stepTextActive
           )}
-          onClick={() => setStep(0)}>
+          onClick={next}>
           1. Personal information
         </span>
       </div>
@@ -66,7 +66,7 @@ export const Steps: React.FC<StepsProps> = ({ currentStep, setStep }) => {
             classes.stepText,
             currentStep === 1 && classes.stepTextActive
           )}
-          onClick={() => setStep(1)}>
+          onClick={next}>
           2. Emergency contact
         </span>
       </div>

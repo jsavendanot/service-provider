@@ -151,6 +151,7 @@ export const AddConsumer: React.FC = () => {
   const handleContactMethodsCheckBoxChange = (
     event: ChangeEvent<HTMLInputElement>
   ) => {
+    event.persist();
     setContactMethods(oldValue => ({
       ...oldValue,
       [event.target.name]: event.target.checked
@@ -320,7 +321,7 @@ export const AddConsumer: React.FC = () => {
             PostalAddress: profile.PostalAddress,
             PostalPostCode: profile.PostalPostCode,
             MobilePhone: profile.MobilePhone,
-            PrimaryEmail: profile.UserEmail,
+            PrimaryEmail: profile.PrimaryEmail,
             PreferredContactMethod: PreferredContactMethod
           },
           touched: {
@@ -419,7 +420,7 @@ export const AddConsumer: React.FC = () => {
                 Cancel
               </span>
             </div>
-            <Steps currentStep={step} setStep={setStep} />
+            <Steps currentStep={step} next={next} />
             {step > 0 && (
               <div
                 style={{
