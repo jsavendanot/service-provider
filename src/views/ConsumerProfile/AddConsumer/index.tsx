@@ -8,18 +8,10 @@ import { makeStyles } from '@material-ui/styles';
 import { useDispatch } from 'react-redux';
 import { KeyboardArrowLeft, ArrowForward, ArrowBack } from '@material-ui/icons';
 
-import {
-  Steps,
-  Personal,
-  Emergency,
-  Background,
-  Practitioner,
-  HealthCare
-} from './components';
+import { Steps, Personal, Emergency } from './components';
 import { Profile } from 'types/profile';
 import { FormStateType1, schema1 } from './components/Personal';
 import { FormStateType2, schema2 } from './components/Emergency';
-import { FormStateType3 } from './components/Background';
 import { addConsumer } from 'slices/people/action';
 
 const useStyles = makeStyles(() => ({
@@ -206,18 +198,18 @@ export const AddConsumer: React.FC = () => {
     field in formState2.touched && field in formState2.errors ? true : false;
 
   // Cultural background
-  const [formState3, setFormState3] = useState<FormStateType3>({
-    isValid: false,
-    values: {
-      CountryOfBirth: profile.CountryOfBirth,
-      PreferredLanguage: profile.PreferredLanguage
-    },
-    touched: {},
-    errors: {}
-  });
+  // const [formState3, setFormState3] = useState<FormStateType3>({
+  //   isValid: false,
+  //   values: {
+  //     CountryOfBirth: profile.CountryOfBirth,
+  //     PreferredLanguage: profile.PreferredLanguage
+  //   },
+  //   touched: {},
+  //   errors: {}
+  // });
 
-  const hasError3 = (field: string): boolean =>
-    field in formState3.touched && field in formState3.errors ? true : false;
+  // const hasError3 = (field: string): boolean =>
+  //   field in formState3.touched && field in formState3.errors ? true : false;
 
   // Common
   useEffect(() => {
@@ -271,19 +263,19 @@ export const AddConsumer: React.FC = () => {
       }));
     }
 
-    if (step === 2) {
-      setFormState3(formState => ({
-        ...formState,
-        values: {
-          ...formState.values,
-          [event.target.name]: event.target.value
-        },
-        touched: {
-          ...formState.touched,
-          [event.target.name]: true
-        }
-      }));
-    }
+    // if (step === 2) {
+    //   setFormState3(formState => ({
+    //     ...formState,
+    //     values: {
+    //       ...formState.values,
+    //       [event.target.name]: event.target.value
+    //     },
+    //     touched: {
+    //       ...formState.touched,
+    //       [event.target.name]: true
+    //     }
+    //   }));
+    // }
 
     handleProfileField(event.target.name, event.target.value);
   };
@@ -299,7 +291,7 @@ export const AddConsumer: React.FC = () => {
   const [step, setStep] = useState(0);
 
   const next = () => {
-    if (step < 4) {
+    if (step < 2) {
       if (step === 0) {
         let PreferredContactMethod = '';
         if (contactMethods.Email) {
@@ -370,19 +362,19 @@ export const AddConsumer: React.FC = () => {
         }));
         formState2.isValid && setStep(value => value + 1);
       } else if (step === 2) {
-        setFormState3(formState => ({
-          ...formState,
-          values: {
-            ...formState.values,
-            CountryOfBirth: profile.CountryOfBirth,
-            PreferredLanguage: profile.PreferredLanguage
-          },
-          touched: {
-            ...formState.touched,
-            CountryOfBirth: true,
-            PreferredLanguage: true
-          }
-        }));
+        // setFormState3(formState => ({
+        //   ...formState,
+        //   values: {
+        //     ...formState.values,
+        //     CountryOfBirth: profile.CountryOfBirth,
+        //     PreferredLanguage: profile.PreferredLanguage
+        //   },
+        //   touched: {
+        //     ...formState.touched,
+        //     CountryOfBirth: true,
+        //     PreferredLanguage: true
+        //   }
+        // }));
         setStep(value => value + 1);
       } else {
         setStep(value => value + 1);
@@ -464,7 +456,7 @@ export const AddConsumer: React.FC = () => {
                 hasError={hasError2}
               />
             )}
-            {step === 2 && (
+            {/* {step === 2 && (
               <Background
                 formState={formState3}
                 handleChange={handleChange}
@@ -472,7 +464,7 @@ export const AddConsumer: React.FC = () => {
               />
             )}
             {step === 3 && <Practitioner />}
-            {step === 4 && <HealthCare />}
+            {step === 4 && <HealthCare />} */}
           </div>
         </Grid>
         <Grid item xs={3}>
@@ -480,14 +472,14 @@ export const AddConsumer: React.FC = () => {
             <div
               className={clsx(
                 classes.saveButtonContainer,
-                step === 4 && classes.bottomZero
+                step === 1 && classes.bottomZero
               )}>
               <button className={classes.navSaveButton} onClick={saveConsumer}>
                 <span className={classes.buttonText}>Save consumer</span>
               </button>
             </div>
           )}
-          {step < 4 && (
+          {step < 1 && (
             <div
               style={{
                 position: 'fixed',

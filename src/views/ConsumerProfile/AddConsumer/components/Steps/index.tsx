@@ -70,7 +70,7 @@ export const Steps: React.FC<StepsProps> = ({ currentStep, setStep }) => {
           2. Emergency contact
         </span>
       </div>
-      <div className={classes.step}>
+      {/* <div className={classes.step}>
         <span
           className={clsx(
             classes.stepText,
@@ -102,7 +102,7 @@ export const Steps: React.FC<StepsProps> = ({ currentStep, setStep }) => {
           5. Health care{' '}
           <span className={classes.optionalText}>(Optional)</span>
         </span>
-      </div>
+      </div> */}
     </div>
   );
 };

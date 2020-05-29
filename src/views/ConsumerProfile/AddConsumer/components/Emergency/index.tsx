@@ -144,11 +144,7 @@ export const Emergency: React.FC<Props> = ({
           <TextField
             error={hasError('RelationshipToConsumer')}
             fullWidth
-            label={
-              <span className={classes.selectOptionLabel}>
-                Relationship to consumer
-              </span>
-            }
+            label="Relationship to consumer"
             name="RelationshipToConsumer"
             select
             autoComplete="off"

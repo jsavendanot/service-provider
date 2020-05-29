@@ -1,12 +1,6 @@
 import React, { ChangeEvent } from 'react';
 
-import {
-  Grid,
-  TextField,
-  Divider,
-  FormControlLabel,
-  Checkbox
-} from '@material-ui/core';
+import { Grid, TextField, Divider } from '@material-ui/core';
 import { makeStyles } from '@material-ui/styles';
 
 const useStyles = makeStyles(() => ({
@@ -147,11 +141,8 @@ export const schema1 = {
   },
   MobilePhone: {
     presence: false,
-    numericality: {
-      onlyInteger: true
-    },
     length: {
-      maximum: 20
+      maximum: 15
     }
   },
   PrimaryEmail: {
@@ -236,6 +227,14 @@ export const Personal: React.FC<Props> = ({
 }) => {
   const classes = useStyles();
 
+  const genders = [
+    { name: '', value: '' },
+    { name: 'Male', value: 'Male' },
+    { name: 'Female', value: 'Female' },
+    { name: 'Non-binary', value: 'Other' },
+    { name: 'Prefer not to say', value: 'Unknown' }
+  ];
+
   return (
     <Grid container className={classes.root}>
       <Grid item xs={12}>
@@ -309,11 +308,7 @@ export const Personal: React.FC<Props> = ({
             <TextField
               error={hasError('Gender')}
               fullWidth
-              label={
-                <span className={classes.selectOptionLabel}>
-                  Please select*
-                </span>
-              }
+              label="Please select*"
               name="Gender"
               select
               autoComplete="off"
@@ -321,9 +316,9 @@ export const Personal: React.FC<Props> = ({
               value={formState.values.Gender || ''}
               variant="outlined"
               onChange={handleChange}>
-              {['', 'Male', 'Female'].map(gender => (
-                <option key={gender} value={gender}>
-                  {gender}
+              {genders.map(gender => (
+                <option key={gender.value} value={gender.value}>
+                  {gender.name}
                 </option>
               ))}
             </TextField>
@@ -332,7 +327,7 @@ export const Personal: React.FC<Props> = ({
         <Divider className={classes.divider} />
       </Grid>
       <Grid item xs={12}>
-        <div style={{ display: 'flex', justifyContent: 'space-between' }}>
+        {/* <div style={{ display: 'flex', justifyContent: 'space-between' }}>
           <div style={{ width: '65%', padding: '10px 0' }}>
             <TextField
               error={hasError('HomeAddress')}
@@ -357,7 +352,7 @@ export const Personal: React.FC<Props> = ({
               onChange={handleChange}
             />
           </div>
-        </div>
+        </div> */}
         <div style={{ display: 'flex', justifyContent: 'space-between' }}>
           <div style={{ width: '65%', padding: '10px 0' }}>
             <TextField
@@ -371,7 +366,7 @@ export const Personal: React.FC<Props> = ({
               onChange={handleChange}
             />
           </div>
-          <div style={{ width: '20%', padding: '10px 0' }}>
+          {/* <div style={{ width: '20%', padding: '10px 0' }}>
             <TextField
               error={hasError('PostalPostCode')}
               fullWidth
@@ -382,7 +377,7 @@ export const Personal: React.FC<Props> = ({
               variant="outlined"
               onChange={handleChange}
             />
-          </div>
+          </div> */}
         </div>
         <div className={classes.textFieldContainer}>
           <TextField
@@ -408,7 +403,7 @@ export const Personal: React.FC<Props> = ({
             onChange={handleChange}
           />
         </div>
-        <div
+        {/* <div
           style={{
             display: 'flex',
             alignItems: 'center',
@@ -460,7 +455,7 @@ export const Personal: React.FC<Props> = ({
               label={<span className={classes.checkText}>Email</span>}
             />
           </div>
-        </div>
+        </div> */}
       </Grid>
     </Grid>
   );

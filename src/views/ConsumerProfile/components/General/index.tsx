@@ -361,7 +361,7 @@ export const General: React.FC = () => {
                     value={
                       consumerProfile && consumerProfile.FirstName
                         ? consumerProfile.FirstName
-                        : '.'
+                        : ' '
                     }
                     variant="outlined"
                     onChange={handleChange}
@@ -378,7 +378,7 @@ export const General: React.FC = () => {
                     value={
                       consumerProfile && consumerProfile.Surname
                         ? consumerProfile.Surname
-                        : '.'
+                        : ' '
                     }
                     variant="outlined"
                     onChange={handleChange}
@@ -396,7 +396,7 @@ export const General: React.FC = () => {
                   value={
                     consumerProfile && consumerProfile.PreferredName
                       ? consumerProfile.PreferredName
-                      : '.'
+                      : ' '
                   }
                   variant="outlined"
                   onChange={handleChange}
@@ -416,7 +416,7 @@ export const General: React.FC = () => {
                         ? moment(consumerProfile.DateOfBirth).format(
                             'DD/MM/YYYY'
                           )
-                        : '.'
+                        : ' '
                     }
                     variant="outlined"
                     onChange={handleChange}
@@ -466,7 +466,7 @@ export const General: React.FC = () => {
                   value={
                     consumerProfile && consumerProfile.HomeAddress
                       ? consumerProfile.HomeAddress
-                      : '.'
+                      : ' '
                   }
                   variant="outlined"
                   onChange={handleChange}
@@ -483,7 +483,7 @@ export const General: React.FC = () => {
                   value={
                     consumerProfile && consumerProfile.PostalPostCode
                       ? consumerProfile.PostalPostCode
-                      : '.'
+                      : ' '
                   }
                   variant="outlined"
                   onChange={handleChange}
@@ -502,7 +502,7 @@ export const General: React.FC = () => {
                   value={
                     consumerProfile && consumerProfile.PostalAddress
                       ? consumerProfile.PostalAddress
-                      : '.'
+                      : ' '
                   }
                   variant="outlined"
                   onChange={handleChange}
@@ -519,7 +519,7 @@ export const General: React.FC = () => {
                   value={
                     consumerProfile && consumerProfile.PostalPostCode
                       ? consumerProfile.PostalPostCode
-                      : '.'
+                      : ' '
                   }
                   variant="outlined"
                   onChange={handleChange}
@@ -537,7 +537,7 @@ export const General: React.FC = () => {
                 value={
                   consumerProfile && consumerProfile.MobilePhone
                     ? consumerProfile.MobilePhone
-                    : '.'
+                    : ' '
                 }
                 variant="outlined"
                 onChange={handleChange}
@@ -554,7 +554,7 @@ export const General: React.FC = () => {
                 value={
                   consumerProfile && consumerProfile.PrimaryEmail
                     ? consumerProfile.PrimaryEmail
-                    : '.'
+                    : ' '
                 }
                 variant="outlined"
                 onChange={handleChange}
@@ -608,7 +608,7 @@ export const General: React.FC = () => {
                 value={
                   consumerProfile && consumerProfile.ContactName
                     ? consumerProfile.ContactName
-                    : '.'
+                    : ' '
                 }
                 variant="outlined"
                 onChange={handleChange}
@@ -664,7 +664,7 @@ export const General: React.FC = () => {
                   value={
                     consumerProfile && consumerProfile.EmergencyContactPhone
                       ? consumerProfile.EmergencyContactPhone
-                      : '.'
+                      : ' '
                   }
                   variant="outlined"
                   onChange={handleChange}
@@ -681,7 +681,7 @@ export const General: React.FC = () => {
                   value={
                     consumerProfile && consumerProfile.EmergencyAddress
                       ? consumerProfile.EmergencyAddress
-                      : '.'
+                      : ' '
                   }
                   variant="outlined"
                   onChange={handleChange}
@@ -699,7 +699,7 @@ export const General: React.FC = () => {
                 value={
                   consumerProfile && consumerProfile.EmergencyWhenToContact
                     ? consumerProfile.EmergencyWhenToContact
-                    : '.'
+                    : ' '
                 }
                 variant="outlined"
                 onChange={handleChange}
