@@ -1,14 +1,12 @@
 import React, { useState, useEffect, ChangeEvent } from 'react';
 import validate from 'validate.js';
-import { useDispatch, useSelector } from 'react-redux';
 
 import { Grid, TextField, Divider } from '@material-ui/core';
 import { makeStyles } from '@material-ui/styles';
-import { fetchPeople } from 'slices/people/action';
-import { RootState } from 'reducer';
-import { Person } from 'types/people';
+import { callConsumerReadApi } from 'slices/people/action';
 import { Loading } from 'common/components';
 import moment from 'moment';
+import { Profile } from 'types/profile';
 
 const useStyles = makeStyles(() => ({
   formGroup: {
@@ -289,19 +287,8 @@ type FormStateType = {
 
 export const General: React.FC = () => {
   const classes = useStyles();
-  const dispatch = useDispatch();
 
-  const peopleLoading: boolean = useSelector(
-    (state: RootState) => state.people.loading
-  );
-
-  const people: Person[] = useSelector(
-    (state: RootState) => state.people.people
-  );
-
-  const [person] = useState(
-    people.find(person => person.UserId === sessionStorage.getItem('UserId'))
-  );
+  const [consumerProfile, setConsumerProfile] = useState<Profile>();
 
   const genders = [
     { name: '', value: '' },
@@ -348,12 +335,17 @@ export const General: React.FC = () => {
     field in formState.touched && field in formState.errors ? true : false;
 
   useEffect(() => {
-    dispatch(fetchPeople());
-  }, [dispatch]);
+    (async function readConsumersProfile() {
+      const profile = await callConsumerReadApi(
+        sessionStorage.getItem('RecoveryPlanId')!
+      );
+      setConsumerProfile(profile);
+    })();
+  }, []);
 
   return (
     <>
-      {peopleLoading && <Loading />}
+      {!consumerProfile && <Loading />}
       <Grid container>
         <Grid item xs={12}>
           <div className={classes.formGroup}>
@@ -361,56 +353,15 @@ export const General: React.FC = () => {
               <div style={{ display: 'flex', justifyContent: 'space-between' }}>
                 <div className={classes.textFieldContainer}>
                   <TextField
-                    error={hasError('firstName')}
+                    error={hasError('FirstName')}
                     fullWidth
                     label="First name"
-                    name="firstName"
-                    autoComplete="off"
-                    value={person ? person.FirstName : ''}
-                    variant="outlined"
-                    onChange={handleChange}
-                    inputProps={{ readOnly: true }}
-                  />
-                </div>
-                <div className={classes.textFieldContainer}>
-                  <TextField
-                    error={hasError('lastName')}
-                    fullWidth
-                    label="Last name"
-                    name="lastName"
-                    autoComplete="off"
-                    value={person ? person.Surname : ''}
-                    variant="outlined"
-                    onChange={handleChange}
-                    inputProps={{ readOnly: true }}
-                  />
-                </div>
-              </div>
-              <div className={classes.textFieldContainer}>
-                <TextField
-                  error={hasError('preferredName')}
-                  fullWidth
-                  label="Preferred name"
-                  name="preferredName"
-                  autoComplete="off"
-                  value={person ? person.PreferredName : ''}
-                  variant="outlined"
-                  onChange={handleChange}
-                  inputProps={{ readOnly: true }}
-                />
-              </div>
-              <div style={{ display: 'flex', justifyContent: 'space-between' }}>
-                <div className={classes.textFieldContainer}>
-                  <TextField
-                    error={hasError('dob')}
-                    fullWidth
-                    label="Date of birth"
-                    name="dob"
+                    name="FirstName"
                     autoComplete="off"
                     value={
-                      person
-                        ? moment(person.DateOfBirth).format('DD/MM/YYYY')
-                        : ''
+                      consumerProfile && consumerProfile.FirstName
+                        ? consumerProfile.FirstName
+                        : '.'
                     }
                     variant="outlined"
                     onChange={handleChange}
@@ -419,14 +370,73 @@ export const General: React.FC = () => {
                 </div>
                 <div className={classes.textFieldContainer}>
                   <TextField
-                    error={hasError('gender')}
+                    error={hasError('Surname')}
+                    fullWidth
+                    label="Last name"
+                    name="Surname"
+                    autoComplete="off"
+                    value={
+                      consumerProfile && consumerProfile.Surname
+                        ? consumerProfile.Surname
+                        : '.'
+                    }
+                    variant="outlined"
+                    onChange={handleChange}
+                    inputProps={{ readOnly: true }}
+                  />
+                </div>
+              </div>
+              <div className={classes.textFieldContainer}>
+                <TextField
+                  error={hasError('PreferredName')}
+                  fullWidth
+                  label="Preferred name"
+                  name="PreferredName"
+                  autoComplete="off"
+                  value={
+                    consumerProfile && consumerProfile.PreferredName
+                      ? consumerProfile.PreferredName
+                      : '.'
+                  }
+                  variant="outlined"
+                  onChange={handleChange}
+                  inputProps={{ readOnly: true }}
+                />
+              </div>
+              <div style={{ display: 'flex', justifyContent: 'space-between' }}>
+                <div className={classes.textFieldContainer}>
+                  <TextField
+                    error={hasError('DateOfBirth')}
+                    fullWidth
+                    label="Date of birth"
+                    name="DateOfBirth"
+                    autoComplete="off"
+                    value={
+                      consumerProfile && consumerProfile.DateOfBirth
+                        ? moment(consumerProfile.DateOfBirth).format(
+                            'DD/MM/YYYY'
+                          )
+                        : '.'
+                    }
+                    variant="outlined"
+                    onChange={handleChange}
+                    inputProps={{ readOnly: true }}
+                  />
+                </div>
+                <div className={classes.textFieldContainer}>
+                  <TextField
+                    error={hasError('Gender')}
                     fullWidth
                     label="Gender"
-                    name="gender"
+                    name="Gender"
                     select
                     autoComplete="off"
                     SelectProps={{ native: true }}
-                    value={person ? person.Gender : ''}
+                    value={
+                      consumerProfile && consumerProfile.Gender
+                        ? consumerProfile.Gender
+                        : ''
+                    }
                     inputProps={{ readOnly: true }}
                     variant="outlined"
                     onChange={handleChange}>
@@ -445,15 +455,19 @@ export const General: React.FC = () => {
         <Grid item xs={12}>
           <div className={classes.formGroup}>
             <span className={classes.formGroupTitle}>Contact details</span>
-            <div style={{ display: 'flex', justifyContent: 'space-between' }}>
+            {/* <div style={{ display: 'flex', justifyContent: 'space-between' }}>
               <div style={{ width: '65%', padding: '10px 0' }}>
                 <TextField
-                  error={hasError('homeAddress')}
+                  error={hasError('HomeAddress')}
                   fullWidth
                   label="Home address"
-                  name="homeAddress"
+                  name="HomeAddress"
                   autoComplete="off"
-                  value={formState.values.homeAddress || ''}
+                  value={
+                    consumerProfile && consumerProfile.HomeAddress
+                      ? consumerProfile.HomeAddress
+                      : '.'
+                  }
                   variant="outlined"
                   onChange={handleChange}
                   inputProps={{ readOnly: true }}
@@ -461,54 +475,70 @@ export const General: React.FC = () => {
               </div>
               <div style={{ width: '20%', padding: '10px 0' }}>
                 <TextField
-                  error={hasError('postCode')}
+                  error={hasError('PostalPostCode')}
                   fullWidth
                   label="Post Code"
-                  name="postCode"
+                  name="PostalPostCode"
                   autoComplete="off"
-                  value={formState.values.postCode || ''}
+                  value={
+                    consumerProfile && consumerProfile.PostalPostCode
+                      ? consumerProfile.PostalPostCode
+                      : '.'
+                  }
                   variant="outlined"
                   onChange={handleChange}
                   inputProps={{ readOnly: true }}
                 />
               </div>
-            </div>
+            </div> */}
             <div style={{ display: 'flex', justifyContent: 'space-between' }}>
               <div style={{ width: '65%', padding: '10px 0' }}>
                 <TextField
-                  error={hasError('postalAddress')}
+                  error={hasError('PostalAddress')}
                   fullWidth
                   label="Postal address"
-                  name="postalAddress"
+                  name="PostalAddress"
                   autoComplete="off"
-                  value={formState.values.postalAddress || ''}
+                  value={
+                    consumerProfile && consumerProfile.PostalAddress
+                      ? consumerProfile.PostalAddress
+                      : '.'
+                  }
                   variant="outlined"
                   onChange={handleChange}
                   inputProps={{ readOnly: true }}
                 />
               </div>
-              <div style={{ width: '20%', padding: '10px 0' }}>
+              {/* <div style={{ width: '20%', padding: '10px 0' }}>
                 <TextField
-                  error={hasError('postalCode')}
+                  error={hasError('PostalPostCode')}
                   fullWidth
                   label="Post Code"
-                  name="postalCode"
+                  name="PostalPostCode"
                   autoComplete="off"
-                  value={formState.values.postalCode || ''}
+                  value={
+                    consumerProfile && consumerProfile.PostalPostCode
+                      ? consumerProfile.PostalPostCode
+                      : '.'
+                  }
                   variant="outlined"
                   onChange={handleChange}
                   inputProps={{ readOnly: true }}
                 />
-              </div>
+              </div> */}
             </div>
             <div className={classes.textFieldContainer}>
               <TextField
-                error={hasError('phone')}
+                error={hasError('MobilePhone')}
                 fullWidth
                 label="Phone"
-                name="phone"
+                name="MobilePhone"
                 autoComplete="off"
-                value={formState.values.phone || ''}
+                value={
+                  consumerProfile && consumerProfile.MobilePhone
+                    ? consumerProfile.MobilePhone
+                    : '.'
+                }
                 variant="outlined"
                 onChange={handleChange}
                 inputProps={{ readOnly: true }}
@@ -516,12 +546,16 @@ export const General: React.FC = () => {
             </div>
             <div style={{ width: '50%', padding: '10px 0' }}>
               <TextField
-                error={hasError('email')}
+                error={hasError('PrimaryEmail')}
                 fullWidth
                 label="Email"
-                name="email"
+                name="PrimaryEmail"
                 autoComplete="off"
-                value={formState.values.email || ''}
+                value={
+                  consumerProfile && consumerProfile.PrimaryEmail
+                    ? consumerProfile.PrimaryEmail
+                    : '.'
+                }
                 variant="outlined"
                 onChange={handleChange}
                 inputProps={{ readOnly: true }}
@@ -566,12 +600,16 @@ export const General: React.FC = () => {
             <span className={classes.formGroupTitle}>Emergency Contact</span>
             <div className={classes.textFieldContainer}>
               <TextField
-                error={hasError('contactName')}
+                error={hasError('ContactName')}
                 fullWidth
                 label="Contact name"
-                name="contactName"
+                name="ContactName"
                 autoComplete="off"
-                value={formState.values.contactName || ''}
+                value={
+                  consumerProfile && consumerProfile.ContactName
+                    ? consumerProfile.ContactName
+                    : '.'
+                }
                 variant="outlined"
                 onChange={handleChange}
                 inputProps={{ readOnly: true }}
@@ -579,14 +617,18 @@ export const General: React.FC = () => {
             </div>
             <div className={classes.textFieldContainer}>
               <TextField
-                error={hasError('relationship')}
+                error={hasError('RelationshipToConsumer')}
                 fullWidth
                 label="Relationship to consumer"
-                name="relationship"
+                name="RelationshipToConsumer"
                 select
                 autoComplete="off"
                 SelectProps={{ native: true }}
-                value={formState.values.relationship || ''}
+                value={
+                  consumerProfile && consumerProfile.RelationshipToConsumer
+                    ? consumerProfile.RelationshipToConsumer
+                    : ''
+                }
                 inputProps={{ readOnly: true }}
                 variant="outlined">
                 {[
@@ -614,12 +656,16 @@ export const General: React.FC = () => {
               }}>
               <div className={classes.textFieldContainer}>
                 <TextField
-                  error={hasError('contactPhone')}
+                  error={hasError('EmergencyContactPhone')}
                   fullWidth
                   label="Phone"
-                  name="contactPhone"
+                  name="EmergencyContactPhone"
                   autoComplete="off"
-                  value={formState.values.contactPhone || ''}
+                  value={
+                    consumerProfile && consumerProfile.EmergencyContactPhone
+                      ? consumerProfile.EmergencyContactPhone
+                      : '.'
+                  }
                   variant="outlined"
                   onChange={handleChange}
                   inputProps={{ readOnly: true }}
@@ -627,12 +673,16 @@ export const General: React.FC = () => {
               </div>
               <div style={{ width: '50%', padding: '10px 0' }}>
                 <TextField
-                  error={hasError('contactAddress')}
+                  error={hasError('EmergencyAddress')}
                   fullWidth
                   label="Address"
-                  name="contactAddress"
+                  name="EmergencyAddress"
                   autoComplete="off"
-                  value={formState.values.contactAddress || ''}
+                  value={
+                    consumerProfile && consumerProfile.EmergencyAddress
+                      ? consumerProfile.EmergencyAddress
+                      : '.'
+                  }
                   variant="outlined"
                   onChange={handleChange}
                   inputProps={{ readOnly: true }}
@@ -641,12 +691,16 @@ export const General: React.FC = () => {
             </div>
             <div style={{ width: '50%', padding: '10px 0' }}>
               <TextField
-                error={hasError('whenToContact')}
+                error={hasError('EmergencyWhenToContact')}
                 fullWidth
                 label="When to contact"
-                name="whenToContact"
+                name="EmergencyWhenToContact"
                 autoComplete="off"
-                value={formState.values.whenToContact || ''}
+                value={
+                  consumerProfile && consumerProfile.EmergencyWhenToContact
+                    ? consumerProfile.EmergencyWhenToContact
+                    : '.'
+                }
                 variant="outlined"
                 onChange={handleChange}
                 inputProps={{ readOnly: true }}

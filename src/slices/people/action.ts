@@ -55,6 +55,7 @@ export const selectPerson = (person: Person): AppThunk => async dispatch => {
     // dispatch(failed(err.toString()));
   }
 };
+
 export const addConsumer = (profile: Profile): AppThunk => async dispatch => {
   try {
     dispatch(startLoading());
@@ -80,8 +81,14 @@ export const callRecoveryPlanListApi = () => {
 const callConsumerCreateApi = (profile: Profile) => {
   axios.defaults.headers.common['Authorization'] =
     'Bearer ' + authentication.getAccessToken();
-  console.log(profile);
-  return axios.post('/Consumer/Create', profile).then(resp => {
-    console.log(resp);
+  return axios.post('/Consumer/Create', profile);
+};
+
+export const callConsumerReadApi = (recoveryPlanId: string) => {
+  axios.defaults.headers.common['Authorization'] =
+    'Bearer ' + authentication.getAccessToken();
+  return axios.get(`/Consumer/Read/${recoveryPlanId}`).then(response => {
+    const profile: Profile = JSON.parse(JSON.stringify(response.data));
+    return profile;
   });
 };
