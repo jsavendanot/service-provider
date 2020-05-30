@@ -38,6 +38,34 @@ export interface Profile {
   LastLoginDate?: string;
 }
 
+export interface AddConsumer {
+  FirstName: string;
+  Surname: string;
+  PreferredName: string;
+  Gender: string;
+  DateOfBirth: string;
+  ContactType: string;
+  HomeAddress: string;
+  HomePostCode: string;
+  PostalAddress: string;
+  PostalPostCode: string;
+  HomePhone: string;
+  MobilePhone: string;
+  BusinessPhone: string;
+  PrimaryEmail: string;
+  PreferredContactMethod: string;
+  ContactName: string;
+  RelationshipToConsumer: string;
+  EmergencyContactPhone: string;
+  EmergencyAddress: string;
+  EmergencyWhenToContact: string;
+  CountryOfBirth: string;
+  PreferredLanguage: string;
+  GeneralPractionerId: string;
+  MedicalRecordNumber: string;
+  AdditionalInformation: string;
+}
+
 export interface ProfileRootType {
   profile: Profile;
   loading: boolean;

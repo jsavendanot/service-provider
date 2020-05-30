@@ -9,7 +9,7 @@ import { useDispatch } from 'react-redux';
 import { KeyboardArrowLeft, ArrowForward, ArrowBack } from '@material-ui/icons';
 
 import { Steps, Personal, Emergency } from './components';
-import { Profile } from 'types/profile';
+import { AddConsumer as AddConsumerType } from 'types/profile';
 import { FormStateType1, schema1 } from './components/Personal';
 import { FormStateType2, schema2 } from './components/Emergency';
 import { addConsumer } from 'slices/people/action';
@@ -101,17 +101,12 @@ export const AddConsumer: React.FC = () => {
   const { history } = useRouter();
   const dispatch = useDispatch();
 
-  const [profile, setProfile] = useState<Profile>({
-    ContactId: sessionStorage.getItem('Provider_ContactId')!,
-    UserId: sessionStorage.getItem('Provider_UserId')!,
-    RecoveryPlanId: sessionStorage.getItem('Provider_RecoveryPlanId')!,
-    SafetyPlanId: sessionStorage.getItem('Provider_SafetyPlanId')!,
+  const [profile, setProfile] = useState<AddConsumerType>({
     FirstName: '',
     Surname: '',
     PreferredName: '',
     Gender: '',
     DateOfBirth: '',
-    UserEmail: '',
     ContactType: '',
     HomeAddress: '',
     HomePostCode: '',
@@ -131,14 +126,7 @@ export const AddConsumer: React.FC = () => {
     PreferredLanguage: '',
     GeneralPractionerId: '',
     MedicalRecordNumber: '',
-    AdditionalInformation: '',
-    Image: '',
-    ImageType: '',
-    ImageUrl: '',
-    FullName: '',
-    AutoLogin: false,
-    CompletePrivate: false,
-    LastLoginDate: ''
+    AdditionalInformation: ''
   });
 
   // Personal Form
@@ -388,8 +376,7 @@ export const AddConsumer: React.FC = () => {
   };
 
   const saveConsumer = () => {
-    dispatch(addConsumer(profile));
-    history.push('/home');
+    dispatch(addConsumer(history, profile));
   };
 
   return (

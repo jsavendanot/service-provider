@@ -4,7 +4,7 @@ import authentication from '@kdpw/msal-b2c-react';
 import { fetch, startLoading, stopLoading } from './peopleSlice';
 import { Person } from 'types/people';
 import { callRecoveryPlanGetRecoveryUpdateApi } from 'slices/dashboard/action';
-import { Profile } from 'types/profile';
+import { Profile, AddConsumer } from 'types/profile';
 
 //** ASYNC FUNCS */
 export const fetchPeople = (): AppThunk => async dispatch => {
@@ -56,11 +56,14 @@ export const selectPerson = (person: Person): AppThunk => async dispatch => {
   }
 };
 
-export const addConsumer = (profile: Profile): AppThunk => async dispatch => {
+export const addConsumer = (
+  history: any,
+  profile: AddConsumer
+): AppThunk => async dispatch => {
   try {
     dispatch(startLoading());
     await callConsumerCreateApi(profile);
-
+    history.push('/home');
     dispatch(stopLoading());
   } catch (err) {
     dispatch(stopLoading());
@@ -78,7 +81,7 @@ export const callRecoveryPlanListApi = () => {
   });
 };
 
-const callConsumerCreateApi = (profile: Profile) => {
+const callConsumerCreateApi = (profile: AddConsumer) => {
   axios.defaults.headers.common['Authorization'] =
     'Bearer ' + authentication.getAccessToken();
   return axios.post('/Consumer/Create', profile);

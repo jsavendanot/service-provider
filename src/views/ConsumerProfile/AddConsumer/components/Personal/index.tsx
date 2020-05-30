@@ -104,9 +104,8 @@ export const schema1 = {
     }
   },
   DateOfBirth: {
-    presence: { allowEmpty: false, message: 'is required' },
-    length: {
-      maximum: 80
+    format: {
+      pattern: `^([0-2]?[1-9]|[1-3][01])/(0?[1-9]|1[0-2])/((19|20)[0-9][0-9]$)`
     }
   },
   Gender: {
