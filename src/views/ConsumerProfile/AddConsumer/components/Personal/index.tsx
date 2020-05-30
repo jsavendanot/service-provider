@@ -142,7 +142,8 @@ export const schema1 = {
     presence: { allowEmpty: true, message: 'is required' },
     numericality: true,
     length: {
-      maximum: 10
+      maximum: 10,
+      minimum: 5
     }
   },
   PrimaryEmail: {

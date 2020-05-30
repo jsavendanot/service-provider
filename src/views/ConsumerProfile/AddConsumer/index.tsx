@@ -5,7 +5,7 @@ import validate from 'validate.js';
 
 import { Grid } from '@material-ui/core';
 import { makeStyles } from '@material-ui/styles';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { KeyboardArrowLeft, ArrowForward, ArrowBack } from '@material-ui/icons';
 
 import { Steps, Personal, Emergency } from './components';
@@ -13,6 +13,8 @@ import { AddConsumer as AddConsumerType } from 'types/profile';
 import { FormStateType1, schema1 } from './components/Personal';
 import { FormStateType2, schema2 } from './components/Emergency';
 import { addConsumer } from 'slices/people/action';
+import { RootState } from 'reducer';
+import { Loading } from 'common/components';
 
 const useStyles = makeStyles(() => ({
   root: {
@@ -100,6 +102,10 @@ export const AddConsumer: React.FC = () => {
   const classes = useStyles();
   const { history } = useRouter();
   const dispatch = useDispatch();
+
+  const peopleLoading: boolean = useSelector(
+    (state: RootState) => state.people.loading
+  );
 
   const [profile, setProfile] = useState<AddConsumerType>({
     FirstName: '',
@@ -376,75 +382,97 @@ export const AddConsumer: React.FC = () => {
   };
 
   const saveConsumer = () => {
-    dispatch(addConsumer(history, profile));
+    setFormState2(formState => ({
+      ...formState,
+      values: {
+        ...formState.values,
+        ContactName: profile.ContactName,
+        RelationshipToConsumer: profile.RelationshipToConsumer,
+        EmergencyContactPhone: profile.EmergencyContactPhone,
+        EmergencyAddress: profile.EmergencyAddress,
+        EmergencyWhenToContact: profile.EmergencyWhenToContact
+      },
+      touched: {
+        ...formState.touched,
+        ContactName: true,
+        RelationshipToConsumer: true,
+        EmergencyContactPhone: true,
+        EmergencyAddress: true,
+        EmergencyWhenToContact: true
+      }
+    }));
+
+    formState2.isValid && dispatch(addConsumer(history, profile));
   };
 
   return (
-    <div className={classes.root}>
-      <Grid container justify="center">
-        <Grid item xs={3}>
-          <div
-            style={{
-              height: '100%',
-              display: 'flex',
-              flexDirection: 'column',
-              paddingTop: '30px',
-              paddingLeft: '30px'
-            }}>
+    <>
+      {peopleLoading && <Loading />}
+      <div className={classes.root}>
+        <Grid container justify="center">
+          <Grid item xs={3}>
             <div
               style={{
+                height: '100%',
                 display: 'flex',
-                alignItems: 'center',
-                padding: '20px 0'
+                flexDirection: 'column',
+                paddingTop: '30px',
+                paddingLeft: '30px'
               }}>
-              <KeyboardArrowLeft
-                style={{ fill: '#692B40', cursor: 'pointer' }}
-                onClick={() => history.push('/home')}
-              />
-              <span
-                className={classes.cancelText}
-                onClick={() => history.push('/home')}>
-                Cancel
-              </span>
-            </div>
-            <Steps currentStep={step} next={next} />
-            {step > 0 && (
               <div
                 style={{
-                  position: 'fixed',
-                  bottom: '0',
-                  left: '270px',
-                  paddingRight: '40px'
+                  display: 'flex',
+                  alignItems: 'center',
+                  padding: '20px 0'
                 }}>
-                <button className={classes.navButton} onClick={back}>
-                  <ArrowBack
-                    fontSize="large"
-                    style={{ fill: '#FFFFFF', padding: '0' }}
-                  />
-                </button>
+                <KeyboardArrowLeft
+                  style={{ fill: '#692B40', cursor: 'pointer' }}
+                  onClick={() => history.push('/home')}
+                />
+                <span
+                  className={classes.cancelText}
+                  onClick={() => history.push('/home')}>
+                  Cancel
+                </span>
               </div>
-            )}
-          </div>
-        </Grid>
-        <Grid item xs={6}>
-          <div className={classes.formContent}>
-            {step === 0 && (
-              <Personal
-                formState={formState1}
-                handleChange={handleChange}
-                hasError={hasError1}
-                contactMethods={contactMethods}
-                handleCheckBoxChange={handleContactMethodsCheckBoxChange}
-              />
-            )}
-            {step === 1 && (
-              <Emergency
-                formState={formState2}
-                handleChange={handleChange}
-                hasError={hasError2}
-              />
-            )}
-            {/* {step === 2 && (
+              <Steps currentStep={step} next={next} />
+              {step > 0 && (
+                <div
+                  style={{
+                    position: 'fixed',
+                    bottom: '0',
+                    left: '270px',
+                    paddingRight: '40px'
+                  }}>
+                  <button className={classes.navButton} onClick={back}>
+                    <ArrowBack
+                      fontSize="large"
+                      style={{ fill: '#FFFFFF', padding: '0' }}
+                    />
+                  </button>
+                </div>
+              )}
+            </div>
+          </Grid>
+          <Grid item xs={6}>
+            <div className={classes.formContent}>
+              {step === 0 && (
+                <Personal
+                  formState={formState1}
+                  handleChange={handleChange}
+                  hasError={hasError1}
+                  contactMethods={contactMethods}
+                  handleCheckBoxChange={handleContactMethodsCheckBoxChange}
+                />
+              )}
+              {step === 1 && (
+                <Emergency
+                  formState={formState2}
+                  handleChange={handleChange}
+                  hasError={hasError2}
+                />
+              )}
+              {/* {step === 2 && (
               <Background
                 formState={formState3}
                 handleChange={handleChange}
@@ -453,38 +481,41 @@ export const AddConsumer: React.FC = () => {
             )}
             {step === 3 && <Practitioner />}
             {step === 4 && <HealthCare />} */}
-          </div>
-        </Grid>
-        <Grid item xs={3}>
-          {step > 0 && (
-            <div
-              className={clsx(
-                classes.saveButtonContainer,
-                step === 1 && classes.bottomZero
-              )}>
-              <button className={classes.navSaveButton} onClick={saveConsumer}>
-                <span className={classes.buttonText}>Save consumer</span>
-              </button>
             </div>
-          )}
-          {step < 1 && (
-            <div
-              style={{
-                position: 'fixed',
-                bottom: '0',
-                right: '270px'
-              }}>
-              <button className={classes.navButton} onClick={next}>
-                <ArrowForward
-                  fontSize="large"
-                  style={{ fill: '#FFFFFF', padding: '0' }}
-                />
-              </button>
-            </div>
-          )}
+          </Grid>
+          <Grid item xs={3}>
+            {step > 0 && (
+              <div
+                className={clsx(
+                  classes.saveButtonContainer,
+                  step === 1 && classes.bottomZero
+                )}>
+                <button
+                  className={classes.navSaveButton}
+                  onClick={saveConsumer}>
+                  <span className={classes.buttonText}>Save consumer</span>
+                </button>
+              </div>
+            )}
+            {step < 1 && (
+              <div
+                style={{
+                  position: 'fixed',
+                  bottom: '0',
+                  right: '270px'
+                }}>
+                <button className={classes.navButton} onClick={next}>
+                  <ArrowForward
+                    fontSize="large"
+                    style={{ fill: '#FFFFFF', padding: '0' }}
+                  />
+                </button>
+              </div>
+            )}
+          </Grid>
         </Grid>
-      </Grid>
-    </div>
+      </div>
+    </>
   );
 };
 

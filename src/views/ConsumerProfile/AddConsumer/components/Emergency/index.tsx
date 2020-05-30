@@ -55,11 +55,10 @@ export const schema2 = {
   },
   EmergencyContactPhone: {
     presence: { allowEmpty: false, message: 'is required' },
-    numericality: {
-      onlyInteger: true
-    },
+    numericality: true,
     length: {
-      maximum: 10
+      maximum: 10,
+      minimum: 5
     }
   },
   EmergencyAddress: {
