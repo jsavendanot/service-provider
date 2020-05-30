@@ -139,7 +139,8 @@ export const schema1 = {
     }
   },
   MobilePhone: {
-    presence: false,
+    presence: { allowEmpty: true, message: 'is required' },
+    numericality: true,
     length: {
       maximum: 10
     }
@@ -382,7 +383,7 @@ export const Personal: React.FC<Props> = ({
           <TextField
             error={hasError('MobilePhone')}
             fullWidth
-            label="Mobile Phone"
+            label="Mobile Phone*"
             name="MobilePhone"
             autoComplete="off"
             value={formState.values.MobilePhone || ''}
