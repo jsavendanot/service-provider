@@ -215,13 +215,12 @@ const InvitePeople: React.FC<Props> = ({ close }) => {
           </IconButton>
         </Grid>
         <Grid item xs={12}>
-          <span className={classes.title}>Invite people</span>
+          <span className={classes.title}>Invite client</span>
         </Grid>
         <Grid item xs={12}>
           <span className={classes.desc}>
-            You can invite people to your network by sending invitation to their
-            email, or simply copy our site link and send it in your own way.
-            Their contact details will be filled after they sign up.
+            Invite clients who's under your care by sending invitation to their
+            email.
           </span>
         </Grid>
         <Grid item xs={12} container alignItems="center">

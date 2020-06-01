@@ -1,12 +1,13 @@
-import React from 'react';
+import React, { useState } from 'react';
 
 import { makeStyles } from '@material-ui/styles';
 import { Add } from '@material-ui/icons';
-import useRouter from 'common/utils/useRouter';
 
-import { Button } from 'common/components';
+import { Button, InvitePeople, AddPeople, EnterCode } from 'common/components';
+import { OptionsPopup } from './components';
+import { Dialog, DialogContent, Theme } from '@material-ui/core';
 
-const useStyles = makeStyles(() => ({
+const useStyles = makeStyles((theme: Theme) => ({
   root: {
     display: 'flex',
     alignItems: 'center',
@@ -46,12 +47,115 @@ const useStyles = makeStyles(() => ({
     letterSpacing: '1.25px',
     color: '#FFFFFF',
     textTransform: 'uppercase'
+  },
+  invitePeople: {
+    [theme.breakpoints.up('xs')]: {
+      bottom: '0',
+      right: '0',
+      width: '100%',
+      height: '100%',
+      position: 'fixed',
+      background: '#FFFFFF',
+      padding: '0'
+    },
+    [theme.breakpoints.up('sm')]: {
+      bottom: '0',
+      right: '0',
+      width: '100%',
+      height: '100%',
+      position: 'fixed',
+      background: '#FFFFFF',
+      padding: '0'
+    },
+    [theme.breakpoints.up('md')]: {
+      width: '450px',
+      height: '400px',
+      position: 'relative',
+      background: '#FFFFFF',
+      padding: '0'
+    }
+  },
+  addPeople: {
+    [theme.breakpoints.up('xs')]: {
+      bottom: '0',
+      right: '0',
+      width: '100%',
+      position: 'fixed',
+      background: '#FFFFFF',
+      borderRadius: '12px 12px 0px 0px'
+    },
+    [theme.breakpoints.up('sm')]: {
+      padding: '20px 30px',
+      width: '400px',
+      height: '290px',
+      position: 'relative',
+      background: '#FFFFFF',
+      borderRadius: '12px 12px 0px 0px'
+    },
+    [theme.breakpoints.up('md')]: {
+      padding: '20px 30px',
+      width: '400px',
+      height: '290px',
+      position: 'relative',
+      background: '#FFFFFF',
+      borderRadius: '12px 12px 0px 0px'
+    }
+  },
+  enterCode: {
+    [theme.breakpoints.up('xs')]: {
+      bottom: '0',
+      right: '0',
+      width: '100%',
+      position: 'fixed',
+      background: '#FFFFFF',
+      borderRadius: '12px 12px 0px 0px'
+    },
+    [theme.breakpoints.up('sm')]: {
+      padding: '20px',
+      width: '400px',
+      height: '240px',
+      position: 'relative',
+      background: '#FFFFFF',
+      borderRadius: '12px 12px 0px 0px'
+    }
   }
 }));
 
 export const Toolbar: React.FC = () => {
   const classes = useStyles();
-  const { history } = useRouter();
+
+  const [option, setOption] = useState(false);
+  const [invitation, setInvitation] = useState(false);
+  const [addPeople, setAddPeople] = useState(false);
+  const [enterCode, setEnterCode] = useState(false);
+
+  const invitePeopleDialog = (
+    <Dialog open={invitation} keepMounted onClose={() => setInvitation(false)}>
+      <DialogContent className={classes.invitePeople}>
+        <InvitePeople close={() => setInvitation(false)} />
+      </DialogContent>
+    </Dialog>
+  );
+
+  const addPeopleDialog = (
+    <Dialog open={addPeople} keepMounted onClose={() => setAddPeople(false)}>
+      <DialogContent className={classes.addPeople}>
+        <AddPeople
+          close={() => setAddPeople(false)}
+          openEnterCode={() => setEnterCode(true)}
+          openInvitePeople={() => setInvitation(true)}
+        />
+      </DialogContent>
+    </Dialog>
+  );
+
+  const enterCodeDialog = (
+    <Dialog open={enterCode} keepMounted onClose={() => setEnterCode(false)}>
+      <DialogContent className={classes.enterCode}>
+        <EnterCode close={() => setEnterCode(false)} />
+      </DialogContent>
+    </Dialog>
+  );
 
   return (
     <>
@@ -82,7 +186,7 @@ export const Toolbar: React.FC = () => {
           </div> */}
         </div>
         <div style={{ width: '186px' }}>
-          <Button type="primary" click={() => history.push('/consumer/add')}>
+          <Button type="primary" click={() => setOption(true)}>
             <div
               style={{
                 display: 'flex',
@@ -95,6 +199,16 @@ export const Toolbar: React.FC = () => {
           </Button>
         </div>
       </div>
+      {option && (
+        <OptionsPopup
+          open={option}
+          close={() => setOption(false)}
+          openInvitation={() => setInvitation(true)}
+        />
+      )}
+      {invitation && invitePeopleDialog}
+      {addPeople && addPeopleDialog}
+      {enterCode && enterCodeDialog}
     </>
   );
 };
