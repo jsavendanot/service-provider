@@ -20,4 +20,5 @@ export interface Person {
 export interface PeopleRootType {
   people: Person[];
   loading: boolean;
+  errorMsg: string;
 }

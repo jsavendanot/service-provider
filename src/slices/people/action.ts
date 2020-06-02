@@ -5,6 +5,8 @@ import { fetch, startLoading, stopLoading } from './peopleSlice';
 import { Person } from 'types/people';
 import { callRecoveryPlanGetRecoveryUpdateApi } from 'slices/dashboard/action';
 import { Profile, AddConsumer } from 'types/profile';
+import { Invitation } from 'types/network';
+import { sendInvitation } from 'slices/invitation/action';
 
 //** ASYNC FUNCS */
 export const fetchPeople = (): AppThunk => async dispatch => {
@@ -58,12 +60,17 @@ export const selectPerson = (person: Person): AppThunk => async dispatch => {
 
 export const addConsumer = (
   history: any,
-  profile: AddConsumer
+  profile: AddConsumer,
+  invitation: Invitation
 ): AppThunk => async dispatch => {
   try {
     dispatch(startLoading());
-    await callConsumerCreateApi(profile);
-    history.push('/home');
+
+    await callConsumerCreateApi(profile).then(response => {
+      dispatch(sendInvitation(invitation));
+      history.push('/home');
+    });
+
     dispatch(stopLoading());
   } catch (err) {
     dispatch(stopLoading());

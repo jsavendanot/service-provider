@@ -226,17 +226,20 @@ const schema = {
   },
   zipCode: {
     presence: { allowEmpty: false, message: 'is required' },
+    numericality: true,
     length: {
       maximum: 5
     }
   },
   workPhone: {
     presence: { allowEmpty: false, message: 'is required' },
+    numericality: true,
     length: {
       maximum: 15
     }
   },
   mobilePhone: {
+    numericality: true,
     presence: false,
     length: {
       maximum: 15

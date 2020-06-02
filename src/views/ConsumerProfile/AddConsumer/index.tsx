@@ -402,7 +402,32 @@ export const AddConsumer: React.FC = () => {
       }
     }));
 
-    formState2.isValid && dispatch(addConsumer(history, profile));
+    const invitation = {
+      InvitationId: '',
+      Name: '',
+      EmailAddress: profile.PrimaryEmail,
+      Subject: 'Invitation',
+      Message: '',
+      UserId: '',
+      AcceptedOn: '',
+      AccountType: 'Consumer',
+      AllowRecPlanAccess: true,
+      GoalsToShare: '',
+      ShareAllGoals: true,
+      JournalsToShare: '',
+      ShareAllJournals: true,
+      ShareMyStory: true,
+      ShareSafetyPlan: true,
+      ShareNetworkContacts: true,
+      Relationship: '',
+      SharingPurpose: '',
+      InvitationCode: '',
+      CreatedOn: ''
+    };
+
+    if (formState2.isValid) {
+      dispatch(addConsumer(history, profile, invitation));
+    }
   };
 
   return (

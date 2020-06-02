@@ -3,7 +3,8 @@ import { PeopleRootType, Person } from 'types/people';
 
 const initialState: PeopleRootType = {
   people: [],
-  loading: false
+  loading: false,
+  errorMsg: ''
 };
 
 const peopleSlice = createSlice({
@@ -19,6 +20,10 @@ const peopleSlice = createSlice({
       const { person } = action.payload;
       state.people.push(person);
     },
+    setErrorMsg(state, action: PayloadAction<{ message: string }>) {
+      const { message } = action.payload;
+      state.errorMsg = message;
+    },
     startLoading(state) {
       state.loading = true;
     },
@@ -32,6 +37,7 @@ export const {
   fetch,
   addPerson,
   startLoading,
-  stopLoading
+  stopLoading,
+  setErrorMsg
 } = peopleSlice.actions;
 export default peopleSlice.reducer;
