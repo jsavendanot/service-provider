@@ -2,11 +2,10 @@ import React from 'react';
 import clsx from 'clsx';
 
 import { makeStyles } from '@material-ui/styles';
-import { Add, RemoveCircleOutline, AddCircleOutline } from '@material-ui/icons';
+import { Add } from '@material-ui/icons';
 
 import { Button } from 'common/components';
 import { FocusArea } from 'types/other';
-import { IconButton } from '@material-ui/core';
 
 const useStyles = makeStyles(() => ({
   root: {
@@ -74,27 +73,27 @@ export const AreaCard: React.FC<Props> = ({
 }) => {
   const classes = useStyles();
 
-  const removeIcon = (
-    <IconButton>
-      <RemoveCircleOutline
-        fontSize="large"
-        style={{
-          fill: '#C57D7D'
-        }}
-      />
-    </IconButton>
-  );
+  // const removeIcon = (
+  //   <IconButton>
+  //     <RemoveCircleOutline
+  //       fontSize="large"
+  //       style={{
+  //         fill: '#C57D7D'
+  //       }}
+  //     />
+  //   </IconButton>
+  // );
 
-  const addIcon = (
-    <IconButton>
-      <AddCircleOutline
-        fontSize="large"
-        style={{
-          fill: '#C57D7D'
-        }}
-      />
-    </IconButton>
-  );
+  // const addIcon = (
+  //   <IconButton>
+  //     <AddCircleOutline
+  //       fontSize="large"
+  //       style={{
+  //         fill: '#C57D7D'
+  //       }}
+  //     />
+  //   </IconButton>
+  // );
 
   return (
     <div className={classes.cardContainer}>
@@ -125,14 +124,14 @@ export const AreaCard: React.FC<Props> = ({
           )}
         </div>
       </div>
-      {!area.isSelected ? (
+      {/* {!area.isSelected ? (
         <div onClick={() => action(area.id)}>
           {actionType === 'add' && addIcon}
           {actionType === 'remove' && removeIcon}
         </div>
       ) : (
         <div style={{ width: '45px', marginLeft: '13px' }} />
-      )}
+      )} */}
     </div>
   );
 };

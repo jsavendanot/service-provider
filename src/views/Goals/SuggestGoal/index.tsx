@@ -161,6 +161,7 @@ export const SuggestGoal: React.FC<Props> = ({ history }) => {
                       return (
                         <AreaCard
                           area={area}
+                          clickable
                           selectedArea={selectedArea}
                           click={() => setSelectedArea(area.id)}
                           actionType="add"
