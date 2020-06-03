@@ -1,18 +1,18 @@
-import React, { useState, MouseEvent, useEffect } from 'react';
+import React, { useEffect } from 'react';
 import { makeStyles } from '@material-ui/styles';
-import { Grid, Avatar, Hidden, Menu, MenuItem, Theme } from '@material-ui/core';
+import { Grid, Avatar, Theme } from '@material-ui/core';
 import { useDispatch } from 'react-redux';
-import { ArrowDropDown } from '@material-ui/icons';
 import queryString from 'query-string';
 
 import { Button } from 'common/components';
 import { RouteComponentProps } from 'react-router-dom';
 import { acceptInvitation } from 'slices/invitation/action';
+import clsx from 'clsx';
 
 const useStyles = makeStyles((theme: Theme) => ({
   root: {
     height: '100vh',
-    backgroundColor: '#DEE9FE'
+    backgroundColor: '#FFEAEA'
   },
   flexItem: {
     display: 'flex',
@@ -91,38 +91,38 @@ const useStyles = makeStyles((theme: Theme) => ({
     justifyContent: 'space-between',
     padding: '25px 15px 15px'
   },
-  menuBox: {
+  headerMenu: {
     display: 'flex',
-    alignItems: 'center'
+    alignItems: 'center',
+    justifyContent: 'space-between',
+    padding: '20px',
+    marginRight: '20px'
   },
   headerMenuText: {
     fontFamily: 'Roboto',
-    fontWeight: 'bold',
     fontStyle: 'normal',
+    fontWeight: 700,
     fontSize: '18px',
     lineHeight: '127.69%',
-    color: '#692B40'
+    color: '#C57D7D'
   },
-  headerMenuItemText: {
-    fontFamily: 'Scada',
-    fontWeight: 'bold',
-    fontStyle: 'normal',
-    fontSize: '18px',
-    lineHeight: '127.69%',
-    color: '#B7C38C'
-  },
-  headerLogo: {
-    [theme.breakpoints.up('sm')]: {
-      marginLeft: '0px'
+  headerButton: {
+    width: '109px',
+    padding: '5px',
+    border: '1.5px solid #C57D7D',
+    boxSizing: 'border-box',
+    borderRadius: '18px',
+    color: '#C57D7D',
+    background: '#FFEAEA',
+    cursor: 'pointer',
+    '&:focus': {
+      outline: 'none'
     },
-    [theme.breakpoints.up('md')]: {
-      marginLeft: '10px'
+    '&:hover': {
+      backgroundColor: '#FFEAEA'
     },
-    [theme.breakpoints.up('lg')]: {
-      marginLeft: '20px'
-    },
-    [theme.breakpoints.up('xl')]: {
-      marginLeft: '20px'
+    '&:active': {
+      backgroundColor: '#FFEAEA'
     }
   }
 }));
@@ -142,27 +142,6 @@ const Invitation: React.FC<RouteComponentProps> = ({ history }) => {
     );
   }, [dispatch, invitationValues.id]);
 
-  /** Header menus */
-  const [anchorEl, setAnchorEl] = useState<Element | null>(null);
-
-  const handleClick = (event: MouseEvent) => {
-    setAnchorEl(event.currentTarget);
-  };
-
-  const handleMenuClose = () => {
-    setAnchorEl(null);
-  };
-
-  const [anchorEl2, setAnchorEl2] = useState<Element | null>(null);
-
-  const handleClick2 = (event: MouseEvent) => {
-    setAnchorEl2(event.currentTarget);
-  };
-
-  const handleMenuClose2 = () => {
-    setAnchorEl2(null);
-  };
-
   return (
     <>
       <Grid container className={classes.root} justify="center">
@@ -171,100 +150,33 @@ const Invitation: React.FC<RouteComponentProps> = ({ history }) => {
             <img
               src="/images/landing/logo.svg"
               alt=""
-              style={{ cursor: 'pointer' }}
+              style={{ cursor: 'pointer', marginLeft: '20px' }}
               onClick={() => history.push('/')}
             />
-            <Hidden smDown>
-              <div style={{ display: 'flex', alignItems: 'flex-end' }}>
-                <div style={{ marginRight: '50px' }}>
-                  <div className={classes.menuBox} onClick={handleClick}>
-                    <span className={classes.headerMenuText}>How It Works</span>
-                    <ArrowDropDown
-                      style={{ fill: '#692B40', marginLeft: '10px' }}
-                    />
-                  </div>
-                  <Menu
-                    id="simple-menu"
-                    anchorEl={anchorEl}
-                    keepMounted
-                    open={Boolean(anchorEl)}
-                    onClose={handleMenuClose}>
-                    <MenuItem onClick={handleMenuClose}>
-                      <span className={classes.headerMenuItemText}>
-                        Create A Recovery Plan
-                      </span>
-                    </MenuItem>
-                    <MenuItem onClick={handleMenuClose}>
-                      <span className={classes.headerMenuItemText}>
-                        Access Other&apos;s Recovery Plan
-                      </span>
-                    </MenuItem>
-                  </Menu>
-                </div>
-                <div style={{ marginRight: '50px' }}>
-                  <div className={classes.menuBox} onClick={handleClick2}>
-                    <span className={classes.headerMenuText}>Information</span>
-                    <ArrowDropDown
-                      style={{ fill: '#692B40', marginLeft: '10px' }}
-                    />
-                  </div>
-                  <Menu
-                    id="simple-menu"
-                    anchorEl={anchorEl2}
-                    keepMounted
-                    open={Boolean(anchorEl2)}
-                    onClose={handleMenuClose2}>
-                    <MenuItem onClick={handleMenuClose2}>
-                      <span className={classes.headerMenuItemText}>
-                        About Us
-                      </span>
-                    </MenuItem>
-                    <MenuItem onClick={handleMenuClose2}>
-                      <span className={classes.headerMenuItemText}>
-                        Privacy
-                      </span>
-                    </MenuItem>
-                    <MenuItem onClick={handleMenuClose}>
-                      <span className={classes.headerMenuItemText}>FAQ</span>
-                    </MenuItem>
-                  </Menu>
-                </div>
-                <span
-                  className={classes.headerMenuText}
-                  style={{ marginRight: '50px' }}
-                  onClick={() => history.push('/home')}>
-                  Sign In
-                </span>
-                <div
-                  style={{
-                    display: 'flex',
-                    justifyContent: 'center',
-                    width: '96px',
-                    backgroundColor: '#FFFFFF',
-                    borderRadius: '18px',
-                    marginRight: '20px',
-                    padding: '5px'
-                  }}>
-                  <span
-                    className={classes.headerMenuText}
-                    onClick={() => history.push('/home')}>
-                    Sign Up
-                  </span>
-                </div>
-              </div>
-            </Hidden>
+            <div className={classes.headerMenu}>
+              <span
+                className={classes.headerMenuText}
+                style={{ marginRight: '20px' }}>
+                Help
+              </span>
+              <button
+                className={clsx(classes.headerButton, classes.headerMenuText)}
+                onClick={() => history.push('/auth')}>
+                Sign in
+              </button>
+            </div>
           </div>
         </Grid>
         <Grid item xs={12} className={classes.flexItem}>
-          <span className={classes.title}>
+          <div className={classes.title}>
             <div style={{ textAlign: 'center' }}>
-              You are received an invitation from
+              You are invited to be involved
               <br />
-              {invitationValues.inviter} to be involved in
+              in {invitationValues.inviter} wellbeing plan as
               <br />
-              your recovery plan!
+              service provider!
             </div>
-          </span>
+          </div>
         </Grid>
         <Grid item xs={12} className={classes.flexItem}>
           <div className={classes.avatarContainer}>
@@ -285,7 +197,10 @@ const Invitation: React.FC<RouteComponentProps> = ({ history }) => {
         <Grid item xs={12} className={classes.flexItem}>
           <span className={classes.desc}>
             <div style={{ textAlign: 'center' }}>
-              By signing up or logging if you already have an account.
+              Join {` ${invitationValues.inviter}’s `} network now by creating
+              an account or logging in if you
+              <br />
+              already have an account on Jiemba.
             </div>
           </span>
         </Grid>
