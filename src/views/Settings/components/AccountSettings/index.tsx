@@ -1,11 +1,8 @@
 import React from 'react';
 import { makeStyles } from '@material-ui/styles';
-import { IconButton, Switch } from '@material-ui/core';
-import { useDispatch, useSelector } from 'react-redux';
+import { IconButton } from '@material-ui/core';
+import { useDispatch } from 'react-redux';
 import { endSession } from 'slices/auth/action';
-import { RootState } from 'reducer';
-import { updateAccountAutoLoginSetting } from 'slices/settings/action';
-import { AccountSetting } from 'types/settings';
 import { NavigateNext } from '@material-ui/icons';
 
 const useStyles = makeStyles(() => ({
@@ -58,43 +55,12 @@ export const AccountSettings: React.FC<Props> = ({ click }) => {
   const classes = useStyles();
   const dispatch = useDispatch();
 
-  const accountSettings: AccountSetting = useSelector(
-    (state: RootState) => state.settings.accountSettings
-  );
-
   const handleLogout = () => {
     dispatch(endSession());
   };
 
-  const updateAutoLoginSetting = () => {
-    const updatedSetting: AccountSetting = {
-      completePrivate: accountSettings.completePrivate,
-      autoLogin: !accountSettings.autoLogin
-    };
-    dispatch(updateAccountAutoLoginSetting(updatedSetting));
-  };
-
   return (
     <>
-      <div className={classes.card}>
-        <div style={{ flexGrow: 1 }}>
-          <div className={classes.subTitle}>Auto-log in</div>
-          <div className={classes.contentText}>
-            When starting Jiemba, log in without entering password.
-          </div>
-        </div>
-        <div className={classes.navigation}>
-          <Switch
-            checked={
-              accountSettings.autoLogin ? accountSettings.autoLogin : false
-            }
-            color="primary"
-            edge="start"
-            name="autoLogin"
-            onChange={updateAutoLoginSetting}
-          />
-        </div>
-      </div>
       <div className={classes.card}>
         <div style={{ flexGrow: 1 }}>
           <div className={classes.subTitle}>Reset my account</div>
