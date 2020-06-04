@@ -143,6 +143,11 @@ const useStyles = makeStyles((theme: Theme) => ({
       background: '#FFFFFF',
       borderRadius: '12px 12px 0px 0px'
     }
+  },
+  logo: {
+    cursor: 'pointer',
+    width: 161,
+    height: 64
   }
 }));
 
@@ -251,7 +256,7 @@ const TopBar: React.FC<Props> = ({ className }) => {
             <img
               src="/images/landing/logo.svg"
               alt=""
-              style={{ cursor: 'pointer' }}
+              className={classes.logo}
               onClick={handleClickOnLogo}
             />
           </Grid>
