@@ -172,7 +172,13 @@ export const suggestSafetyPlan = (
 export const fetchAllSuggestions = (): AppThunk => async dispatch => {
   try {
     const suggestions = await callSuggestionServiceProviderList();
-    dispatch(fetch({ suggestions }));
+    dispatch(
+      fetch({
+        suggestions: suggestions.filter(
+          item => !item.RejectedOn && !item.AcceptedOn
+        )
+      })
+    );
   } catch (err) {
     // dispatch(failed(err.toString()));
   }
