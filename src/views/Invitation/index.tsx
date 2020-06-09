@@ -124,6 +124,12 @@ const useStyles = makeStyles((theme: Theme) => ({
     '&:active': {
       backgroundColor: '#FFEAEA'
     }
+  },
+  logo: {
+    cursor: 'pointer',
+    marginLeft: '20px',
+    width: 131,
+    height: 64
   }
 }));
 
@@ -150,7 +156,7 @@ const Invitation: React.FC<RouteComponentProps> = ({ history }) => {
             <img
               src="/images/landing/logo.svg"
               alt=""
-              style={{ cursor: 'pointer', marginLeft: '20px' }}
+              className={classes.logo}
               onClick={() => history.push('/')}
             />
             <div className={classes.headerMenu}>
