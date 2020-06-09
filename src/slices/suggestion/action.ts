@@ -124,6 +124,7 @@ export const suggestSafetyPlan = (
     };
 
     await callSuggestionServiceProviderCreate(suggestion);
+    await dispatch(fetchAllSuggestions());
 
     dispatch(safetyStopLoading());
   } catch (err) {
@@ -137,6 +138,22 @@ export const fetchAllSuggestions = (): AppThunk => async dispatch => {
     const suggestions = await callSuggestionServiceProviderList();
     dispatch(fetch({ suggestions }));
   } catch (err) {
+    // dispatch(failed(err.toString()));
+  }
+};
+
+export const deleteSuggestionFromList = (
+  id: string
+): AppThunk => async dispatch => {
+  try {
+    dispatch(safetyStartLoading());
+
+    await callSuggestionServiceProviderDelete(id);
+    dispatch(fetchAllSuggestions());
+
+    dispatch(safetyStopLoading());
+  } catch (err) {
+    dispatch(safetyStopLoading());
     // dispatch(failed(err.toString()));
   }
 };
@@ -164,4 +181,10 @@ const callSuggestionServiceProviderList = () => {
       );
       return suggestions;
     });
+};
+
+const callSuggestionServiceProviderDelete = (id: string) => {
+  axios.defaults.headers.common['Authorization'] =
+    'Bearer ' + authentication.getAccessToken();
+  return axios.delete(`/Suggestion/ServiceProvider/Delete/${id}`);
 };

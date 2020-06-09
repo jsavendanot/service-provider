@@ -1,10 +1,5 @@
 import { Network } from './network';
 
-export interface Suggestion {
-  id: string;
-  name: string;
-}
-
 export interface Value {
   id: string;
   name: string;

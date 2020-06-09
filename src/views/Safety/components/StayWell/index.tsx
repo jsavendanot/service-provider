@@ -1,5 +1,6 @@
 import React, { useState, ChangeEvent } from 'react';
 import clsx from 'clsx';
+import { isEqual } from 'lodash';
 
 import { TextField, IconButton } from '@material-ui/core';
 import { makeStyles } from '@material-ui/styles';
@@ -14,9 +15,13 @@ import { useDispatch, useSelector } from 'react-redux';
 import { Button } from 'common/components';
 import { Value } from 'types/safety';
 import { SubmitConfirmation } from 'common/components';
-import uuid from 'uuid';
-import { suggestSafetyPlan } from 'slices/suggestion/action';
+import {
+  suggestSafetyPlan,
+  deleteSuggestionFromList
+} from 'slices/suggestion/action';
 import { RootState } from 'reducer';
+import { Suggestion } from 'types/suggestion';
+import { selectSuggestedItems } from 'selectors/safety';
 
 const useStyles = makeStyles(() => ({
   root: {
@@ -116,10 +121,14 @@ export const StayWell: React.FC<Props> = ({ id, collapse, change }) => {
   const dispatch = useDispatch();
 
   const values: Value[] = useSelector(
-    (state: RootState) => state.safety.staywell
+    (state: RootState) => state.safety.staywell,
+    isEqual
   );
 
-  const [suggestedValues, setSuggestedValues] = useState<Value[]>([]);
+  const suggestedStaywells: Suggestion[] = useSelector((state: RootState) =>
+    selectSuggestedItems(state, 'StayWell')
+  );
+
   const [addClicked, setAddClicked] = useState(false);
   const [input, setInput] = useState('');
 
@@ -130,21 +139,13 @@ export const StayWell: React.FC<Props> = ({ id, collapse, change }) => {
 
   const addToSuggestedValues = () => {
     if (input.length > 4) {
-      setSuggestedValues(values => [
-        ...values,
-        {
-          id: uuid(),
-          name: input
-        }
-      ]);
       dispatch(suggestSafetyPlan(input, 'StayWell', ''));
       setInput('');
     }
   };
 
   const removeFromSuggestedValues = (id: string) => {
-    const updatedSuggestedStr = suggestedValues.filter(item => item.id !== id);
-    setSuggestedValues(updatedSuggestedStr);
+    dispatch(deleteSuggestionFromList(id));
   };
 
   /** Dialog */
@@ -190,27 +191,36 @@ export const StayWell: React.FC<Props> = ({ id, collapse, change }) => {
                   </div>
                 );
               })}
-              {suggestedValues.map(value => {
-                return (
-                  <div key={value.id} className={classes.suggestedRowContainer}>
-                    <div className={classes.suggestedRow}>
-                      <span className={classes.valueText}>{value.name}</span>
+              {suggestedStaywells
+                .map(item => {
+                  return {
+                    id: item.SuggestionId,
+                    name: item.Name
+                  };
+                })
+                .map(value => {
+                  return (
+                    <div
+                      key={value.id}
+                      className={classes.suggestedRowContainer}>
+                      <div className={classes.suggestedRow}>
+                        <span className={classes.valueText}>{value.name}</span>
+                      </div>
+                      <div style={{ height: '30px' }}>
+                        <IconButton
+                          onClick={() => removeFromSuggestedValues(value.id)}
+                          style={{ padding: '5px', marginLeft: '11px' }}>
+                          <DeleteOutline
+                            style={{
+                              fill: '#C57D7D'
+                            }}
+                            fontSize="large"
+                          />
+                        </IconButton>
+                      </div>
                     </div>
-                    <div style={{ height: '30px' }}>
-                      <IconButton
-                        onClick={() => removeFromSuggestedValues(value.id)}
-                        style={{ padding: '5px', marginLeft: '11px' }}>
-                        <DeleteOutline
-                          style={{
-                            fill: '#C57D7D'
-                          }}
-                          fontSize="large"
-                        />
-                      </IconButton>
-                    </div>
-                  </div>
-                );
-              })}
+                  );
+                })}
             </div>
             {addClicked && (
               <div className={classes.textFieldContainer}>
