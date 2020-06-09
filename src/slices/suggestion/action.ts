@@ -2,7 +2,7 @@ import { AppThunk } from 'store';
 import axios from 'common/utils/axios';
 import authentication from '@kdpw/msal-b2c-react';
 import { Suggestion, GoalInfo } from 'types/suggestion';
-import { stopLoading, startLoading } from './suggestionSlice';
+import { stopLoading, startLoading, fetch } from './suggestionSlice';
 import {
   stopLoading as storyStopLoading,
   startLoading as storyStartLoading
@@ -31,7 +31,7 @@ export const suggestGoal = (
       AcceptedOn: '',
       RejectedOn: ''
     };
-    // console.log(suggestion);
+
     await callSuggestionServiceProviderCreate(suggestion);
     history.push('/goals/current');
 
@@ -132,10 +132,36 @@ export const suggestSafetyPlan = (
   }
 };
 
+export const fetchAllSuggestions = (): AppThunk => async dispatch => {
+  try {
+    const suggestions = await callSuggestionServiceProviderList();
+    dispatch(fetch({ suggestions }));
+  } catch (err) {
+    // dispatch(failed(err.toString()));
+  }
+};
+
 //** API FUNCS */
 
 const callSuggestionServiceProviderCreate = (suggestion: Suggestion) => {
   axios.defaults.headers.common['Authorization'] =
     'Bearer ' + authentication.getAccessToken();
   return axios.post('/Suggestion/ServiceProvider/Create', suggestion);
+};
+
+const callSuggestionServiceProviderList = () => {
+  axios.defaults.headers.common['Authorization'] =
+    'Bearer ' + authentication.getAccessToken();
+  return axios
+    .get(
+      `/Suggestion/ServiceProvider/List/${sessionStorage.getItem(
+        'RecoveryPlanId'
+      )}`
+    )
+    .then(response => {
+      const suggestions: Suggestion[] = JSON.parse(
+        JSON.stringify(response.data)
+      );
+      return suggestions;
+    });
 };

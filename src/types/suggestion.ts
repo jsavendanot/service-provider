@@ -39,4 +39,5 @@ export interface Suggestion {
 
 export interface SuggestionRootType {
   loading: boolean;
+  suggestions: Suggestion[];
 }
