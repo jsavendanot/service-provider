@@ -15,6 +15,7 @@ import { StoryRootType } from 'types/story';
 import { RootState } from 'reducer';
 import { Loading } from 'common/components';
 import { fetchGalleryImages } from 'slices/gallery/action';
+import { fetchAllSuggestions } from 'slices/suggestion/action';
 
 const useStyles = makeStyles(() => ({
   root: {
@@ -42,9 +43,7 @@ export const Story: React.FC = () => {
 
   useEffect(() => {
     dispatch(fetchAllFocusAreas());
-  }, [dispatch]);
-
-  useEffect(() => {
+    dispatch(fetchAllSuggestions());
     dispatch(fetchGalleryImages());
     dispatch(fetchStoryData());
     dispatch(fetchStrenghtsData());

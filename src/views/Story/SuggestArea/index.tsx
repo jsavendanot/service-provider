@@ -6,13 +6,17 @@ import { Grid, IconButton } from '@material-ui/core';
 import { makeStyles } from '@material-ui/styles';
 import { KeyboardArrowLeft, Delete } from '@material-ui/icons';
 
-import { AreaBox, Button, Loading } from 'common/components';
+import { AreaBox, Loading } from 'common/components';
 import { AreaCard } from './components';
 import { StoryRootType } from 'types/story';
 import { useSelector, useDispatch } from 'react-redux';
 import { RootState } from 'reducer';
-import { suggestFocusAreas } from 'slices/suggestion/action';
+import {
+  suggestFocusAreas,
+  deleteSuggestionStoryFromList
+} from 'slices/suggestion/action';
 import { SubmitConfirmation } from 'common/components';
+import { selectSuggestedFocusAreas } from 'selectors/safety';
 
 const useStyles = makeStyles(() => ({
   root: {
@@ -71,7 +75,7 @@ export const SuggestArea: React.FC<Props> = ({ history }) => {
   const dispatch = useDispatch();
 
   const loading: boolean = useSelector(
-    (state: RootState) => state.suggestion.loading
+    (state: RootState) => state.story.loading
   );
 
   const storyStore: StoryRootType = useSelector(
@@ -80,43 +84,29 @@ export const SuggestArea: React.FC<Props> = ({ history }) => {
 
   const other: OtherRootType = useSelector((state: RootState) => state.other);
 
+  const suggestedValues: FocusArea[] = useSelector((state: RootState) =>
+    selectSuggestedFocusAreas(state, 'FocusAreas')
+  );
+
+  const [value, setValue] = useState<FocusArea>();
   const [areas] = useState<FocusArea[]>(other.focusAreas);
   const [myAreas] = useState<FocusArea[]>(storyStore.focusAreas);
-  const [suggestedAreas, setSuggestedAreas] = useState<FocusArea[]>([]);
 
   const addToSuggestedAreas = (area: FocusArea) => {
-    setSuggestedAreas(values => [
-      ...values,
-      {
-        id: area.id,
-        name: area.name,
-        color: area.color,
-        image: area.image,
-        description: area.description,
-        isSelected: area.isSelected,
-        isSuggested: true
-      }
-    ]);
+    setValue(area);
+    setOpen(true);
   };
 
   const removeFromSuggestedAreas = (id: string) => {
-    const updatedSuggestedAreas = suggestedAreas.filter(item => item.id !== id);
-    setSuggestedAreas(updatedSuggestedAreas);
+    dispatch(deleteSuggestionStoryFromList(id));
   };
 
   const submitSuggestion = () => {
-    if (suggestedAreas.length > 0) {
-      suggestedAreas.length &&
-        dispatch(suggestFocusAreas(history, suggestedAreas));
-    }
+    value && dispatch(suggestFocusAreas(value));
   };
 
   /** Dialog */
   const [open, setOpen] = useState(false);
-
-  function openDialog() {
-    setOpen(true);
-  }
 
   function closeDialog() {
     setOpen(false);
@@ -172,7 +162,7 @@ export const SuggestArea: React.FC<Props> = ({ history }) => {
                     .filter(
                       item =>
                         !myAreas
-                          .concat(suggestedAreas)
+                          .concat(suggestedValues)
                           .find(element => element.id === item.id)
                     )
                     .map(area => {
@@ -201,7 +191,7 @@ export const SuggestArea: React.FC<Props> = ({ history }) => {
                   {sessionStorage.getItem('FirstName')}'s focus areas
                 </span>
                 <Grid container spacing={3} style={{ marginTop: '1px' }}>
-                  {myAreas.concat(suggestedAreas).map(area => {
+                  {myAreas.concat(suggestedValues).map(area => {
                     return (
                       <Grid item xs={5} key={area.id}>
                         <div style={{ position: 'relative' }}>
@@ -214,7 +204,9 @@ export const SuggestArea: React.FC<Props> = ({ history }) => {
                           {area.isSuggested && (
                             <IconButton
                               className={classes.removeButton}
-                              onClick={() => removeFromSuggestedAreas(area.id)}>
+                              onClick={() =>
+                                removeFromSuggestedAreas(area.SuggestionId!)
+                              }>
                               <Delete
                                 style={{
                                   fill: '#C57D7D'
@@ -227,18 +219,6 @@ export const SuggestArea: React.FC<Props> = ({ history }) => {
                     );
                   })}
                   <Grid item xs={5} />
-                  <Grid item xs={5}>
-                    <div
-                      style={{
-                        marginTop: '30px'
-                      }}>
-                      <div style={{ width: '162px' }}>
-                        <Button type="primarySmall" click={openDialog}>
-                          Save Areas
-                        </Button>
-                      </div>
-                    </div>
-                  </Grid>
                 </Grid>
               </div>
             </Grid>

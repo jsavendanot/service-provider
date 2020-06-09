@@ -6,6 +6,7 @@ export interface FocusArea {
   description: string;
   isSelected: boolean;
   isSuggested?: boolean;
+  SuggestionId?: string;
 }
 
 /** Focus Area API Type */

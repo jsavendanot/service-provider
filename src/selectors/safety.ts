@@ -7,3 +7,17 @@ export const selectSuggestedItems = createSelector(
   (suggestions, groupName) =>
     suggestions.filter(item => item.GroupName === groupName)
 );
+
+export const selectSuggestedFocusAreas = createSelector(
+  selectSuggestedItems,
+  (state: RootState) => state.other.focusAreas,
+  (suggestions, focusAreas) =>
+    suggestions.map(item => {
+      const focusArea = focusAreas.find(area => area.id === item.Name)!;
+      return {
+        ...focusArea,
+        isSuggested: true,
+        SuggestionId: item.SuggestionId
+      };
+    })
+);

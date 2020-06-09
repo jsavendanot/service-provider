@@ -1,8 +1,9 @@
 import React from 'react';
 
+import { Theme } from '@material-ui/core';
 import { makeStyles } from '@material-ui/styles';
 
-const useStyles = makeStyles(() => ({
+const useStyles = makeStyles((theme: Theme) => ({
   root: {
     width: '160px',
     height: '144px',
@@ -30,10 +31,14 @@ const useStyles = makeStyles(() => ({
     fontFamily: 'Roboto',
     fontStyle: 'normal',
     fontWeight: 700,
-    fontSize: '18px',
-    lineHeight: '21px',
+    fontSize: '14px',
+    lineHeight: '17px',
     textAlign: 'center',
     color: '#692B40'
+  },
+  image: {
+    width: 110,
+    height: 110
   }
 }));
 
@@ -49,14 +54,10 @@ export const AreaBox: React.FC<Props> = ({ background, image, name }) => {
   return (
     <div className={classes.root} style={{ background: `${background}` }}>
       <div className={classes.imageContainer}>
-        <img
-          src={`/images/areas/${image}`}
-          alt=""
-          style={{ maxHeight: '140px' }}
-        />
+        <img src={`/images/areas/${image}`} alt="" className={classes.image} />
       </div>
       <div className={classes.nameContainer}>
-        <span className={classes.areaNameText}>{name}</span>
+        <div className={classes.areaNameText}>{name}</div>
       </div>
     </div>
   );

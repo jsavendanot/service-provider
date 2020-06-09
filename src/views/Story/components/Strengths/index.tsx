@@ -1,5 +1,5 @@
 import React, { useState, ChangeEvent } from 'react';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 
 import { TextField, IconButton } from '@material-ui/core';
 import { makeStyles } from '@material-ui/styles';
@@ -7,9 +7,14 @@ import { Add, DeleteOutline, AddCircleOutline } from '@material-ui/icons';
 
 import { Button } from 'common/components';
 import { Strength } from 'types/story';
-import uuid from 'uuid';
-import { suggestStrength } from 'slices/suggestion/action';
+import {
+  suggestStrength,
+  deleteSuggestionStoryFromList
+} from 'slices/suggestion/action';
 import { SubmitConfirmation } from 'common/components';
+import { Suggestion } from 'types/suggestion';
+import { RootState } from 'reducer';
+import { selectSuggestedItems } from 'selectors/safety';
 
 const useStyles = makeStyles(() => ({
   root: {
@@ -78,7 +83,10 @@ export const Strengths: React.FC<Props> = ({ strengths }) => {
   const classes = useStyles();
   const dispatch = useDispatch();
 
-  const [suggestedStrengths, setSuggestedStrengths] = useState<Strength[]>([]);
+  const suggestedValues: Suggestion[] = useSelector((state: RootState) =>
+    selectSuggestedItems(state, 'Strengths')
+  );
+
   const [addClicked, setAddClicked] = useState(false);
   const [input, setInput] = useState('');
 
@@ -89,23 +97,13 @@ export const Strengths: React.FC<Props> = ({ strengths }) => {
 
   const addToSuggestedStr = () => {
     if (input.length > 4) {
-      setSuggestedStrengths(values => [
-        ...values,
-        {
-          id: uuid(),
-          name: input
-        }
-      ]);
       dispatch(suggestStrength(input));
       setInput('');
     }
   };
 
   const removeFromSuggestedStr = (id: string) => {
-    const updatedSuggestedStr = suggestedStrengths.filter(
-      item => item.id !== id
-    );
-    setSuggestedStrengths(updatedSuggestedStr);
+    dispatch(deleteSuggestionStoryFromList(id));
   };
 
   /** Dialog */
@@ -135,15 +133,17 @@ export const Strengths: React.FC<Props> = ({ strengths }) => {
           })}
         </div>
         <div>
-          {suggestedStrengths.map(item => {
+          {suggestedValues.map(item => {
             return (
-              <div key={item.id} className={classes.suggestedRowContainer}>
+              <div
+                key={item.SuggestionId}
+                className={classes.suggestedRowContainer}>
                 <div className={classes.suggestedRow} style={{ width: '85%' }}>
-                  <span className={classes.strengthText}>{item.name}</span>
+                  <span className={classes.strengthText}>{item.Name}</span>
                 </div>
                 <div style={{ height: '30px' }}>
                   <IconButton
-                    onClick={() => removeFromSuggestedStr(item.id)}
+                    onClick={() => removeFromSuggestedStr(item.SuggestionId)}
                     style={{ padding: '5px', marginLeft: '11px' }}>
                     <DeleteOutline
                       style={{

@@ -146,7 +146,7 @@ const useStyles = makeStyles((theme: Theme) => ({
   },
   logo: {
     cursor: 'pointer',
-    width: 161,
+    width: 131,
     height: 64
   }
 }));

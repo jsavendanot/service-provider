@@ -59,6 +59,23 @@ export const suggestStrength = (value: string): AppThunk => async dispatch => {
     };
 
     await callSuggestionServiceProviderCreate(suggestion);
+    await dispatch(fetchAllSuggestions());
+
+    dispatch(storyStopLoading());
+  } catch (err) {
+    dispatch(storyStopLoading());
+    // dispatch(failed(err.toString()));
+  }
+};
+
+export const deleteSuggestionStoryFromList = (
+  id: string
+): AppThunk => async dispatch => {
+  try {
+    dispatch(storyStartLoading());
+
+    await callSuggestionServiceProviderDelete(id);
+    await dispatch(fetchAllSuggestions());
 
     dispatch(storyStopLoading());
   } catch (err) {
@@ -68,30 +85,28 @@ export const suggestStrength = (value: string): AppThunk => async dispatch => {
 };
 
 export const suggestFocusAreas = (
-  history: any,
-  suggestedAreas: FocusArea[]
+  suggestedArea: FocusArea
 ): AppThunk => async dispatch => {
   try {
-    dispatch(startLoading());
+    dispatch(storyStartLoading());
 
-    for (const area of suggestedAreas) {
-      const suggestion: Suggestion = {
-        SuggestionId: '',
-        RecoveryPlanId: sessionStorage.getItem('RecoveryPlanId')!,
-        SuggestedByUserId: '',
-        Name: area.id,
-        ExtraInfo: '',
-        GroupName: 'FocusAreas',
-        GoalInfo: null,
-        AcceptedOn: '',
-        RejectedOn: ''
-      };
-      await callSuggestionServiceProviderCreate(suggestion);
-    }
-    history.push('/story');
-    dispatch(stopLoading());
+    const suggestion: Suggestion = {
+      SuggestionId: '',
+      RecoveryPlanId: sessionStorage.getItem('RecoveryPlanId')!,
+      SuggestedByUserId: '',
+      Name: suggestedArea.id,
+      ExtraInfo: '',
+      GroupName: 'FocusAreas',
+      GoalInfo: null,
+      AcceptedOn: '',
+      RejectedOn: ''
+    };
+    await callSuggestionServiceProviderCreate(suggestion);
+    await dispatch(fetchAllSuggestions());
+
+    dispatch(storyStopLoading());
   } catch (err) {
-    dispatch(stopLoading());
+    dispatch(storyStopLoading());
     // dispatch(failed(err.toString()));
   }
 };
@@ -150,7 +165,7 @@ export const deleteSuggestionFromList = (
     dispatch(safetyStartLoading());
 
     await callSuggestionServiceProviderDelete(id);
-    dispatch(fetchAllSuggestions());
+    await dispatch(fetchAllSuggestions());
 
     dispatch(safetyStopLoading());
   } catch (err) {
