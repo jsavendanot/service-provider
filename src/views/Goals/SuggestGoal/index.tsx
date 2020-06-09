@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { RouteComponentProps } from 'react-router-dom';
 
-import { Grid } from '@material-ui/core';
+import { Grid, Theme } from '@material-ui/core';
 import { makeStyles } from '@material-ui/styles';
 import { KeyboardArrowLeft } from '@material-ui/icons';
 
@@ -9,10 +9,11 @@ import { AreaSection, GoalForm, AreaCard } from './components';
 import { FocusArea } from 'types/other';
 import { useSelector } from 'react-redux';
 import { RootState } from 'reducer';
+
 import { Loading } from 'common/components';
 import { YesNoConfirmation } from 'common/components';
 
-const useStyles = makeStyles(() => ({
+const useStyles = makeStyles((theme: Theme) => ({
   root: {
     padding: '45px 95px'
   },
@@ -42,6 +43,12 @@ const useStyles = makeStyles(() => ({
     fontSize: '18px',
     lineHeight: '21px',
     color: '#C57D7D'
+  },
+  focusAreaContainer: {
+    borderBottom: '2px dashed #C57D7D',
+    [theme.breakpoints.up('lg')]: {
+      width: 500
+    }
   }
 }));
 
@@ -134,13 +141,12 @@ export const SuggestGoal: React.FC<Props> = ({ history }) => {
                   padding: '0 20px'
                 }}>
                 <span className={classes.title}>Suggest goal</span>
-                <div style={{ borderBottom: '2px dashed #C57D7D' }}>
-                  <AreaSection
-                    name="Focus areas"
-                    note="These areas can be modified by the consumer in ‘My Story’.">
+                <div className={classes.focusAreaContainer}>
+                  <AreaSection name="Focus areas" note="">
                     {myAreas.map(area => {
                       return (
                         <AreaCard
+                          key={area.id}
                           area={area}
                           clickable
                           selectedArea={selectedArea}
@@ -154,12 +160,17 @@ export const SuggestGoal: React.FC<Props> = ({ history }) => {
                 </div>
                 <AreaSection
                   name="Other areas"
-                  note="A service provider can suggest new focus areas using.">
+                  note={`These are not ${sessionStorage.getItem(
+                    'FirstName'
+                  )}'s focus areas, however, you can still create a goal from one of these areas. Go to ${sessionStorage.getItem(
+                    'FirstName'
+                  )}'s story if you want to suggest a new focus area.`}>
                   {areas
                     .filter(area => !myAreas.find(item => item.id === area.id))
                     .map(area => {
                       return (
                         <AreaCard
+                          key={area.id}
                           area={area}
                           clickable
                           selectedArea={selectedArea}

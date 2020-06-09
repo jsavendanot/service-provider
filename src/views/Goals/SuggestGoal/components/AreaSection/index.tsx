@@ -1,12 +1,16 @@
 import React from 'react';
 
 import { makeStyles } from '@material-ui/styles';
+import { Theme } from '@material-ui/core';
 
-const useStyles = makeStyles(() => ({
+const useStyles = makeStyles((theme: Theme) => ({
   root: {
     margin: '10px 0',
     display: 'flex',
-    flexDirection: 'column'
+    flexDirection: 'column',
+    [theme.breakpoints.up('lg')]: {
+      width: 500
+    }
   },
   subTitle: {
     fontFamily: 'Roboto',
@@ -23,7 +27,8 @@ const useStyles = makeStyles(() => ({
     fontWeight: 400,
     fontSize: '14px',
     lineHeight: '127.69%',
-    color: '#37474F'
+    color: '#37474F',
+    textAlign: 'justify'
   }
 }));
 
@@ -37,8 +42,8 @@ export const AreaSection: React.FC<Props> = ({ name, note, children }) => {
 
   return (
     <div className={classes.root}>
-      <span className={classes.subTitle}>{name}</span>
-      <span className={classes.note}>{note}</span>
+      <div className={classes.subTitle}>{name}</div>
+      <div className={classes.note}>{note}</div>
       <div style={{ padding: '10px 0' }}>{children}</div>
     </div>
   );

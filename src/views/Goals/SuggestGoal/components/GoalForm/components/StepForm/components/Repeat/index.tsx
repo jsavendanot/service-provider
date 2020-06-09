@@ -125,10 +125,10 @@ export const Repeat: React.FC<Props> = ({ step, setStep }) => {
         setStep(
           produce((draft: StepInfo) => {
             draft.IsDeadline = true;
-            draft.RepeatTimes = 0;
-            draft.RepeatUnit = '';
+            draft.RepeatTimes = 3;
+            draft.RepeatUnit = 'times';
             draft.RepeatFrequency = 'day';
-            draft.RepeatTotalTimes = 0;
+            draft.RepeatTotalTimes = 3;
             draft.StartDate = '';
             draft.EndDate = moment(new Date().toString()).format('YYYY-MMM-DD');
           })

@@ -97,7 +97,7 @@ export const AreaCard: React.FC<Props> = ({
 
   return (
     <div className={classes.cardContainer}>
-      <div style={{ width: '90%' }}>
+      <div style={{ width: '100%' }}>
         <div className={classes.root}>
           <div
             className={clsx(
