@@ -3,6 +3,7 @@ export { default as Navigation } from './Navigation';
 export { default as TabMenu } from './TabMenu';
 export { default as Comment } from './Comment';
 export { default as GoalCard } from './GoalCard';
+export { default as SuggestedGoalCard } from './SuggestedGoalCard';
 export { default as AreaBox } from './AreaBox';
 export { default as Loading } from './Loading';
 export { default as NetworkList } from './NetworkList';

@@ -12,6 +12,7 @@ import { Goal } from 'types/goal';
 import { RootState } from 'reducer';
 import { fetchGoals } from 'slices/goal/action';
 import { fetchMyAreas } from 'slices/story/action';
+import { fetchAllSuggestions } from 'slices/suggestion/action';
 
 const useStyles = makeStyles(() => ({
   root: {
@@ -59,6 +60,7 @@ const Goals: React.FC<Props> = ({ match, history }) => {
   useEffect(() => {
     dispatch(fetchGoals());
     dispatch(fetchMyAreas());
+    dispatch(fetchAllSuggestions());
   }, [dispatch]);
 
   if (tab !== 'current' && tab !== 'completed') {

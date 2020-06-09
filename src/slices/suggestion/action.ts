@@ -2,6 +2,10 @@ import { AppThunk } from 'store';
 import axios from 'common/utils/axios';
 import authentication from '@kdpw/msal-b2c-react';
 import { Suggestion, GoalInfo } from 'types/suggestion';
+import {
+  stopLoading as stopGoalLoading,
+  startLoading as startGoalLoading
+} from 'slices/goal/goalSlice';
 import { stopLoading, startLoading, fetch } from './suggestionSlice';
 import {
   stopLoading as storyStopLoading,
@@ -38,6 +42,22 @@ export const suggestGoal = (
     dispatch(stopLoading());
   } catch (err) {
     dispatch(stopLoading());
+    // dispatch(failed(err.toString()));
+  }
+};
+
+export const deleteSuggestionGoalFromList = (
+  id: string
+): AppThunk => async dispatch => {
+  try {
+    dispatch(startGoalLoading());
+
+    await callSuggestionServiceProviderDelete(id);
+    await dispatch(fetchAllSuggestions());
+
+    dispatch(stopGoalLoading());
+  } catch (err) {
+    dispatch(stopGoalLoading());
     // dispatch(failed(err.toString()));
   }
 };
