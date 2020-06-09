@@ -16,7 +16,8 @@ import {
 import { Value, Unwell } from 'types/safety';
 import {
   fetchEmergencyNetworks,
-  callNetworkContactCarerReadApi
+  callNetworkContactCarerReadApi,
+  fetchProviderContacts
 } from 'slices/network/action';
 import { fetchAllSuggestions } from 'slices/suggestion/action';
 
@@ -35,6 +36,7 @@ export const fetchSafetyPlanServices = (): AppThunk => async dispatch => {
     dispatch(fetchUnwell());
     dispatch(fetchUnwellNot());
     dispatch(fetchEmergencyContacts());
+    dispatch(fetchProviderContacts());
 
     dispatch(stopLoading());
   } catch (err) {

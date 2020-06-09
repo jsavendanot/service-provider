@@ -2,6 +2,7 @@ import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 import { NetworkRootType, Network } from 'types/network';
 
 const initialState: NetworkRootType = {
+  mycontacts: [],
   networks: [],
   loading: false
 };
@@ -14,6 +15,10 @@ const networkSlice = createSlice({
       const { networks } = action.payload;
       state.networks = networks;
     },
+    fetchMyContacts(state, action: PayloadAction<{ contacts: Network[] }>) {
+      const { contacts } = action.payload;
+      state.mycontacts = contacts;
+    },
     startLoading(state) {
       state.loading = true;
     },
@@ -24,6 +29,7 @@ const networkSlice = createSlice({
 });
 
 export const {
+  fetchMyContacts,
   fetchNetworks,
   startLoading,
   stopLoading

@@ -1,5 +1,5 @@
 import React, { useState, ChangeEvent } from 'react';
-import { Unwell, Value } from 'types/safety';
+import { Unwell } from 'types/safety';
 import {
   CheckCircle,
   People,
@@ -13,10 +13,14 @@ import { Button } from 'common/components';
 import { useSelector, useDispatch } from 'react-redux';
 import { RootState } from 'reducer';
 import { Network } from 'types/network';
-import uuid from 'uuid';
 import { IconButton, TextField } from '@material-ui/core';
 import { SubmitConfirmation } from 'common/components';
-import { suggestSafetyPlan } from 'slices/suggestion/action';
+import {
+  suggestSafetyPlan,
+  deleteSuggestionFromList
+} from 'slices/suggestion/action';
+import { Suggestion } from 'types/suggestion';
+import { selectSuggestedItems } from 'selectors/safety';
 
 const useStyles = makeStyles(() => ({
   descText: {
@@ -136,7 +140,10 @@ export const PleaseDo: React.FC<Props> = ({ pleaseDo }) => {
     (state: RootState) => state.network.networks
   );
 
-  const [suggestedValues, setSuggestedValues] = useState<Value[]>([]);
+  const suggestedValues: Suggestion[] = useSelector((state: RootState) =>
+    selectSuggestedItems(state, 'UnwellHappen')
+  );
+
   const [addClicked, setAddClicked] = useState(false);
   const [input, setInput] = useState('');
 
@@ -147,21 +154,13 @@ export const PleaseDo: React.FC<Props> = ({ pleaseDo }) => {
 
   const addToSuggestedValues = () => {
     if (input.length > 4) {
-      setSuggestedValues(values => [
-        ...values,
-        {
-          id: uuid(),
-          name: input
-        }
-      ]);
       dispatch(suggestSafetyPlan(input, 'UnwellHappen', ''));
       setInput('');
     }
   };
 
   const removeFromSuggestedValues = (id: string) => {
-    const updatedSuggestedStr = suggestedValues.filter(item => item.id !== id);
-    setSuggestedValues(updatedSuggestedStr);
+    dispatch(deleteSuggestionFromList(id));
   };
 
   /** Dialog */
@@ -225,13 +224,15 @@ export const PleaseDo: React.FC<Props> = ({ pleaseDo }) => {
       })}
       {suggestedValues.map(value => {
         return (
-          <div key={value.id} className={classes.suggestedRowContainer}>
+          <div
+            key={value.SuggestionId}
+            className={classes.suggestedRowContainer}>
             <div className={classes.suggestedRow}>
-              <span className={classes.valueText}>{value.name}</span>
+              <span className={classes.valueText}>{value.Name}</span>
             </div>
             <div style={{ height: '30px' }}>
               <IconButton
-                onClick={() => removeFromSuggestedValues(value.id)}
+                onClick={() => removeFromSuggestedValues(value.SuggestionId)}
                 style={{ padding: '5px', marginLeft: '11px' }}>
                 <DeleteOutline
                   style={{

@@ -125,7 +125,7 @@ export const StayWell: React.FC<Props> = ({ id, collapse, change }) => {
     isEqual
   );
 
-  const suggestedStaywells: Suggestion[] = useSelector((state: RootState) =>
+  const suggestedValues: Suggestion[] = useSelector((state: RootState) =>
     selectSuggestedItems(state, 'StayWell')
   );
 
@@ -191,36 +191,31 @@ export const StayWell: React.FC<Props> = ({ id, collapse, change }) => {
                   </div>
                 );
               })}
-              {suggestedStaywells
-                .map(item => {
-                  return {
-                    id: item.SuggestionId,
-                    name: item.Name
-                  };
-                })
-                .map(value => {
-                  return (
-                    <div
-                      key={value.id}
-                      className={classes.suggestedRowContainer}>
-                      <div className={classes.suggestedRow}>
-                        <span className={classes.valueText}>{value.name}</span>
-                      </div>
-                      <div style={{ height: '30px' }}>
-                        <IconButton
-                          onClick={() => removeFromSuggestedValues(value.id)}
-                          style={{ padding: '5px', marginLeft: '11px' }}>
-                          <DeleteOutline
-                            style={{
-                              fill: '#C57D7D'
-                            }}
-                            fontSize="large"
-                          />
-                        </IconButton>
-                      </div>
+              {suggestedValues.map(value => {
+                return (
+                  <div
+                    key={value.SuggestionId}
+                    className={classes.suggestedRowContainer}>
+                    <div className={classes.suggestedRow}>
+                      <span className={classes.valueText}>{value.Name}</span>
                     </div>
-                  );
-                })}
+                    <div style={{ height: '30px' }}>
+                      <IconButton
+                        onClick={() =>
+                          removeFromSuggestedValues(value.SuggestionId)
+                        }
+                        style={{ padding: '5px', marginLeft: '11px' }}>
+                        <DeleteOutline
+                          style={{
+                            fill: '#C57D7D'
+                          }}
+                          fontSize="large"
+                        />
+                      </IconButton>
+                    </div>
+                  </div>
+                );
+              })}
             </div>
             {addClicked && (
               <div className={classes.textFieldContainer}>

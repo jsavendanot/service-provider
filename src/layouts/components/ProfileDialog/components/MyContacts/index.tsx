@@ -1,13 +1,11 @@
-import React, { useEffect, useState } from 'react';
-import { useDispatch } from 'react-redux';
+import React from 'react';
+import { useDispatch, useSelector } from 'react-redux';
 import { makeStyles } from '@material-ui/styles';
 import { Grid, IconButton, Divider } from '@material-ui/core';
 import { Close, AddCircleOutline, Delete } from '@material-ui/icons';
-import {
-  callNetworkContactListApi,
-  deleteNetwork
-} from 'slices/network/action';
+import { deleteNetwork } from 'slices/network/action';
 import { Network } from 'types/network';
+import { RootState } from 'reducer';
 
 const useStyles = makeStyles(() => ({
   root: {
@@ -76,19 +74,14 @@ export const MyContacts: React.FC<Props> = ({ close, addContact }) => {
   const classes = useStyles();
   const dispatch = useDispatch();
 
+  const myContacts: Network[] = useSelector(
+    (state: RootState) => state.network.mycontacts
+  );
+
   const deleteHandler = (id: string) => {
     dispatch(deleteNetwork(id));
     close();
   };
-
-  const [networks, setNetworks] = useState<Network[]>([]);
-
-  useEffect(() => {
-    (async function fetchNetworks() {
-      const networks = await callNetworkContactListApi();
-      setNetworks(networks);
-    })();
-  }, []);
 
   return (
     <div className={classes.root}>
@@ -112,7 +105,7 @@ export const MyContacts: React.FC<Props> = ({ close, addContact }) => {
           </div>
         </Grid>
         <Grid item xs={12} style={{ height: '340px', overflowY: 'auto' }}>
-          {networks.map(network => {
+          {myContacts.map(network => {
             return (
               <div className={classes.contact} key={network.Id}>
                 <div className={classes.nameText}>{network.Name}</div>

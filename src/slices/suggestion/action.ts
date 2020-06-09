@@ -102,6 +102,7 @@ export const suggestSafetyPlan = (
     | 'StayWell'
     | 'StressMe'
     | 'WarningSigns'
+    | 'Strategies'
     | 'UnwellHappen'
     | 'UnwellNotHappen'
     | 'WhenUnwellNotice'

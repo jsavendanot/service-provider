@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import { Network } from 'types/network';
 
 import { makeStyles } from '@material-ui/styles';
@@ -15,7 +15,8 @@ import {
 import { Search, PersonAdd } from '@material-ui/icons';
 
 import { Button } from 'common/components';
-import { callNetworkContactListApi } from 'slices/network/action';
+import { useSelector } from 'react-redux';
+import { RootState } from 'reducer';
 
 const useStyles = makeStyles((theme: Theme) => ({
   nameCell: {
@@ -141,7 +142,9 @@ type Props = {
 const NetworkList: React.FC<Props> = ({ close, callback, title }) => {
   const classes = useStyles();
 
-  const [networks, setNetworks] = useState<Network[]>([]);
+  const myContacts: Network[] = useSelector(
+    (state: RootState) => state.network.mycontacts
+  );
 
   const [selectedNetwork, setSelectedNetwork] = useState<Network[]>([]);
   const [rowsPerPage] = useState(10);
@@ -151,7 +154,7 @@ const NetworkList: React.FC<Props> = ({ close, callback, title }) => {
   };
 
   const handleCallBack = () => {
-    const networkWithData: Network[] = networks.filter(element =>
+    const networkWithData: Network[] = myContacts.filter(element =>
       selectedNetwork.includes(element)
     );
     if (callback) {
@@ -159,13 +162,6 @@ const NetworkList: React.FC<Props> = ({ close, callback, title }) => {
     }
     close();
   };
-
-  useEffect(() => {
-    (async function fetchNetworks() {
-      const networks = await callNetworkContactListApi();
-      setNetworks(networks);
-    })();
-  }, []);
 
   return (
     <div
@@ -206,8 +202,8 @@ const NetworkList: React.FC<Props> = ({ close, callback, title }) => {
         <div className={classes.tableContainer}>
           <Table>
             <TableBody>
-              {networks &&
-                networks.slice(0, rowsPerPage).map(network => (
+              {myContacts &&
+                myContacts.slice(0, rowsPerPage).map(network => (
                   <TableRow
                     hover
                     key={network.Id}

@@ -1,10 +1,5 @@
 import { FocusArea } from './other';
 
-export interface Suggestion {
-  id: string;
-  name: string;
-}
-
 export interface Strength {
   id: string;
   name: string;

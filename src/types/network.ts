@@ -49,6 +49,7 @@ export interface ShareNetworkApi {
 }
 
 export interface NetworkRootType {
+  mycontacts: Network[];
   networks: Network[];
   loading: boolean;
 }

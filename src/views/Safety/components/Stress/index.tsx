@@ -14,9 +14,13 @@ import { useDispatch, useSelector } from 'react-redux';
 import { Button } from 'common/components';
 import { Value } from 'types/safety';
 import { SubmitConfirmation } from 'common/components';
-import uuid from 'uuid';
-import { suggestSafetyPlan } from 'slices/suggestion/action';
+import {
+  suggestSafetyPlan,
+  deleteSuggestionFromList
+} from 'slices/suggestion/action';
 import { RootState } from 'reducer';
+import { selectSuggestedItems } from 'selectors/safety';
+import { Suggestion } from 'types/suggestion';
 
 const useStyles = makeStyles(() => ({
   root: {
@@ -119,7 +123,10 @@ export const Stress: React.FC<Props> = ({ id, collapse, change }) => {
     (state: RootState) => state.safety.stress
   );
 
-  const [suggestedValues, setSuggestedValues] = useState<Value[]>([]);
+  const suggestedValues: Suggestion[] = useSelector((state: RootState) =>
+    selectSuggestedItems(state, 'StressMe')
+  );
+
   const [addClicked, setAddClicked] = useState(false);
   const [input, setInput] = useState('');
 
@@ -130,21 +137,13 @@ export const Stress: React.FC<Props> = ({ id, collapse, change }) => {
 
   const addToSuggestedValues = () => {
     if (input.length > 4) {
-      setSuggestedValues(values => [
-        ...values,
-        {
-          id: uuid(),
-          name: input
-        }
-      ]);
       dispatch(suggestSafetyPlan(input, 'StressMe', ''));
       setInput('');
     }
   };
 
   const removeFromSuggestedValues = (id: string) => {
-    const updatedSuggestedStr = suggestedValues.filter(item => item.id !== id);
-    setSuggestedValues(updatedSuggestedStr);
+    dispatch(deleteSuggestionFromList(id));
   };
 
   /** Dialog */
@@ -192,13 +191,17 @@ export const Stress: React.FC<Props> = ({ id, collapse, change }) => {
               })}
               {suggestedValues.map(value => {
                 return (
-                  <div key={value.id} className={classes.suggestedRowContainer}>
+                  <div
+                    key={value.SuggestionId}
+                    className={classes.suggestedRowContainer}>
                     <div className={classes.suggestedRow}>
-                      <span className={classes.valueText}>{value.name}</span>
+                      <span className={classes.valueText}>{value.Name}</span>
                     </div>
                     <div style={{ height: '30px' }}>
                       <IconButton
-                        onClick={() => removeFromSuggestedValues(value.id)}
+                        onClick={() =>
+                          removeFromSuggestedValues(value.SuggestionId)
+                        }
                         style={{ padding: '5px', marginLeft: '11px' }}>
                         <DeleteOutline
                           style={{

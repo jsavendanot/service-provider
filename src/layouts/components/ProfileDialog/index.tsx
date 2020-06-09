@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import useRouter from 'common/utils/useRouter';
 import { useDispatch } from 'react-redux';
 import { endSession } from 'slices/auth/action';
@@ -13,6 +13,7 @@ import {
 import { makeStyles } from '@material-ui/styles';
 import { Call } from '@material-ui/icons';
 import { MyContacts, AddContact } from './components';
+import { fetchProviderContacts } from 'slices/network/action';
 
 const useStyles = makeStyles(() => ({
   avatar: {
@@ -103,6 +104,10 @@ export default function ProfileDialog() {
       </DialogContent>
     </Dialog>
   );
+
+  useEffect(() => {
+    dispatch(fetchProviderContacts());
+  }, [dispatch]);
 
   return (
     <>

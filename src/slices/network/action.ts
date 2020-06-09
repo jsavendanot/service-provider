@@ -1,7 +1,12 @@
 import { AppThunk } from 'store';
 import axios from 'common/utils/axios';
 import authentication from '@kdpw/msal-b2c-react';
-import { startLoading, stopLoading, fetchNetworks } from './networkSlice';
+import {
+  startLoading,
+  stopLoading,
+  fetchNetworks,
+  fetchMyContacts
+} from './networkSlice';
 import { Network } from 'types/network';
 import uuid from 'uuid';
 
@@ -39,6 +44,15 @@ export const addNetwork = (
 export const deleteNetwork = (id: string): AppThunk => async dispatch => {
   try {
     await callNetworkContactDeleteApi(id);
+  } catch (err) {
+    // dispatch(failed(err.toString()));
+  }
+};
+
+export const fetchProviderContacts = (): AppThunk => async dispatch => {
+  try {
+    const contacts = await callNetworkContactListApi();
+    dispatch(fetchMyContacts({ contacts }));
   } catch (err) {
     // dispatch(failed(err.toString()));
   }
@@ -85,7 +99,7 @@ const callNetworkContactCreateApi = (name: string, phone: string) => {
   });
 };
 
-export const callNetworkContactListApi = () => {
+const callNetworkContactListApi = () => {
   axios.defaults.headers.common['Authorization'] =
     'Bearer ' + authentication.getAccessToken();
 
