@@ -204,6 +204,7 @@ export const Toolbar: React.FC = () => {
           open={option}
           close={() => setOption(false)}
           openInvitation={() => setInvitation(true)}
+          openEnterCode={() => setEnterCode(true)}
         />
       )}
       {invitation && invitePeopleDialog}

@@ -41,15 +41,26 @@ type Props = {
   open: boolean;
   close: () => void;
   openInvitation: () => void;
+  openEnterCode: () => void;
 };
 
-const OptionsPopup: React.FC<Props> = ({ open, close, openInvitation }) => {
+const OptionsPopup: React.FC<Props> = ({
+  open,
+  close,
+  openInvitation,
+  openEnterCode
+}) => {
   const classes = useStyles();
   const { history } = useRouter();
 
   const inviteClickHandler = () => {
     close();
     openInvitation();
+  };
+
+  const enterCodeClickHandler = () => {
+    close();
+    openEnterCode();
   };
 
   return (
@@ -93,6 +104,19 @@ const OptionsPopup: React.FC<Props> = ({ open, close, openInvitation }) => {
             <div className={classes.buttonContainer}>
               <Button type="primary" click={() => history.push('consumer/add')}>
                 Create profile
+              </Button>
+            </div>
+          </div>
+          <div className={classes.box}>
+            <div className={classes.title}>Enter invitation code</div>
+            <div className={classes.bodyText}>
+              Use this when you receive an invitation from you client. To accept
+              the invitation, simply enter the 6-digit code included in the
+              email invitation.
+            </div>
+            <div className={classes.buttonContainer}>
+              <Button type="primary" click={enterCodeClickHandler}>
+                Enter code
               </Button>
             </div>
           </div>
