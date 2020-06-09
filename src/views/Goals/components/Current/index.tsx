@@ -20,7 +20,7 @@ export const Current: React.FC<Props> = ({ goals }) => {
 
   return (
     <Grid container spacing={3}>
-      <Grid item xs={12}>
+      <Grid item xs={12} container spacing={3}>
         {goals
           .filter(goal => goal.PercentageComplete < 1)
           .map(goal => {
@@ -31,7 +31,7 @@ export const Current: React.FC<Props> = ({ goals }) => {
             );
           })}
       </Grid>
-      <Grid item xs={12}>
+      <Grid item xs={12} container spacing={3}>
         {suggestedValues.map(suggestion => {
           return (
             <Grid item xs={4} key={suggestion.SuggestionId}>
