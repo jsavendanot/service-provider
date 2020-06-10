@@ -50,7 +50,12 @@ export const selectPerson = (person: Person): AppThunk => async dispatch => {
     sessionStorage.setItem('UserId', person.UserId);
     sessionStorage.setItem('FirstName', person.FirstName);
     sessionStorage.setItem('SurName', person.Surname);
-    sessionStorage.setItem('Photo', person.Photo);
+    sessionStorage.setItem(
+      'Photo',
+      person.Photo
+        ? 'data:image/png;base64,' + person.Photo
+        : '/images/avatar/jiembaDefaultAvatar.svg'
+    );
     sessionStorage.setItem('RecoveryPlanId', person.RecoveryPlanId);
     sessionStorage.setItem('LastRecPlanUpdate', person.LastRecPlanUpdate);
   } catch (err) {

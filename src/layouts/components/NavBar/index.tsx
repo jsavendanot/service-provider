@@ -134,7 +134,7 @@ const NavBar: React.FC<Props> = ({ className }) => {
           <Avatar
             alt=""
             className={classes.avatar}
-            src={'data:image/png;base64,' + sessionStorage.getItem('Photo')!}
+            src={sessionStorage.getItem('Photo')!}
           />
           <span className={classes.profileName}>
             {sessionStorage.getItem('FirstName')}

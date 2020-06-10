@@ -90,7 +90,7 @@ export const Consumer: React.FC = () => {
             <Avatar
               alt=""
               className={classes.avatar}
-              src={'data:image/png;base64,' + sessionStorage.getItem('Photo')!}
+              src={sessionStorage.getItem('Photo')!}
             />
           </div>
         </Grid>

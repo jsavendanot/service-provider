@@ -70,7 +70,7 @@ export const Comments: React.FC<Props> = ({ goalId, comments }) => {
             <Avatar
               alt=""
               className={classes.avatar}
-              src={'data:image/png;base64,' + sessionStorage.getItem('Photo')!}
+              src={sessionStorage.getItem('Photo')!}
             />
           </Grid>
           <Grid item xs={10}>

@@ -82,7 +82,15 @@ export const Consumer: React.FC<Props> = ({ person }) => {
           marginBottom: '10px'
         }}>
         <div style={{ flexGrow: 1, display: 'flex', alignItems: 'flex-start' }}>
-          <Avatar alt="" className={classes.avatar} src={person.ImageUrl} />
+          <Avatar
+            alt=""
+            className={classes.avatar}
+            src={
+              person.ImageUrl
+                ? person.ImageUrl
+                : '/images/avatar/jiembaDefaultAvatar.svg'
+            }
+          />
           <div style={{ display: 'flex', flexDirection: 'column' }}>
             <span className={classes.consumerName}>{person.Name}</span>
             <span className={classes.consumerDob}>
