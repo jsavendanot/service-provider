@@ -173,6 +173,8 @@ const TopBar: React.FC<Props> = ({ className }) => {
     sessionStorage.setItem('FirstName', '');
     sessionStorage.setItem('SurName', '');
     sessionStorage.setItem('Photo', '');
+    sessionStorage.setItem('MobilePhone', '');
+    sessionStorage.setItem('PrimaryEmail', '');
     history.push('/home');
   };
 
@@ -280,9 +282,7 @@ const TopBar: React.FC<Props> = ({ className }) => {
                   alignItems: 'flex-start',
                   paddingTop: '11px'
                 }}>
-                <div
-                  className={classes.topMenu}
-                  onClick={() => history.push('/home')}>
+                <div className={classes.topMenu} onClick={handleClickOnLogo}>
                   <img
                     src="/images/topbar/consumers.svg"
                     alt=""

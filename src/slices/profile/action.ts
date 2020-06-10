@@ -42,14 +42,6 @@ export const createProfile = (
         ? 'data:image/png;base64,' + profile.Image
         : '/images/avatar/provider_avatar.svg'
     );
-    sessionStorage.setItem(
-      'Provider_MobilePhone',
-      profile.MobilePhone ? profile.MobilePhone : ''
-    );
-    sessionStorage.setItem(
-      'Provider_EmergencyContactPhone',
-      profile.EmergencyContactPhone
-    );
 
     history.push('/home');
 
@@ -80,10 +72,6 @@ export const editProfile = (
       profile.Image
         ? 'data:image/png;base64,' + profile.Image
         : '/images/avatar/provider_avatar.svg'
-    );
-    sessionStorage.setItem(
-      'Provider_MobilePhone',
-      profile.MobilePhone ? profile.MobilePhone : ''
     );
 
     dispatch(stopLoading());

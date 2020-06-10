@@ -7,6 +7,7 @@ import { Paper, Theme, Divider, Avatar } from '@material-ui/core';
 
 import { Navigation } from 'common/components';
 import navigationConfig from '../../navigationConfig';
+import moment from 'moment';
 
 const useStyles = makeStyles((theme: Theme) => ({
   root: {
@@ -131,18 +132,28 @@ const NavBar: React.FC<Props> = ({ className }) => {
     <div className={classes.content}>
       <nav className={classes.navigation}>
         <div className={classes.profile}>
-          <Avatar
-            alt=""
-            className={classes.avatar}
-            src={sessionStorage.getItem('Photo')!}
-          />
+          {sessionStorage.getItem('UserId') ? (
+            <Avatar
+              alt=""
+              className={classes.avatar}
+              src={sessionStorage.getItem('Photo')!}
+            />
+          ) : (
+            <Avatar alt="" className={classes.avatar} src="" />
+          )}
           <span className={classes.profileName}>
             {sessionStorage.getItem('FirstName')}
           </span>
-          <span className={classes.profileName}>
+          {/* <span className={classes.profileName}>
             {sessionStorage.getItem('SurName')}
-          </span>
-          {/* <span className={classes.profileDate}>11/09/1990</span> */}
+          </span> */}
+          {sessionStorage.getItem('LastRecPlanUpdate') && (
+            <span className={classes.profileDate}>
+              {moment(sessionStorage.getItem('LastRecPlanUpdate')!).format(
+                'DD/MM/YYYY'
+              )}
+            </span>
+          )}
           <button
             className={classes.profileButton}
             onClick={handleProfileButtonClick}>
@@ -173,7 +184,7 @@ const NavBar: React.FC<Props> = ({ className }) => {
               style={{ marginRight: '15px' }}
             />
             <div className={classes.contactText}>
-              {sessionStorage.getItem('Provider_MobilePhone')}
+              {sessionStorage.getItem('MobilePhone')}
             </div>
           </div>
           <div className={classes.contactItem}>
@@ -183,7 +194,7 @@ const NavBar: React.FC<Props> = ({ className }) => {
               style={{ marginRight: '15px' }}
             />
             <div className={classes.contactText}>
-              {sessionStorage.getItem('Provider_Email')}
+              {sessionStorage.getItem('PrimaryEmail')}
             </div>
           </div>
         </div>

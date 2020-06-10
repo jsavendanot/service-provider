@@ -39,14 +39,21 @@ export const fetchPeople = (): AppThunk => async dispatch => {
         people: updatedPeople
       })
     );
+    dispatch(stopLoading());
   } catch (err) {
     dispatch(stopLoading());
     // dispatch(failed(err.toString()));
   }
 };
 
-export const selectPerson = (person: Person): AppThunk => async dispatch => {
+export const selectPerson = (
+  history: any,
+  person: Person
+): AppThunk => async dispatch => {
   try {
+    dispatch(startLoading());
+    const consumerProfile = await callConsumerReadApi(person.RecoveryPlanId);
+
     sessionStorage.setItem('UserId', person.UserId);
     sessionStorage.setItem('FirstName', person.FirstName);
     sessionStorage.setItem('SurName', person.Surname);
@@ -58,7 +65,20 @@ export const selectPerson = (person: Person): AppThunk => async dispatch => {
     );
     sessionStorage.setItem('RecoveryPlanId', person.RecoveryPlanId);
     sessionStorage.setItem('LastRecPlanUpdate', person.LastRecPlanUpdate);
+
+    sessionStorage.setItem(
+      'MobilePhone',
+      consumerProfile.MobilePhone ? consumerProfile.MobilePhone : ''
+    );
+    sessionStorage.setItem(
+      'PrimaryEmail',
+      consumerProfile.PrimaryEmail ? consumerProfile.PrimaryEmail : ''
+    );
+
+    dispatch(stopLoading());
+    history.push('/dashboard');
   } catch (err) {
+    dispatch(stopLoading());
     // dispatch(failed(err.toString()));
   }
 };

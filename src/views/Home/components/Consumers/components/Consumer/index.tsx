@@ -69,8 +69,9 @@ export const Consumer: React.FC<Props> = ({ person }) => {
   );
 
   const clickHandler = () => {
-    dispatch(selectPerson(people.find(item => item.UserId === person.UserId)!));
-    history.push('/dashboard');
+    dispatch(
+      selectPerson(history, people.find(item => item.UserId === person.UserId)!)
+    );
   };
 
   return (

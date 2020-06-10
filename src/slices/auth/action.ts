@@ -52,10 +52,6 @@ export const callProfileReadApi = () => {
         : '/images/avatar/provider_avatar.svg'
     );
     sessionStorage.setItem('Provider_Email', profile.PrimaryEmail);
-    sessionStorage.setItem(
-      'Provider_MobilePhone',
-      profile.MobilePhone ? profile.MobilePhone : ''
-    );
     sessionStorage.setItem('Provider_ContactId', profile.ContactId);
     sessionStorage.setItem('Provider_RecoveryPlanId', profile.RecoveryPlanId);
     sessionStorage.setItem(

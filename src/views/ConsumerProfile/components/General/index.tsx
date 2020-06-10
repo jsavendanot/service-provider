@@ -4,7 +4,6 @@ import validate from 'validate.js';
 import { Grid, TextField, Divider } from '@material-ui/core';
 import { makeStyles } from '@material-ui/styles';
 import { callConsumerReadApi } from 'slices/people/action';
-import { Loading } from 'common/components';
 import moment from 'moment';
 import { Profile } from 'types/profile';
 
@@ -345,7 +344,7 @@ export const General: React.FC = () => {
 
   return (
     <>
-      {!consumerProfile && <Loading />}
+      {/* {!consumerProfile && <Loading />} */}
       <Grid container>
         <Grid item xs={12}>
           <div className={classes.formGroup}>
