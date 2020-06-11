@@ -73,9 +73,6 @@ const Error404: React.FC<Props> = ({ history }) => {
   };
 
   const handleMenuClose = (id: string) => {
-    if (id === 'carer') {
-      history.push('/home/carer');
-    }
     setAnchorEl(null);
   };
 
@@ -119,7 +116,7 @@ const Error404: React.FC<Props> = ({ history }) => {
                   Create A Recovery Plan
                 </span>
               </MenuItem>
-              <MenuItem onClick={() => handleMenuClose('carer')}>
+              <MenuItem onClick={() => handleMenuClose('')}>
                 <span className={classes.headerMenuItemText}>
                   Access Other's Recovery Plan
                 </span>
@@ -145,7 +142,7 @@ const Error404: React.FC<Props> = ({ history }) => {
               <MenuItem onClick={handleMenuClose2}>
                 <span className={classes.headerMenuItemText}>Privacy</span>
               </MenuItem>
-              <MenuItem onClick={() => handleMenuClose('')}>
+              <MenuItem onClick={handleMenuClose2}>
                 <span className={classes.headerMenuItemText}>FAQ</span>
               </MenuItem>
             </Menu>
@@ -154,7 +151,7 @@ const Error404: React.FC<Props> = ({ history }) => {
             <span
               className={classes.headerMenuText}
               style={{ marginLeft: '30px', cursor: 'pointer' }}
-              onClick={() => history.push('/auth/login')}>
+              onClick={() => history.push('/auth')}>
               Sign In
             </span>
           </Grid>
@@ -172,7 +169,7 @@ const Error404: React.FC<Props> = ({ history }) => {
               }}>
               <span
                 className={classes.headerMenuText}
-                onClick={() => history.push('/auth/signup')}>
+                onClick={() => history.push('/auth')}>
                 Sign Up
               </span>
             </div>

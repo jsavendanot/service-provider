@@ -218,12 +218,12 @@ const Invitation: React.FC<RouteComponentProps> = ({ history }) => {
           className={classes.flexItem}
           style={{ flexDirection: 'column' }}>
           <div className={classes.buttonContainer}>
-            <Button type="secondary" click={() => history.push('/home')}>
+            <Button type="secondary" click={() => history.push('/auth')}>
               Log in
             </Button>
           </div>
           <div className={classes.buttonContainer}>
-            <Button type="primary" click={() => history.push('/home')}>
+            <Button type="primary" click={() => history.push('/auth')}>
               Create account
             </Button>
           </div>

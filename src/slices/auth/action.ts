@@ -11,14 +11,14 @@ export const startSession = (history: any): AppThunk => async dispatch => {
         // console.log(response);
         await callProfileReadApi();
 
-        history.push('/auth');
+        history.push('/home');
       })
       .catch(async error => {
         // console.log(error);
         await callProfileSetUpApi();
         await callProfileReadApi();
 
-        history.push('/auth');
+        history.push('/home');
       });
   } catch (err) {
     // dispatch(failed(err.toString()));
