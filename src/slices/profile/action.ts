@@ -43,6 +43,11 @@ export const createProfile = (
         : '/images/avatar/provider_avatar.svg'
     );
 
+    sessionStorage.setItem(
+      'Provider_EmergencyContactPhone',
+      profile.EmergencyContactPhone
+    );
+
     history.push('/home');
 
     dispatch(stopLoading());
@@ -73,6 +78,9 @@ export const editProfile = (
         ? 'data:image/png;base64,' + profile.Image
         : '/images/avatar/provider_avatar.svg'
     );
+
+    sessionStorage.setItem('Provider_FirstName', profile.FirstName);
+    sessionStorage.setItem('Provider_LastName', profile.Surname);
 
     dispatch(stopLoading());
     history.goBack();

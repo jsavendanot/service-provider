@@ -153,6 +153,18 @@ const useStyles = makeStyles(() => ({
 }));
 
 const schema = {
+  FirstName: {
+    presence: { allowEmpty: false, message: 'is required' },
+    length: {
+      maximum: 80
+    }
+  },
+  Surname: {
+    presence: { allowEmpty: false, message: 'is required' },
+    length: {
+      maximum: 80
+    }
+  },
   RelationshipToConsumer: {
     length: {
       maximum: 80
@@ -193,6 +205,8 @@ const schema = {
 type FormStateType = {
   isValid: boolean;
   values: {
+    FirstName?: string;
+    Surname?: string;
     RelationshipToConsumer?: string;
     ContactName?: string;
     EmergencyAddress?: string;
@@ -200,6 +214,8 @@ type FormStateType = {
     MobilePhone?: string;
   };
   touched: {
+    FirstName?: boolean;
+    Surname?: boolean;
     RelationshipToConsumer?: boolean;
     ContactName?: boolean;
     EmergencyAddress?: boolean;
@@ -207,6 +223,8 @@ type FormStateType = {
     MobilePhone?: boolean;
   };
   errors: {
+    FirstName?: string[];
+    Surname?: string[];
     RelationshipToConsumer?: string[];
     ContactName?: string[];
     EmergencyAddress?: string[];
@@ -383,6 +401,8 @@ const EditProfile = () => {
       ...formState,
       values: {
         ...formState.values,
+        FirstName: profile.FirstName,
+        Surname: profile.Surname,
         RelationshipToConsumer: profile.RelationshipToConsumer,
         ContactName: profile.ContactName,
         EmergencyAddress: profile.EmergencyAddress,
@@ -391,6 +411,8 @@ const EditProfile = () => {
       },
       touched: {
         ...formState.touched,
+        FirstName: true,
+        Surname: true,
         RelationshipToConsumer: true,
         ContactName: true,
         EmergencyAddress: true,
@@ -447,10 +469,6 @@ const EditProfile = () => {
                     className={classes.avatar}
                     src={'data:image/png;base64,' + profile.Image}
                   />
-                  <span
-                    className={
-                      classes.providerName
-                    }>{`Dr ${profile.FirstName}`}</span>
                 </div>
                 <div>
                   <input
@@ -500,7 +518,6 @@ const EditProfile = () => {
                   </Button>
                 </div>
                 <div className={classes.elementGroup}>
-                  <span className={classes.subTitle}>Name</span>
                   <div style={{ display: 'flex', margin: '10px 0' }}>
                     <div style={{ marginRight: '40px' }}>
                       <span className={classes.name}>Title</span>
@@ -508,13 +525,46 @@ const EditProfile = () => {
                         {profile.AdditionalInformation}
                       </span>
                     </div>
-                    <div style={{ marginRight: '10px' }}>
-                      <span className={classes.name}>Full name</span>
-                      <span className={classes.value}>
-                        {`${profile.FirstName}
-                      ${profile.Surname}`}
-                      </span>
-                    </div>
+                  </div>
+                </div>
+                <div className={classes.elementGroup}>
+                  <div className={classes.element}>
+                    <span className={classes.subTitle}>First name</span>
+                    <span className={classes.value}>
+                      <div style={{ width: '40%' }}>
+                        <TextField
+                          error={hasError('FirstName')}
+                          label=""
+                          name="FirstName"
+                          type="text"
+                          autoComplete="off"
+                          fullWidth
+                          value={profile.FirstName ? profile.FirstName : ''}
+                          placeholder="type here"
+                          onChange={handleChange}
+                        />
+                      </div>
+                    </span>
+                  </div>
+                </div>
+                <div className={classes.elementGroup}>
+                  <div className={classes.element}>
+                    <span className={classes.subTitle}>Last name</span>
+                    <span className={classes.value}>
+                      <div style={{ width: '40%' }}>
+                        <TextField
+                          error={hasError('Surname')}
+                          label=""
+                          name="Surname"
+                          type="text"
+                          autoComplete="off"
+                          fullWidth
+                          value={profile.Surname ? profile.Surname : ''}
+                          placeholder="type here"
+                          onChange={handleChange}
+                        />
+                      </div>
+                    </span>
                   </div>
                 </div>
                 <div className={classes.elementGroup}>
