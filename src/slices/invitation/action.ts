@@ -108,7 +108,7 @@ export const callInvitationAccept = (id: string) => {
   axios.defaults.headers.common['Authorization'] =
     'Bearer ' + authentication.getAccessToken();
 
-  return axios.post(`/Invitation/Accept/?id=${id}`);
+  return axios.post(`/Invitation/Accept/${id}`);
 };
 
 const callInvitationDelete = (id: string) => {
