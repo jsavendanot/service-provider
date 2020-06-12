@@ -14,3 +14,4 @@ export { default as LogoutPopup } from './LogoutPopup';
 export { default as EnterCode } from './EnterCode';
 export { default as InvitePeople } from './InvitePeople';
 export { default as AddPeople } from './AddPeople';
+export { default as UseJiembaFor } from './UseJiembaFor';
