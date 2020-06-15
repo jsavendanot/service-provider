@@ -49,7 +49,7 @@ export const callProfileReadApi = () => {
       'Provider_Avatar',
       profile.Image
         ? 'data:image/png;base64,' + profile.Image
-        : '/images/avatar/provider_avatar.svg'
+        : '/images/avatar/provider_avatar.png'
     );
     sessionStorage.setItem('Provider_Email', profile.PrimaryEmail);
     sessionStorage.setItem('Provider_ContactId', profile.ContactId);

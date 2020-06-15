@@ -68,21 +68,24 @@ const OptionsPopup: React.FC<Props> = ({
       <DialogContent>
         <div className={classes.root}>
           <div className={classes.box}>
-            <div className={classes.title}>Send an email invitation</div>
+            <div className={classes.title}>Send an invitation</div>
             <div className={classes.bodyText}>
-              This is the easiest way to connect with a client - Simply enter
-              their email address and we’ll send an invitation to that email.
-              You can find them on your client list once they accept the
-              invitation.
+              This is the easiest way to connect with your client – simply enter
+              their email address and they’ll receive an invitation to join.
+              You’ll be able to find them on your client list once they accept
+              the invitation.
               <br />
               <b>
-                Note: Make sure the client will use the same email address to
-                sign up if they are not registered with Jiemba yet.
+                Note: Your client will need to use the email address that you
+                send the invitation to when they sign up to Jiemba, or else they
+                will not show up in your client list. If they use a different
+                address, you will need to wait for them to add you as a service
+                provider, or add them again yourself.
               </b>
             </div>
             <div className={classes.buttonContainer}>
               <Button type="primary" click={inviteClickHandler}>
-                invite client
+                Add client
               </Button>
             </div>
           </div>
@@ -92,27 +95,28 @@ const OptionsPopup: React.FC<Props> = ({
             </div>
             <div className={classes.bodyText}>
               Only use this option if your client is not registered with Jiemba
-              yet. You’ll have to enter their information including their
-              contact details and the email address they will use to sign up
-              Jiemba.
+              yet and you have not sent them an invitation. Enter their
+              information, including the email address they will use to sign up
+              to Jiemba.
               <br />
               <b>
-                What’s great about this: Once your client sign up, they don’t
-                need to fill the profile information again.
+                What’s great about this: When your client signs up, they won’t
+                need to fill out the profile information again, saving them
+                time.
               </b>
             </div>
             <div className={classes.buttonContainer}>
               <Button type="primary" click={() => history.push('consumer/add')}>
-                Create profile
+                Create client profile
               </Button>
             </div>
           </div>
           <div className={classes.box}>
             <div className={classes.title}>Enter invitation code</div>
             <div className={classes.bodyText}>
-              Use this when you receive an invitation from you client. To accept
-              the invitation, simply enter the 6-digit code included in the
-              email invitation.
+              If you have received an invitation from your client to join
+              Jiemba, you can enter your 6-digit code here. You can find the
+              code in your email invitation.
             </div>
             <div className={classes.buttonContainer}>
               <Button type="primary" click={enterCodeClickHandler}>

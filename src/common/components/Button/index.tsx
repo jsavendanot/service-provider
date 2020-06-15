@@ -3,45 +3,48 @@ import React from 'react';
 import { Button as MuiButton } from '@material-ui/core';
 import { makeStyles } from '@material-ui/styles';
 
-const defaultStyles = {
-  width: '100%',
-  cursor: 'pointer',
-  '&:focus': {
-    outline: 'none'
-  }
-};
-
 const useStyles = makeStyles(() => ({
   primary: {
-    height: '50px',
+    width: '100%',
+    cursor: 'pointer',
+    height: '34px',
     borderRadius: '25px',
     fontFamily: 'Roboto',
     fontStyle: 'normal',
-    fontWeight: 700,
-    fontSize: '18px',
-    lineHeight: '21px',
+    fontWeight: 500,
+    fontSize: '14px',
+    lineHeight: '16px',
     boxSizing: 'border-box',
     border: 'none',
     color: '#FFFFFF',
     backgroundColor: '#692B40',
-    ...defaultStyles
+    '&:focus': {
+      outline: 'none'
+    },
+    '&:hover': {
+      backgroundColor: '#AE466A'
+    },
+    '&:active': {
+      backgroundColor: '#AE466A'
+    }
   },
   secondary: {
-    height: '50px',
+    height: '34px',
     borderRadius: '25px',
     fontFamily: 'Roboto',
     fontStyle: 'normal',
-    fontWeight: 700,
+    fontWeight: 500,
     fontSize: '18px',
     lineHeight: '21px',
     boxSizing: 'border-box',
     color: '#692B40',
     backgroundColor: '#FFFFFF',
     border: '1px solid #692B40',
-    ...defaultStyles
+    width: '100%',
+    cursor: 'pointer'
   },
   tertiary: {
-    height: '50px',
+    height: '34px',
     borderRadius: '25px',
     fontFamily: 'Roboto',
     fontStyle: 'normal',
@@ -52,10 +55,11 @@ const useStyles = makeStyles(() => ({
     color: '#C57D7D',
     backgroundColor: '#FFFFFF',
     border: '1px solid #C57D7D',
-    ...defaultStyles
+    width: '100%',
+    cursor: 'pointer'
   },
   primarySmall: {
-    height: '35px',
+    height: '34px',
     borderRadius: '25px',
     fontFamily: 'Roboto',
     fontStyle: 'normal',
@@ -68,10 +72,11 @@ const useStyles = makeStyles(() => ({
     color: '#FFFFFF',
     backgroundColor: '#692B40',
     textTransform: 'uppercase',
-    ...defaultStyles
+    width: '100%',
+    cursor: 'pointer'
   },
   secondarySmall: {
-    height: '35px',
+    height: '34px',
     borderRadius: '25px',
     fontFamily: 'Roboto',
     fontStyle: 'normal',
@@ -84,10 +89,11 @@ const useStyles = makeStyles(() => ({
     backgroundColor: '#FFFFFF',
     textTransform: 'uppercase',
     border: '1px solid #692B40',
-    ...defaultStyles
+    width: '100%',
+    cursor: 'pointer'
   },
   tertiarySmall: {
-    height: '35px',
+    height: '34px',
     borderRadius: '25px',
     fontFamily: 'Roboto',
     fontStyle: 'normal',
@@ -100,7 +106,8 @@ const useStyles = makeStyles(() => ({
     backgroundColor: '#FFFFFF',
     textTransform: 'uppercase',
     border: '1px solid #C57D7D',
-    ...defaultStyles
+    width: '100%',
+    cursor: 'pointer'
   }
 }));
 

@@ -40,7 +40,7 @@ export const createProfile = (
       'Provider_Avatar',
       profile.Image
         ? 'data:image/png;base64,' + profile.Image
-        : '/images/avatar/provider_avatar.svg'
+        : '/images/avatar/provider_avatar.png'
     );
 
     sessionStorage.setItem(
@@ -76,7 +76,7 @@ export const editProfile = (
       'Provider_Avatar',
       profile.Image
         ? 'data:image/png;base64,' + profile.Image
-        : '/images/avatar/provider_avatar.svg'
+        : '/images/avatar/provider_avatar.png'
     );
 
     sessionStorage.setItem('Provider_FirstName', profile.FirstName);

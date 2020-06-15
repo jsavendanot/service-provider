@@ -288,7 +288,7 @@ const TopBar: React.FC<Props> = ({ className }) => {
                     alt=""
                     className={classes.menuIcon}
                   />
-                  <span className={classes.topMenuText}>Consumers</span>
+                  <span className={classes.topMenuText}>My Clients</span>
                 </div>
                 {/* <div className={classes.topMenu}>
                   <img
