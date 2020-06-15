@@ -51,11 +51,6 @@ const useStyles = makeStyles(() => ({
     justifyContent: 'center',
     padding: '15px 20px'
   },
-  textField: {
-    background: '#FFFFFF',
-    borderRadius: '5px',
-    borderStyle: 'none'
-  },
   confirmTitle: {
     fontFamily: 'Roboto',
     fontStyle: 'normal',
@@ -230,8 +225,8 @@ const InvitePeople: React.FC<Props> = ({ close }) => {
             label="Enter email address"
             name="EmailAddress"
             autoComplete="off"
+            variant="outlined"
             value={formState.values.EmailAddress || ''}
-            className={classes.textField}
             onChange={handleChange}
           />
         </Grid>

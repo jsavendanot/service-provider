@@ -164,7 +164,7 @@ const NavBar: React.FC<Props> = ({ className }) => {
                 justifyContent: 'center'
               }}>
               <img
-                src="/images/consumer/consumer_icon.svg"
+                src="/images/consumer/profile_icon.svg"
                 alt=""
                 style={{ marginRight: '5px' }}
               />
