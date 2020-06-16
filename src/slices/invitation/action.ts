@@ -38,16 +38,26 @@ export const sendInvitation = (
   }
 };
 
-export const acceptInvitationCode = (
-  code: string
-): AppThunk => async dispatch => {
+export const acceptInvitationCode = (): AppThunk => async dispatch => {
   try {
     dispatch(startLoading());
 
-    await callInvitationAcceptCodeApi(code);
-    await dispatch(fetchPeople());
+    const receivedInvitations = await callInvitationReadApi();
+    if (
+      sessionStorage.getItem('InvitationId') !== '' &&
+      sessionStorage.getItem('InvitationId') != null
+    ) {
+      const invitation = receivedInvitations
+        .filter(item => !item.AcceptedOn)
+        .find(
+          item => item.InvitationId === sessionStorage.getItem('InvitationId')
+        );
 
-    sessionStorage.setItem('codeAccepted', 'true');
+      invitation &&
+        (await callInvitationAcceptCodeApi(invitation.InvitationCode));
+    }
+
+    await dispatch(fetchPeople());
 
     dispatch(stopLoading());
   } catch (err) {
@@ -58,10 +68,11 @@ export const acceptInvitationCode = (
 
 export const acceptInvitation = (id: string): AppThunk => async dispatch => {
   try {
-    await callInvitationAccept(id);
-    sessionStorage.setItem('codeAccepted', 'true');
+    await callInvitationAccept(id).then(data => {
+      sessionStorage.setItem('InvitationId', id);
+    });
   } catch (err) {
-    sessionStorage.setItem('codeAccepted', 'false');
+    sessionStorage.setItem('InvitationId', '');
     // dispatch(failed(err.toString()));
   }
 };
@@ -116,4 +127,14 @@ const callInvitationDelete = (id: string) => {
     'Bearer ' + authentication.getAccessToken();
 
   return axios.delete(`/Invitation/Delete/${id}`);
+};
+
+const callInvitationReadApi = () => {
+  axios.defaults.headers.common['Authorization'] =
+    'Bearer ' + authentication.getAccessToken();
+
+  return axios.get('/Invitation/Read').then(response => {
+    const invitations: Invitation[] = JSON.parse(JSON.stringify(response.data));
+    return invitations;
+  });
 };

@@ -158,7 +158,7 @@ const EnterCode: React.FC<Props> = ({ close }) => {
     }));
 
     if (formState.isValid) {
-      dispatch(acceptInvitationCode(code));
+      dispatch(acceptInvitationCode());
       closeHandler();
     }
   };
