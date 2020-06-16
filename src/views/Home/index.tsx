@@ -1,6 +1,5 @@
 import React, { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { fetchPeople } from 'slices/people/action';
 
 import { Grid } from '@material-ui/core';
 import { makeStyles } from '@material-ui/styles';
@@ -10,7 +9,10 @@ import { Consumers, Toolbar, PendingContacts } from './components';
 import { Person } from 'types/people';
 import { RootState } from 'reducer';
 import { fetchAllFocusAreas } from 'slices/other/action';
-import { fetchPendingContactFromInvitation } from 'slices/invitation/action';
+import {
+  fetchPendingContactFromInvitation,
+  acceptInvitationCode
+} from 'slices/invitation/action';
 import { Invitation } from 'types/network';
 import { Redirect } from 'react-router-dom';
 
@@ -41,7 +43,7 @@ export const Home: React.FC = () => {
   );
 
   useEffect(() => {
-    dispatch(fetchPeople());
+    dispatch(acceptInvitationCode());
     dispatch(fetchAllFocusAreas());
     dispatch(fetchPendingContactFromInvitation());
   }, [dispatch]);
