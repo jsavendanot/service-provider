@@ -1,6 +1,7 @@
 import React, { useState, useRef, MouseEvent, KeyboardEvent } from 'react';
 import { RouteComponentProps } from 'react-router-dom';
 import clsx from 'clsx';
+import { Redirect } from 'react-router-dom';
 
 import {
   Grid,
@@ -304,6 +305,13 @@ const Landing: React.FC<Props> = ({ history }) => {
       default:
     }
   };
+
+  if (
+    sessionStorage.getItem('Provider_UserId') !== '' &&
+    sessionStorage.getItem('Provider_UserId') !== null
+  ) {
+    return <Redirect to={`/home`} />;
+  }
 
   return (
     <div className={classes.root}>
