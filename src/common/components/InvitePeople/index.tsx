@@ -101,7 +101,7 @@ const InvitePeople: React.FC<Props> = ({ close }) => {
 
   const [invitation, setInvitation] = useState<Invitation>({
     InvitationId: '',
-    Name: '',
+    Name: sessionStorage.getItem('Provider_FirstName')!,
     EmailAddress: '',
     Subject: 'Invitation',
     Message: '',
