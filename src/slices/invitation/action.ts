@@ -38,23 +38,29 @@ export const sendInvitation = (
   }
 };
 
-export const acceptInvitationCode = (): AppThunk => async dispatch => {
+export const acceptInvitationCode = (
+  code: string
+): AppThunk => async dispatch => {
   try {
     dispatch(startLoading());
 
-    const receivedInvitations = await callInvitationReadApi();
-    if (
-      sessionStorage.getItem('InvitationId') !== '' &&
-      sessionStorage.getItem('InvitationId') != null
-    ) {
-      const invitation = receivedInvitations
-        .filter(item => !item.AcceptedOn)
-        .find(
-          item => item.InvitationId === sessionStorage.getItem('InvitationId')
-        );
+    if (code === '') {
+      const receivedInvitations = await callInvitationReadApi();
+      if (
+        sessionStorage.getItem('InvitationId') !== '' &&
+        sessionStorage.getItem('InvitationId') != null
+      ) {
+        const invitation = receivedInvitations
+          .filter(item => !item.AcceptedOn)
+          .find(
+            item => item.InvitationId === sessionStorage.getItem('InvitationId')
+          );
 
-      invitation &&
-        (await callInvitationAcceptCodeApi(invitation.InvitationCode));
+        invitation &&
+          (await callInvitationAcceptCodeApi(invitation.InvitationCode));
+      }
+    } else {
+      await callInvitationAcceptCodeApi(code);
     }
 
     await dispatch(fetchPeople());

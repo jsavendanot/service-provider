@@ -42,10 +42,10 @@ const AddPeople: React.FC<Props> = ({
 }) => {
   const classes = useStyles();
 
-  // const handleClickEnterCode = () => {
-  //   close();
-  //   openEnterCode();
-  // };
+  const handleClickEnterCode = () => {
+    close();
+    openEnterCode();
+  };
 
   const handleClickInvitePeople = () => {
     close();
@@ -70,11 +70,11 @@ const AddPeople: React.FC<Props> = ({
         </IconButton>
       </div>
       <Divider className={classes.divider} />
-      {/* <div className={classes.buttonContainer}>
+      <div className={classes.buttonContainer}>
         <Button type="tertiary" click={handleClickEnterCode}>
           Enter invitation code
         </Button>
-      </div> */}
+      </div>
       <div className={classes.buttonContainer}>
         <Button type="tertiary" click={handleClickInvitePeople}>
           Invite client

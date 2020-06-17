@@ -43,7 +43,7 @@ export const Home: React.FC = () => {
   );
 
   useEffect(() => {
-    dispatch(acceptInvitationCode());
+    dispatch(acceptInvitationCode(''));
     dispatch(fetchAllFocusAreas());
     dispatch(fetchPendingContactFromInvitation());
   }, [dispatch]);

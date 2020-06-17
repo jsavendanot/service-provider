@@ -58,10 +58,10 @@ const OptionsPopup: React.FC<Props> = ({
     openInvitation();
   };
 
-  // const enterCodeClickHandler = () => {
-  //   close();
-  //   openEnterCode();
-  // };
+  const enterCodeClickHandler = () => {
+    close();
+    openEnterCode();
+  };
 
   return (
     <Dialog open={open} onClose={close}>
@@ -111,7 +111,7 @@ const OptionsPopup: React.FC<Props> = ({
               </Button>
             </div>
           </div>
-          {/* <div className={classes.box}>
+          <div className={classes.box}>
             <div className={classes.title}>Enter invitation code</div>
             <div className={classes.bodyText}>
               If you have received an invitation from your client to join
@@ -123,7 +123,7 @@ const OptionsPopup: React.FC<Props> = ({
                 Enter code
               </Button>
             </div>
-          </div> */}
+          </div>
         </div>
       </DialogContent>
     </Dialog>
