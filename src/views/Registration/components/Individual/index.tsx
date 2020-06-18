@@ -524,7 +524,7 @@ const Individual: React.FC<Props> = ({ setState }) => {
         Gender: '',
         DateOfBirth: '',
         UserEmail: sessionStorage.getItem('Provider_Email')!,
-        ContactType: '',
+        ContactType: '935000001',
         HomeAddress: '',
         HomePostCode: '',
         PostalAddress: '',
@@ -572,7 +572,9 @@ const Individual: React.FC<Props> = ({ setState }) => {
       fileReader.onload = e => {
         setRegistrationForm(value => ({
           ...value,
-          image: e.target?.result!.toString().split('base64,')[1],
+          image: e.target
+            ? e.target?.result!.toString().split('base64,')[1]
+            : '',
           imageType: imageType
         }));
       };
