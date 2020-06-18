@@ -48,6 +48,9 @@ export const createProfile = (
       profile.EmergencyContactPhone
     );
 
+    sessionStorage.setItem('Provider_FirstName', profile.FirstName);
+    sessionStorage.setItem('Provider_LastName', profile.Surname);
+
     history.push('/home');
 
     dispatch(stopLoading());
