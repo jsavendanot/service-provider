@@ -27,6 +27,7 @@ export interface Invitation {
   Message: string;
   UserId?: string;
   InviterUserEmailAddress?: string;
+  InviterContactType?: 'Patient' | 'Practioner' | 'RelatedPerson';
   AcceptedOn?: string;
   AccountType: string;
   AllowRecPlanAccess?: boolean;

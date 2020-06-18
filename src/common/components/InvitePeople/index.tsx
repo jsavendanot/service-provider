@@ -108,6 +108,7 @@ const InvitePeople: React.FC<Props> = ({ close }) => {
     UserId: '',
     AcceptedOn: '',
     AccountType: 'Consumer',
+    InviterContactType: 'Practioner',
     AllowRecPlanAccess: false,
     GoalsToShare: '',
     ShareAllGoals: false,
