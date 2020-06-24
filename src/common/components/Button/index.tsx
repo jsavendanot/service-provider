@@ -7,7 +7,7 @@ const useStyles = makeStyles(() => ({
   primary: {
     width: '100%',
     cursor: 'pointer',
-    height: '34px',
+    height: '40px',
     borderRadius: '25px',
     fontFamily: 'Roboto',
     fontStyle: 'normal',
@@ -29,7 +29,7 @@ const useStyles = makeStyles(() => ({
     }
   },
   secondary: {
-    height: '34px',
+    height: '40px',
     borderRadius: '25px',
     fontFamily: 'Roboto',
     fontStyle: 'normal',
@@ -44,7 +44,7 @@ const useStyles = makeStyles(() => ({
     cursor: 'pointer'
   },
   tertiary: {
-    height: '34px',
+    height: '40px',
     borderRadius: '25px',
     fontFamily: 'Roboto',
     fontStyle: 'normal',
@@ -59,7 +59,7 @@ const useStyles = makeStyles(() => ({
     cursor: 'pointer'
   },
   primarySmall: {
-    height: '34px',
+    height: '40px',
     borderRadius: '25px',
     fontFamily: 'Roboto',
     fontStyle: 'normal',
@@ -76,7 +76,7 @@ const useStyles = makeStyles(() => ({
     cursor: 'pointer'
   },
   secondarySmall: {
-    height: '34px',
+    height: '40px',
     borderRadius: '25px',
     fontFamily: 'Roboto',
     fontStyle: 'normal',
@@ -93,7 +93,7 @@ const useStyles = makeStyles(() => ({
     cursor: 'pointer'
   },
   tertiarySmall: {
-    height: '34px',
+    height: '40px',
     borderRadius: '25px',
     fontFamily: 'Roboto',
     fontStyle: 'normal',

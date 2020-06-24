@@ -194,7 +194,7 @@ export const Toolbar: React.FC = () => {
                 justifyContent: 'center'
               }}>
               <Add style={{ fill: '#FFFFFF', marginRight: '10px' }} />
-              <span className={classes.buttonText}>Add client</span>
+              <span className={classes.buttonText}>invite client</span>
             </div>
           </Button>
         </div>

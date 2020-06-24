@@ -85,7 +85,7 @@ const OptionsPopup: React.FC<Props> = ({
             </div>
             <div className={classes.buttonContainer}>
               <Button type="primary" click={inviteClickHandler}>
-                Add client
+                invite client
               </Button>
             </div>
           </div>

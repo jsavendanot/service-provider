@@ -63,7 +63,7 @@ const AddPeople: React.FC<Props> = ({
         <span
           className={classes.cancelText}
           style={{ fontSize: '20px', lineHeight: '24px' }}>
-          Add client
+          Invite client
         </span>
         <IconButton onClick={close}>
           <Close fontSize="large" style={{ fill: '#C57D7D' }} />

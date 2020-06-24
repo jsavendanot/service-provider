@@ -207,7 +207,7 @@ export const PleaseDo: React.FC<Props> = ({ pleaseDo }) => {
       {pleaseDo.map((item, index) => {
         return (
           <div key={index} className={classes.values}>
-            <div className={classes.value}>{item.Description}</div>
+            <div className={classes.value}>{item.Name}</div>
             <div className={classes.support}>
               <People style={{ fill: '#C57D7D', marginRight: '10px' }} />
               <span className={classes.supportText}>
@@ -216,7 +216,6 @@ export const PleaseDo: React.FC<Props> = ({ pleaseDo }) => {
                     network => network.Id === item.NetworkContactIdResponsible
                   )?.Name
                 }
-                ,
               </span>
             </div>
           </div>

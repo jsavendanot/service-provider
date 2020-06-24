@@ -177,7 +177,7 @@ export const DontDo: React.FC<Props> = ({ dontDo, collapse }) => {
           {dontDo.map((item, index) => {
             return (
               <div key={index} className={classes.values}>
-                <div className={classes.value}>{item.Description}</div>
+                <div className={classes.value}>{item.Name}</div>
                 <div className={classes.support}>
                   <People style={{ fill: '#C57D7D', marginRight: '10px' }} />
                   <span className={classes.supportText}>
