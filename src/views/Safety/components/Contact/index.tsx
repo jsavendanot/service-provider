@@ -2,7 +2,7 @@ import React from 'react';
 import clsx from 'clsx';
 
 import { makeStyles } from '@material-ui/styles';
-import { KeyboardArrowUp } from '@material-ui/icons';
+import { KeyboardArrowDown } from '@material-ui/icons';
 
 import { Network } from 'types/network';
 import { IconButton } from '@material-ui/core';
@@ -76,7 +76,7 @@ export const Contact: React.FC<Props> = ({ id, collapse, change }) => {
               classes.title
             }>{`${id}. People or services who I can contact`}</div>
           <IconButton onClick={change}>
-            <KeyboardArrowUp
+            <KeyboardArrowDown
               fontSize="large"
               style={{ fill: '#C57D7D' }}
               className={clsx(collapse && classes.collapseArrow)}

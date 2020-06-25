@@ -3,7 +3,7 @@ import clsx from 'clsx';
 import { Unwell as UnwellType } from 'types/safety';
 
 import { makeStyles } from '@material-ui/styles';
-import { KeyboardArrowUp } from '@material-ui/icons';
+import { KeyboardArrowDown } from '@material-ui/icons';
 
 import PleaseDo from './PleaseDo';
 import DontDo from './DontDo';
@@ -95,7 +95,7 @@ export const Unwell: React.FC<Props> = ({ id, collapse, change }) => {
               classes.title
             }>{`${id}. If I become unwell, I would like others to...`}</div>
           <IconButton onClick={change}>
-            <KeyboardArrowUp
+            <KeyboardArrowDown
               fontSize="large"
               style={{ fill: '#C57D7D' }}
               className={clsx(collapse && classes.collapseArrow)}

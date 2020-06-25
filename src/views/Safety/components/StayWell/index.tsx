@@ -5,7 +5,7 @@ import { isEqual } from 'lodash';
 import { TextField, IconButton } from '@material-ui/core';
 import { makeStyles } from '@material-ui/styles';
 import {
-  KeyboardArrowUp,
+  KeyboardArrowDown,
   Add,
   AddCircleOutline,
   DeleteOutline
@@ -168,7 +168,7 @@ export const StayWell: React.FC<Props> = ({ id, collapse, change }) => {
           <div
             className={classes.title}>{`${id}. Things I do to stay well`}</div>
           <IconButton onClick={change}>
-            <KeyboardArrowUp
+            <KeyboardArrowDown
               fontSize="large"
               style={{ fill: '#C57D7D' }}
               className={clsx(collapse && classes.collapseArrow)}

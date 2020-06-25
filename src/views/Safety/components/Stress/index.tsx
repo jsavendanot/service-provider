@@ -4,7 +4,7 @@ import clsx from 'clsx';
 import { TextField, IconButton } from '@material-ui/core';
 import { makeStyles } from '@material-ui/styles';
 import {
-  KeyboardArrowUp,
+  KeyboardArrowDown,
   Add,
   AddCircleOutline,
   DeleteOutline
@@ -165,7 +165,7 @@ export const Stress: React.FC<Props> = ({ id, collapse, change }) => {
         <div style={{ display: 'flex', alignItems: 'flex-start' }}>
           <div className={classes.title}>{`${id}. Things that stress me`}</div>
           <IconButton onClick={change}>
-            <KeyboardArrowUp
+            <KeyboardArrowDown
               fontSize="large"
               style={{ fill: '#C57D7D' }}
               className={clsx(collapse && classes.collapseArrow)}

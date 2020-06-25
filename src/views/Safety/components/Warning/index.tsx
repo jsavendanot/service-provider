@@ -3,7 +3,7 @@ import clsx from 'clsx';
 import { Value } from 'types/safety';
 
 import { makeStyles } from '@material-ui/styles';
-import { KeyboardArrowUp } from '@material-ui/icons';
+import { KeyboardArrowDown } from '@material-ui/icons';
 import { IconButton } from '@material-ui/core';
 
 import Difficulties from './Difficulties';
@@ -75,7 +75,7 @@ export const Warning: React.FC<Props> = ({ id, collapse, change }) => {
               classes.title
             }>{`${id}. Warning signs I may be having difficulty`}</div>
           <IconButton onClick={change}>
-            <KeyboardArrowUp
+            <KeyboardArrowDown
               fontSize="large"
               style={{ fill: '#C57D7D' }}
               className={clsx(collapse && classes.collapseArrow)}

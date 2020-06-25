@@ -235,6 +235,7 @@ const schema = {
     presence: { allowEmpty: false, message: 'is required' },
     numericality: true,
     length: {
+      minimum: 10,
       maximum: 15
     }
   },
@@ -242,6 +243,7 @@ const schema = {
     numericality: true,
     presence: false,
     length: {
+      minimum: 10,
       maximum: 15
     }
   }
