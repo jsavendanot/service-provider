@@ -1,13 +1,13 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, ChangeEvent } from 'react';
 import validate from 'validate.js';
 
-import { Grid, TextField } from '@material-ui/core';
+import { Grid, TextField, Dialog, DialogContent } from '@material-ui/core';
 import { makeStyles } from '@material-ui/styles';
 import { useDispatch } from 'react-redux';
 import useRouter from 'common/utils/useRouter';
 
 import { Button } from 'common/components';
-import { StepForm, Step, Deadline } from './components';
+import { StepForm, Step, Deadline, Tips } from './components';
 import { Add } from '@material-ui/icons';
 import { GoalInfo, StepInfo } from 'types/suggestion';
 import moment from 'moment';
@@ -57,6 +57,15 @@ const useStyles = makeStyles(() => ({
     display: 'flex',
     justifyContent: 'center',
     paddingBottom: '25px'
+  },
+  stepValidation: {
+    padding: '10px 0',
+    fontFamily: 'Roboto',
+    fontStyle: 'normal',
+    fontWeight: 'normal',
+    fontSize: '18px',
+    lineHeight: '21px',
+    color: '#C57D7D'
   }
 }));
 
@@ -64,19 +73,13 @@ const schema = {
   Name: {
     presence: { allowEmpty: false, message: 'is required' },
     length: {
-      maximum: 400
+      maximum: 120
     }
   },
   Description: {
-    presence: { allowEmpty: false, message: 'is required' },
+    presence: false,
     length: {
-      maximum: 400
-    }
-  },
-  IsDeadline: {
-    presence: { allowEmpty: false, message: 'is required' },
-    length: {
-      maximum: 10
+      maximum: 1000
     }
   }
 };
@@ -84,19 +87,16 @@ const schema = {
 type FormStateType = {
   isValid: boolean;
   values: {
-    Name?: '';
-    Description?: '';
-    IsDeadline?: '';
+    Name?: string;
+    Description?: string;
   };
   touched: {
     Name?: boolean;
     Description?: boolean;
-    IsDeadline?: boolean;
   };
   errors: {
     Name?: string[];
     Description?: string[];
-    IsDeadline?: string[];
   };
 };
 
@@ -139,6 +139,27 @@ export const GoalForm: React.FC<Props> = ({ areaId }) => {
     FocusArea: areaId,
     Steps: []
   });
+
+  const fieldChangeHandler = (event: ChangeEvent<HTMLInputElement>) => {
+    event.persist();
+
+    setFormState(formState => ({
+      ...formState,
+      values: {
+        ...formState.values,
+        [event.target.name]: event.target.value
+      },
+      touched: {
+        ...formState.touched,
+        [event.target.name]: true
+      }
+    }));
+
+    handleGoalFieldsChange(
+      event.target.name as 'Name' | 'Description',
+      event.target.value
+    );
+  };
 
   const handleGoalFieldsChange = (
     field: 'Name' | 'Description',
@@ -200,13 +221,49 @@ export const GoalForm: React.FC<Props> = ({ areaId }) => {
   /** Dialog */
   const [open, setOpen] = useState(false);
 
-  function openDialog() {
-    setOpen(true);
-  }
+  const hasError = (field: string): boolean =>
+    field in formState.touched && field in formState.errors ? true : false;
 
-  function closeDialog() {
-    setOpen(false);
-  }
+  /** Create goal handler */
+  const submitButtonClickHandler = () => {
+    setFormState(formState => ({
+      ...formState,
+      values: {
+        Name: goal.Name,
+        Description: goal.Description
+      },
+      touched: {
+        Name: true,
+        Description: true
+      }
+    }));
+    if (formState.isValid) {
+      if (step.Name === '' && goal.Steps.length === 0) {
+        setValidationDialogOpen(true);
+      } else {
+        setOpen(true);
+      }
+    }
+  };
+
+  //Validation Dialog
+  const [validationDialogOpen, setValidationDialogOpen] = useState(false);
+
+  const addStepValidationDialog = (
+    <Dialog
+      open={validationDialogOpen}
+      keepMounted
+      onClose={() => setValidationDialogOpen(false)}>
+      <DialogContent>
+        <div className={classes.stepValidation}>
+          Please add at least one step to your goal
+        </div>
+      </DialogContent>
+    </Dialog>
+  );
+
+  /** Dialog */
+  const [openTip, setOpenTip] = useState(false);
 
   return (
     <>
@@ -222,7 +279,7 @@ export const GoalForm: React.FC<Props> = ({ areaId }) => {
                 }}>
                 <span className={classes.title}>Goal Name</span>
                 <div style={{ width: '77px' }}>
-                  <Button type="tertiarySmall">
+                  <Button type="tertiarySmall" click={() => setOpenTip(true)}>
                     <img
                       src="/images/safety/suggestion.svg"
                       alt=""
@@ -233,21 +290,19 @@ export const GoalForm: React.FC<Props> = ({ areaId }) => {
                 </div>
               </div>
               <TextField
-                id="outlined-basic"
+                error={hasError('Name')}
                 label=""
                 variant="outlined"
                 placeholder="Learn to control my temper"
                 fullWidth
                 multiline
                 name="Name"
-                value={goal.Name || ''}
+                value={goal.Name}
                 autoComplete="off"
                 rows="2"
                 style={{ marginTop: '15px' }}
                 className={classes.textField}
-                onChange={event =>
-                  handleGoalFieldsChange('Name', event.target.value)
-                }
+                onChange={fieldChangeHandler}
                 inputProps={{ maxLength: 120 }}
               />
             </div>
@@ -268,14 +323,12 @@ export const GoalForm: React.FC<Props> = ({ areaId }) => {
                 fullWidth
                 multiline
                 name="Description"
-                value={goal.Description || ''}
+                value={goal.Description}
                 autoComplete="off"
                 rows="3"
                 style={{ marginTop: '15px' }}
                 className={classes.textField}
-                onChange={event =>
-                  handleGoalFieldsChange('Description', event.target.value)
-                }
+                onChange={fieldChangeHandler}
                 inputProps={{ maxLength: 1000 }}
               />
             </div>
@@ -314,7 +367,7 @@ export const GoalForm: React.FC<Props> = ({ areaId }) => {
                 marginTop: '50px'
               }}>
               <div style={{ width: '162px' }}>
-                <Button type="primary" click={openDialog}>
+                <Button type="primary" click={submitButtonClickHandler}>
                   Confirm Goal
                 </Button>
               </div>
@@ -325,7 +378,7 @@ export const GoalForm: React.FC<Props> = ({ areaId }) => {
       {open && (
         <SubmitConfirmation
           open={open}
-          close={closeDialog}
+          close={() => setOpen(false)}
           action={handleSubmitButtonClick}
           donRedirect>
           <span className={classes.title}>
@@ -335,6 +388,8 @@ export const GoalForm: React.FC<Props> = ({ areaId }) => {
           </span>
         </SubmitConfirmation>
       )}
+      {validationDialogOpen && addStepValidationDialog}
+      {openTip && <Tips open={openTip} close={() => setOpenTip(false)} />}
     </>
   );
 };
