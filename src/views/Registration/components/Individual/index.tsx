@@ -167,7 +167,7 @@ const schema = {
   title: {
     presence: { allowEmpty: false, message: 'is required' },
     length: {
-      maximum: 32
+      maximum: 15
     }
   },
   firstName: {
@@ -201,7 +201,7 @@ const schema = {
     }
   },
   streetAddress: {
-    presence: { allowEmpty: false, message: 'is required' },
+    presence: false,
     length: {
       maximum: 100
     }
@@ -213,20 +213,19 @@ const schema = {
     }
   },
   city: {
-    presence: { allowEmpty: false, message: 'is required' },
+    presence: false,
     length: {
       maximum: 80
     }
   },
   state: {
-    presence: { allowEmpty: false, message: 'is required' },
+    presence: false,
     length: {
-      maximum: 10
+      maximum: 50
     }
   },
   zipCode: {
-    presence: { allowEmpty: false, message: 'is required' },
-    numericality: true,
+    presence: false,
     length: {
       maximum: 5
     }
@@ -340,18 +339,6 @@ const Individual: React.FC<Props> = ({ setState }) => {
     image: '',
     imageType: ''
   });
-
-  const [titles] = useState([
-    '',
-    'Mr',
-    'Mrs',
-    'Mx',
-    'Ms',
-    'Miss',
-    'Master',
-    'Maid',
-    'Madam'
-  ]);
 
   const [organisationList] = useState([
     {
@@ -619,60 +606,61 @@ const Individual: React.FC<Props> = ({ setState }) => {
                 <TextField
                   error={hasError('title')}
                   fullWidth
-                  label={
-                    <span className={classes.selectOptionLabel}>
-                      Select title
-                    </span>
-                  }
+                  label="Title*"
                   name="title"
-                  select
                   autoComplete="off"
-                  SelectProps={{ native: true }}
                   value={registrationForm.title}
                   variant="outlined"
-                  onChange={handleChange}>
-                  {titles.map(title => (
-                    <option key={title} value={title}>
-                      {title}
-                    </option>
-                  ))}
-                </TextField>
+                  onChange={handleChange}
+                  InputLabelProps={{
+                    shrink: true
+                  }}
+                />
               </div>
               <div style={{ display: 'flex', justifyContent: 'space-between' }}>
                 <div style={{ width: '30%', padding: '10px 0' }}>
                   <TextField
                     error={hasError('firstName')}
                     fullWidth
-                    label="First*"
+                    label="First name*"
                     name="firstName"
                     autoComplete="off"
                     value={registrationForm.firstName}
                     variant="outlined"
                     onChange={handleChange}
+                    InputLabelProps={{
+                      shrink: true
+                    }}
                   />
                 </div>
                 <div style={{ width: '30%', padding: '10px 0' }}>
                   <TextField
                     error={hasError('middleName')}
                     fullWidth
-                    label="Middle"
+                    label="Middle name"
                     name="middleName"
                     autoComplete="off"
                     value={registrationForm.middleName}
                     variant="outlined"
                     onChange={handleChange}
+                    InputLabelProps={{
+                      shrink: true
+                    }}
                   />
                 </div>
                 <div style={{ width: '30%', padding: '10px 0' }}>
                   <TextField
                     error={hasError('lastName')}
                     fullWidth
-                    label="Last*"
+                    label="Last name*"
                     name="lastName"
                     autoComplete="off"
                     value={registrationForm.lastName}
                     variant="outlined"
                     onChange={handleChange}
+                    InputLabelProps={{
+                      shrink: true
+                    }}
                   />
                 </div>
               </div>
@@ -697,6 +685,9 @@ const Individual: React.FC<Props> = ({ setState }) => {
                     value={registrationForm.practice}
                     variant="outlined"
                     onChange={handleChange}
+                    InputLabelProps={{
+                      shrink: true
+                    }}
                   />
                 </div>
               </div>
@@ -726,7 +717,10 @@ const Individual: React.FC<Props> = ({ setState }) => {
                   SelectProps={{ native: true }}
                   value={registrationForm.organisation}
                   variant="outlined"
-                  onChange={handleChange}>
+                  onChange={handleChange}
+                  InputLabelProps={{
+                    shrink: true
+                  }}>
                   {organisationList.map(org => (
                     <option key={org.value} value={org.value}>
                       {org.name}
@@ -753,6 +747,9 @@ const Individual: React.FC<Props> = ({ setState }) => {
                     value={registrationForm.streetAddress}
                     variant="outlined"
                     onChange={handleChange}
+                    InputLabelProps={{
+                      shrink: true
+                    }}
                   />
                 </div>
                 <div style={{ width: '50%', padding: '10px 0' }}>
@@ -765,6 +762,9 @@ const Individual: React.FC<Props> = ({ setState }) => {
                     value={registrationForm.addressLine2}
                     variant="outlined"
                     onChange={handleChange}
+                    InputLabelProps={{
+                      shrink: true
+                    }}
                   />
                 </div>
               </div>
@@ -777,12 +777,15 @@ const Individual: React.FC<Props> = ({ setState }) => {
                   <TextField
                     error={hasError('city')}
                     fullWidth
-                    label="City*"
+                    label="City"
                     name="city"
                     autoComplete="off"
                     value={registrationForm.city}
                     variant="outlined"
                     onChange={handleChange}
+                    InputLabelProps={{
+                      shrink: true
+                    }}
                   />
                 </div>
                 <div style={{ width: '30%', padding: '10px 0' }}>
@@ -800,7 +803,10 @@ const Individual: React.FC<Props> = ({ setState }) => {
                     SelectProps={{ native: true }}
                     value={registrationForm.state}
                     variant="outlined"
-                    onChange={handleChange}>
+                    onChange={handleChange}
+                    InputLabelProps={{
+                      shrink: true
+                    }}>
                     {states.map(state => (
                       <option key={state.value} value={state.value}>
                         {state.name}
@@ -816,12 +822,15 @@ const Individual: React.FC<Props> = ({ setState }) => {
                   <TextField
                     error={hasError('zipCode')}
                     fullWidth
-                    label="ZIP Code*"
+                    label="Post Code"
                     name="zipCode"
                     autoComplete="off"
                     value={registrationForm.zipCode}
                     variant="outlined"
                     onChange={handleChange}
+                    InputLabelProps={{
+                      shrink: true
+                    }}
                   />
                 </div>
               </div>
@@ -844,6 +853,9 @@ const Individual: React.FC<Props> = ({ setState }) => {
                     value={registrationForm.workPhone}
                     variant="outlined"
                     onChange={handleChange}
+                    InputLabelProps={{
+                      shrink: true
+                    }}
                   />
                 </div>
                 <div style={{ width: '30%', padding: '10px 0' }}>
@@ -856,6 +868,9 @@ const Individual: React.FC<Props> = ({ setState }) => {
                     value={registrationForm.mobilePhone}
                     variant="outlined"
                     onChange={handleChange}
+                    InputLabelProps={{
+                      shrink: true
+                    }}
                   />
                 </div>
               </div>
@@ -877,6 +892,9 @@ const Individual: React.FC<Props> = ({ setState }) => {
                   style={{ marginTop: '15px' }}
                   className={classes.termsOfService}
                   inputProps={{ readOnly: true }}
+                  InputLabelProps={{
+                    shrink: true
+                  }}
                 />
               </div>
               <FormControlLabel
