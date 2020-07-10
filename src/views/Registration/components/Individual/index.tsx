@@ -242,7 +242,6 @@ const schema = {
   mobilePhone: {
     presence: false,
     length: {
-      minimum: 10,
       maximum: 15
     }
   }
@@ -912,7 +911,7 @@ const Individual: React.FC<Props> = ({ setState }) => {
                   </span>
                 }
               />
-              {!termCheckBox && !formState.isValid && (
+              {!termCheckBox && (
                 <FormHelperText error>
                   This field must be checked
                 </FormHelperText>

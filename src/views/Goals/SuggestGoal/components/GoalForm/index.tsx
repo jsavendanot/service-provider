@@ -14,6 +14,7 @@ import moment from 'moment';
 import produce from 'immer';
 import { suggestGoal } from 'slices/suggestion/action';
 import { SubmitConfirmation } from 'common/components';
+import uuid from 'uuid';
 
 const useStyles = makeStyles(() => ({
   root: {
@@ -77,7 +78,7 @@ const schema = {
     }
   },
   Description: {
-    presence: false,
+    presence: { allowEmpty: false, message: 'is required' },
     length: {
       maximum: 1000
     }
@@ -186,6 +187,15 @@ export const GoalForm: React.FC<Props> = ({ areaId }) => {
     EndDate: moment(new Date().toString()).format('YYYY-MMM-DD')
   });
 
+  const deleteStep = (id: string) => {
+    const updatedSteps = goal.Steps.filter(step => step.Id !== id);
+    setGoal(
+      produce((draft: GoalInfo) => {
+        draft.Steps = updatedSteps;
+      })
+    );
+  };
+
   const addStep = () => {
     if (goal.Steps.length <= 10 && step.Name !== '') {
       setGoal(
@@ -195,7 +205,7 @@ export const GoalForm: React.FC<Props> = ({ areaId }) => {
       );
 
       setStep({
-        Id: '',
+        Id: uuid(),
         GoalId: '',
         Name: '',
         RepeatTimes: 3,
@@ -316,6 +326,7 @@ export const GoalForm: React.FC<Props> = ({ areaId }) => {
                 this goal? What are possible obstacles?
               </div>
               <TextField
+                error={hasError('Description')}
                 id="outlined-basic"
                 label=""
                 variant="outlined"
@@ -342,7 +353,14 @@ export const GoalForm: React.FC<Props> = ({ areaId }) => {
             </div>
             <div className={classes.stepForms}>
               {goal.Steps.map((step, i) => {
-                return <Step key={i} stepNum={i + 1} step={step} />;
+                return (
+                  <Step
+                    key={i}
+                    stepNum={i + 1}
+                    step={step}
+                    deleteStep={deleteStep}
+                  />
+                );
               })}
               <StepForm
                 stepNum={goal.Steps.length + 1}
