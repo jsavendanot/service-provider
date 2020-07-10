@@ -13,7 +13,8 @@ import {
   TextField,
   FormControlLabel,
   Checkbox,
-  Avatar
+  Avatar,
+  FormHelperText
 } from '@material-ui/core';
 import { makeStyles } from '@material-ui/styles';
 import { useDispatch, useSelector } from 'react-redux';
@@ -239,7 +240,6 @@ const schema = {
     }
   },
   mobilePhone: {
-    numericality: true,
     presence: false,
     length: {
       minimum: 10,
@@ -822,7 +822,7 @@ const Individual: React.FC<Props> = ({ setState }) => {
                   <TextField
                     error={hasError('zipCode')}
                     fullWidth
-                    label="Post Code"
+                    label="Postcode"
                     name="zipCode"
                     autoComplete="off"
                     value={registrationForm.zipCode}
@@ -862,7 +862,7 @@ const Individual: React.FC<Props> = ({ setState }) => {
                   <TextField
                     error={hasError('mobilePhone')}
                     fullWidth
-                    label="Mobile*"
+                    label="Mobile"
                     name="mobilePhone"
                     autoComplete="off"
                     value={registrationForm.mobilePhone}
@@ -912,6 +912,11 @@ const Individual: React.FC<Props> = ({ setState }) => {
                   </span>
                 }
               />
+              {!termCheckBox && !formState.isValid && (
+                <FormHelperText error>
+                  This field must be checked
+                </FormHelperText>
+              )}
             </div>
             <div className={classes.formGroup}>
               <span className={classes.formGroupTitle}>Profile Image </span>
