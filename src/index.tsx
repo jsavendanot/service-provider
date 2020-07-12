@@ -22,9 +22,11 @@ authentication.initialize({
   // the scopes you want included in the access token
   scopes: ['https://AIAustraliaB2C.onmicrosoft.com/api/user_impersonation'],
   // optional, the redirect URI - if not specified MSAL will pick up the location from window.href
-  redirectUri: 'http://localhost:3000',
+  //redirectUri: 'https://drmarleedev.azurewebsites.net',
+  redirectUri: 'https://drmarlee.azurewebsites.net',
   // optional, the URI to redirect to after logout
-  postLogoutRedirectUri: 'http://localhost:3000',
+  //postLogoutRedirectUri: 'https://drmarleedev.azurewebsites.net',
+  postLogoutRedirectUri: 'https://drmarlee.azurewebsites.net',
   // optional, default to true, set to false if you change instance
   validateAuthority: false,
   // optional, default to false, set to true if you only want to acquire token silently and avoid redirections to login page

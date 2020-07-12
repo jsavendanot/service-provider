@@ -264,6 +264,11 @@ const Landing: React.FC<Props> = ({ history }) => {
     }
   }
 
+  // Jorge Avendano Redirect straight to sign up page
+  function redirectToB2C() {
+    window.location.assign('https://aiaustraliab2c.b2clogin.com/aiaustraliab2c.onmicrosoft.com/b2c_1_signup_sp/oauth2/v2.0/authorize?response_type=id_token&scope=https%3A%2F%2FAIAustraliaB2C.onmicrosoft.com%2Fapi%2Fuser_impersonation%20openid%20profile&client_id=a6cbdbad-8f34-46a2-bcf9-f2c865e354ce&redirect_uri=https%3A%2F%2Fdrmarlee.azurewebsites.net&state=554531cb-ddbb-444c-9b62-f5966de653cb&nonce=7d34677c-5afb-44ed-bd02-11ff65731ff2&client_info=1&x-client-SKU=MSAL.JS&x-client-Ver=0.2.4&client-request-id=f6292dfb-7f45-40ba-95db-3d050441be7b&response_mode=fragment');
+  }
+
   const useJiembaForDialog = (
     <Dialog
       open={openDialog}
@@ -452,9 +457,10 @@ const Landing: React.FC<Props> = ({ history }) => {
               <div className={classes.title}>For providing services</div>
             </div>
             <div className={classes.row}>
+              {/* Jorge Avendano Redirect straight to sign up page */}
               <div
                 className={classes.label}
-                onClick={() => history.push('/auth')}>
+                onClick={() => redirectToB2C()}>
                 Create Account
               </div>
               <div className={classes.buttonContainer}>

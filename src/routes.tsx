@@ -64,6 +64,19 @@ const routes: RouteConfig[] = [
       }
     ]
   },
+  // Jorge Avendano 
+  //in the Sign up authentication page if the user clicks cancel, 
+  //it will redirect to https://drmarlee.azurewebsites.net/null
+  //this route will redirect to the Index instead
+  {
+    path: '/null',
+    component: BaseLayout,
+    routes: [
+      {
+        component: () => <Redirect to="/" />
+      }
+    ]
+  },
   {
     path: '/profile',
     component: authentication.required(MainLayout),
